@@ -3,7 +3,7 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
 
-xdescribe "Order Wave 1" do
+describe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
       id = 1337
@@ -18,7 +18,7 @@ xdescribe "Order Wave 1" do
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
@@ -36,7 +36,7 @@ xdescribe "Order Wave 1" do
     end
   end
 
-  xdescribe "#add_product" do
+  describe "#add_product" do
     it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
@@ -111,13 +111,9 @@ xdescribe "Order Wave 1" do
     it "Returns true if the product was successfully removed" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
-      before_total = order.total
 
       result = order.remove_product("cracker")
-      after_total = order.total
-
       result.must_equal true
-      before_total.must_be != after_total
     end
   end
 end

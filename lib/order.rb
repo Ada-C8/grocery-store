@@ -9,7 +9,11 @@ module Grocery
     end
 
     def total
-      return (@products.values.inject(:+) * (1 + TAX)).round(2)
+      if @products.length == 0
+        return 0
+      else
+        return (@products.values.inject(:+) * (1 + TAX)).round(2)
+      end
     end
 
     def add_product(product_name, product_price)

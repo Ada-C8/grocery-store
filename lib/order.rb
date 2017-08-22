@@ -8,32 +8,26 @@ module Grocery
     end
 
     def total
-      # TODO: implement total
       total = 0
       products.each do |name, price|
-        total += price + (price *0.075)
+        total += price + (price * 0.075)
       end
-       return total.round(2)
+      return total.round(2)
     end
 
 
     def add_product(product_name, product_price)
       # TODO: implement add_product
+      if @products.key?(product_name)
+        return false
+      else
+        @products[product_name] = product_price
+        return true
+      end
     end
-  end
-end
+
+  end #end  class Order
+end# end module Grocery
 
 
 #
-#
-# inventory = {
-#   "apple" => 1.0,
-#   "tomato_soup" => 2.0,
-#   "milk" => 2.50,
-# "chicken" => 5.75
-# }
-#
-# t = Grocery::Order.new(1, inventory)
-# puts t.total
-#
-# puts t.products

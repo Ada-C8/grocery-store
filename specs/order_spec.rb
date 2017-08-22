@@ -15,8 +15,9 @@ describe "Order Wave 1" do
 
       order.must_respond_to :products
       order.products.length.must_equal 0
-    end
-  end
+    end #it for takes an id
+  end #for initialize
+
 
   describe "#total" do
     it "Returns the total from the collection of products" do
@@ -27,15 +28,16 @@ describe "Order Wave 1" do
       expected_total = sum + (sum * 0.075).round(2)
 
       order.total.must_equal expected_total
-    end
+    end #for returns total from collection
+
 
     it "Returns a total of zero if there are no products" do
       order = Grocery::Order.new(1337, {})
-
       order.total.must_equal 0
-    end
-  end
+    end #returns zero
+  end #for #total
 
+  #
   describe "#add_product" do
     it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -45,7 +47,7 @@ describe "Order Wave 1" do
       order.add_product("salad", 4.25)
       expected_count = before_count + 1
       order.products.count.must_equal expected_count
-    end
+    end #increases the number of products
 
     it "Is added to the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -53,7 +55,8 @@ describe "Order Wave 1" do
 
       order.add_product("sandwich", 4.25)
       order.products.include?("sandwich").must_equal true
-    end
+    end #added to the collection of products
+
 
     it "Returns false if the product is already present" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -66,7 +69,7 @@ describe "Order Wave 1" do
 
       result.must_equal false
       before_total.must_equal after_total
-    end
+    end #returns false if present
 
     it "Returns true if the product is new" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -74,36 +77,77 @@ describe "Order Wave 1" do
 
       result = order.add_product("salad", 4.25)
       result.must_equal true
-    end
-  end
-end
+    end #returns true if present
+  end #add_product methods
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
-  describe "Order.all" do
-    it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
-    end
-  end
+  describe "#remove_product" do
 
-  describe "Order.find" do
-    it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
-    end
+    it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
+      before_count = products.count
+      order = Grocery::Order.new(1337, products)
+      order.remove_product("salad")
+      expected_count = before_count - 1
+      order.products.count.must_equal expected_count
+    end #decreases the number of products
 
-    it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-    end
+    it "Returns true if the item was successfully removed." do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
+      order = Grocery::Order.new(1337, products)
 
-    it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
-    end
-  end
-end
+      result = order.remove_product("salad")
+      result.must_equal true
+    end #true if removed
+
+    it "Returns false if the item was not removed." do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("salad")
+      order.products.keys.include?("salad").must_equal false
+    end #false if not remove
+
+    it "Tells you item is not in the order" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("bacon")
+      order.products.keys.include?("salad").must_equal false
+    end #not in order
+
+  end #remove_product tests
+
+
+end #for Wave One
+
+
+# #
+# # TODO: change 'xdescribe' to 'describe' to run these tests
+# xdescribe "Order Wave 2" do
+#   describe "Order.all" do
+#     it "Returns an array of all orders" do
+#       # TODO: Your test code here!
+#       # Useful checks might include:
+#       #   - Order.all returns an array
+#       #   - Everything in the array is an Order
+#       #   - The number of orders is correct
+#       #   - The ID and products of the first and last
+#       #       orders match what's in the CSV file
+#       # Feel free to split this into multiple tests if needed
+#     end
+#   end
+#
+#   describe "Order.find" do
+#     it "Can find the first order from the CSV" do
+#       # TODO: Your test code here!
+#     end
+#
+#     it "Can find the last order from the CSV" do
+#       # TODO: Your test code here!
+#     end
+#
+#     it "Raises an error for an order that doesn't exist" do
+#       # TODO: Your test code here!
+#     end
+#   end
+# end

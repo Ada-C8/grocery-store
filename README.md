@@ -95,7 +95,7 @@ The data, in order in the CSV, consists of:
 | ID       | Integer  | A unique identifier for that Order
 | Products  | String  | The list of products in the following format: `name:price;nextname:nextprice`
 
-<!-- 
+
 ## Wave 3
 ### Learning Goals
 - Use inheritance to share some behavior across classes

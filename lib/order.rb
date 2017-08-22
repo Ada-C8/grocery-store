@@ -2,15 +2,9 @@ module Grocery
   class Order
     attr_reader :id, :products
 
-    def initialize(csv_line)
-      @id = csv_line[0].to_i
-      product_string = csv_line[1].split(";")
-      @products = {}
-      product_string.each do |item|
-        item_array = item.split(":")
-        @products[item_array[0]] = item_array[1].to_f
-      end
-
+    def initialize(id, products)
+      @id = id
+      @products = products
     end
 
     def total
@@ -43,7 +37,15 @@ module Grocery
     def self.all(csv_file)
       @@array_of_orders = []
       csv_file.length.times do |i|
-        @@array_of_orders << self.new(csv_file[i])
+        csv_line = csv_file[i]
+        id = csv_line[0].to_i
+        product_string = csv_line[1].split(";")
+        products = {}
+        product_string.each do |item|
+          item_array = item.split(":")
+          products[item_array[0]] = item_array[1].to_f
+        end
+        @@array_of_orders << self.new(id, products)
       end
       return @@array_of_orders
     end

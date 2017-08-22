@@ -10,43 +10,54 @@ module Grocery
     def initialize(id, products)
       @id = id
       @products = products
-      # @count = count
+
     end # end of initialize
     # zero products is permitted
     # you can assume that there is only one of each product
 
-    #  @products =
-    #    { "banana" => 1.99,
-    #      "cracker" => 3.00 }
-    #
-
     def total
-      # TODO: implement total
-      # summing up the products
-      # adding a 7.5% tax
-      # ensure the result is rounded to two decimal places
-      @products.each do |product, values|
-        sum = @products.values.inject(0, :+)
-        return (sum + (sum * 0.075).round(2))
-      end # products loop
+      add_product = 0
+      @products.each_value do |cost|
+        add_product  += cost
+      end
+      total = (add_product + (add_product * 0.075).round(2))
+      return total
     end # total method
 
+    # @products.each do |product, values|
+    #   sum = @products.values.inject(0, :+)
+    #   return (sum + (sum * 0.075).round(2))
+    # end # products loop
+
     def add_product(product_name, product_price)
-      # TODO: implement add_product
-      # add product to products collection
-      # It should return true if the item was successfully added and false if it was not
-      # @products << add_product(product_name, product_price)
-        @products << @products["sandwich"] = 4.25
-        # before_count = @products.length
-        # @count = before_count + 1
-    end # add product method
+      if @products.key?(product_name) == true
+        return false
+      elsif
+        @products[product_name] = product_price
+        return true
+      end # conditional
+    end # add_product method
+
+    def remove_product(product_name)
+      if @products.key?(product_name) == true
+        @products.delete(product_name)
+        return true
+      else 
+        return false
+      end
+    end
+
   end # Order class
 end # Grocery module
 
-test_order = Grocery::Order.new(1337, { "banana" => 1.99, "cracker" => 3.00, "treat" => 1.00 })
+
+products = { "banana" => 1.99, "cracker" => 3.00 }
+test_order = Grocery::Order.new(1337, products)
+
 puts test_order.total
-# test_order.add_product
+
+test_order.add_product("sandwich", 4.25)
 puts test_order.products
- # puts @products.values
-# test_order.add_product("banana", 4.25)
-# puts test_order.add_product
+puts test_order.total
+test_order.remove_product("sandwich")
+puts test_order.products

@@ -17,7 +17,12 @@ module Grocery
     end
 
     def add_product(product_name, product_price)
-      return @products.keys.include?(product_name)? false : @products.merge!({product_name => product_price})
+      if @products.keys.include?(product_name)
+        return false
+      else
+        @products.merge!({product_name => product_price})
+        return true
+      end
     end
   end
 end

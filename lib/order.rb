@@ -41,11 +41,24 @@ module Grocery
     end
 
     def self.all(csv_file)
-      array_of_orders = []
+      @@array_of_orders = []
       csv_file.length.times do |i|
-        array_of_orders << self.new(csv_file[i])
+        @@array_of_orders << self.new(csv_file[i])
       end
-      return array_of_orders
+      return @@array_of_orders
+    end
+
+    def self.find(id_lookup)
+      order_to_return = nil
+      @@array_of_orders.each do |order|
+        if order.id == id_lookup
+          order_to_return = order
+        end
+      end
+      if order_to_return.nil?
+        raise ArgumentError.new "No Order with that Id #"
+      end
+      return order_to_return
     end
 
   end #end of class

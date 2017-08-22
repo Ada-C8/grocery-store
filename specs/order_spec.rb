@@ -239,8 +239,13 @@ end
 # end
 
 
+
 # TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
+  before do
+    order_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/orders.csv")
+    @order_array = Grocery::Order.all(order_csv)
+  end
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
@@ -251,35 +256,40 @@ describe "Order Wave 2" do
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
-      order_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/orders.csv")
-      order_array = Grocery::Order.all(order_csv)
-      order_array.must_be_instance_of Array
-      
-      order_array.length.must_equal 100
-      order_array.each do |order_obj|
+
+      @order_array.must_be_instance_of Array
+
+      @order_array.length.must_equal 100
+      @order_array.each do |order_obj|
         order_obj.must_be_instance_of Grocery::Order
       end
-      order_array[0].id.must_equal "1"
+      @order_array[0].id.must_equal "1"
       order_first = {"Slivered Almonds"=>22.88,"Wholewheat flour"=>1.93,"Grape Seed Oil"=>74.9}
-      order_array[0].products.must_equal order_first
-      order_array[-1].id.must_equal "100"
+      @order_array[0].products.must_equal order_first
+      @order_array[-1].id.must_equal "100"
       order_last = {"Allspice"=>64.74,"Bran"=>14.72,"UnbleachedFlour"=>80.59}
-      order_array[-1].products.must_equal order_last
+      @order_array[-1].products.must_equal order_last
 
     end
   end
 
-  xdescribe "Order.find" do
+  describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.find("1").must_be_instance_of Grocery::Order
+      order1 = Grocery::Order.find("1")
+      order_first = {"Slivered Almonds"=>22.88,"Wholewheat flour"=>1.93,"Grape Seed Oil"=>74.9}
+      order1.products.must_equal order_first
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.find("100").must_be_instance_of Grocery::Order
+      order100 = Grocery::Order.find("100")
+      order_last = {"Allspice"=>64.74,"Bran"=>14.72,"UnbleachedFlour"=>80.59}
+      order100.products.must_equal order_last
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Order.find("110")}.must_raise ArgumentError
     end
   end
 end

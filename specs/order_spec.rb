@@ -3,6 +3,10 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
 
+# adding for color
+Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+
+
 describe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
@@ -74,6 +78,36 @@ describe "Order Wave 1" do
 
       result = order.add_product("salad", 4.25)
       result.must_equal true
+    end
+  end
+
+  describe "#remove_product" do
+    before do
+      @products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
+      @order = Grocery::Order.new(1337, @products)
+    end
+
+    it "Decreases the number of products" do
+      before_count = @products.count
+
+      @order.remove_product("banana")
+      expected_count = before_count - 1
+      @order.products.count.must_equal expected_count
+    end
+
+    it "Is removed from the collection of products" do
+      @order.remove_product("cracker")
+      @order.products.include?("cracker").must_equal false
+    end
+
+    it "Returns true if the product is in the collection" do
+      result = @order.remove_product("salad")
+      result.must_equal true
+    end
+
+    it "Returns false if the product is not in the collection" do
+      result = @order.remove_product("chips")
+      result.must_equal false
     end
   end
 end

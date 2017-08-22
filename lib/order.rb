@@ -15,9 +15,7 @@ module Grocery
       return total.round(2)
     end
 
-
     def add_product(product_name, product_price)
-      # TODO: implement add_product
       if @products.key?(product_name)
         return false
       else
@@ -26,8 +24,25 @@ module Grocery
       end
     end
 
+    def remove_product(product_name)
+      if @products.key?(product_name)
+        @products.delete(product_name)
+        return true
+      else
+        return false
+      end
+    end
+
   end #end  class Order
-end# end module Grocery
-
-
+end #end module Grocery
 #
+#
+# inventory = {
+#   "apple" => 1.0,
+#   "tomato_soup" => 2.0,
+#   "milk" => 2.50,
+#   "chicken" => 5.75
+# }
+#
+# t = Grocery::Order.new(1, inventory)
+# puts t.remove_product("apple")

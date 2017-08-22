@@ -24,11 +24,6 @@ module Grocery
       else
         @products[product_name] = product_price
         return true
-        # if @products.has_key?(product_name) && @products.has_value?(product_price)
-        #   return true
-        # else
-        #   return false
-        # end
       end
     end
       def remove_product(product_name)

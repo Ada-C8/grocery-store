@@ -1,3 +1,6 @@
+require "money"
+Money.use_i18n = false
+
 module Grocery
   class Order
     attr_reader :id, :products
@@ -13,6 +16,7 @@ module Grocery
 
     def add_product(product_name, product_price)
       # TODO: implement add_product
+      @products[product_name] = product_price
     end
   end
 end

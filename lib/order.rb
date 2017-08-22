@@ -4,15 +4,36 @@ module Grocery
 
     def initialize(id, products)
       @id = id
-      @products = products
+      @products = products #hash?
     end
 
     def total
-      # TODO: implement total
+      total_cost = 0
+      @products.each do |item,cost|
+        total_cost += cost
+      end
+      total_cost *= 1.075
+      return total_cost.round(2)
     end
 
     def add_product(product_name, product_price)
-      # TODO: implement add_product
+      if @products.keys.include?(product_name)
+        return false
+      else
+        @products[product_name] = product_price
+        return true
+      end
     end
-  end
-end
+
+    def remove_product(product_name)
+      if @products.keys.include?(product_name)
+        @products.delete(product_name)
+        return true
+      else
+        return false
+      end
+    end
+
+
+  end #end of class
+end #end of module

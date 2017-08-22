@@ -76,6 +76,48 @@ describe "Order Wave 1" do
       result.must_equal true
     end
   end
+
+  describe "#remove_product" do
+    it "decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("banana")
+      expected_count = before_count - 1
+      order.products.count.must_equal expected_count
+    end
+
+    it "Is removed to the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("banana")
+      order.products.include?("banana").must_equal false
+    end
+
+    it "Returns false if the product isn't already present" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Grocery::Order.new(1337, products)
+      before_total = order.total
+
+      result = order.remove_product("sandwich")
+      after_total = order.total
+
+      result.must_equal false
+      before_total.must_equal after_total
+    end
+
+    it "Returns true if the product is removed" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+
+      result = order.remove_product("banana")
+      result.must_equal true
+    end
+  end
+
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests

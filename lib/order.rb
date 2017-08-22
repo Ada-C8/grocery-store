@@ -1,4 +1,5 @@
 module Grocery
+  TAX = 0.075
   class Order
     attr_reader :id, :products
 
@@ -8,7 +9,7 @@ module Grocery
     end
 
     def total
-      # TODO: implement total
+      return (@products.values.inject(:+) * (1 + TAX)).round(2)
     end
 
     def add_product(product_name, product_price)

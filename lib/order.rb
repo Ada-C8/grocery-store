@@ -3,7 +3,7 @@ module Grocery
     attr_reader :id, :products
 
     def initialize(csv_line)
-      @id = csv_line[0]
+      @id = csv_line[0].to_i
       product_string = csv_line[1].split(";")
       @products = {}
       product_string.each do |item|

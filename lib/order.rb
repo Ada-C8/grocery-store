@@ -23,7 +23,12 @@ module Grocery
     end
 
     def remove_product(product_name)
-
+      if @products.keys.include?(product_name)
+        @products.delete(product_name)
+        return true
+      else
+        return false
+      end
     end
   end # class Order
 end # module Grocery

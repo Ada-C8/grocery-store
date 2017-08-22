@@ -14,7 +14,12 @@ module Grocery
     end
 
     def add_product(product_name, product_price)
-      # TODO: implement add_product
+      # and add the data to the product collection
+#should return true if the item was successfully added and false if it was not
+      @product_name = product_name
+      @product_price = product_price
+      @products[@product_name] = @product_price
+      return @products
     end
   end
 end

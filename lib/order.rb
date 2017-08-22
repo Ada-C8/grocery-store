@@ -9,11 +9,11 @@ module Grocery
     end
 
     def total
-      # TODO: implement total
+      # implement total
       total = 0
 
       # iterate through products hash and add to total
-      products.each do |product_name, product_price|
+      products.each_value do |product_price|
         total += product_price
       end
 

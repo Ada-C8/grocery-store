@@ -63,7 +63,6 @@ describe "Order Wave 1" do
 
       result = order.add_product("banana", 4.25)
       after_total = order.total
-
       result.must_equal false
       before_total.must_equal after_total
     end
@@ -74,6 +73,29 @@ describe "Order Wave 1" do
 
       result = order.add_product("salad", 4.25)
       result.must_equal true
+    end
+  end
+
+  describe "#remove_product" do
+    before do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      @order = Grocery::Order.new(1337, products)
+    end
+
+    it "Decreases the number of products" do
+
+    end
+
+    it "Is removed from the collection of products" do
+
+    end
+
+    it "Returns true if the product has been successfully deleted from products" do
+
+    end
+
+    it "Returns false if the product cannot be removed/doesn't exist in products" do
+
     end
   end
 end

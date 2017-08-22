@@ -3,6 +3,11 @@ module Grocery
     attr_reader :id, :products
 
     def initialize(id, products)
+
+      # until id.is_a? Integer
+      #   raise ArgumentError.new("id is not an integer")
+      # end
+
       @id = id
       @products = products
     end

@@ -19,12 +19,13 @@ module Grocery
       @product_name = product_name
       @product_price = product_price
       @products.each do |key, value|
-        if key != @product_name
-          return true #product doens't exist!
-        else
-          return false #product exists
+        if @product_name == key
+          return false
         end
       end
+
+      @products[@product_name] = @product_price
+      return true
     end
   end
 end

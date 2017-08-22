@@ -3,6 +3,8 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
 
+Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+
 describe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
@@ -52,7 +54,7 @@ describe "Order Wave 1" do
       order = Grocery::Order.new(1337, products)
 
       order.add_product("sandwich", 4.25)
-      order.products.include?("sandwich").must_equal true
+      order.products.keys.include?(:sandwich).must_equal true
     end
 
     it "Returns false if the product is already present" do

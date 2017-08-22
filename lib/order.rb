@@ -24,5 +24,9 @@ module Grocery
         return true
       end
     end
+
+    def remove_product(product_name)
+      @products.delete(product_name)
+    end
   end
 end

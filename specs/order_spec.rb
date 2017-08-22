@@ -98,7 +98,13 @@ describe "Order Wave 1" do
 
   describe "#remove_product" do
     it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Grocery::Order.new(1337, products)
 
+      order.remove_product("banana")
+      expected_count = before_count - 1
+      order.products.count.must_equal expected_count
     end
 
     it "Is removed from the collection of products" do

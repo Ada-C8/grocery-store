@@ -22,7 +22,16 @@ module Grocery
     end
 
     def add_product(product_name, product_price)
-      # TODO: implement add_product
+      # implement add_product
+
+      # don't add product if already in @products
+      if @products.has_key?(product_name)
+        return false
+      # else add to hash
+      else
+        @products[product_name] = product_price
+        return true
+      end
     end
   end
 end

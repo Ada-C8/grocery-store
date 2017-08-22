@@ -76,6 +76,30 @@ describe "Order Wave 1" do
       result.must_equal true
     end
   end
+
+  describe "#remove_product" do
+    it "Reduces the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("banana")
+      expected_count = before_count - 1
+      order.products.count.must_equal expected_count
+    end
+
+    it "Is removed from the list of products" do
+
+    end
+
+    it "Returns true if the product was removed" do
+
+    end
+
+    it "Returns false if the product was not removed/present" do
+
+    end
+  end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests

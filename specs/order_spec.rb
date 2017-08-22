@@ -21,7 +21,7 @@ describe "Order Wave 1" do
 
       it "Raises an ArgumentError for invalid parameters" do
         proc {Grocery::Order.new(-1, {})}.must_raise ArgumentError
-        # proc {Grocery::Order.new(123, -2)}.must_raise ArgumentError
+        proc {Grocery::Order.new(123, -2)}.must_raise ArgumentError
       end
   end
 

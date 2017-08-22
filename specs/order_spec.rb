@@ -27,6 +27,7 @@ describe "Order Wave 1" do
       expected_total = sum + (sum * 0.075).round(2)
 
       order.total.must_equal expected_total
+      #might need to test .00 round?
     end
 
     it "Returns a total of zero if there are no products" do

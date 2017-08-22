@@ -23,7 +23,7 @@ It should return true if the item was successfully added and false if it was not
 =end
 
 describe "Order Wave 1" do
-  xdescribe "#initialize" do
+  describe "#initialize" do
     it "Takes an ID and collection of products" do
       id = 1337
       order = Grocery::Order.new(id, {})
@@ -37,7 +37,7 @@ describe "Order Wave 1" do
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
@@ -55,7 +55,7 @@ describe "Order Wave 1" do
     end
   end
 
-  xdescribe "#add_product" do
+  describe "#add_product" do
     it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
@@ -124,7 +124,16 @@ describe "Order Wave 1" do
     end
 
     it "Returns false if it was not removed/did not exist" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
 
+      order = Grocery::Order.new(1337, products)
+      before_total = order.total
+
+      result = order.remove_product("pineapple")
+      after_total = order.total
+
+      result.must_equal false
+      before_total.must_equal after_total
     end
 
   end

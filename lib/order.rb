@@ -29,6 +29,8 @@ module Grocery
       if @products.include?(product_name)
         @products.delete(product_name)
         return true
+      else
+        return false
       end
     end
   end

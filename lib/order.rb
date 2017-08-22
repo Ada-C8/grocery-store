@@ -17,7 +17,11 @@ module Grocery
     end
 
     def add_product(product_name, product_price)
-      # TODO: implement add_product
+      products[product_name] = product_price
+        if @products.include?(product_name)
+          return true
+        end
     end
-  end
-end
+
+  end #end of class
+end #end of module

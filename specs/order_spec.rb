@@ -108,11 +108,19 @@ describe "Order Wave 1" do
     end
 
     it "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
 
+      order.remove_product("banana")
+      order.products.include?("banana").must_equal false
     end
 
     it "Returns true if the item was removed" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
 
+      result = order.remove_product("banana")
+      result.must_equal true
     end
 
     it "Returns false if it was not removed/did not exist" do

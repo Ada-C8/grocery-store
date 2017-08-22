@@ -26,7 +26,10 @@ module Grocery
     end
 
     def remove_product(product_name)
-      @products.delete(product_name)
+      if @products.include?(product_name)
+        @products.delete(product_name)
+        return true
+      end
     end
   end
 end

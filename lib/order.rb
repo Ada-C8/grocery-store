@@ -5,12 +5,7 @@ module Grocery
 
     def initialize(id, products)
       @id = id
-      @products = products # array of hashes
-
-
-      # a collection of products and their cost
-      # zero products is permitted
-      # you can assume that there is only one of each product
+      @products = products
     end
 
     def total

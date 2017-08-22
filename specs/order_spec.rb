@@ -83,19 +83,25 @@ describe "Order Wave 1" do
     end
 
     it "Decreases the number of products" do
-
+      before_count = @order.products.keys.length
+      @order.remove_product("banana")
+      expected_count = before_count - 1
+      @order.products.count.must_equal expected_count
     end
 
     it "Is removed from the collection of products" do
-
+      @order.remove_product("banana")
+      @order.products.keys.wont_include "banana"
     end
 
     it "Returns true if the product has been successfully deleted from products" do
-
+      result = @order.remove_product("banana")
+      result.must_equal true
     end
 
     it "Returns false if the product cannot be removed/doesn't exist in products" do
-
+      result = @order.remove_product("salad")
+      result.must_equal false
     end
   end
 end

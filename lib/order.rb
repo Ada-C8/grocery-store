@@ -29,7 +29,7 @@ module Grocery
       return exists_in_products
     end
 
-    def remove_product
+    def remove_product(product_name)
 
     end
 

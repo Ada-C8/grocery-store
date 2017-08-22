@@ -17,8 +17,16 @@ module Grocery
         return false
       else
         @products[product_name] = product_price
-        return true
+        return true #Why do we want to return true here?
       end
+    end
+
+    def remove_product(product_name, product_price)
+      unless @products.include?(product_name)
+        return false
+      end
+      @products.delete(product_name)
+      return true
     end
   end
 end

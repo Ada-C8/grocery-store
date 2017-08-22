@@ -99,7 +99,7 @@ describe "Order Wave 1" do
       order.products.keys.include?("sandwich").must_equal false
     end # it is removed from the collection
 
-    xit "will return true if the product is not included in the product list" do
+    it "will return true if the product is included in the product list" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
 
       order = Grocery::Order.new(1337, products)
@@ -108,12 +108,22 @@ describe "Order Wave 1" do
       result = order.add_product("banana", 4.25)
       after_total = order.total
 
-      result.must_equal true
+      result.wont_equal true
       before_total.must_equal after_total
     end #it "will return false if the product is not included in the product list" do
 
+    it "will return false if the product is NOT included in the product list" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
 
+      order = Grocery::Order.new(1337, products)
+      before_total = order.total
 
+      result = order.add_product("banana", 4.25)
+      after_total = order.total
+
+      result.must_equal false
+      before_total.must_equal after_total
+    end #it "will return false if the product is not included in the product list" do
   end # remove_product
 end
 

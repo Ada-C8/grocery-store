@@ -3,6 +3,9 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
 
+
+Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+
 describe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
@@ -47,7 +50,7 @@ describe "Order Wave 1" do
       order.products.count.must_equal expected_count
     end
 
-    it "Is added to the collection of products" do
+    xit "Is added to the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
 
@@ -55,7 +58,7 @@ describe "Order Wave 1" do
       order.products.include?("sandwich").must_equal true
     end
 
-    it "Returns false if the product is already present" do
+    xit "Returns false if the product is already present" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
 
       order = Grocery::Order.new(1337, products)
@@ -68,7 +71,7 @@ describe "Order Wave 1" do
       before_total.must_equal after_total
     end
 
-    it "Returns true if the product is new" do
+    xit "Returns true if the product is new" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
 
@@ -93,7 +96,7 @@ xdescribe "Order Wave 2" do
     end
   end
 
-  describe "Order.find" do
+  xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
     end

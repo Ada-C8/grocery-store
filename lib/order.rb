@@ -14,10 +14,14 @@ module Grocery
     end
 
     def add_product(product_name, product_price)
-      # and add the data to the product collection
-#should return true if the item was successfully added and false if it was not
       @product_name = product_name
       @product_price = product_price
+      @products.each do |key, value|
+        if @product_name == key
+          #puts "You've already added that product."
+          return false
+        end
+      end
       @products[@product_name] = @product_price
       return @products
     end

@@ -3,7 +3,7 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
 
-describe "Order Wave 1" do
+xdescribe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
       id = 1337
@@ -115,8 +115,18 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
+  describe "Initializing from the CSV" do
+    it "Can create an order from a line of the CSV as input" do
+      order = Grocery::Order.new("1,Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9")
+      order.class.must_equal Grocery::Order
+    end
+  end
+
   describe "Order.all" do
+    before do
+      @file = File.expand_path('../..', __FILE__) + '/support/orders.csv'
+    end
     it "Returns an array of all orders" do
       # TODO: Your test code here!
       # Useful checks might include:
@@ -126,20 +136,33 @@ xdescribe "Order Wave 2" do
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
+      Grocery::read(@file)
+      Grocery::Order.all.class.must_equal Array
     end
   end
 
   describe "Order.find" do
+    before do
+      @file = File.expand_path('../..', __FILE__) + '/support/orders.csv'
+    end
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+      Grocery::read(@file)
+      Grocery::Order.find(1).class.must_equal Grocery::Order
+      Grocery::Order.find(1).products.must_equal({"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9})
     end
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
+      Grocery::read(@file)
+      Grocery::Order.find(100).class.must_equal Grocery::Order
+      Grocery::Order.find(100).products.must_equal({"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59})
     end
 
     it "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
+      Grocery::read(@file)
+      proc {Grocery::Order.find(500)}.must_raise ArgumentError
     end
   end
 end

@@ -22,7 +22,7 @@ module Grocery
     end
 
     def add_product(product_name, product_price)
-      # TODO: implement add_product
+      @products[product_name] = product_price
     end
   end
 end

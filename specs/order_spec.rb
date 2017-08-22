@@ -77,6 +77,24 @@ describe "Order Wave 1" do
       result.must_equal true
     end
   end
+
+  describe "#remove_product" do
+    it "decreases the number of products" do
+
+    end
+
+    it "Is removed from the collection of products" do
+
+    end
+
+    it "Returns false if the product is not removed" do
+
+    end
+
+    it "Returns true if the product is removed" do
+
+    end
+  end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests

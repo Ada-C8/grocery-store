@@ -27,6 +27,20 @@ module Grocery
       end
     end #add_product method
 
+    def remove_product(product_name)
+      if @products.keys.include?(product_name)
+        @products.delete(product_name)
+      else
+        return "#{product_name} not found."
+      end #if include
+
+      if @products.keys.include?(product_name)
+        return false
+      else
+        return true
+      end
+    end #remove_product method
+
     def show_order
       list = ""
       @products.each do |product_name, product_price|
@@ -40,13 +54,19 @@ end #module
 
 
 
-id = 1337
-order = Grocery::Order.new(id, {})
-
-order.add_product("apples", 2.00)
-order.add_product("cake", 2.50)
-order.add_product("crackers", 2.50)
-order.add_product("crackers", 2.50)
-
-puts order.inspect
-puts order.show_order
+# id = 1337
+# order = Grocery::Order.new(id, {})
+#
+# order.add_product("apples", 2.00)
+# order.add_product("cake", 2.50)
+# order.add_product("crackers", 2.50)
+# order.add_product("crackers", 2.50)
+#
+# puts order.inspect
+# puts order.show_order
+#
+# order.remove_product("crackers")
+# order.remove_product("crackers")
+#
+#
+# puts order.inspect

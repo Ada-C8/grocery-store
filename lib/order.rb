@@ -25,6 +25,22 @@ module Grocery
 
     def add_product(product_name, product_price)
       # TODO: implement add_product
+      unless @products.keys.include?(product_name)
+        @products[product_name] = product_price
+        return true
+      end
+
+      return false
     end
+
+    def remove_product(product_name)
+      if @products.keys.include?(product_name)
+        @products.delete(product_name)
+        return true
+      end
+
+      return false
+    end
+
   end
 end

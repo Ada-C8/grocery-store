@@ -23,7 +23,7 @@ module Grocery
         end
       end
       @products[@product_name] = @product_price
-      return @products
+      return true
     end
   end
 end

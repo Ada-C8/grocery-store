@@ -36,7 +36,7 @@ describe "Order Wave 1" do
     end
   end
 
-  describe "#add_product" do
+  xdescribe "#add_product" do
     it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
@@ -93,7 +93,7 @@ xdescribe "Order Wave 2" do
     end
   end
 
-  describe "Order.find" do
+  xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
     end

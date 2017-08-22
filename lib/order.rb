@@ -23,5 +23,15 @@ module Grocery
         return true
       end
     end
-  end
-end
+
+    def remove_product(product_name)
+      if !@products.has_key?(product_name)
+        return false
+      else
+        @products.delete(product_name)
+        return true
+      end
+    end
+
+  end # end of Order class
+end # end of Grocery module

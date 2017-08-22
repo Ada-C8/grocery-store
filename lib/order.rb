@@ -16,10 +16,16 @@ module Grocery
 
     def add_product(product_name, product_price)
       # TO DO: implement add_product
-      @products.merge({product_name => product_price})
+      if @products.keys.include?(product_name)
+        return false
+      else @products[product_name] = product_price
+        return true
+      end
     end
-  end
-end
+  end # of class
+end # end of module
+
 
 #order = Grocery::Order.new(221, {"banana" => 1.99, "cracker" => 3.00 })
 #puts order.add_product("sandwich", 4.25)
+#puts Grocery::Order[@products]["banana"]

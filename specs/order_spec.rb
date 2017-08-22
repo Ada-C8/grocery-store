@@ -50,7 +50,7 @@ describe "Order Wave 1" do
       order.products.count.must_equal expected_count
     end
 
-    xit "Is added to the collection of products" do
+    it "Is added to the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
 
@@ -58,7 +58,7 @@ describe "Order Wave 1" do
       order.products.include?("sandwich").must_equal true
     end
 
-    xit "Returns false if the product is already present" do
+    it "Returns false if the product is already present" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
 
       order = Grocery::Order.new(1337, products)
@@ -71,7 +71,7 @@ describe "Order Wave 1" do
       before_total.must_equal after_total
     end
 
-    xit "Returns true if the product is new" do
+    it "Returns true if the product is new" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
 

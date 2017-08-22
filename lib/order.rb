@@ -30,7 +30,12 @@ module Grocery
     end
 
     def remove_product(product_name)
-
+      deleted_value = @products.delete(product_name)
+      if deleted_value == nil
+        return false
+      else
+        return true
+      end
     end
 
   end

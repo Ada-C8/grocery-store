@@ -8,17 +8,15 @@ module Grocery
     end
 
     def total
-      final_total =
       if @products.length == 0
-        final_total = 0
+        return 0
       else
         order_total = 0
         @products.each do |name, cost|
           order_total += cost
         end
-        final_total = order_total + (order_total * 0.075).round(2)
+        return (order_total + (order_total * 0.075).round(2))
       end
-      return final_total
     end
 
     def add_product(product_name, product_price)

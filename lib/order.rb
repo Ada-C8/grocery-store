@@ -16,13 +16,13 @@ module Grocery
       return total
     end
 
-    # def add_product(product_name, product_price)
-    #   unless @products.has_key?(product_name)
-    #     @products[product_name] = product_price
-    #     return true
-    #   else
-    #     return false
-    #   end
-    # end
+    def add_product(product_name, product_price)
+      unless @products.has_key?(product_name)
+        @products[product_name] = product_price
+        return true
+      else
+        return false
+      end
+    end
   end
 end

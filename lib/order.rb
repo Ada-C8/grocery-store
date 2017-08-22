@@ -1,6 +1,7 @@
 module Grocery
   class Order
-    attr_reader :id, :products
+    attr_reader :id
+    attr_accessor :products
 
     def initialize(id, products)
       @id = id
@@ -16,6 +17,12 @@ module Grocery
 
     def add_product(product_name, product_price)
       # TODO: implement add_product
+      if @products.has_key?(product_name)
+        return false
+      else
+        @products[product_name] = product_price
+        return true
+      end
     end
   end
 end

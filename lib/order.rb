@@ -25,7 +25,7 @@ module Grocery
       # implement add_product
 
       # don't add product if already in @products
-      if @products.has_key?(product_name)
+      if @products.include?(product_name)
         return false
       # else add to hash
       else
@@ -33,5 +33,15 @@ module Grocery
         return true
       end
     end
+
+    def remove_product(product_name)
+      if @products.include?(product_name)
+        @products.delete(product_name)
+        return true
+      else
+        return false
+      end
+    end
+
   end
 end

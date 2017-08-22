@@ -83,7 +83,7 @@ describe "Order Wave 1" do
       before_count = products.count
       order = Grocery::Order.new(1337, products)
 
-      order.remove_product("cracker", 3.00)
+      order.remove_product("cracker")
       expected_count = before_count - 1
       order.products.count.must_equal expected_count
     end
@@ -92,7 +92,7 @@ describe "Order Wave 1" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
 
-      order.remove_product("cracker", 3.00)
+      order.remove_product("cracker")
       order.products.include?("cracker").must_equal false
     end
 
@@ -102,7 +102,7 @@ describe "Order Wave 1" do
       order = Grocery::Order.new(1337, products)
       before_total = order.total
 
-      result = order.remove_product("salad", 4.25)
+      result = order.remove_product("salad")
       after_total = order.total
 
       result.must_equal false
@@ -113,7 +113,7 @@ describe "Order Wave 1" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
 
-      result = order.remove_product("cracker", 3.00)
+      result = order.remove_product("cracker")
       result.must_equal true
     end
   end

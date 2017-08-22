@@ -21,7 +21,7 @@ module Grocery
       end
     end
 
-    def remove_product(product_name, product_price)
+    def remove_product(product_name)
       unless @products.include?(product_name)
         return false
       end

@@ -17,7 +17,7 @@ module Grocery
         pretax_total += price
       end
 
-      @total = pretax_total + (pretax_total * 0.075).round(2)
+      @total = pretax_total + (pretax_total * TAX).round(2)
 
       return @total
 

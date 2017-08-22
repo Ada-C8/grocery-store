@@ -17,6 +17,11 @@ module Grocery
     def add_product(product_name, product_price)
       # TODO: implement add_product
       @products[product_name] = product_price
+      if @products.has_key(product_name) && @products.has_value(product_price)
+        return true
+      else
+        return false
+      end
     end
   end
 end

@@ -5,7 +5,7 @@ require_relative '../lib/order'
 
 describe "Order Wave 1" do
   describe "#initialize" do
-    xit "Takes an ID and collection of products" do
+    it "Takes an ID and collection of products" do
       id = 1337
       order = Grocery::Order.new(id, {})
 
@@ -37,7 +37,7 @@ describe "Order Wave 1" do
   end
 
   describe "#add_product" do
-    xit "Increases the number of products" do
+    it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
       order = Grocery::Order.new(1337, products)
@@ -47,7 +47,7 @@ describe "Order Wave 1" do
       order.products.count.must_equal expected_count
     end
 
-    xit "Is added to the collection of products" do
+    it "Is added to the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
 
@@ -55,7 +55,7 @@ describe "Order Wave 1" do
       order.products.include?("sandwich").must_equal true
     end
 
-    xit "Returns false if the product is already present" do
+    it "Returns false if the product is already present" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
 
       order = Grocery::Order.new(1337, products)
@@ -68,7 +68,7 @@ describe "Order Wave 1" do
       before_total.must_equal after_total
     end
 
-    xit "Returns true if the product is new" do
+    it "Returns true if the product is new" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
 
@@ -76,6 +76,50 @@ describe "Order Wave 1" do
       result.must_equal true
     end
   end
+
+  describe "delete_product" do
+    xit "Decreases the number of products" do
+
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25}
+      before_count = products.count
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("salad")
+      expected_count = before_count - 1
+      order.products.count.must_equal expected_count
+    end
+
+    xit "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25 }
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("sandwich")
+      order.products.include?("sandwich").must_equal false
+    end
+
+    xit "Returns false if the product doesn't exist in collection of prodcuts AKA cannot remove something that doesn't exits" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Grocery::Order.new(1337, products)
+      before_total = order.total
+
+      result = order.remove_product("apple")
+      after_total = order.total
+
+      result.must_equal false
+      before_total.must_equal after_total
+    end
+
+    it "Returns true if the product is was present" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+
+      result = order.remove_product("salad")
+      result.must_equal true
+    end
+
+  end
+
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests

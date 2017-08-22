@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require 'minitest/pride'
 require_relative '../lib/order'
 
 describe "Order Wave 1" do
@@ -43,7 +44,7 @@ describe "Order Wave 1" do
   end
 
   describe "#add_product" do
-    xit "Increases the number of products" do
+    it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
       order = Grocery::Order.new(1337, products)
@@ -81,6 +82,30 @@ describe "Order Wave 1" do
       result = order.add_product("salad", 4.25)
       result.must_equal true
     end
+  end
+
+  describe "#remove product" do
+    it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+      order.remove_product("banana")
+      order.products.length.must_equal 1
+    end
+
+    it "Returns true if the product was successfully removed" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+      result = order.remove_product("banana")
+      result.must_equal true
+    end
+
+    it "Returns false if the product was not removed" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+      result = order.remove_product("spinach")
+      result.must_equal false
+    end
+
   end
 end
 

@@ -16,6 +16,12 @@ describe "Order Wave 1" do
       order.must_respond_to :products
       order.products.length.must_equal 0
     end
+      #raise argument error if id or order is a negative number
+
+      it "Raises an ArgumentError for invalid parameters" do
+        proc {Grocery::Order.new(-1, {})}.must_raise ArgumentError
+        # proc {Grocery::Order.new(123, -2)}.must_raise ArgumentError
+      end
   end
 
   describe "#total" do
@@ -37,7 +43,7 @@ describe "Order Wave 1" do
   end
 
   describe "#add_product" do
-    it "Increases the number of products" do
+    xit "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
       order = Grocery::Order.new(1337, products)

@@ -80,19 +80,42 @@ describe "Order Wave 1" do
 
   describe "#remove_product" do
     it "decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
+      before_count = products.count
+      order = Grocery::Order.new(1337, products)
 
+      order.remove_product("salad")
+      expected_count = before_count - 1
+      order.products.count.must_equal expected_count
     end
 
     it "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25}
+      order = Grocery::Order.new(1337, products)
 
+      order.remove_product("sandwich")
+      order.products.include?("sandwich").must_equal false
     end
 
     it "Returns false if the product is not removed" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
 
+      order = Grocery::Order.new(1337, products)
+      before_total = order.total
+
+      result = order.remove_product("sandwich")
+      after_total = order.total
+
+      result.must_equal false
+      before_total.must_equal after_total
     end
 
     it "Returns true if the product is removed" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
+      order = Grocery::Order.new(1337, products)
 
+      result = order.remove_product("salad")
+      result.must_equal true
     end
   end
 end

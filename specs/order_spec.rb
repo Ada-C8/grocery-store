@@ -77,8 +77,8 @@ describe "Order Wave 1" do
     end
   end
 
-  describe "delete_product" do
-    xit "Decreases the number of products" do
+  describe "remove_product" do
+    it "Decreases the number of products" do
 
       products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25}
       before_count = products.count
@@ -89,7 +89,7 @@ describe "Order Wave 1" do
       order.products.count.must_equal expected_count
     end
 
-    xit "Is removed from the collection of products" do
+    it "Is removed from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25 }
       order = Grocery::Order.new(1337, products)
 
@@ -97,24 +97,19 @@ describe "Order Wave 1" do
       order.products.include?("sandwich").must_equal false
     end
 
-    xit "Returns false if the product doesn't exist in collection of prodcuts AKA cannot remove something that doesn't exits" do
+    it "Returns false if the product doesn't exist in collection of prodcuts AKA cannot remove something that doesn't exits" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
-
       order = Grocery::Order.new(1337, products)
-      before_total = order.total
 
       result = order.remove_product("apple")
-      after_total = order.total
-
       result.must_equal false
-      before_total.must_equal after_total
     end
 
     it "Returns true if the product is was present" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
 
-      result = order.remove_product("salad")
+      result = order.remove_product("banana")
       result.must_equal true
     end
 
@@ -127,7 +122,7 @@ xdescribe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
-      # Useful checks might include:
+      # Useful checks might include
       #   - Order.all returns an array
       #   - Everything in the array is an Order
       #   - The number of orders is correct

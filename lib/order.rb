@@ -17,10 +17,16 @@ module Grocery
     end
 
     def add_product(product_name, product_price)
+
+      if @products.has_key?(product_name)
+        return false
+      end
+
       products[product_name] = product_price
-        if @products.include?(product_name)
-          return true
-        end
+
+      if @products.include?(product_name)
+        return true
+      end
     end
 
   end #end of class

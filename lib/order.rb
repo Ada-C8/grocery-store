@@ -3,8 +3,8 @@ module Grocery
     attr_reader :id, :products
 
     def initialize(id, products)
-      @id = id
-      @products = products
+      @id = id.to_i
+      @products = products.to_sym
     end
 
     def total
@@ -14,5 +14,5 @@ module Grocery
     def add_product(product_name, product_price)
       # TODO: implement add_product
     end
+
   end
-end

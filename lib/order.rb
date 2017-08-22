@@ -19,7 +19,13 @@ module Grocery
     end
 
     def add_product(product_name, product_price)
-      @products[product_name] = product_price
+      if @products.include?(product_name)
+        return false
+      else
+        @products[product_name] = product_price
+        return true
+      end
+
     end
 
 

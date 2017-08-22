@@ -37,8 +37,8 @@ describe "Order Wave 1" do
     end
   end
 
-  describe "#total" do
-    xit "Returns the total from the collection of products" do
+  xdescribe "#total" do
+    it "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
 
@@ -95,6 +95,26 @@ describe "Order Wave 1" do
       result.must_equal true
     end
   end
+
+  describe "#remove_product" do
+    it "Decreases the number of products" do
+
+    end
+
+    it "Is removed from the collection of products" do
+
+    end
+
+    it "Returns true if the item was removed" do
+
+    end
+
+    it "Returns false if it was not removed/did not exist" do
+
+    end
+
+  end
+
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests

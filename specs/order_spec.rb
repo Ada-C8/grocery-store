@@ -3,7 +3,7 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
 
-describe "Order Wave 1" do
+xdescribe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
       id = 1337
@@ -95,7 +95,7 @@ describe "Order Wave 1" do
       order.products.include?("cracker").must_equal false
     end
 
-    it "Returns false is the product was not removed" do
+    it "Returns false if the product was not removed" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
 
       order = Grocery::Order.new(1337, products)
@@ -119,31 +119,42 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      result = Order.all
+      result.must_be_instance_of Array
+    end
+    it "Everything in the array is an order" do
+      result = Order.all
+      result.each do |order|
+        order.must_be_instance_of Order
+      end
+    end
+    it "The number of orders is correct" do
+      result = Order.all
+      result.length.must_equal # TODO how many orders are there lol
+    end
+    it "The ID and product of the first and last orders match CSV" do
+      result = Order.all
+      result[0].must_equal #TODO whatever 1st is
+      result[-1].must_equal #TODO whatever last is
+    end
     end
   end
 
   xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      result = Order.find( )#TODO what is id of first thing")
+      result.must_equal #TODO whatever first product is
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      result = Order.find( )#TODO what is id of last thing)
+      result.must_equal #TODO whatever last thing is
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Order.find(looooooool)}.must_raise ArgumentError
     end
   end
-end

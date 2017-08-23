@@ -2,7 +2,7 @@
 # should there be an array of hashes to store what the store has already?
 # should I initialize price (Why only id and products?)
 # how to add to product list?
-
+require 'csv'
 module Grocery
   class Order
     attr_reader :id, :products
@@ -42,11 +42,22 @@ module Grocery
       if @products.key?(product_name) == true
         @products.delete(product_name)
         return true
-      else 
+      else
         return false
       end
     end
 
+def self.all
+  orders = [] 
+end
+
+      # def read_csv
+      #   @orders = {}
+      #   CSV.open("support/orders.csv", 'r').each do |line|
+      #     products_hash = line[1].split(",")
+      #     products_hash.each do
+      #   end # each loop
+      # end # read_csv method
   end # Order class
 end # Grocery module
 
@@ -55,6 +66,7 @@ products = { "banana" => 1.99, "cracker" => 3.00 }
 test_order = Grocery::Order.new(1337, products)
 
 puts test_order.total
+
 
 test_order.add_product("sandwich", 4.25)
 puts test_order.products

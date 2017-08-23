@@ -30,15 +30,16 @@ module Grocery
     def remove_product(product_name)
       if @products.keys.include?(product_name)
         @products.delete(product_name)
-      else
-        return "#{product_name} not found."
+        return true
+      #else
+        #return false #{}"#{product_name} not found."
       end #if include
 
-      if @products.keys.include?(product_name)
-        return false
-      else
-        return true
-      end
+      # if @products.keys.include?(product_name)
+      #   return false
+      # else
+      #   return true
+      # end
     end #remove_product method
 
     def show_order
@@ -54,19 +55,25 @@ end #module
 
 
 
-# id = 1337
-# order = Grocery::Order.new(id, {})
-#
-# order.add_product("apples", 2.00)
-# order.add_product("cake", 2.50)
-# order.add_product("crackers", 2.50)
-# order.add_product("crackers", 2.50)
-#
-# puts order.inspect
-# puts order.show_order
-#
-# order.remove_product("crackers")
-# order.remove_product("crackers")
-#
-#
-# puts order.inspect
+id = 1337
+order = Grocery::Order.new(id, {})
+
+puts "Adding Products, apples, cake, and crackers."
+order.add_product("apples", 2.00)
+order.add_product("cake", 2.50)
+order.add_product("crackers", 2.50)
+puts order.inspect
+
+puts "\nTrying to asdd crackers a second time"
+order.add_product("crackers", 2.50)
+
+puts order.inspect
+puts order.show_order
+
+puts 'Removing crackers'
+puts order.remove_product("crackers")
+puts "Trying to remove crackers again"
+puts order.remove_product("crackers")
+
+
+puts order.inspect

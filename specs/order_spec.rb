@@ -121,6 +121,12 @@ end
 # TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
+    # TODO responds to all med
+    it "responds to all method" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      my_order = Grocery::Order.new(1337, products)
+      my_order.class.must_respond_to :all
+    end
     it "Returns an array of all orders" do
       result = Order.all
       result.must_be_instance_of Array

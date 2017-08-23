@@ -1,13 +1,36 @@
+require 'csv'
+
 module Grocery
   TAX = 0.075
+
+
   class Order
-    attr_reader :id, :products
+    attr_reader :id, :products, :no_orders
+    attr_accessor :all, :order_data
+
+    # Class methods
+    def self.all
+      all = Array.new
+      CSV.open('support/orders.csv', 'r+').each do |row_order|
+        #array format to hash
+        id = row_order[0]
+        products = Array.new
+        row_items = row_order[1].split(";")
+        row_items.each do |pair| #Slivered Almonds:22.88
+          products << {pair.to_s.partition(":").first.to_s => pair.to_s.partition(":").last}
+        end
+        all << Order.new(id,products)
+      end
+
+      return all
+    end
 
     def initialize(id, products)
       @id = id
-      @products = products
+      @products = products #as hashes with key of "product" and value of cost
     end
 
+    # Instance methods
     def total
       if @products.length == 0
         return 0
@@ -33,5 +56,8 @@ module Grocery
         return false
       end
     end
+
+
+
   end
 end

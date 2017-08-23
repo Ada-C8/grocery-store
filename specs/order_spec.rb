@@ -3,26 +3,10 @@ require 'minitest/pride'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
+require 'csv'
 
-=begin
-Create a Grocery module which will contain an Order class and any future grocery store logic.
 
-Create an Order class which should have the following functionality:
-
-A new order should be created with:
-an ID, read-only
-a collection of products and their cost
-zero products is permitted
-you can assume that there is only one of each product
-A total method which will calculate the total cost of the order by:
-summing up the products
-adding a 7.5% tax
-ensure the result is rounded to two decimal places
-An add_product method which will take in two parameters, product name and price, and add the data to the product collection
-It should return true if the item was successfully added and false if it was not
-=end
-
-describe "Order Wave 1" do
+xdescribe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
       id = 1337
@@ -141,31 +125,61 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      Grocery::Order.all.must_be_kind_of Array
+
+      Grocery::Order.all[rand(0..(Grocery::Order.all.length - 1))].must_be_kind_of Grocery::Order
+
+      Grocery::Order.all.length.must_equal       CSV.read('support/orders.csv').length
+
+      #Testing for first CSV order
+      Grocery::Order.all[0].id.must_equal CSV.read('support/orders.csv')[0][0]
+      order_1_array =
+
+      CSV.read('support/orders.csv')[0][1].gsub(":",";").split(";")
+      Grocery::Order.all[0].products.each do |hash|
+        hash.each do |k,v| #
+          order_1_array.delete(k)
+          order_1_array.delete(v)
+        end
+      end
+      order_1_array.must_equal []
+
+      #Testing for first CSV order
+      Grocery::Order.all[-1].id.must_equal CSV.read('support/orders.csv')[-1][0]
+      order_1_array =
+
+      CSV.read('support/orders.csv')[-1][1].gsub(":",";").split(";")
+      Grocery::Order.all[-1].products.each do |hash|
+        hash.each do |k,v| #
+          order_1_array.delete(k)
+          order_1_array.delete(v)
+        end
+      end
+      order_1_array.must_equal []
     end
+
+    # Useful checks might include:
+    #   X Order.all returns an array
+    #   X Everything in the array is an Order
+    #   X The number of orders is correct
+    #   X The ID and products of the first and last
+    #       orders match what's in the CSV file
+  end
+end
+
+xdescribe "Order.find" do
+  it "Can find the first order from the CSV" do
+    # TODO: Your test code here!
   end
 
-  describe "Order.find" do
-    it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
-    end
+  it "Can find the last order from the CSV" do
+    # TODO: Your test code here!
+  end
 
-    it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
-    end
+  it "Raises an error for an order that doesn't exist" do
+    # TODO: Your test code here!
   end
 end

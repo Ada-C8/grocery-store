@@ -175,11 +175,11 @@ end
 
 describe "Order.find" do
   it "Can find the first order from the CSV" do
-    Grocery::Order.find(0)[0].must_equal CSV.read('support/orders.csv')[0][0]
+    Grocery::Order.find(0).must_equal CSV.read('support/orders.csv')[0]
   end
 
   it "Can find the last order from the CSV" do
-    # TODO: Your test code here!
+    Grocery::Order.find(-1).must_equal CSV.read('support/orders.csv')[-1]
   end
 
   it "Raises an error for an order that doesn't exist" do

@@ -107,13 +107,14 @@ describe "Order Wave 1" do
       order.products.keys.include?("salad").must_equal false
     end #false if not remove
 
-    it "Tells you item is not in the order" do
-      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
-      order = Grocery::Order.new(1337, products)
-
-      order.remove_product("bacon")
-      order.products.keys.include?("salad").must_equal false
-    end #not in order
+    # it "Tells you item is not in the order" do
+    #   products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
+    #   order = Grocery::Order.new(1337, products)
+    #
+    #   bacon = "bacon not found."
+    #   order.remove_product("bacon").must_equal bacon
+    #   #order.products.keys.include?("salad").must_equal false
+    # end #not in order
 
   end #remove_product tests
 

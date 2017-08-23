@@ -118,30 +118,51 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
+  before do
+    @orders = Grocery::Order.all
+  end
   describe "Order.all" do
+    #   - Everything in the array is an Order
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      @orders.each do |i|
+        @orders[i].must_be_kind_of Grocery::Order
+      end
+    end
+    #   - Order.all returns an array
+    it "Order.all returns an array" do
+      @orders.must_be_kind_of Array
+    end
+
+    #   - The number of orders is correct
+    it "the number of orders is correct" do
+      @orders.length.must_equal 100
+    end
+
+    #   - The ID and products of the first and last
+    #       orders match what's in the CSV file
+    it "the ID and products of order.all[0] and order.all[99] match what is in the CSV file" do
+      order_first = [1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
+      order_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
+      @orders[0].must_equal order_first
+      @orders[0].must_equal order_last
     end
   end
 
   describe "Order.find" do
-    it "Can find the first order from the CSV" do
+    before do
+      @orders = Grocery::Order.all
+    end
+    xit "Can find the first order from the CSV" do
+      @orders.find(1)
       # TODO: Your test code here!
     end
 
-    it "Can find the last order from the CSV" do
+    xit "Can find the last order from the CSV" do
       # TODO: Your test code here!
     end
 
-    it "Raises an error for an order that doesn't exist" do
+    xit "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
     end
   end

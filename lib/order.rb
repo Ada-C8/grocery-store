@@ -51,27 +51,26 @@ module Grocery
 
       csv = "support/orders.csv"
       all_orders = []
+
       CSV.foreach(csv) do |row|
-        products = {} # hash for initializing Order
         id = row[0].to_i
         # get list of each product in form "name:price"
-        product_list = row[1].split(";")
-
-        # TODO parse this into HELPER METHOD
-        product_list.each do |product|
-          # split into array of form ["name", price]
-          product_info = product.split(":")
-          product_name = product_info[0]
-          product_price = product_info[1].to_f
-          products[product_name] = product_price
-        end
+        product_info = row[1]
+        puts product_info
+        products = parse_products(product_info)
 
         order = Order.new(id, products)
         all_orders << order
+        # product_list.each do |product|
+        #   # split into array of form ["name", price]
+        #   product_info = product.split(":")
+        #   product_name = product_info[0]
+        #   product_price = product_info[1].to_f
+        #   products[product_name] = product_price
+        # end
       end
 
       return all_orders
-
     end
 
     def self.find(id)
@@ -87,6 +86,27 @@ module Grocery
 
       # if order not found
       return nil
+    end
+
+    private
+
+    def self.parse_products(product_string)
+      # helper method that parses a string in the form "prod_name:prod_price;prod_name:prod_price"
+      # into a hash of products of form {prod_name => prod_price}
+      products = {}
+
+      product_list = product_string.split(";")
+
+      product_list.each do |product|
+        # split into array of form ["name", "price"]
+        product_info = product.split(":")
+        product_name = product_info[0]
+        product_price = product_info[1].to_f
+
+        products[product_name] = product_price
+      end
+
+      return products
     end
 
   end

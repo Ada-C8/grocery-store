@@ -132,19 +132,25 @@ describe "Order Wave 2" do
       result.must_be_instance_of Array
     end
     it "Everything in the array is an order" do
-      result = Order.all
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      my_order = Grocery::Order.new(1337, products)
+      result = my_order.class.all
       result.each do |order|
         order.must_be_instance_of Order
       end
     end
     it "The number of orders is correct" do
-      result = Order.all
-      result.length.must_equal # TODO how many orders are there lol
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      my_order = Grocery::Order.new(1337, products)
+      result = my_order.class.all
+      result.length.must_equal 100
     end
     it "The ID and product of the first and last orders match CSV" do
-      result = Order.all
-      result[0].must_equal #TODO whatever 1st is
-      result[-1].must_equal #TODO whatever last is
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      my_order = Grocery::Order.new(1337, products)
+      result = my_order.class.all
+      result[0].must_equal ["1","Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
+      result[-1].must_equal ["100","Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59"]
     end
     end
   end

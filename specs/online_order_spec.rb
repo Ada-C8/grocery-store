@@ -27,6 +27,7 @@ describe "OnlineOrder" do
     }
     @customer = Grocery::Customer.new(id,email,address)
     @online_order = Grocery::OnlineOrder.new(@id_order, @products, @customer, status: :completed)
+    @online_order_status = Grocery::OnlineOrder.new(@id_order, @products, @customer)
   end
   describe "#initialize" do
     it "Is a kind of Order" do
@@ -50,23 +51,35 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Adds a shipping fee" do
-      # TODO: Your test code here!
+      price = (4.99* 1.075).round(2) +10
+      @online_order.total.must_equal price
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
+      order = Grocery::OnlineOrder.new(@id_order, {}, @customer, status: :completed)
+      order.total.must_equal 0
     end
   end
 
-  xdescribe "#add_product" do
+  describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
+      [:processing, :shipped, :completed].each do |status|
+        online_order = Grocery::OnlineOrder.new(@id_order, @products, @customer, status: status)
+        proc{online_order.add_product("chicken",7.02)}.must_raise ArgumentError
+      end
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      @online_order_status.must_respond_to :add_product
+      @online_order_status.add_product("chicken",7.02)
+      @online_order_status.products.count.must_equal 3
+
+      online_order2 = Grocery::OnlineOrder.new(@id_order, @products, @customer, status: :paid)
+      online_order2.must_respond_to :add_product
+      online_order2.add_product("chicken",7.02)
+      online_order2.products.count.must_equal 3
     end
   end
 

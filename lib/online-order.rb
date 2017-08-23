@@ -19,6 +19,26 @@ module Grocery
       @status = status
     end
 
+    def total
+      if @products.keys.length > 0
+        return super + 10
+      else
+        return super
+      end
+    end
+
+    def add_product(product_name, product_price)
+      if @status == :pending || @status == :paid
+        super(product_name, product_price)
+      else
+        raise ArgumentError.new "Your order does not have the right status"
+      end
+    end
+
+    def self.all(csv_file)
+       
+
+    end
 
 
   end # end class

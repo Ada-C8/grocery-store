@@ -127,17 +127,11 @@ describe "Order Wave 2" do
       my_order = Grocery::Order.new(1337, products)
       my_order.class.must_respond_to :all
     end
-    it "Returns an array of all orders" do
-      result = Order.all
-      result.must_be_instance_of Array
-    end
     it "Everything in the array is an order" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       my_order = Grocery::Order.new(1337, products)
       result = my_order.class.all
-      result.each do |order|
-        order.must_be_instance_of Order
-      end
+      result[0].must_be_instance_of Grocery::Order
     end
     it "The number of orders is correct" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -149,24 +143,31 @@ describe "Order Wave 2" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       my_order = Grocery::Order.new(1337, products)
       result = my_order.class.all
-      result[0].must_equal ["1","Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
-      result[-1].must_equal ["100","Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59"]
+      result[0].id.must_equal "1"
+      result[-1].id.must_equal "100"
+      #result[0].products.must_equal
+      # ["1","Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
+      # result[-1].must_equal ["100","Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59"]
     end
     end
   end
 
   xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
-      result = Order.find( )#TODO what is id of first thing")
-      result.must_equal #TODO whatever first product is
+      result = Order.find("1")
+      result.id.must_equal "1"
+      expected_products = {"Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"}
+      result.product.must_equal expected_products
     end
 
     it "Can find the last order from the CSV" do
-      result = Order.find( )#TODO what is id of last thing)
-      result.must_equal #TODO whatever last thing is
+      result = Order.find("100")
+      result.id.must_equal "100"
+      expected_products = {"Allspice"=>"64.74", "Bran"=>"14.72", "Unbleached Flour"=>"80.59"}
+      result.product.must_equal expected_products
     end
 
     it "Raises an error for an order that doesn't exist" do
-      proc {Order.find(looooooool)}.must_raise ArgumentError
+      proc {Order.find("85783")}.must_raise ArgumentError
     end
   end

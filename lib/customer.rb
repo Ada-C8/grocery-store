@@ -1,6 +1,6 @@
 module Grocery
   class Customer
-    attr_reader :id, :email, :address, :array_of_customers
+    attr_reader :id, :email, :address
 
     def initialize(id,email,address)
       @id = id

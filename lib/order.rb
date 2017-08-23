@@ -1,3 +1,5 @@
+require 'csv'
+
 module Grocery
   class Order
     attr_reader :id, :products
@@ -56,5 +58,23 @@ module Grocery
       end
     end
 
+    def self.all
+      arr = []
+      return arr
+    end
   end#Order
 end
+
+id = nil
+products_arr = []
+products = {}
+
+# CSV.open('../support/orders.csv', 'r').each do |line|
+#   id = line[0]
+#   products_arr = line[1].split(';')
+#   products = products_arr.map { |i| i.split(": ") }.to_h
+# break
+#   # id = line[0]
+#   # products_arr = line
+# end
+# # puts id

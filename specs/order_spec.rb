@@ -128,23 +128,29 @@ describe "Order Wave 2" do
         all[i][0].must_equal "#{i + 1}"
       end
       all.length.must_equal 100
-      all[0].must_equal ["1", "Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
+      all[45].must_equal ["46", "Corn Oil:53.98;Flaxseed:96.52"]
       all[-1].must_equal ["100", "Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59"]
 
     end
   end
 
-  xdescribe "Order.find" do
+  describe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+      Grocery::Order.find(1).must_be_instance_of Array
+      Grocery::Order.find(1).must_equal ["1", "Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
     end
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
+      Grocery::Order.find(100).must_be_instance_of Array
+      Grocery::Order.find(100).must_equal ["100", "Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59"]
     end
 
     it "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
+      Grocery::Order.find(0).must_be_instance_of String
+      Grocery::Order.find(101).must_be_instance_of String
     end
   end
 end

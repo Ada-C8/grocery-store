@@ -128,17 +128,21 @@ describe "Order Wave 2" do
     before do
       @orders = Grocery::Order.all
     end
-    it "Returns an array of all orders" do
-
-
+    it "Returns an array" do
       @orders.must_be_kind_of Array
+    end
 
+    it "Array is filled with Orders" do
       10.times do
         @orders[rand(100)].must_be_kind_of Order
       end
+    end
 
+    it "Has right number of items" do
       @orders.length.must_equal 100
+    end
 
+    it "first and last are same as csv" do
       orders_first = 	[1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
 
       @orders.first.must_equal orders_first
@@ -146,7 +150,7 @@ describe "Order Wave 2" do
       orders_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
 
       @orders.last.must_equal orders_last
-
+    end
 
       # TODO: Your test code here!
       # Useful checks might include:
@@ -156,7 +160,7 @@ describe "Order Wave 2" do
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
-    end
+    
   end
 end
 #   describe "Order.find" do

@@ -1,3 +1,6 @@
+require 'csv'
+require 'awesome_print'
+
 module Grocery
   class Order
     attr_reader :id, :products
@@ -5,6 +8,15 @@ module Grocery
     def initialize(id, collection)
       @id = id
       @products = collection
+    end
+
+    def self.all
+      orders = []
+      #order = {id => {item:price, item:price}}
+      CSV.open("./support/orders.csv", "r").each do |line|
+        orders.push(line)
+      end
+      return orders
     end
 
     def total
@@ -26,7 +38,7 @@ module Grocery
 
     def remove_product(name)
       if @products.include?(name)
-        @products[name].delete
+        @products.delete(name)
         return true
       else
         return false

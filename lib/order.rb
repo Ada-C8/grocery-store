@@ -1,9 +1,11 @@
+require 'csv'
+
 module Grocery
   class Order
     attr_reader :id, :products
 
     def initialize(id, products)
-      # products if a hash with product name as key, price as value
+      # products is a hash with product name as key, price as value
       @id = id
       @products = products
     end
@@ -41,6 +43,34 @@ module Grocery
       else
         return false
       end
+    end
+
+    def self.all
+      # returns a collection of all Orders from the csv
+      #1,Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9
+
+      csv = "support/orders.csv"
+      all_orders = []
+      CSV.foreach(csv) do |row|
+        products = {} # hash for initializing Order
+        id = row[0].to_i
+        # get list of each product in form "name:price"
+        product_list = row[1].split(";")
+
+        product_list.each do |product|
+          # split into array of form ["name", price]
+          product_info = product.split(":")
+          product_name = product_info[0]
+          product_price = product_info[1].to_f
+          products[product_name] = product_price
+        end
+
+        order = Order.new(id, products)
+        all_orders << order
+      end
+
+      return all_orders
+
     end
 
   end

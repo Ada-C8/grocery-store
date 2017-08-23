@@ -4,7 +4,9 @@ require 'minitest/skip_dsl'
 require_relative '../lib/order'
 
 # adding for color
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+reporter_options = { color: true }
+Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new(reporter_options)
+#Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 
 describe "Order Wave 1" do
@@ -113,21 +115,52 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
-    it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+    before do
+      @all_orders = Grocery::Order.all
     end
+    it "Returns an array of all orders" do
+      @all_orders.must_be_instance_of Array
+
+      @all_orders.each do |order|
+        order.must_be_instance_of Grocery::Order
+      end
+    end
+
+    # 100 orders in csv file
+    it "Returns same number of orders as in csv file" do
+      num_orders = 100 # this is num orders in csv file
+      @all_orders.length.must_equal num_orders
+    end
+
+    it "Product id and info of first order match CSV file" do
+      first_product = @all_orders[0]
+
+      expected_id = 1
+      expected_products = { "Slivered Almonds" => 22.88,
+                            "Wholewheat flour" => 1.93,
+                            "Grape Seed Oil" => 74.9 }
+
+      first_product.id.must_equal expected_id
+      first_product.products.must_equal expected_products
+    end
+
+    it "Product id and info of last order match CSV file" do
+      last_product = @all_orders[@all_orders.length - 1]
+
+      expected_id = 100
+      expected_products = { "Allspice" => 64.74,
+                            "Bran" => 14.72,
+                            "UnbleachedFlour" => 80.59 }
+
+      last_product.id.must_equal expected_id
+      last_product.products.must_equal expected_products
+    end
+
   end
 
-  describe "Order.find" do
+  xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
     end

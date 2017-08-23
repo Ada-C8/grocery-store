@@ -28,7 +28,7 @@ module Grocery
       customer_to_return = nil
       @@array_of_customers.each do |customer|
         if customer.id == id_lookup
-          customer_to_return = order
+          customer_to_return = customer
         end
       end
       if customer_to_return.nil?

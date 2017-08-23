@@ -133,6 +133,8 @@ describe "Order Wave 2" do
       Grocery::Order.all[rand(0..(Grocery::Order.all.length - 1))].must_be_kind_of Grocery::Order
 
       Grocery::Order.all.length.must_equal       CSV.read('support/orders.csv').length
+    end
+    it "Returns the ID and products of an order as from .csv data set" do
 
       #Testing for first CSV order
       Grocery::Order.all[0].id.must_equal CSV.read('support/orders.csv')[0][0]

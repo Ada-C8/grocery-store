@@ -57,6 +57,7 @@ module Grocery
         # get list of each product in form "name:price"
         product_list = row[1].split(";")
 
+        # TODO parse this into HELPER METHOD
         product_list.each do |product|
           # split into array of form ["name", price]
           product_info = product.split(":")
@@ -71,6 +72,21 @@ module Grocery
 
       return all_orders
 
+    end
+
+    def self.find(id)
+      # returns order with given id if found; else returns nil
+      all_orders = self.all
+
+      # iterate through Orders, look for id
+      all_orders.each do |order|
+        if order.id == id
+          return order
+        end
+      end
+
+      # if order not found
+      return nil
     end
 
   end

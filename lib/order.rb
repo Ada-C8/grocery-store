@@ -1,4 +1,4 @@
-
+require 'csv'
 
 # og code using hash products
 module Grocery
@@ -37,7 +37,16 @@ module Grocery
     end
 
     def self.all
+      orders = []
+      CSV.open("../support/orders.csv", 'r').each do |line|
+        id = line[0]
+        products = line[1]
+        
 
+        orders << self.new(id, products)
+
+      end
+      return orders
     end
   end
 end

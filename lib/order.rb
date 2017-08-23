@@ -4,19 +4,46 @@ require 'awesome_print'
 module Grocery
   class Order
     attr_reader :id, :products
-
+    @@orders = []
     def initialize(id, collection)
       @id = id
       @products = collection
     end
 
     def self.all
-      orders = []
+      if @@orders.any?
+        return @@orders
+      end
+
       #order = {id => {item:price, item:price}}
       CSV.open("./support/orders.csv", "r").each do |line|
-        orders.push(line)
+        shopping_list = {}
+        id = line[0].to_i
+        list = line[1]
+        list = list.split(";") #now this is an array
+        list.each do |element_pair|
+          item = element_pair.split(":")
+          shopping_list[item[0]] = item[1]
+        end
+        @@orders.push(Order.new(id, shopping_list))
       end
-      return orders
+      return @@orders
+    end
+
+    def self.find(id_input)
+      if @@orders.empty?
+        all
+      end
+
+      if id_input > all.length
+        raise ArgumentError.new("That id doesn't exist")
+      end
+      
+      @@orders.each do |order|
+        if order.id == id_input
+          return order
+        end
+      end
     end
 
     def total

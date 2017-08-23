@@ -78,35 +78,65 @@ describe "Order Wave 1" do
       result = order.add_product("salad", 4.25)
       result.must_equal true
     end
-  end
 end
 
+  describe "#remove_product" do
+    it "Deletes an element from the products array" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+
+      actual_result = order.remove_product("banana")
+      expected_result = {"cracker" => 3.00}
+      actual_result.must_equal expected_result
+    end
+  end
+end #end of Wave 1
+
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
-    it "Returns an array of all orders" do
+    # it "Returns an array of all orders" do
       # TODO: Your test code here!
       # Useful checks might include:
-      #   - Order.all returns an array
+    it "Order.all returns an array" do
+      Grocery::Order.all.must_be_instance_of Array
+    end
       #   - Everything in the array is an Order
       #   - The number of orders is correct
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
+    xit "Returns the correct number of orders" do
+      orders = Grocery::Order.all
+      orders.length.must_equal  100
     end
+
+    xit "Returns correct 1st order" do
+      orders = Grocery::Order.all
+      orders["1"].must_equal [{"Slivered Almonds"=>"22.88"}, {"Wholewheat flour"=>"1.93"}, {"Grape Seed Oil"=>"74.9"}]
+    end
+
+    xit "Returns correct last order" do
+    orders = Grocery::Order.all
+    orders["100"].must_equal [{"Allspice"=>"64.74"}, {"Bran"=>"14.72"}, {"UnbleachedFlour"=>"80.59"}]
+    end
+
   end
 
   xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+
     end
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
+
     end
 
     it "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
+
     end
   end
 end

@@ -7,8 +7,8 @@ require 'csv'
 
 describe "Customer" do
   before do
-    customer_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/customers.csv")
-    @customer_array = Grocery::Customer.all(customer_csv)
+    @customer_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/customers.csv")
+    @customer_array = Grocery::Customer.all(@customer_csv)
   end
   describe "#initialize" do
     it "Takes an ID, email and address info" do
@@ -65,19 +65,19 @@ describe "Customer" do
 
   describe "Customer.find" do
     it "Can find the first customer from the CSV" do
-      customer1 = Grocery::Customer.find(1)
+      customer1 = Grocery::Customer.find(@customer_csv,1)
       customer1.must_be_instance_of Grocery::Customer
       customer1.id.must_equal 1
     end
 
     it "Can find the last customer from the CSV" do
-      customer1 = Grocery::Customer.find(35)
+      customer1 = Grocery::Customer.find(@customer_csv,35)
       customer1.must_be_instance_of Grocery::Customer
       customer1.id.must_equal 35
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      proc{Grocery::Customer.find(101)}.must_raise ArgumentError
+      proc{Grocery::Customer.find(@customer_csv,101)}.must_raise ArgumentError
     end
   end
 end

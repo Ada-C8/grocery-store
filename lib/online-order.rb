@@ -35,11 +35,17 @@ module Grocery
       end
     end
 
-    def self.all(csv_file)
-       
-
+    def self.all(customers, csv_file)
+       super(csv_file)
+       csv_file.each do |line|
+         customer = customers.find(i)
+         @@array_of_onlineorders = self.new(self.array_of_orders[i].id, self.array_of_orders[i].products,customer,status)
+       end
     end
 
+    def self.find()
+
+    end
 
   end # end class
 end #end module

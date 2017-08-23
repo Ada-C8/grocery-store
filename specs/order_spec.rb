@@ -121,132 +121,11 @@ describe "Order Wave 1" do
 
 end
 
-###### Rewrite ############
-# describe "Order Wave 1" do
-#   describe "#initialize" do
-#     it "Takes an ID and collection of products" do
-#       id = "1337"
-#       order = Grocery::Order.new([id, ""])
-#
-#       order.must_respond_to :id
-#       order.id.must_equal 1337
-#       order.id.must_be_kind_of Integer
-#
-#       order.must_respond_to :products
-#       order.products.length.must_equal 0
-#     end
-#   end
-#
-#   describe "#total" do
-#     it "Returns the total from the collection of products" do
-#
-#       products = ["1",	"Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
-#       order = Grocery::Order.new( products)
-#
-#       sum = 99.71
-#       expected_total = sum + (sum * 0.075).round(2)
-#
-#       order.total.must_equal expected_total
-#     end
-#
-#     it "Returns a total of zero if there are no products" do
-#       products = ["1",	""]
-#       order = Grocery::Order.new( products)
-#
-#       order.total.must_equal 0
-#     end
-#   end
-#
-#   describe "#add_product" do
-#     it "Increases the number of products" do
-#
-#       before_count = 3
-#       products = ["1",	"Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
-#       order = Grocery::Order.new( products)
-#
-#       order.add_product("salad", 4.25)
-#       expected_count = before_count + 1
-#       order.products.count.must_equal expected_count
-#     end
-#
-#     it "Is added to the collection of products" do
-#       products = ["1",	"Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
-#       order = Grocery::Order.new( products)
-#
-#       order.add_product("sandwich", 4.25)
-#       order.products.include?("sandwich").must_equal true
-#     end
-#
-#     it "Returns false if the product is already present" do
-#       products = ["1",	"Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
-#       order = Grocery::Order.new( products)
-#       before_total = order.total
-#
-#       result = order.add_product("Slivered Almonds", 4.25)
-#       after_total = order.total
-#
-#       result.must_equal false
-#       before_total.must_equal after_total
-#     end
-#
-#     it "Returns true if the product is new" do
-#       products = ["1",	"Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
-#       order = Grocery::Order.new( products)
-#
-#       result = order.add_product("salad", 4.25)
-#       result.must_equal true
-#     end
-#   end
-#
-#   describe "#remove_product" do
-#     it "decreases the number of products" do
-#
-#       before_count = 3
-#       products = ["1",	"Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
-#       order = Grocery::Order.new( products)
-#
-#       order.remove_product("Slivered Almonds")
-#       expected_count = before_count - 1
-#       order.products.count.must_equal expected_count
-#     end
-#
-#     it "Is removed to the collection of products" do
-#       products = ["1",	"Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
-#       order = Grocery::Order.new( products)
-#
-#       order.remove_product("Slivered Almonds")
-#       order.products.include?("Slivered Almonds").must_equal false
-#     end
-#
-#     it "Returns false if the product isn't already present" do
-#       products = ["1",	"Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
-#       order = Grocery::Order.new( products)
-#       before_total = order.total
-#
-#       result = order.remove_product("sandwich")
-#       after_total = order.total
-#
-#       result.must_equal false
-#       before_total.must_equal after_total
-#     end
-#
-#     it "Returns true if the product is removed" do
-#       products = ["1",	"Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
-#       order = Grocery::Order.new( products)
-#
-#       result = order.remove_product("Slivered Almonds")
-#       result.must_equal true
-#     end
-#   end
-#
-# end
 
-
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   before do
-    order_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/orders.csv")
-    @order_array = Grocery::Order.all(order_csv)
+    @order_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/orders.csv")
+    @order_array = Grocery::Order.all(@order_csv)
   end
   describe "Order.all" do
     it "Returns an array of all orders" do
@@ -277,21 +156,21 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      Grocery::Order.find(1).must_be_instance_of Grocery::Order
-      order1 = Grocery::Order.find(1)
+      Grocery::Order.find(@order_csv,1).must_be_instance_of Grocery::Order
+      order1 = Grocery::Order.find(@order_csv,1)
       order_first = {"Slivered Almonds"=>22.88,"Wholewheat flour"=>1.93,"Grape Seed Oil"=>74.9}
       order1.products.must_equal order_first
     end
 
     it "Can find the last order from the CSV" do
-      Grocery::Order.find(100).must_be_instance_of Grocery::Order
-      order100 = Grocery::Order.find(100)
+      Grocery::Order.find(@order_csv,100).must_be_instance_of Grocery::Order
+      order100 = Grocery::Order.find(@order_csv,100)
       order_last = {"Allspice"=>64.74,"Bran"=>14.72,"UnbleachedFlour"=>80.59}
       order100.products.must_equal order_last
     end
 
     it "Raises an error for an order that doesn't exist" do
-      proc {Grocery::Order.find(1337)}.must_raise ArgumentError
+      proc {Grocery::Order.find(@order_csv,1337)}.must_raise ArgumentError
     end
   end
 end

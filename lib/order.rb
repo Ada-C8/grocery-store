@@ -35,7 +35,7 @@ module Grocery
     end
 
     def self.all(csv_file)
-      @@array_of_orders = []
+      array_of_orders = []
       csv_file.length.times do |i|
         csv_line = csv_file[i]
         id = csv_line[0].to_i
@@ -45,14 +45,15 @@ module Grocery
           item_array = item.split(":")
           products[item_array[0]] = item_array[1].to_f
         end
-        @@array_of_orders << self.new(id, products)
+        array_of_orders << self.new(id, products)
       end
-      return @@array_of_orders
+      return array_of_orders
     end
 
-    def self.find(id_lookup)
+    def self.find(csv_file,id_lookup)
       order_to_return = nil
-      @@array_of_orders.each do |order|
+      array_of_orders = self.all(csv_file)
+      array_of_orders.each do |order|
         if order.id == id_lookup
           order_to_return = order
         end

@@ -20,7 +20,8 @@ module Grocery
       # a collection of products and their cost
       # zero products is permitted
       # you can assume that there is only one of each product
-    end
+
+
 
     # calculate the total cost of the order by:
     # summing up the products
@@ -65,16 +66,20 @@ module Grocery
   end#Order
 end
 
+
 id = nil
 products_arr = []
 products = {}
 
-# CSV.open('../support/orders.csv', 'r').each do |line|
-#   id = line[0]
-#   products_arr = line[1].split(';')
-#   products = products_arr.map { |i| i.split(": ") }.to_h
-# break
-#   # id = line[0]
-#   # products_arr = line
-# end
-# # puts id
+CSV.open('../support/orders.csv', 'r').each do |line|
+  id = line[0]
+  products_arr = line[1].split(';')
+  products = Hash[products_arr.map { |i| i.split(":") }]
+  products = Hash[products.keys.zip(products.values.map(&:to_f))]
+  puts products
+break
+  # id = line[0]
+  # products_arr = line
+end
+# puts id
+end

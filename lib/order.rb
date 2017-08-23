@@ -19,6 +19,7 @@ module Grocery
 
     def self.all
       all = []
+      # if testing with rake, just orders.csv
       CSV.open("../support/orders.csv", "r").each do |row|
           all << row
       end
@@ -27,7 +28,11 @@ module Grocery
 
     def self.find(id)
       all
-      return all[id - 1]
+      if id > 0 && id < 101
+        return all[id - 1]
+      else
+        return "Sorry, that order doesn't exist"
+      end
     end
 
     def total

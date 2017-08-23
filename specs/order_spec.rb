@@ -183,6 +183,5 @@ describe "Order.find" do
   end
 
   it "Raises an error for an order that doesn't exist" do
-    # TODO: Your test code here!
-  end
+      proc {Grocery::Order.find(Grocery::Order.all.length)}.must_raise ArgumentError  end
 end

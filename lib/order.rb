@@ -26,8 +26,11 @@ module Grocery
     end
 
     def self.find(line)
-      return CSV.read('support/orders.csv')[line]
-
+      if CSV.read('support/orders.csv')[line] == nil
+        raise ArgumentError.new ("Order does not exist")
+      else
+        return CSV.read('support/orders.csv')[line]
+      end
     end
 
 

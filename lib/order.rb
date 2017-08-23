@@ -23,6 +23,19 @@ module Grocery
         false
       end
     end
+
+    def remove_product(product_name)
+      @products.delete product_name
+    end
+
+    def product_keys
+      @products.keys
+    end
+
+    def self.all
+    end
+
+
   end
 
 end

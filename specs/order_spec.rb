@@ -76,34 +76,58 @@ describe "Order Wave 1" do
       result.must_equal true
     end
   end
+
+  describe "remove_product" do
+    #checks if number of products is one less
+    it "checks if removes product" do
+      products = {"frozen pizza" => 6.50, "cat food" => 7.00, "tissues" => 3.25, "The Game by Neil Strauss" => 12.50, "Best Brand lotion" => 2.00, "laundry detergent" => 8.50}
+      order = Grocery::Order.new(1337, products)
+      before_count = products.count
+      order.remove_product("laundry detergent")
+      expected_count = before_count - 1
+      order.products.count.must_equal expected_count
+    end
+    it "removes the correct item"
+    it "checks if removes product" do
+      products = {"frozen pizza" => 6.50, "cat food" => 7.00, "tissues" => 3.25, "The Game by Neil Strauss" => 12.50, "Best Brand lotion" => 2.00, "laundry detergent" => 8.50}
+      order = Grocery::Order.new(1337, products)
+      order.remove_product("laundry detergent")
+      order.products.keys.wont_include("laundry detergent")
+    end
+  end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
-  describe "Order.all" do
-    it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
-    end
-  end
-
-  describe "Order.find" do
-    it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
-    end
-  end
-end
+# xdescribe "Order Wave 2" do
+#   xdescribe "Order.all" do
+#     it "Returns an array of all orders" do
+#       # TODO: Your test code here!
+#       # Useful checks might include:
+#       #   - Order.all returns an array
+#       (Grocery::Order.all).must_be_instance_of Array
+#       #   - Everything in the array is an Order
+#       Grocery::Order.all.each must_be_instance_of Order
+#       #   - The number of orders is correct
+#       order1 = Grocery::Order.new(1337, {"frozen pizza" => 6.50, "cat food" => 7.00, "tissues" => 3.25, "The Game by Neil Strauss" => 12.50, "Best Brand lotion" => 2.00, "laundry detergent" => 8.50})
+#       order2 = Grocery::Order.new(3445, {"artisinal loaf" => 5.00, "peppered salami" => 4.25, "sheepsmilk gouda cheese" => 6.25, "cosmopolitan magazine" => 4.30, "grapes" => 4.67, "Cupcake Chardonnay" => 6.00})
+#       order3 = Grocery::Order.new(9203, {"National Enquirer" => 3.00, "Spaghetti in a can" => 0.50, "taco mix" => 1.25, "ground beast" => 7.34, "rice" => 2.00})
+#       #   - The ID and products of the first and last
+#       #       orders match what's in the CSV file
+#       # Feel free to split this into multiple tests if needed
+#     end
+#   end
+#
+#   xdescribe "Order.find" do
+#     it "Can find the first order from the CSV" do
+#       # TODO: Your test code here!
+#     end
+#
+#     it "Can find the last order from the CSV" do
+#       # TODO: Your test code here!
+#     end
+#
+#     it "Raises an error for an order that doesn't exist" do
+#       # TODO: Your test code here!
+#     end
+#   end
+# end

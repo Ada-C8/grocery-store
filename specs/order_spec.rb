@@ -145,11 +145,13 @@ describe "Order Wave 2" do
     it "first and last are same as csv" do
       orders_first = 	[1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
 
-      @orders.first.must_equal orders_first
+      @orders.first.id.must_equal orders_first[0]
+      @orders.first.products.must_equal orders_first[1]
 
       orders_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
 
-      @orders.last.must_equal orders_last
+      @orders.last.id.must_equal orders_last[0]
+      @orders.last.products.must_equal orders_last[1]
     end
 
       # TODO: Your test code here!

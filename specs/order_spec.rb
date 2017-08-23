@@ -125,24 +125,27 @@ end
 
 describe "Order Wave 2" do
   describe "Order.all" do
+    before do
+      @orders = Grocery::Order.all
+    end
     it "Returns an array of all orders" do
-      orders = Grocery::Order.all
 
-      orders.must_be_kind_of Array
+
+      @orders.must_be_kind_of Array
 
       10.times do
-        orders[rand(100)].must_be_kind_of Order
+        @orders[rand(100)].must_be_kind_of Order
       end
 
-      orders.length.must_equal 100
+      @orders.length.must_equal 100
 
       orders_first = 	[1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
 
-      orders.first.must_equal orders_first
+      @orders.first.must_equal orders_first
 
       orders_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
 
-      orders.last.must_equal orders_last
+      @orders.last.must_equal orders_last
 
 
       # TODO: Your test code here!

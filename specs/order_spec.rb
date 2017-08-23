@@ -160,17 +160,38 @@ describe "Order Wave 2" do
 
   end
 
-  xdescribe "Order.find" do
+  describe "Order.find" do
+
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      expected_id = 1
+      expected_products = { "Slivered Almonds" => 22.88,
+                          "Wholewheat flour" => 1.93,
+                          "Grape Seed Oil" => 74.9 }
+
+      first_order = Grocery::Order.find(1)
+      first_id = first_order.id
+      first_products = first_order.products
+
+      first_id.must_equal expected_id
+      first_products.must_equal expected_products
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      expected_id = 100
+      expected_products = { "Allspice" => 64.74,
+                            "Bran" => 14.72,
+                            "UnbleachedFlour" => 80.59 }
+
+      last_order = Grocery::Order.find(100)
+      last_id = last_order.id
+      last_products = last_order.products
+
+      last_id.must_equal expected_id
+      last_products.must_equal expected_products
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      Grocery::Order.find(500).must_be_nil
     end
   end
 end

@@ -134,7 +134,7 @@ describe "Order Wave 2" do
 
     it "Array is filled with Orders" do
       10.times do
-        @orders[rand(100)].must_be_kind_of Order
+        @orders[rand(100)].must_be_kind_of Grocery::Order
       end
     end
 
@@ -157,10 +157,10 @@ describe "Order Wave 2" do
       ##   - Order.all returns an array
       ##   - Everything in the array is an Order
       ##   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
+      ##   - The ID and products of the first and last
+      ##      orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
-    
+
   end
 end
 #   describe "Order.find" do

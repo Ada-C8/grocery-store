@@ -5,27 +5,59 @@ require 'minitest/skip_dsl'
 # TODO: uncomment the next line once you start wave 3
 # require_relative '../lib/customer'
 
-xdescribe "Customer" do
+describe "Customer" do
   describe "#initialize" do
+    before do
+      @customer = Customer.new(1,"leonard.rogahn@hagenes.org", ["71596 Eden Route", "Connellymouth", "LA", "98872-9105"])
+    end
     it "Takes an ID, email and address info" do
-      # TODO: Your test code here!
+      expected_id = 1
+      expected_email = "leonard.rogahn@hagenes.org"
+      expected_address = ["71596 Eden Route", "Connellymouth", "LA", "98872-9105"]
+
+      @customer.id.must_equal expected_id
+      @customer.email.must_equal expected_email
+      @customer.address.must_equal expected_address
     end
   end
 
   describe "Customer.all" do
+    before do
+      @all_customers = Grocery::Customer.all
+    end
     it "Returns an array of all customers" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Customer.all returns an array
-      #   - Everything in the array is a Customer
-      #   - The number of orders is correct
-      #   - The ID, email address of the first and last
-      #       customer match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      @all_customers.must_be_instance_of Array
+
+      @all_customers.each do |customer|
+        customers.must_be_instance_of Grocery::Customer
+      end
+
+      num_customers = 35 # num customers in csv file
+      @all_customers.length.must_equal num_customers
+    end
+
+    it "ID, email , and address of first customer match csv file" do
+      expected_id = 1
+      expected_email = "leonard.rogahn@hagenes.org"
+      expected_address = ["71596 Eden Route", "Connellymouth", "LA", "98872-9105"]
+
+      @all_customers.first.id.must_equal expected_id
+      @all_customers.first.email.must_equal expected_email
+      @all_customers.first.address.must_equal expected_address
+    end
+
+    it "ID, email , and address of last customer match csv file" do
+      expected_id = 35
+      expected_email = "rogers_koelpin@oconnell.org"
+      expected_address = ["7513 Kaylee Summit", "Uptonhaven", "DE", "64529-2614"]
+
+      @all_customers.last.id.must_equal expected_id
+      @all_customers.last.email.must_equal expected_email
+      @all_customers.last.address.must_equal expected_address
     end
   end
 
-  describe "Customer.find" do
+  xdescribe "Customer.find" do
     it "Can find the first customer from the CSV" do
       # TODO: Your test code here!
     end

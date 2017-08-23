@@ -119,14 +119,22 @@ describe "Order Wave 1" do
 
       result.must_equal true
       before_total.must_be :>, after_total
+      after_total.must_equal (1.99 + 4.25) + ((1.99 + 4.25) * 0.075).round(2)
     end
+
   end #end remove_products tests
 
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
+
   describe "Order.all" do
+
+    it "Can be called" do
+      Grocery::Order.must_respond_to :all
+    end
+
     it "Returns an array of all orders" do
       # TODO: Your test code here!
       # Useful checks might include:
@@ -136,10 +144,16 @@ xdescribe "Order Wave 2" do
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
+      Grocery::Order.all.must_be_kind_of Array
+
+      Grocery::Order.all.each do |ord|
+        ord.must_be_kind_of Grocery::Order
+      end
+
     end
   end
 
-  describe "Order.find" do
+  xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
     end

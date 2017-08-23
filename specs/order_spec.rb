@@ -148,11 +148,7 @@ describe "Order Wave 2" do
       orders[99].id.must_equal 100
       orders[99].products["UnbleachedFlour"].must_equal 80.59
       orders[99].products.key(64.74).must_equal "Allspice"
-
     end
-
-
-
       # TODO: Your test code here!
       # Useful checks might include:
       #   + Order.all returns an array
@@ -161,20 +157,21 @@ describe "Order Wave 2" do
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
-
   end
 
-  xdescribe "Order.find" do
+  describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      order = Grocery::Order.find_id('./support/orders.csv', 1)
+      order.id.must_equal 1
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      order = Grocery::Order.find_id('./support/orders.csv', 100)
+      order.id.must_equal 100
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Order.find_id('./support/orders.csv', 0)}.must_raise ArgumentError
     end
   end
 end

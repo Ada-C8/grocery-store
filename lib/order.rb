@@ -25,6 +25,12 @@ module Grocery
       return all
     end
 
+    def self.find(line)
+      return CSV.read('support/orders.csv')[line]
+
+    end
+
+
     def initialize(id, products)
       @id = id
       @products = products #as hashes with key of "product" and value of cost

@@ -126,7 +126,7 @@ end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
-  describe "Order.all" do
+  xdescribe "Order.all" do
     it "Returns an array of all orders" do
       Grocery::Order.all.must_be_kind_of Array
 
@@ -134,6 +134,7 @@ describe "Order Wave 2" do
 
       Grocery::Order.all.length.must_equal       CSV.read('support/orders.csv').length
     end
+
     it "Returns the ID and products of an order as from .csv data set" do
 
       #Testing for first CSV order
@@ -172,9 +173,9 @@ describe "Order Wave 2" do
   end
 end
 
-xdescribe "Order.find" do
+describe "Order.find" do
   it "Can find the first order from the CSV" do
-    # TODO: Your test code here!
+    Grocery::Order.find(0)[0].must_equal CSV.read('support/orders.csv')[0][0]
   end
 
   it "Can find the last order from the CSV" do

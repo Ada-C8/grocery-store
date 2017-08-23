@@ -1,11 +1,36 @@
+require 'csv'
+require 'pry'
+require 'awesome_print'
+
 module Grocery
   class Order
-    attr_reader :id, :products, :total
+    attr_reader :id, :products, :total, :all_orders, :orders
 
     def initialize(id, products)
       @id = id
       @products = products
     end
+
+
+
+    def self.all(file_name)
+      @orders = []
+      CSV.open(file_name, "r").each do |row|
+        @products = {}
+        @id = row[0].to_i
+        @product_list = row[1].split(";")
+        @product_list.each do |sep|
+          food_price_array = sep.split(":")
+          @products[food_price_array[0].to_s] = food_price_array[1].to_f
+        end
+        @orders << Grocery::Order.new(@id, @products)
+      end
+      return @orders
+    end
+
+  def self.find(id)
+
+  end
 
     def total
       sum = 0
@@ -13,7 +38,6 @@ module Grocery
         sum += price
       end
       total = sum + (sum * 0.075).round(2)
-
     end
 
     def add_product(product_name, product_price)
@@ -37,7 +61,9 @@ end
   end
 end
 
-# order1 = Grocery::Order.new(3131, {"banana" => 1.50, "apple" => 3.00})
+
+puts Grocery::Order.all("./support/orders.csv").class 
+
 #
 # puts order1.total
 #

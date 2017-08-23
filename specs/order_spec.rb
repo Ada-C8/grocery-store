@@ -110,7 +110,7 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
@@ -121,10 +121,20 @@ xdescribe "Order Wave 2" do
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
+      all = Grocery::Order.all
+
+      all.must_be_instance_of Array
+      all.each_index do |i|
+        all[i][0].must_equal "#{i + 1}"
+      end
+      all.length.must_equal 100
+      all[0].must_equal ["1", "Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
+      all[-1].must_equal ["100", "Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59"]
+
     end
   end
 
-  describe "Order.find" do
+  xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
     end

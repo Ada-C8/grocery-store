@@ -1,10 +1,33 @@
+require 'csv'
+
+# orders = []
+# CSV.open("../support/orders.csv", "r").each do |row|
+#     orders << row
+# end
+#
+# p orders[3][1..-1]
+
 module Grocery
+
   class Order
     attr_reader :id, :products
 
     def initialize(id, products)
       @id = id
       @products = products
+    end
+
+    def self.all
+      all = []
+      CSV.open("../support/orders.csv", "r").each do |row|
+          all << row
+      end
+      return all
+    end
+
+    def self.find(id)
+      all
+      return all[id - 1]
     end
 
     def total

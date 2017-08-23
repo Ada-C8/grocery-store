@@ -125,8 +125,8 @@ describe "Order Wave 2" do
   describe "Order.all" do
     #   - Everything in the array is an Order
     it "Returns an array of all orders" do
-      @orders.each do |i|
-        @orders[i].must_be_kind_of Grocery::Order
+      @orders.each do |order|
+        order.must_be_kind_of Grocery::Order
       end
     end
     #   - Order.all returns an array

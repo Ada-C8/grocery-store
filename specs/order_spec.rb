@@ -151,18 +151,33 @@ describe "Order Wave 2" do
       end
 
     end
+
+    it "Includes all orders in the csv file" do
+       Grocery::Order.all.count.must_equal 100
+    end
+
+    # it "Matches the information of orders in the CSV file"
+    #   all_orders = Grocery::Order.all
+    #
+    #   all_orders[0].id.
+    # end
+
+
   end
 
-  xdescribe "Order.find" do
+  describe "Order.find" do
     it "Can find the first order from the CSV" do
+      Grocery::Order.find(1).must_be_instance_of Grocery::Order
+      order1_products = {"Slivered Almonds"=>22.88, "Wholewheat flour"=>1.93,"Grape Seed Oil"=>74.9}
+
+      Grocery::Order.find(1).products.must_equal order1_products
+    end
+
+    xit "Can find the last order from the CSV" do
       # TODO: Your test code here!
     end
 
-    it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    it "Raises an error for an order that doesn't exist" do
+    xit "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
     end
   end

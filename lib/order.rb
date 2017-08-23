@@ -40,10 +40,19 @@ module Grocery
 
     end
 
-    # def self.find(id)
-    #   #reutnrs an instance of Order where the value of the id field in the CSV
-    #   #matches the passed parameter
-    # end
+    def self.find(id)
+      #reutnrs an instance of Order where the value of the id field in the CSV
+      #matches the passed parameter
+
+      self.all.each do |order|
+        if order.id == id
+          return order
+        else
+          return "Sorry, we don't have a matching order for that ID number"
+        end
+      end
+
+    end
 
     def total
       # TODO: implement total

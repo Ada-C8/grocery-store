@@ -175,13 +175,18 @@ end
 
 describe "Order.find" do
   it "Can find the first order from the CSV" do
-    Grocery::Order.find(0).must_equal CSV.read('support/orders.csv')[0]
+    Grocery::Order.find(0).must_be_kind_of Grocery::Order
+
+    Grocery::Order.find(0).id.must_equal CSV.read('support/orders.csv')[0][0]
   end
 
-  it "Can find the last order from the CSV" do
-    Grocery::Order.find(-1).must_equal CSV.read('support/orders.csv')[-1]
+  xit "Can find the last order from the CSV" do
+    Grocery::Order.find(-1)[0].must_equal CSV.read('support/orders.csv')[-1][0]
+
+    #TODO: Make sure it's returning an Order object
+
   end
 
-  it "Raises an error for an order that doesn't exist" do
+  xit "Raises an error for an order that doesn't exist" do
       proc {Grocery::Order.find(Grocery::Order.all.length)}.must_raise ArgumentError  end
 end

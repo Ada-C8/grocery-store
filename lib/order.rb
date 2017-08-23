@@ -6,11 +6,11 @@ module Grocery
 
   class Order
     attr_reader :id, :products, :no_orders
-    attr_accessor :all, :order_data
+    attr_accessor :all
 
     # Class methods
     def self.all
-      all = Array.new
+      @all = Array.new
       CSV.open('support/orders.csv', 'r+').each do |row_order|
         #array format to hash
         id = row_order[0]
@@ -19,20 +19,20 @@ module Grocery
         row_items.each do |pair| #Slivered Almonds:22.88
           products << {pair.to_s.partition(":").first.to_s => pair.to_s.partition(":").last}
         end
-        all << Order.new(id,products)
+        @all << Order.new(id,products)
       end
 
-      return all
+      return @all
     end
 
     def self.find(line)
-      if CSV.read('support/orders.csv')[line] == nil
+      self.all
+      if @all[line] == nil
         raise ArgumentError.new ("Order does not exist")
       else
-        return CSV.read('support/orders.csv')[line]
+        return @all[line]
       end
     end
-
 
     def initialize(id, products)
       @id = id

@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require 'csv'
 
 # TODO: uncomment the next line once you start wave 3
 require_relative '../lib/online-order'
@@ -26,7 +27,7 @@ describe "OnlineOrder" do
       zip_code: "98001"
     }
     @customer = Grocery::Customer.new(id,email,address)
-    @online_order = Grocery::OnlineOrder.new(@id_order, @products, @customer, status: :completed)
+    @online_order = Grocery::OnlineOrder.new(@id_order, @products, @customer, status: :complete)
     @online_order_status = Grocery::OnlineOrder.new(@id_order, @products, @customer)
   end
   describe "#initialize" do
@@ -39,11 +40,11 @@ describe "OnlineOrder" do
     it "Can access Customer object" do
       @online_order.customer.must_be_instance_of Grocery::Customer
       # @oline_order.customer.id.must_equal 101
-      proc{Grocery::OnlineOrder.new(@id_order,@products,"averi", status: :completed)}.must_raise ArgumentError
+      proc{Grocery::OnlineOrder.new(@id_order,@products,"averi", status: :complete)}.must_raise ArgumentError
     end
 
     it "Can access the online order status" do
-      @online_order.status.must_equal :completed
+      @online_order.status.must_equal :complete
       online_order2 = Grocery::OnlineOrder.new(@id_order,@products,@customer)
       online_order2.status.must_equal :pending
       proc{Grocery::OnlineOrder.new(@id_order,@products,@customer, status: :trying)}.must_raise ArgumentError
@@ -58,14 +59,14 @@ describe "OnlineOrder" do
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      order = Grocery::OnlineOrder.new(@id_order, {}, @customer, status: :completed)
+      order = Grocery::OnlineOrder.new(@id_order, {}, @customer, status: :complete)
       order.total.must_equal 0
     end
   end
 
   describe "#add_product" do
-    it "Does not permit action for processing, shipped or completed statuses" do
-      [:processing, :shipped, :completed].each do |status|
+    it "Does not permit action for processing, shipped or complete statuses" do
+      [:processing, :shipped, :complete].each do |status|
         online_order = Grocery::OnlineOrder.new(@id_order, @products, @customer, status: status)
         proc{online_order.add_product("chicken",7.02)}.must_raise ArgumentError
       end
@@ -83,7 +84,7 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "OnlineOrder.all" do
+  describe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
       # TODO: Your test code here!
       # Useful checks might include:
@@ -93,12 +94,41 @@ describe "OnlineOrder" do
       #   - The customer is present
       #   - The status is present
       # Feel free to split this into multiple tests if needed
+      customer_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/customers.csv")
+      order_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/online_orders.csv")
+      online_orders = Grocery::OnlineOrder.all(customer_csv,order_csv)
+      online_orders.must_be_instance_of Array
+
+      online_orders.each do |order|
+        order.must_be_instance_of Grocery::OnlineOrder
+      end
+
+      online_orders.length.must_equal order_csv.length
+
+      online_orders[0].must_respond_to :customer
+      online_orders[0].must_respond_to :status
+
+      online_orders[-1].status.must_equal :pending
+
+    end
+  end
+
+  describe "OnlineOrder.find" do
+    it "returns the online order with correct id" do
+
+    customer_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/customers.csv")
+    order_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/online_orders.csv")
+    Grocery::OnlineOrder.find(customer_csv, order_csv, 1).must_be_instance_of Grocery::OnlineOrder
+
+    online_order1 = Grocery::OnlineOrder.find(customer_csv, order_csv, 1)
+    order_first = {"Lobster" => 17.18,"Annatto seed"=>58.38,"Camomile"=>83.21}
+    online_order1.products.must_equal order_first
     end
   end
 
   xdescribe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+    # TODO: Your test code here!
     end
   end
 end

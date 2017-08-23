@@ -118,7 +118,7 @@ end
 describe "Order Wave 2" do
   describe "Initializing from the CSV" do
     it "Can create an order from a line of the CSV as input" do
-      order = Grocery::Order.new("1,Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9")
+      order = Grocery::Order.new(["1","Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"])
       order.class.must_equal Grocery::Order
     end
   end

@@ -46,6 +46,7 @@ module Grocery
     end
 
     def self.read(filename)
+      @@orders = []
       CSV.foreach(filename) do |line|
         self.new(line)
       end
@@ -65,10 +66,3 @@ module Grocery
   end # class Order
 
 end # module Grocery
-
-
-# Grocery::Order.read(File.expand_path('../..', __FILE__) + '/support/orders.csv')
-# puts Grocery::Order.all
-
-# Grocery::Customer.read(File.expand_path('../..', __FILE__) + "/support/customers.csv")
-# puts Grocery::Customer.all

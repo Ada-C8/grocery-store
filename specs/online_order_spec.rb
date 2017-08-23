@@ -18,7 +18,7 @@ describe "OnlineOrder" do
     end
 
     it "Can access the online order status" do
-      OnlineOrder.find(1).status.must_equal "complete"
+      OnlineOrder.find(1).status.must_equal :complete
     end
   end
 
@@ -27,41 +27,60 @@ describe "OnlineOrder" do
       Grocery::Customer.read(File.expand_path('../..', __FILE__) + "/support/customers.csv")
       @online_order = OnlineOrder.new(["1","Lobster:17.18;Annatto seed:58.38;Camomile:83.21","25","complete"])
     end
-    xit "Adds a shipping fee" do
-
+    it "Adds a shipping fee" do
+      @online_order.total.must_equal ((17.18 + 58.38 + 83.21) * 1.075).round(2) + 10
     end
 
-    xit "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
+    it "Doesn't add a shipping fee if there are no products" do
+      new_order = OnlineOrder.new(["1","","25","complete"])
+      new_order.total.must_equal 0
     end
   end
 
-  xdescribe "#add_product" do
+  describe "#add_product" do
+    before do
+      Grocery::Customer.read(File.expand_path('../..', __FILE__) + "/support/customers.csv")
+    end
     it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
+      online_order = OnlineOrder.new(["1","Lobster:17.18;Annatto seed:58.38;Camomile:83.21","25","complete"])
+      proc {online_order.add_product("sandwich",100)}.must_raise ArgumentError
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      ["paid","pending"].each do |status|
+        online_order = OnlineOrder.new(["1","Lobster:17.18;Annatto seed:58.38;Camomile:83.21","25",status])
+        online_order.add_product("sandwich",100).must_equal true
+      end
     end
   end
 
-  xdescribe "OnlineOrder.all" do
+  describe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
+      Grocery::Customer.read(File.expand_path('../..', __FILE__) + "/support/customers.csv")
+      OnlineOrder.read(File.expand_path('../..', __FILE__) + "/support/online_orders.csv")
       # TODO: Your test code here!
       # Useful checks might include:
-      #   - OnlineOrder.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
       #   - The customer is present
       #   - The status is present
       # Feel free to split this into multiple tests if needed
+      OnlineOrder.all.class.must_equal Array
+      OnlineOrder.all.length.must_equal 100
+      OnlineOrder.all.each do |order|
+        order.class.must_equal OnlineOrder
+        order.customer.class.must_equal Grocery::Customer
+        order.status.must_be_instance_of Symbol
+      end
     end
   end
 
   xdescribe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+      Grocery::Customer.read(File.expand_path('../..', __FILE__) + "/support/customers.csv")
+      OnlineOrder.read(File.expand_path('../..', __FILE__) + "/support/online_orders.csv")
+      OnlineOrder.find_by_customer(25).must_be_instance_of Array
+      OnlineOrder.find_by_customer(25).each do |order|
+        order.must_be_instance_of OnlineOrder
+      end
     end
   end
 end

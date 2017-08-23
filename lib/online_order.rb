@@ -6,7 +6,11 @@ class OnlineOrder < Grocery::Order
   def initialize(csv_line)
     super
     @customer = Grocery::Customer.find(csv_line[2].to_i)
-    @status = csv_line[3]
+    if csv_line[3] == ""
+      @status = :pending
+    else
+      @status = csv_line[3].to_sym
+    end
   end
 
   def total
@@ -15,21 +19,19 @@ class OnlineOrder < Grocery::Order
     return shipping_total
   end
 
+  def add_product(product_name, product_price)
+    raise ArgumentError.new("The order status must be paid or pending") unless [:paid, :pending].include?(self.status)
+    if @products.keys.include?(product_name)
+      return false
+    else
+      @products[product_name] = product_price
+      return true
+    end
+  end
+
   def self.find_by_customer(number)
     customer_orders = @@orders.size.times.select {|i| @@orders[i].customer.id == number}
-    if customer_orders.length == 0
-      raise ArgumentError.new("This customer hasn't placed any orders")
-    else
-      str = "Customer #{number} ordered:\n"
-      customer_orders.each do |index|
-        str += "Online Order ID: #{@@orders[index].id}\n"
-      end
-    end
-    return str
+    return customer_orders
   end
 
 end
-
-# Grocery::Customer.read(File.expand_path('../..', __FILE__) + "/support/customers.csv")
-#
-# OnlineOrder.read(File.expand_path('../..', __FILE__) + '/support/online_orders.csv')

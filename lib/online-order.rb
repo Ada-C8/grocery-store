@@ -77,5 +77,16 @@ module Grocery
       return order_to_return
     end
 
+    def self.find_by_customer(customer_file,csv_file,id_lookup)
+      orders_to_return = []
+      array_of_orders = self.all(customer_file,csv_file)
+      array_of_orders.each do |order|
+        if order.customer.id == id_lookup
+          orders_to_return << order
+        end
+      end
+      return orders_to_return
+    end
+
   end # end class
 end #end module

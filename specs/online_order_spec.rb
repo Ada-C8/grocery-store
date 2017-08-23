@@ -126,9 +126,17 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "OnlineOrder.find_by_customer" do
+  describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-    # TODO: Your test code here!
+      customer_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/customers.csv")
+      order_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/online_orders.csv")
+
+      Grocery::OnlineOrder.must_respond_to :find_by_customer
+
+      orders = Grocery::OnlineOrder.find_by_customer(customer_csv, order_csv, 10)
+      orders.must_be_instance_of Array
+      orders[0].must_be_instance_of Grocery::OnlineOrder
+      orders[0].id.must_equal 2
     end
   end
 end

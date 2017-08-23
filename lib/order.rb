@@ -1,26 +1,52 @@
 require 'csv'
+
 module Grocery
+
+def isabel
+  return "cute doge"
+end
 
   class Order
     attr_reader :id, :products
 
     @@all_orders = []
-    def load_data
+    def self.all
       @@all_orders.replace([])
       CSV.read('../support/orders.csv').each do |row|
-        @@all_orders.push(row)
-      end
-    end
-    # def guille
-    #   return @name
-    # end
+        id = row[0]
+        products_hash = {}
+        product_row = row[1].split(";")
+        product_row.each do |pair|
+          pairs = pair.split(":")
+          products_hash[pairs[0]] = pairs[1]
+        end # end of product_row
+        @@all_orders.push(Grocery::Order.new(id, products_hash))
+      end #end of csv
+      return @@all_orders
+    end # end of load_data
+
     def initialize(id, products = 0)
       @id = id
       @products = products
-      CSV.read('../support/orders.csv').each do |row|
-        @@all_orders.push(row)
-      end
     end
+    # def initialize(id, products = 0)
+    #   @id = id
+    #   @products = products
+    #   @@all_orders.replace([])
+    #   product_hash = {}
+    #   CSV.read('../support/orders.csv').each do |row|
+    #     @@all_orders.push(row)
+    #     @id = row[0]
+    #     product_row = row[1].split(";")
+    #     product_row.each do |pair|
+    #       pairs = pair.split(":")
+    #       pairs.each do |product_price|
+    #         product_hash[product_price[0]] = product_price[1]
+    #       end # end of pairs
+    #     end # end of product_row
+    #   end #end of csv
+    #   @products = @product_hash
+    # end
 
     def total
       sum = 0
@@ -47,8 +73,8 @@ module Grocery
         return true
       end
     end
-  def self.all
-    return @@all_orders
-  end
+  # def self.all
+  #   return @@all_orders
+  # end
   end # end of Order class
 end # end of Grocery module

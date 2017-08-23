@@ -116,24 +116,37 @@ describe "Order Wave 1" do
 
 end # order wave 1
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
+  before do
+    @orders = Grocery::Order.all
+  end
+  # id  is going to be an integer first index in array
+  # second thing in the array is going to be a hash of products and prices
+  # products are keys
+  # prices are values
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      @orders.must_be_kind_of Array
     end
+    it "The number of orders is correct" do
+      @orders.length.must_equal 100
+    end
+    it "Everything in the array is an Order" do
+      10.times do
+        @orders[rand(100)].must_be_instance_of Grocery::Order
+      end
+    end
+    it "The ID and products of the first and last" do
+      orders_first = [1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
+      @orders.first.must_equal orders_first
+    end
+
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+      CSV
     end
 
     it "Can find the last order from the CSV" do

@@ -1,46 +1,42 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require_relative '../lib/online_order'
 
-# TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/online_order'
-# You may also need to require other classes here
-
-# Because an OnlineOrder is a kind of Order, and we've
-# already tested a bunch of functionality on Order,
-# we effectively get all that testing for free! Here we'll
-# only test things that are different.
-
-xdescribe "OnlineOrder" do
+describe "OnlineOrder" do
   describe "#initialize" do
+    before do
+      Grocery::Customer.read(File.expand_path('../..', __FILE__) + "/support/customers.csv")
+      @online_order = OnlineOrder.new(["1","Lobster:17.18;Annatto seed:58.38;Camomile:83.21","25","complete"])
+    end
     it "Is a kind of Order" do
-      # Check that an OnlineOrder is in fact a kind of Order
-
-      # Instatiate your OnlineOrder here
-      # online_order =
-      # online_order.must_be_kind_of Grocery::Order
+      @online_order.must_be_kind_of Grocery::Order
     end
 
     it "Can access Customer object" do
-      # TODO: Your test code here!
+      @online_order.customer.class.must_equal Grocery::Customer
     end
 
     it "Can access the online order status" do
-      # TODO: Your test code here!
+      OnlineOrder.find(1).status.must_equal "complete"
     end
   end
 
   describe "#total" do
-    it "Adds a shipping fee" do
-      # TODO: Your test code here!
+    before do
+      Grocery::Customer.read(File.expand_path('../..', __FILE__) + "/support/customers.csv")
+      @online_order = OnlineOrder.new(["1","Lobster:17.18;Annatto seed:58.38;Camomile:83.21","25","complete"])
+    end
+    xit "Adds a shipping fee" do
+
     end
 
-    it "Doesn't add a shipping fee if there are no products" do
+    xit "Doesn't add a shipping fee if there are no products" do
       # TODO: Your test code here!
     end
   end
 
-  describe "#add_product" do
+  xdescribe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
       # TODO: Your test code here!
     end
@@ -50,7 +46,7 @@ xdescribe "OnlineOrder" do
     end
   end
 
-  describe "OnlineOrder.all" do
+  xdescribe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
       # TODO: Your test code here!
       # Useful checks might include:
@@ -62,8 +58,8 @@ xdescribe "OnlineOrder" do
       # Feel free to split this into multiple tests if needed
     end
   end
-  
-  describe "OnlineOrder.find_by_customer" do
+
+  xdescribe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!
     end

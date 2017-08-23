@@ -136,8 +136,9 @@ describe "Order Wave 2" do
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
-      Grocery::read(@file)
+      Grocery::Order.read(@file)
       Grocery::Order.all.class.must_equal Array
+      Grocery::Order.all.length.must_equal 100
     end
   end
 
@@ -147,21 +148,21 @@ describe "Order Wave 2" do
     end
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
-      Grocery::read(@file)
+      Grocery::Order.read(@file)
       Grocery::Order.find(1).class.must_equal Grocery::Order
       Grocery::Order.find(1).products.must_equal({"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9})
     end
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
-      Grocery::read(@file)
+      Grocery::Order.read(@file)
       Grocery::Order.find(100).class.must_equal Grocery::Order
       Grocery::Order.find(100).products.must_equal({"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59})
     end
 
     it "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
-      Grocery::read(@file)
+      Grocery::Order.read(@file)
       proc {Grocery::Order.find(500)}.must_raise ArgumentError
     end
   end

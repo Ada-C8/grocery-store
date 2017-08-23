@@ -1,14 +1,17 @@
 require 'csv'
 
-
 module Grocery
 
+  require_relative './customer.rb'
+
   class Order
+
     attr_reader :id, :products
 
     @@orders = []
 
     def initialize(csv_line)
+      raise ArgumentError.new("The input must be an array") if csv_line.class != Array
       @id = csv_line[0].to_i
       products_array = csv_line[1].split(";")
       @products= Hash.new(0)
@@ -42,6 +45,12 @@ module Grocery
       end
     end
 
+    def self.read(filename)
+      CSV.foreach(filename) do |line|
+        self.new(line)
+      end
+    end
+
     def self.all
       return @@orders
     end
@@ -55,13 +64,11 @@ module Grocery
 
   end # class Order
 
-  def self.read(filename)
-    lines = CSV.open(filename, 'r').read
-    lines.each do |line|
-      Order.new(line)
-    end
-  end
-
 end # module Grocery
 
-Grocery::read(File.expand_path('../..', __FILE__) + '/support/orders.csv')
+
+# Grocery::Order.read(File.expand_path('../..', __FILE__) + '/support/orders.csv')
+# puts Grocery::Order.all
+
+# Grocery::Customer.read(File.expand_path('../..', __FILE__) + "/support/customers.csv")
+# puts Grocery::Customer.all

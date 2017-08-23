@@ -5,9 +5,8 @@ module Grocery
 
     def initialize(id, products)
       @id = id
-      @id.is_a? Integer
       @products = products
-      @products.length == 0
+
     end
 
     def total

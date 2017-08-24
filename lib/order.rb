@@ -2,50 +2,6 @@ require 'csv'
 
 module Grocery
 
-  class Grocery_Records
-    attr_reader
-
-    def initialize
-      @file_name = ""
-    end
-
-    def read_csv(file_name)
-      array_of_all_orders =[]
-      CSV.open(file_name, 'r').each do |line|
-        #divide the cvs file into the order number, and the products
-        order_id = line[0]
-        order_contents = line[1]
-        order_contents = order_contents.split(";")
-        order_contents.to_s.delete("\,")
-        order_contents.to_s.delete(" \" ")
-
-
-        products = Hash.new
-        item_index = 0
-        order_contents.each do |items|
-          current_item = order_contents[item_index]
-          item_name = current_item.to_s.split("\:")[0]
-          item_cost = current_item.to_s.split("\:")[1].to_f
-          item_index = item_index + 1
-
-
-          #make a hashes for all items in order
-          #ex. ({name1 => cost 1}, {name2 => cost 2})
-          products[item_name] = item_cost
-          products
-        end
-        # make an array with the order id and the products
-        #ex. (order id, ({name1 => cost 1}, {name2 => cost 2}))
-        current_order = [order_id, products]
-        #make an array of all the orders
-        array_of_all_orders << current_order
-      end
-      array_of_all_orders
-    end
-
-  end #end of class
-
-
   class Order
     attr_reader :id, :products
 
@@ -55,13 +11,40 @@ module Grocery
     end
 
     def self.all
-      collection_of_orders=[]
-      new_database = Grocery_Records.new
-      records= new_database.read_csv("support/orders.csv")
-      records.each do |order|
-        collection_of_orders << Order.new(order[0], order[1])
+      csv_array_of_all_orders = []
+      #1: Read the csv file
+      CSV.open("support/orders.csv", 'r').each do |line|
+        #1A: divide the cvs file into the order number, and the products
+        order_id = line[0]
+        order_contents = line[1]
+        order_contents = order_contents.split(";")
+        order_contents.to_s.delete("\,")
+        order_contents.to_s.delete(" \" ")
+        #1B. Make hashes for all items in order
+        #ex. {name1 => cost 1}
+        products = Hash.new
+        item_index = 0
+        order_contents.each do |items|
+          current_item = order_contents[item_index]
+          item_name = current_item.to_s.split("\:")[0]
+          item_cost = current_item.to_s.split("\:")[1].to_f
+          item_index = item_index + 1
+          products[item_name] = item_cost
+        end
+        # 1C: make an array with the order id, product hash
+        #ex. (order id, ({name1 => cost 1})
+        current_order = [order_id, products]
+        #1D: make an array of the arrays of order id and product hash
+        #ex. ((order_id_1, ({name1 => cost 1}),(order_id_2, ({name2 => cost 2}))
+        csv_array_of_all_orders << current_order
       end
-      return collection_of_orders
+      #2. pass the array of arrays of (order id, product hash) into the
+      # Order.new command to make an array of Orders
+      collection_of_order_objects = []
+      csv_array_of_all_orders.each do |order|
+        collection_of_order_objects << Order.new(order[0], order[1])
+      end
+      return collection_of_order_objects
     end
 
     def self.find(order_id)
@@ -105,3 +88,15 @@ module Grocery
 
   end #end  class Order
 end #end module Grocery
+#
+
+# new_orders = Grocery::Order.all
+# csv = CSV.open("../support/orders.csv", 'r')
+# puts csv.class
+
+#
+my_order = Grocery::Order.find(1)
+puts my_order.id
+puts my_order.products
+# puts coll_of_orders[0].products.class
+# puts coll_of_orders[0].products.class

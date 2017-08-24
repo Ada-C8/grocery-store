@@ -1,4 +1,5 @@
 require 'csv'
+require 'ap'
 
 # og code using hash products
 module Grocery
@@ -38,7 +39,7 @@ module Grocery
 
     def self.all
       orders = []
-      CSV.open("support/orders.csv", 'r').each do |line|
+      CSV.open("../support/orders.csv", 'r').each do |line|
         id = line[0].to_i
         # line[1] = line[1].split(';')
         # line[1] = line[1].gsub!':' '=>'
@@ -73,3 +74,7 @@ module Grocery
     end
   end
 end
+
+
+
+# ap Grocery::Order.find(4).products

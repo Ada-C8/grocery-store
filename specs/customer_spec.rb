@@ -3,11 +3,19 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 # TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/customer'
+require_relative '../lib/customer'
 
 xdescribe "Customer" do
   describe "#initialize" do
     it "Takes an ID, email and address info" do
+      alice = Grocery::Customer.new(id, email, address)
+
+      alice.must_be_kind_of Customer
+
+      alice.id.must_equal id
+      alice.email.must_equal email
+      alice.address.must_equal email
+
       # TODO: Your test code here!
     end
   end

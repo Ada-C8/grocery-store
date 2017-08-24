@@ -154,8 +154,16 @@ describe "Order Wave 2" do
       @orders.last.products.must_equal orders_last[1]
     end
 
-    #price floats aren't rounding to 2 decimal places - fix.
-    
+    # # when printing prices 12.00 prints 12.0 - will this be a problem?
+    # # this test doesn't work...
+    # it "price floats round to 2 decimal places" do
+    #   @orders.each do |order|
+    #     order.products.values.each do |price|
+    #       price.must_equal (price * 100)/100
+    #     end
+    #   end
+    # end
+
       # TODO: Your test code here!
       # Useful checks might include:
       ##   - Order.all returns an array
@@ -183,6 +191,7 @@ describe "Order Wave 2" do
 
     it "Raises an error for an order that doesn't exist" do
       proc {Grocery::Order.find(300)}.must_raise ArgumentError
+      # what the hell is proc?
       # TODO: Your test code here!
 
 

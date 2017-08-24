@@ -32,6 +32,7 @@ module Grocery
     #   raise ArgumentError.new("Invalid suit: #{suit}")
     # end
 
+    #find a way to do a class variable 
     def self.find(id_input)
       orders = Order.all
       counter = 0
@@ -41,7 +42,8 @@ module Grocery
           return order
         end
       end
-      if counter == o
+      if counter == 0
+        raise ArgumentError.new("Invalid order number - order does not exist")
       end
     end
 

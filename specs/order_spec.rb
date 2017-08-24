@@ -104,26 +104,45 @@ describe "Order Wave 2" do
     end
 
     it "Returns an array of orders that is the right length" do
-      order = Grocery::Order.count
-      order.must_equal true
+
+      order = Grocery::Order.all
+      result = order.length
+      result2 = Grocery::Order.line_count
+      result.must_equal result2
+      result.must_be :>, 0
+
     end
 
     it "Returns an array of Orders" do
-      order = Grocery::Order.order_objects
-      order.must_equal true
+      order = Grocery::Order.all
+      order.each do |order|
+        order.must_be_instance_of Grocery::Order
+      end
+    end
+
+    it "Checks if first id and products match CSV file" do
+      order = Grocery::Order.all
+      read_csv = CSV.read("support/orders.csv")
+      firstid = read_csv[0][0]
+      #HOW DO I GET TO THE ID OF A PARTICULAR OBJECT
+      object_array = Grocery::Order.order_objects
+      id = object_array[0].id
+      id.must_equal firstid
     end
 
    end
 
-
+  #
   describe "Order.find" do
-    it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-    end
+  #   it "Can find the first order from the CSV" do
+  #     order = Grocery::Order.find(1)
+  #     order.must_equal true
+  #   end
+  #
+  #   it "Can find the last order from the CSV" do
+  #     order = Grocery::Order.find(100)
+  #     order.must_equal true
+  #   end
 
     it "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!

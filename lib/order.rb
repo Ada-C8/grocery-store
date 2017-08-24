@@ -5,6 +5,8 @@ module Grocery
     attr_reader :id
     attr_accessor :products
 
+    # @@all_orders
+
     def initialize(id, products)
       @id = id
       @products = products
@@ -24,6 +26,23 @@ module Grocery
         orders << self.new(id, products_hash)
       end
       return orders
+    end
+
+    # unless LEGAL_SUITS.include? suit
+    #   raise ArgumentError.new("Invalid suit: #{suit}")
+    # end
+
+    def self.find(id_input)
+      orders = Order.all
+      counter = 0
+      orders.each do |order|
+        if order.id == id_input
+          counter += 1
+          return order
+        end
+      end
+      if counter == o
+      end
     end
 
     def total

@@ -8,7 +8,6 @@ module Grocery
     def initialize(id, products)
       @id = id
       @products = products
-      @orders = []
     end
 
     #imports orders in from CSV
@@ -16,20 +15,28 @@ module Grocery
       orders_array = []
       CSV.read('./support/orders.csv').each do |row|
         products_array = []
+        #or I can use an empty hash like products_hash = {}
         products_colon = row[1].split(";")
         products_colon.each do |e|
           k = e.split(":").first
           v = e.split(":").last
           products_array << {k => v}
+          #products_hash.merge({k => v})
         end
-        orders_array << {row[0] => products_array}
+        orders_array << Order.new(row[0], products_array) # this wouldbe products_hash as second argument
       end
-      # print orders_array
+      return orders_array
     end
 
-    # def self.find(id)
-    #   Wave 2 TBD
-    # end
+    def self.find(id)
+      #if id > 1 && id <@orders_array.length
+        Orders.all.each do |order|
+          if order.id == id
+            return order
+          end
+        end
+        return nil
+    end
 
     def total
       # TO DO: implement total

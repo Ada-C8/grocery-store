@@ -3,7 +3,6 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
 
-
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 describe "Order Wave 1" do
@@ -111,9 +110,21 @@ describe "Order Wave 2" do
       orders.length.must_equal  100
     end
 
-    xit "Returns correct 1st order" do
+    it "Returns correct order number of 1st order" do
       orders = Grocery::Order.all
-      orders["1"].must_equal [{"Slivered Almonds"=>"22.88"}, {"Wholewheat flour"=>"1.93"}, {"Grape Seed Oil"=>"74.9"}]
+      orders[0].id.must_equal "1"
+    end
+
+    it "Returns correct products from 1st order" do
+      orders = Grocery::Order.all
+      orders[0].products.must_equal [{"Slivered Almonds"=>"22.88"}, {"Wholewheat flour"=>"1.93"}, {"Grape Seed Oil"=>"74.9"}]
+    end
+
+
+    it "Returns correct number of products from 1st order" do
+      orders = Grocery::Order.all
+      orders[0].products.length.must_equal
+      3
     end
 
     xit "Returns correct last order" do

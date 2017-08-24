@@ -7,6 +7,9 @@ require 'pry'
 require_relative '../lib/customer'
 
 describe "Customer" do
+  before do
+    @customers = Grocery::Customer.all
+  end
   describe "#initialize" do
     it "Takes an ID, email and address info" do
       id = 5
@@ -28,9 +31,6 @@ describe "Customer" do
   end
 
   describe "Customer.all" do
-    before do
-      @customers = Grocery::Customer.all
-    end
     it "Returns an array" do
       @customers.must_be_kind_of Array
     end
@@ -71,9 +71,9 @@ describe "Customer" do
     end
 
     it "Can find the last customer from the CSV" do
-      Grocery::Customer.find(100).id.must_equal @customers.last.id
-      Grocery::Customer.find(100).email.must_equal @customers.last.email
-      Grocery::Customer.find(100).address.must_equal @customers.last.address
+      Grocery::Customer.find(35).id.must_equal @customers.last.id
+      Grocery::Customer.find(35).email.must_equal @customers.last.email
+      Grocery::Customer.find(35).address.must_equal @customers.last.address
 
       # TODO: Your test code here!
     end

@@ -2,8 +2,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
-# TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/customer'
+require_relative '../lib/customer'
 
 xdescribe "Customer" do
   describe "#initialize" do

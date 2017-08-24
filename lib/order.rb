@@ -17,9 +17,9 @@ module Grocery
   class Order
     attr_reader :id, :products
     #Need to allow 0 product to be entered
-    #if I make this a class variable then the 'it "will contain the right numnber of orders"' test doesn't pass (it shows too many orders). Hoever, I am really not sure what kind variable to make @all_orders so that I can both access the variable in the self.find method, and it won't be modified when I don't want it to be. Right now I am getting around this by resetting @all_orders to and empty array every time self.all is run. 
+    #if I make this a class variable then the 'it "will contain the right numnber of orders"' test doesn't pass (it shows too many orders). Hoever, I am really not sure what kind variable to make @@all_orders so that I can both access the variable in the self.find method, and it won't be modified when I don't want it to be. Right now I am getting around this by resetting @@all_orders to and empty array every time self.all is run.
 
-    @all_orders = []
+    @@all_orders = []
 
     def initialize(id, products)
       @id = id
@@ -53,7 +53,7 @@ module Grocery
     def self.all
       #method that will return an array of all the orders
       #the numnber of orders in the array is correct,
-        @all_orders = []
+        @@all_orders = []
       CSV.open("support/orders.csv", 'r').each do |line|
         id = line[0]
         order_products = {}
@@ -65,18 +65,18 @@ module Grocery
         end
 
         products = order_products
-        @all_orders << Grocery::Order.new(id, products)
+        @@all_orders << Grocery::Order.new(id, products)
 
       end
 
-      return @all_orders
+      return @@all_orders
     end #all
 
     def self.find(order_id)
       #self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
       # all_orders = []
       # self.all
-      @all_orders.each do |order|
+      @@all_orders.each do |order|
         if order.id == order_id
           return order.products
         end

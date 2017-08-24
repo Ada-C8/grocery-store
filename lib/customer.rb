@@ -26,5 +26,21 @@ module Grocery
       end
       return customers
     end
+
+    def self.find(id)
+      customers = self.all
+      # logic error:
+      until (1..customers.length).include?(id) #&& (id.kind_of? Integer)
+        raise ArgumentError.new("Invalid id: #{id}")
+      end
+
+      found_customer = nil
+      customers.each do |customer|
+        if customer.id == id
+          found_customer = customer
+        end
+      end
+      return found_customer
+    end
   end
 end

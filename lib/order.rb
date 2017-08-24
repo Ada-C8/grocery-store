@@ -15,10 +15,13 @@ module Grocery
       orders = []
       CSV.open("support/orders.csv", "r").each do |line|
         id = line[0].to_i
-        products = line[1]
-        products_array = []
         products_hash = {}
-        orders << self.new(id, products)
+        products_prices = line[1].split(';')
+        products_prices.each do |product|
+          ind_product_price = product.split(':')
+          products_hash[ind_product_price[0]] = ind_product_price[1].to_f
+        end
+        orders << self.new(id, products_hash)
       end
       return orders
     end

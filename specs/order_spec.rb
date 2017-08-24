@@ -106,7 +106,7 @@ describe "Order Wave 2" do
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
-    xit "Returns the correct number of orders" do
+    it "Returns the correct number of orders" do
       orders = Grocery::Order.all
       orders.length.must_equal  100
     end

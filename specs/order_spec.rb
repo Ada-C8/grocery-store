@@ -202,28 +202,21 @@ describe "Order Wave 2" do
 
   end
 
-  #   it "The products ids match the csv file" do
-  #     new_orders = Grocery::Order.all
-  #     index = 0
-  #     CSV.open("support/orders.csv", 'r').each do |line|
-  #       line[0].must_equal new_orders[index].id
-  #       index +=1
-  #     end
-  #   end
-  # end
-
   describe "Order.find" do
-    xit "Can find the first order from the CSV" do
+    it "Can find the first order from the CSV" do
       my_order = Grocery::Order.find(1)
-
+      csv = CSV.open("support/orders.csv", 'r')
+      csv.to_a[0][0].must_equal my_order.id
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      my_order = Grocery::Order.find(100)
+      csv = CSV.open("support/orders.csv", 'r')
+      csv.to_a[99][0].must_equal my_order.id
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Order.find(1000)}.must_raise ArgumentError
     end
   end
 end

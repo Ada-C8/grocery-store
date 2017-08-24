@@ -146,10 +146,26 @@ describe "Order Wave 2" do
       new_orders[1].must_be_kind_of Grocery::Order
     end
 
-
     #   - The number of orders is correct
+    # You could also hardcode the number of orders instead
+    #of measureing the length of the csv file
+    it "The number of orders is correct" do
+      new_orders = Grocery::Order.all
+      new_database = Grocery::Grocery_Records.new
+      records = new_database.read_csv("support/orders.csv")
+      new_orders.length.must_equal records.length
+    end
+
     #   - The ID and products of the first and last
     #       orders match what's in the CSV file
+    it "The IDs of the first and last orders matches the csv file" do
+      new_orders = Grocery::Order.all
+      new_database = Grocery::Grocery_Records.new
+      records = new_database.read_csv("support/orders.csv")
+      new_orders[0].id.must_equal records[0][0]
+      new_orders[-1].id.must_equal records[-1][0]
+    end
+
     # Feel free to split this into multiple tests if needed
 
   end

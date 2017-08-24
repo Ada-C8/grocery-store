@@ -85,13 +85,40 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
+      #Verifies that the return is an Array
+      Grocery::OnlineOrder.all('./support/online_orders.csv').must_be_instance_of Array
+
+      #All elements in the array are Order[s]
+      Grocery::OnlineOrder.all('./support/online_orders.csv').each do |online_order|
+        (online_order.is_a? Grocery::Order).must_equal true
+      end
+
+      #The numer of orders is correct
+      Grocery::OnlineOrder.all('./support/online_orders.csv').length.must_equal 100
+
+      #customer is present
+      Grocery::OnlineOrder.all('./support/online_orders.csv').each do |online_order|
+        online_order.customer.must_be_instance_of Grocery::Customer
+      end
+
+      Grocery::OnlineOrder.all('./support/online_orders.csv').each do |online_order|
+        online_order.customer.must_be_instance_of Grocery::Customer
+      end
+
+      #Status is present
+      statuses = ["pending", "paid", "processing", "shipped", "complete"]
+
+      Grocery::OnlineOrder.all('./support/online_orders.csv').each do |online_order|
+        statuses.include?(online_order.status).must_equal true
+      end
+
       # TODO: Your test code here!
       # Useful checks might include:
-      #   - OnlineOrder.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The customer is present
-      #   - The status is present
+      #   + OnlineOrder.all returns an array
+      #   + Everything in the array is an Order
+      #   + The number of orders is correct
+      #   + The customer is present
+      #   + The status is present
       # Feel free to split this into multiple tests if needed
     end
   end

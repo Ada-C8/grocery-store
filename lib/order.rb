@@ -56,5 +56,12 @@ module Grocery
       end
       return orders
     end
+
+    def self.find
+      
+      # unless LEGAL_SUITS.include? suit
+      #   raise ArgumentError.new("Invalid suit: #{suit}")
+      # end
+    end
   end
 end

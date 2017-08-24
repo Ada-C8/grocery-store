@@ -119,7 +119,6 @@ describe "Customer" do
       Grocery::Customer.all
       Grocery::Customer.find("#{all_customers.length}").customer_id.must_equal all_customers[-1].customer_id
 
-
     end
 
     it "Raises an error for a customer that doesn't exist" do

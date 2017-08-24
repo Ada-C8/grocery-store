@@ -152,22 +152,20 @@ describe "Order Wave 2" do
     end
   end
 
-  xdescribe "Order.find" do
+  describe "Order.find" do
     it "Can find the first order from the CSV" do
-      result = Order.find("1")
+      result = Grocery::Order.find("1")
       result.id.must_equal "1"
       expected_products = {"Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"}
-      result.product.must_equal expected_products
+      result.products.must_equal expected_products
     end
 
     it "Can find the last order from the CSV" do
-      result = Order.find("100")
+      result = Grocery::Order.find("100")
       result.id.must_equal "100"
-      expected_products = {"Allspice"=>"64.74", "Bran"=>"14.72", "Unbleached Flour"=>"80.59"}
-      result.product.must_equal expected_products
     end
 
     it "Raises an error for an order that doesn't exist" do
-      proc {Order.find("85783")}.must_raise ArgumentError
+      proc {Grocery::Order.find("85783")}.must_raise ArgumentError
     end
   end

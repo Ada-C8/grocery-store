@@ -74,44 +74,36 @@ module Grocery
       #self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
       # TODO NEED TO MAKE THIS WORK
       x = self.all
-      if id_to_test > x.length
+      if id_to_test.to_i > x.length
         raise ArgumentError.new("Error: order #{id_to_test} does not exsist!")
       else
         @@all_orders.each do |order|
           if order.id == id_to_test
             return order
           end
-        end 
         end
+      end
 
-        # TODO GET THE ORDER RETURNED IF IT EXISTS AND RETURN FALSE IF IT DOESN'T EXIST:
-        # if  @@all_orders.any?{|a| a.id == id_to_test}
-        #       @@all_orders.each do |order|
-        #         if order.id == id_to_test
-        #           return order
-        #         end
-        #       end
-        # else
-        #   return false
-        # end
+      # TODO GET THE ORDER RETURNED IF IT EXISTS AND RETURN FALSE IF IT DOESN'T EXIST:
+      # if  @@all_orders.any?{|a| a.id == id_to_test}
+      #       @@all_orders.each do |order|
+      #         if order.id == id_to_test
+      #           return order
+      #         end
+      #       end
+      # else
+      #   return false
+      # end
+    end #self.find(id)
 
+  end #Order class
+end # Grocery module
 
-        #code below is from before adding if statement to throw error
-        # @@all_orders.each do |order|
-        #   if order.id == id_to_test
-        #     return order
-        #   end
-        # end
-      end #self.find(id)
+ Grocery::Order.all
+test = Grocery::Order.find("2")
 
-    end #Order class
-  end # Grocery module
-
-  #  Grocery::Order.all
-  # test = Grocery::Order.find("2")
-  #
-  # puts test
-  #  #=> true
+puts test
+ #=> true
 
 
 
@@ -119,9 +111,9 @@ module Grocery
 
 
 
-  # test_order = Grocery::Order.new(123, {"apple" =>  3, "pear" => 2})
-  # list_before = test_order.products
-  # puts list_before
-  # test_order.remove_product("apple")
-  # list_after = test_order.products
-  # puts list_after
+# test_order = Grocery::Order.new(123, {"apple" =>  3, "pear" => 2})
+# list_before = test_order.products
+# puts list_before
+# test_order.remove_product("apple")
+# list_after = test_order.products
+# puts list_after

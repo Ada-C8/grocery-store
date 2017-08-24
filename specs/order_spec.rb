@@ -260,35 +260,16 @@ describe "Order Wave 2" do
     end
 
 
-
-
-    it "must return an array with one element " do
+    it "must return only one order" do
+      test_array = []
       Grocery::Order.all
-      test = Grocery::Order.find("1")
-      test.length.must_equal 1
-      # array = []
-      # Grocery::Order.all
-      #  test = Grocery::Order.find("1")
-      #  array << test
-      #  array.length.must_equal 1
-
+      test = Grocery::Order.find("2")
+      test_array << test.id
+      test_array.length.must_equal 1
     end
 
     it "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
-      # test =  Grocery::Order.all
-
-      #  if test.any?{|order| order.(1000)}
-      #    @@all_orders.each do |order|
-      #      if order.id == order_id
-      #        return order.products
-      #      end
-      #  else
-      #    return nil
-      #  end
-
-      #need to define order array of csv file data in here
-      #TODO NEED TO FINISH THIS TO MAKE IT PASS!!!!
       yay_orders = CSV.read("support/orders.csv", 'r')
 
       Grocery::Order.all

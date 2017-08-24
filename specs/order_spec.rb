@@ -151,7 +151,7 @@ describe "Order Wave 2" do
     end
 
     it "Can find the last order from the CSV" do
-      Grocery::Order.find(100).id.must_equal @orders.last.products
+      Grocery::Order.find(100).id.must_equal @orders.last.id
     end
 
     it "Raises an error for an order that doesn't exist" do

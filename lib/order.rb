@@ -1,42 +1,45 @@
 require 'csv'
-
 module Grocery
   TAX = 0.075
 
-
   class Order
-    attr_reader :id, :products, :no_orders
-    attr_accessor :all
+    attr_reader :id, :products
+    attr_accessor :all_orders
+
+    @@all_orders = Array.new
 
     # Class methods
     def self.all
-      @all = Array.new
-      CSV.open('support/orders.csv', 'r+').each do |row_order|
-        #array format to hash
-        id = row_order[0]
-        products = Array.new
-        row_items = row_order[1].split(";")
-        row_items.each do |pair| #Slivered Almonds:22.88
-          products << {pair.to_s.partition(":").first.to_s => pair.to_s.partition(":").last}
-        end
-        @all << Order.new(id,products)
-      end
+      return @@all_orders
+    end
 
-      return @all
+    def self.import(arr_of_arrs)
+      arr_of_arrs.each do |row_order|
+        data_id = row_order[0]
+        row_items = row_order[1].split(";") #array format to hash
+        data_products = Hash.new
+        row_items.each do |pair|
+          key = pair.to_s.partition(":").first.to_s
+          value = pair.to_s.partition(":").last
+          data_products.store( key, value)
+        end
+        Order.new(data_id, data_products)
+      end
     end
 
     def self.find(line)
       self.all
-      if @all[line] == nil
+      if @@all_orders[line] == nil
         raise ArgumentError.new ("Order does not exist")
       else
-        return @all[line]
+        return @@all_orders[line]
       end
     end
 
     def initialize(id, products)
       @id = id
       @products = products #as hashes with key of "product" and value of cost
+      @@all_orders << self
     end
 
     # Instance methods
@@ -66,7 +69,8 @@ module Grocery
       end
     end
 
-
-
   end
+
+Grocery::Order.import(CSV.read('support/orders.csv'))
+puts Grocery::Order.all[0]
 end

@@ -52,9 +52,9 @@ module Grocery
       return total
     end
 
-    def add_product
+    def add_product(product, price)
       if @status == "pending" || @status == "paid"
-        super
+        super(product, price)
       else
         raise ArgumentError.new "I'm sorry, you may no longer add to this order."
       end

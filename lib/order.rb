@@ -1,15 +1,15 @@
-# Update the Order class to be able to handle all of the fields from the CSV file used as input
-# To try it out, manually choose the data from the first line of the CSV file and ensure you can create a new instance of your Order using that data
+
 # Add the following class methods to your existing Order class
-# self.all - returns a collection of Order instances, representing all of the Orders described in the CSV. See below for the CSV file specifications
+
 # Determine if the data structure you used in Wave 1 will still work for these new requirements
 # Note that to parse the product string from the CSV file you will need to use the split method
 # self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
 require 'csv'
-
+# self.all - returns a collection of Order instances, representing all of the Orders described in the CSV. See below for the CSV file specifications
 module Grocery
   class Order
-    @@all_orders = []
+    @@all_orders = 42
+
     attr_reader :id, :products
 
     def initialize(id, products)#products is a hash with item => price
@@ -17,6 +17,10 @@ module Grocery
       @products = products
       @total = 0
     end #initialize
+
+    def self.all
+      return @@all_orders
+    end #self.all method
 
     def total
       pretax = 0
@@ -55,31 +59,36 @@ module Grocery
 end #module
 
 
-
 #id = 1337
 many_orders = []
-items = {}
+products = {}
+
 CSV.open('../support/orders.csv', 'r').each do |line|
-  id = line[0].to_i#convert order ids to integers
+  id = line[0].to_i
   x = line[1].split(';')
+  #puts "x is #{x} and it is class #{x.class}"
+
   x.each do |item|
     y = item.split(":")
-    y.each do |element|
-      items[y[0]] = y[1].to_f
+    #puts "y is #{y} and it is #{y.class}\n\n"
+    x.length.times do
+      products[y[0]] = y[1]
     end
-  end
-  order = Grocery::Order.new(id, items)
-  many_orders << order
-end
 
-puts many_orders.length
-# CSV.open("planet_data.csv", 'r').each do |line|
-#   #Make a new planet, using the variable 'line', push to planets array.
-#   puts line.class
-#   planets << Planet.new(line[1], line[2], line[3])
-# end
+    puts "products is now #{products}"
+    puts "*****************"
+  end #of x.each do
+  puts "WHDHFSDFOIJWEOIFEWOIFNOIEWNFEOI"
+    many_orders << Grocery::Order.new(id, products)
+    products = {}
+end #of CSV line by line
+puts "____________________________________"
 
+# 1, Slivered Almonds:22.88;   Wholewheat flour:1.93;   Grape Seed Oil:74.9
+# 2, Albacore Tuna:36.92;Capers:97.99;Sultanas:2.82;Koshihikari rice:7.55
+# 3, Lentils:7.17
 
+puts many_orders.inspect 
 
 # order = Grocery::Order.new(1, {"Slivered Almonds" =>2.50, "Wholewheat flour" => 1.00, "Grape Seed Oil" => 100.00})
 
@@ -124,3 +133,17 @@ puts many_orders.length
 # #
 # #
 # # puts order.inspect
+
+# CSV.open('../support/orders.csv', 'r').each do |line|
+#   id = line[0].to_i#convert order ids to integers
+#
+#   x = line[1].split(';') #items split by semi colon
+#   x.each do |item|
+#     y = item.split(":") #each item split by color
+#     y.each do |element|
+#       items[element[0]] = element[1].to_f
+#     end
+#     # planets << Planet.new(line[1], line[2], line[3])
+#     #   many_orders << Grocery::Order.new(id, items)
+#     puts "y is #{y}"
+#   end

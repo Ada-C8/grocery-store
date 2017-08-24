@@ -107,14 +107,25 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
+  before do
+    products = { "banana" => 1.99, "cracker" => 3.00 }
+    @order = Grocery::Order.new(1337, products)
+  end
+
+
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
       # Useful checks might include:
       #   - Order.all returns an array
+      from_Order_all = @order.class.all
+      from_Order_all.must_be_instance_of Array
       #   - Everything in the array is an Order
+      from_Order_all[0].must_be_instance_of Grocery::Order
       #   - The number of orders is correct
+      from_Order_all.length.must_equal 100
+      puts "THE ORDER LENTH IS: #{@order.class.all.length}"
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed

@@ -1,4 +1,6 @@
+require 'csv'
 module Grocery
+
   class Order
 
     attr_reader :id, :products
@@ -6,6 +8,34 @@ module Grocery
     def initialize(id, products)
       @id = id
       @products = products
+
+    end
+
+    def self.all
+      #Path.expand(__FILE__, relative file path)
+      all_orders = []
+      CSV.read("support/orders.csv").each do |line|
+        id = line[0]
+        products = {}
+        @item_colon_price_array = line[1].split(";")
+        #still [item:price, item:price], need to put in hash
+        @item_colon_price_array.each do |product|
+          split_product = product.split(":")
+          item = split_product[0]
+          price = split_product[1]
+          product_hash = {item => price}
+          products.merge!(product_hash)
+        end
+        all_orders << Grocery::Order.new(id, products)
+      end
+      return all_orders
+    end
+
+    def self.find(id)
+      @@orders.each do |order|
+        return order if order.id == id
+      end
+      raise ArgumentError.new("An order with the ID #{id} does not exist.")
     end
 
     def total

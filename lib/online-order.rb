@@ -15,8 +15,14 @@ module Grocery
 
     def total
       # adds $10 shipping fee to order
+      orig_total = super
       shipping = 10
-      return super + shipping
+
+      if orig_total > 0
+        return super + shipping
+      else
+        return super
+      end
     end
 
     def add_product(product_name, product_price)
@@ -28,23 +34,34 @@ module Grocery
       end
     end
 
+    def self.all
+      csv = "./support/online_orders.csv"
+      all_online_orders = []
+
+      CSV.foreach(csv) do |row|
+        order_id = row[0].to_i
+        product_info = row[1]
+        cust_id = row[2].to_i
+        status = row[3].to_sym
+
+        customer = Grocery::Customer.find(cust_id)
+        products = parse_products(product_info)
+
+        online_order = Grocery::OnlineOrder.new(order_id, products, customer, status)
+        all_online_orders << online_order
+      end
+
+      return all_online_orders
+    end
+
+    def self.find(id)
+      # does this need to be changed? Does this need to be included at all?
+      super
+    end
+
+    def self.find_by_customer(customer_id)
+      
+    end
+
   end # end of OnlineOrder class
 end
-
-# cust = Grocery::Customer.new(1, "name@gmail.com", ["num street", "city", "state", "zip"])
-# oo = Grocery::OnlineOrder.new(1, { "Almonds" => 4.0 }, cust)
-#
-# puts "email is #{oo.customer.email}"
-# puts "status"
-# puts oo.status
-#
-# puts oo.id
-# puts oo.products
-# puts oo.total
-#
-# puts oo.add_product("Milk", 4.99)
-# puts oo.products
-#
-# oo.status = :shipped
-# puts oo.add_product("Banana", 0.59)
-# puts oo.products

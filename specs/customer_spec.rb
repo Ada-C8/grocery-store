@@ -5,15 +5,23 @@ require 'minitest/skip_dsl'
 # TODO: uncomment the next line once you start wave 3
 # require_relative '../lib/customer'
 
-xdescribe "Customer" do
+describe "Customer" do
   describe "#initialize" do
     it "Takes an ID, email and address info" do
-      # TODO: Your test code here!
+      id = 1337
+      order = Grocery::Order.new(id, {})
+
+      order.must_respond_to :id
+      order.id.must_equal id
+      order.id.must_be_kind_of Integer
+
+      order.must_respond_to :products
+      order.products.length.must_equal 0
     end
   end
 
   describe "Customer.all" do
-    it "Returns an array of all customers" do
+    xit "Returns an array of all customers" do
       # TODO: Your test code here!
       # Useful checks might include:
       #   - Customer.all returns an array
@@ -26,15 +34,15 @@ xdescribe "Customer" do
   end
 
   describe "Customer.find" do
-    it "Can find the first customer from the CSV" do
+    xit "Can find the first customer from the CSV" do
       # TODO: Your test code here!
     end
 
-    it "Can find the last customer from the CSV" do
+    xit "Can find the last customer from the CSV" do
       # TODO: Your test code here!
     end
 
-    it "Raises an error for a customer that doesn't exist" do
+    xit "Raises an error for a customer that doesn't exist" do
       # TODO: Your test code here!
     end
   end

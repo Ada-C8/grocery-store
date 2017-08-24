@@ -45,31 +45,45 @@ describe "Customer" do
       @customers.length.must_equal 35
     end
 
-    xit "first and last are same as csv" do
-      customers_first = 	[1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
+    it "first and last are same as csv" do
+      customers_first = [1, "leonard.rogahn@hagenes.org", {address1: "71596 Eden Route", city: "Connellymouth", state: "LA", zipcode:"98872-9105"}]
 
       @customers.first.id.must_equal customers_first[0]
-      @customers.first.products.must_equal customers_first[1]
+      @customers.first.email.must_equal customers_first[1]
+      @customers.first.address.must_equal customers_first[2]
 
-      customers_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
+      customers_last = [35, "rogers_koelpin@oconnell.org", {address1: "7513 Kaylee Summit", city: "Uptonhaven", state: "DE", zipcode:"64529-2614"}]
 
       @customers.last.id.must_equal customers_last[0]
-      @customers.last.products.must_equal customers_last[1]
+      @customers.last.email.must_equal customers_last[1]
+      @customers.last.address.must_equal customers_last[2]
     end
 
   end
 
-  xdescribe "Customer.find" do
+  describe "Customer.find" do
     it "Can find the first customer from the CSV" do
+      Grocery::Customer.find(1).id.must_equal @customers.first.id
+      Grocery::Customer.find(1).email.must_equal @customers.first.email
+      Grocery::Customer.find(1).address.must_equal @customers.first.address
+
       # TODO: Your test code here!
     end
 
     it "Can find the last customer from the CSV" do
+      Grocery::Customer.find(100).id.must_equal @customers.last.id
+      Grocery::Customer.find(100).email.must_equal @customers.last.email
+      Grocery::Customer.find(100).address.must_equal @customers.last.address
+
       # TODO: Your test code here!
     end
 
-    it "Raises an error for a customer that doesn't exist" do
+    it "Raises an error for an customer that doesn't exist" do
+      proc {Grocery::Customer.find(300)}.must_raise ArgumentError
+      # what the hell is proc?
       # TODO: Your test code here!
+
+
     end
   end
 end

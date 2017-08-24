@@ -1,7 +1,10 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+# require 'csv'
 require_relative '../lib/order'
+# require_relative '/support/orders.csv'
+
 
 describe "Order Wave 1" do
   describe "#initialize" do
@@ -129,31 +132,36 @@ end
 
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      new_orders = Grocery::Order.all
+      new_orders.must_be_kind_of Array
     end
+
+    # TODO: Your test code here!
+    # Useful checks might include:
+    #   - Order.all returns an array
+
+
+    #   - Everything in the array is an Order
+    #   - The number of orders is correct
+    #   - The ID and products of the first and last
+    #       orders match what's in the CSV file
+    # Feel free to split this into multiple tests if needed
+  end
+end
+
+describe "Order.find" do
+  it "Can find the first order from the CSV" do
+    # TODO: Your test code here!
   end
 
-  describe "Order.find" do
-    it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
-    end
+  it "Can find the last order from the CSV" do
+    # TODO: Your test code here!
+  end
 
-    it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
-    end
+  it "Raises an error for an order that doesn't exist" do
+    # TODO: Your test code here!
   end
 end

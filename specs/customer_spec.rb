@@ -37,7 +37,7 @@ describe "Customer" do
 
       #   - The ID, email address of the first and last
       #       customer match what's in the CSV file
-      # Feel free to split this into multiple tests if needed 
+      # Feel free to split this into multiple tests if needed
     end # customer.all
 
     xdescribe "Customer.find" do

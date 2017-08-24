@@ -164,7 +164,6 @@ describe "Order Wave 2" do
     it "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
       proc { Grocery::Order.find(101) }.must_raise ArgumentError
-      # Grocery::Order.find(101).id.must_raise
     end
   end
 end

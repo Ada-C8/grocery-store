@@ -20,7 +20,7 @@ describe "Order Wave 1" do
 
   describe "#total" do
     it "Returns the total from the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
       order = Grocery::Order.new(1337, products)
 
       sum = products.values.inject(0, :+)
@@ -38,7 +38,7 @@ describe "Order Wave 1" do
 
   describe "#add_product" do
     it "Increases the number of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
       before_count = products.count
       order = Grocery::Order.new(1337, products)
 
@@ -48,15 +48,15 @@ describe "Order Wave 1" do
     end
 
     it "Is added to the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
       order = Grocery::Order.new(1337, products)
 
       order.add_product("sandwich", 4.25)
-      order.products.include?("sandwich").must_equal true
+      order.products.key?("sandwich").must_equal true
     end
 
     it "Returns false if the product is already present" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
 
       order = Grocery::Order.new(1337, products)
       before_total = order.total
@@ -69,7 +69,7 @@ describe "Order Wave 1" do
     end
 
     it "Returns true if the product is new" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
       order = Grocery::Order.new(1337, products)
 
       result = order.add_product("salad", 4.25)
@@ -79,7 +79,7 @@ describe "Order Wave 1" do
 
   describe "#remove_product" do
     it "Reduces the number of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
       before_count = products.count
       order = Grocery::Order.new(1337, products)
 
@@ -89,7 +89,7 @@ describe "Order Wave 1" do
     end
 
     it "Is removed from the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
       order = Grocery::Order.new(1337, products)
 
       order.remove_product("cracker")
@@ -97,7 +97,7 @@ describe "Order Wave 1" do
     end
 
     it "Returns false if the product is not in the order" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
 
       order = Grocery::Order.new(1337, products)
       before_total = order.total
@@ -110,7 +110,7 @@ describe "Order Wave 1" do
     end
 
     it "Returns true if the product was removed" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
       order = Grocery::Order.new(1337, products)
 
       result = order.remove_product("cracker")
@@ -122,13 +122,6 @@ end
 # TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
-    # before do
-    #   # products = { "banana" => 1.99, "cracker" => 3.00 }
-    #   # @expected_num_orders = 4
-    #   # @expected_num_orders.times do |i|
-    #   #   Grocery::Order.new(i, products)
-    #   end
-    end
     it "Returns an array of all orders" do
       Grocery::Order.must_respond_to :all
       Grocery::Order.all.must_be_instance_of Array
@@ -150,9 +143,11 @@ describe "Order Wave 2" do
       Grocery::Order.find(100).id.must_equal 100
     end
 
+    #Question: is there a benefit to specifically raising an ArgumentError?
     it "Raises an error for an order that doesn't exist" do
       Grocery::Order.find(0).must_equal "This order does not exist."
       Grocery::Order.find(101).must_equal "This order does not exist."
       Grocery::Order.find("one").must_equal "This order does not exist."
     end
   end
+end

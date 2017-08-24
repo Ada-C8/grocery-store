@@ -39,7 +39,7 @@ describe "Customer" do
     #       customer match what's in the CSV file
     # Feel free to split this into multiple tests if needed
     it "Returns an array of all customers" do
-          Grocery::Customer.all.must_be_kind_of Array
+      Grocery::Customer.all.must_be_kind_of Array
     end #it "Returns an array of all customers" do
 
     it "will only contain instances of the Customer class in the array" do
@@ -81,6 +81,7 @@ describe "Customer" do
       end
 
       test = Grocery::Customer.all
+
       test[-1].customer_id.must_equal all_customers[-1].customer_id.to_s
     end #it "will have the right customer_id for the last customer" do
 
@@ -93,17 +94,32 @@ describe "Customer" do
       test = Grocery::Customer.all
       test[-1].email.must_equal all_customers[-1].email
     end #it "will have the right email for the last customer" do
-
-
   end #describe "Customer.all" do
 
   describe "Customer.find" do
     it "Can find the first customer from the CSV" do
-      # TODO: Your test code here!
+      all_customers = []
+      CSV.open("support/customers.csv", 'r').each do |line|
+        all_customers << Grocery::Customer.new(line[0], line[1], line[2], line[3], line[4], line[5])
+      end
+
+      Grocery::Customer.all
+      Grocery::Customer.find("1").customer_id.must_equal all_customers[0].customer_id
+      # test = Grocery::Customer.find(1)
+      #
+      # test.customer_id.must_equal all_customers[0].customer_id
     end
 
     it "Can find the last customer from the CSV" do
-      # TODO: Your test code here!
+      all_customers = []
+      CSV.open("support/customers.csv", 'r').each do |line|
+        all_customers << Grocery::Customer.new(line[0], line[1], line[2], line[3], line[4], line[5])
+      end
+
+      Grocery::Customer.all
+      Grocery::Customer.find("#{all_customers.length}").customer_id.must_equal all_customers[-1].customer_id
+
+
     end
 
     it "Raises an error for a customer that doesn't exist" do

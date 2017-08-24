@@ -36,30 +36,32 @@ module Grocery
       return @@all_customers
     end #self.all
 
+    def self.find(customer_id_to_test)
+      #  returns an instance of Customer where the value of the id field in the CSV matches the passed parameter.
+      # print @@all_customers
+
+      x = self.all
+
+      if customer_id_to_test.to_i > x.length
+        raise ArgumentError.new("Error: The customer id #{id_to_test} does not exsist!")
+      else
+        @@all_customers.each do |instance|
+          if instance.customer_id == customer_id_to_test
+            return instance
+          end #if
+        end #.each
+      end #if/else
+
+    end #self.find
+
 
   end #Customer
 end #Grocery
 
+# Grocery::Customer.all
+# Grocery::Customer.find("1")
 
-# def self.all
-#   #method that will return an array of all the orders
-#   #the numnber of orders in the array is correct,
-#   @@all_orders = []
-#   CSV.open("support/orders.csv", 'r').each do |line|
-#     id = line[0]
-#     order_products = {}
-#     products = line[1].split(';')
-#
-#     products.each do |item_price|
-#       product_price = item_price.split(':')
-#       order_products[product_price[0]] = product_price[1].to_f
-#     end #.each
-#
-#     products = order_products
-#     @@all_orders << Grocery::Order.new(id, products)
-#   end #open
-#
-#   return @@all_orders
-# end #all
 
-#1,leonard.rogahn@hagenes.org,71596 Eden Route,Connellymouth,LA,98872-9105
+
+
+  #1,leonard.rogahn@hagenes.org,71596 Eden Route,Connellymouth,LA,98872-9105

@@ -111,25 +111,40 @@ end
 describe "Order Wave 2" do
 
   describe "Order.all" do
+
     it "Returns an array of all orders" do
       # TODO: Your test code here!
       # Useful checks might include:
       Grocery::Order.all.must_be_instance_of Array
       #   - Everything in the array is an Order
-      Grocery::Order.all[0].must_be_instance_of Grocery::Order
+      Grocery::Order.all[2].must_be_instance_of Grocery::Order
       #   - The number of orders is correct
       Grocery::Order.all.length.must_equal 100
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
+    end
+
+    it "First order matches CSV" do
+      # Checks first order if it matches CSV
       first_order = CSV.read("support/orders.csv")[0]#first_order = [id, item:price;item;price]
       Grocery::Order.all[0].id.must_equal first_order[0].to_i
-      product_names_in_hash = Grocery::Order.all[0].products.keys
+      product_names_in_hash1 = Grocery::Order.all[0].products.keys
       # Find if each item in product hash is in the String of products from CSV
-      product_names_in_hash.each do |item|
+      product_names_in_hash1.each do |item|
         first_order[1].include?(item).must_equal true
       end
+    end
 
-      # Feel free to split this into multiple tests if needed
+    it "Last order matches CSV" do
+      # Checks last order if it matches CSV
+      last_order = CSV.read("support/orders.csv")[99]
+      Grocery::Order.all[99].id.must_equal last_order[0].to_i
+      product_names_in_hash2 = Grocery::Order.all[99].products.keys
+      # Find if each item in product hash is in the String of products from CSV
+      product_names_in_hash2.each do |item|
+        last_order[1].include?(item).must_equal true
+      end
+
     end
   end
 

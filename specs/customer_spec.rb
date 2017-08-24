@@ -36,7 +36,7 @@ describe "Customer" do
 
     it "The ID, email, and address of the first customer match the CSV file" do
       customers = Grocery::Customer.all('./support/customers.csv')
-      customers[0].id.must_equal "1"
+      customers[0].id.must_equal 1
       customers[0].email.must_equal "leonard.rogahn@hagenes.org"
       customers[0].delivery_address[:address].must_equal "71596 Eden Route"
       customers[0].delivery_address[:city].must_equal "Connellymouth"
@@ -46,7 +46,7 @@ describe "Customer" do
 
     it "The ID, email, and address of the last customer match the CSV file" do
       customers = Grocery::Customer.all('./support/customers.csv')
-      customers[34].id.must_equal "35"
+      customers[34].id.must_equal 35
       customers[34].email.must_equal "rogers_koelpin@oconnell.org"
       customers[34].delivery_address[:address].must_equal "7513 Kaylee Summit"
       customers[34].delivery_address[:city].must_equal "Uptonhaven"
@@ -64,17 +64,21 @@ describe "Customer" do
 
   end
 
-  xdescribe "Customer.find" do
+  describe "Customer.find" do
     it "Can find the first customer from the CSV" do
-      # TODO: Your test code here!
+      customer = Grocery::Customer.find(1, './support/customers.csv')
+      customer.id.must_equal 1
     end
 
     it "Can find the last customer from the CSV" do
-      # TODO: Your test code here!
+      customer = Grocery::Customer.find(35, './support/customers.csv')
+      customer.id.must_equal 35
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Customer.find(36, './support/customers.csv')}.must_raise ArgumentError
+      proc {Grocery::Customer.find(0, './support/customers.csv')}.must_raise ArgumentError
+      proc {Grocery::Customer.find(-5, './support/customers.csv')}.must_raise ArgumentError
     end
   end
 end

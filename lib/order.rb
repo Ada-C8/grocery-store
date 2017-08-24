@@ -83,23 +83,6 @@ end # Grocery module
 # test = Grocery::Order.new
 # puts test.find(2)
 
-
-#bennett's
-# def self.find(id)
-#   orders = Order.all
-#   unless (0..orders.length).include?(id)
-#     raise ArgumentError.new("Invalid id: #{id}")
-#   end
-#
-#   found_order = nil
-#   orders.each do |order|
-#     if order.id == id
-#       found_order = order
-#     end
-#   end
-#   return found_order
-# end
-# end
 # products = { "banana" => 1.99, "cracker" => 3.00 }
 # test_order = Grocery::Order.new(1337, products)
 #

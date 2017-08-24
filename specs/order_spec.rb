@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
+require 'csv'
 
 describe "Order Wave 1" do
   describe "#initialize" do
@@ -125,9 +126,10 @@ describe "Order Wave 2" do
       from_Order_all[0].must_be_instance_of Grocery::Order
       #   - The number of orders is correct
       from_Order_all.length.must_equal 100
-      puts "THE ORDER LENTH IS: #{@order.class.all.length}"
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
+      first_order = CSV.read("support/orders.csv")[0]
+      from_Order_all[0].id.must_equal first_order[0]
       # Feel free to split this into multiple tests if needed
     end
   end

@@ -64,6 +64,19 @@ module Grocery
       return collection_of_orders
     end
 
+    def self.find(order_id)
+      collection_of_orders = Order.all
+      collection_of_orders.length
+      collection_of_orders.each do |order|
+        order.id
+        if order.id == order_id.to_s
+          return order
+        end
+      end
+      raise ArgumentError.new("Order number #{order_id} could not be found.")
+    end
+
+
     def total
       total = 0
       products.each do |name, price|
@@ -92,5 +105,3 @@ module Grocery
 
   end #end  class Order
 end #end module Grocery
-#
-#puts Grocery::Order.all

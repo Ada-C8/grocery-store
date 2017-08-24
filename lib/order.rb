@@ -14,8 +14,10 @@ module Grocery
     def self.all
       orders = []
       CSV.open("support/orders.csv", "r").each do |line|
-        id = line[0]
+        id = line[0].to_i
         products = line[1]
+        products_array = []
+        products_hash = {}
         orders << self.new(id, products)
       end
       return orders

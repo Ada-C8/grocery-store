@@ -3,6 +3,7 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 require_relative '../lib/online_order'
+require_relative '../lib/order'
 # You may also need to require other classes here
 
 # Because an OnlineOrder is a kind of Order, and we've
@@ -36,13 +37,16 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Adds a shipping fee" do
-      # TODO: Your test code here!
+      reg_order = Grocery::Order.new(1337, {"banana" => 1.0, "apple" => 1.25, "whole milk" => 3.59})
+      online_order = OnlineOrder.new(3, :pending, {"banana" => 1.0, "apple" => 1.25, "whole milk" => 3.59})
+      online_order.total.must_equal (reg_order.total + 10)# TODO: Your test code here!
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
+      online_order = OnlineOrder.new(3)
+      online_order.total.must_equal 0# TODO: Your test code here!
     end
   end
 

@@ -156,33 +156,66 @@ describe "Order Wave 2" do
       new_orders.length.must_equal records.length
     end
 
-    #   - The ID and products of the first and last
-    #       orders match what's in the CSV file
-    it "The products must matches the csv file" do
+    # I am not sure if this is a good way to do it.
+    #pro: it does not use the exact same logic i used
+    #for reading the csv file, so it might catch an error
+    #con: I am not sure it is exactly testing that the
+    # products match
+    # it "The products must match the csv file" do
+    #   new_orders = Grocery::Order.all
+    #   index=0
+    #   CSV.open("support/orders.csv", 'r').each do |line|
+    #     line[1].delete(":").delete(";")
+    #     new_orders[index].products.flatten.join("")
+    #     index +=1
+    #   end
+    # end
+
+    it "The first ids must match the first line of the csv" do
       new_orders = Grocery::Order.all
-      index=0
-      CSV.open("support/orders.csv", 'r').each do |line|
-        line[1].delete(":").delete(";")
-        new_orders[index].products.flatten.join("")
-        index +=1
-      end
-
-
+      csv = CSV.open("support/orders.csv", 'r')
+      csv.to_a[0][0].must_equal new_orders[0].id
     end
 
-    it "The products ids match the csv file" do
+    it "The last id must match the last csv line" do
       new_orders = Grocery::Order.all
-      index = 0
-      CSV.open("support/orders.csv", 'r').each do |line|
-        line[0].must_equal new_orders[index].id
-        index +=1
-      end
+      csv = CSV.open("support/orders.csv", 'r')
+      csv.to_a[-1][0].must_equal new_orders[-1].id
     end
+
+    it "The first product id must match the first csv line" do
+      new_orders = Grocery::Order.all
+      csv = CSV.open("support/orders.csv", 'r')
+      csv_product = csv.to_a[0][1].delete(":").delete(";")
+      order_product = new_orders[0].products.flatten.join("")
+      order_product.must_equal csv_product
+    end
+
+    it "The last product id must match the last csv line" do
+      new_orders = Grocery::Order.all
+      csv = CSV.open("support/orders.csv", 'r')
+      csv_product = csv.to_a[-1][1].delete(":").delete(";")
+      order_product = new_orders[-1].products.flatten.join("")
+      order_product.must_equal csv_product
+    end
+
+
   end
 
+  #   it "The products ids match the csv file" do
+  #     new_orders = Grocery::Order.all
+  #     index = 0
+  #     CSV.open("support/orders.csv", 'r').each do |line|
+  #       line[0].must_equal new_orders[index].id
+  #       index +=1
+  #     end
+  #   end
+  # end
+
   describe "Order.find" do
-    it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+    xit "Can find the first order from the CSV" do
+      my_order = Grocery::Order.find(1)
+
     end
 
     it "Can find the last order from the CSV" do

@@ -15,8 +15,9 @@ class OnlineOrder < Grocery::Order
 
   def total
     return 0 if @products.length == 0
-    shipping_total = (@products.values.sum * 1.075).round(2) + 10
-    return shipping_total
+    # shipping_total = (@products.values.sum * 1.075).round(2) + 10
+    # return shipping_total
+    return (super + 10)
   end
 
   def add_product(product_name, product_price)

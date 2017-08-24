@@ -23,8 +23,7 @@ module Grocery
     end
 
     def total
-      tax_total = (@products.values.sum * 1.075).round(2)
-      return tax_total
+      return (@products.values.sum * 1.075).round(2)
     end
 
     def add_product(product_name, product_price)

@@ -138,15 +138,15 @@ describe "Order Wave 2" do
     end
     it "The ID and products of the first and last" do
       orders_first = [1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
-      @orders.first.must_equal orders_first
+      @orders.first.id.must_equal orders_first[0]
+      @orders.first.products.must_equal orders_first[1]
     end
 
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
-      CSV
+
     end
 
     it "Can find the last order from the CSV" do

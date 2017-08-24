@@ -6,7 +6,7 @@ require_relative '../lib/order'
 require 'csv'
 
 
-xdescribe "Order Wave 1" do
+describe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
       id = 1337
@@ -124,9 +124,13 @@ xdescribe "Order Wave 1" do
 
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
-  xdescribe "Order.all" do
+  before do
+    Grocery::Order.clear
+    Grocery::Order.import(CSV.read('support/orders.csv'))
+  end
+
+  describe "Order.all" do
     it "Returns an array of all orders" do
       Grocery::Order.all.must_be_kind_of Array
 
@@ -171,21 +175,61 @@ describe "Order Wave 2" do
     #   X The ID and products of the first and last
     #       orders match what's in the CSV file
   end
-end
 
-describe "Order.find" do
-  it "Can find the first order from the CSV" do
-    Grocery::Order.find(0).must_be_kind_of Grocery::Order
+  describe "Order.find" do
+    it "Can find the first order from the CSV" do
+      Grocery::Order.find(0).must_be_kind_of Grocery::Order
 
-    Grocery::Order.find(0).id.must_equal CSV.read('support/orders.csv')[0][0]
+      Grocery::Order.find(0).id.must_equal CSV.read('support/orders.csv')[0][0]
+    end
+
+    it "Can find the last order from the CSV" do
+      Grocery::Order.find(-1).must_be_kind_of Grocery::Order
+
+      Grocery::Order.find(-1).id.must_equal CSV.read('support/orders.csv')[-1][0]
+    end
+
+    it "Raises an error for an order that doesn't exist" do
+      proc {Grocery::Order.find(Grocery::Order.all.length)}.must_raise ArgumentError
+    end
   end
 
-  it "Can find the last order from the CSV" do
-    Grocery::Order.find(-1).must_be_kind_of Grocery::Order
+  xdescribe "Order.import" do
+    it "Returns an array of all orders" do
+      Grocery::Order.all.must_be_kind_of Array
 
-    Grocery::Order.find(-1).id.must_equal CSV.read('support/orders.csv')[-1][0]
+      Grocery::Order.all[rand(0..(Grocery::Order.all.length - 1))].must_be_kind_of Grocery::Order
+
+      Grocery::Order.all.length.must_equal       CSV.read('support/orders.csv').length
+    end
+
+    it "Returns the ID and products of an order as from .csv data set" do
+
+      #Testing for first CSV order
+      Grocery::Order.all[0].id.must_equal CSV.read('support/orders.csv')[0][0]
+      order_1_array =
+
+      CSV.read('support/orders.csv')[0][1].gsub(":",";").split(";")
+      Grocery::Order.all[0].products.each do |hash|
+        hash.each do |k,v| #
+          order_1_array.delete(k)
+          order_1_array.delete(v)
+        end
+      end
+      order_1_array.must_equal []
+
+      #Testing for first CSV order
+      Grocery::Order.all[-1].id.must_equal CSV.read('support/orders.csv')[-1][0]
+      order_1_array =
+
+      CSV.read('support/orders.csv')[-1][1].gsub(":",";").split(";")
+      Grocery::Order.all[-1].products.each do |hash|
+        hash.each do |k,v| #
+          order_1_array.delete(k)
+          order_1_array.delete(v)
+        end
+      end
+      order_1_array.must_equal []
+    end
   end
-
-  it "Raises an error for an order that doesn't exist" do
-      proc {Grocery::Order.find(Grocery::Order.all.length)}.must_raise ArgumentError  end
 end

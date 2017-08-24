@@ -75,13 +75,21 @@ describe "Order Wave 1" do
       result = order.add_product("salad", 4.25)
       result.must_equal true
     end
+
+    it "Returns true if product is removed" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+
+      result = order.remove_product("cracker")
+      result.must_equal true
+    end
   end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
-    it "Returns an array of all orders" do
+    it "Returns an array" do
       # TODO: Your test code here!
       # Useful checks might include:
       #   - Order.all returns an array
@@ -90,8 +98,23 @@ xdescribe "Order Wave 2" do
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
+
+      order = Grocery::Order.all
+      order.must_be_kind_of Array
     end
-  end
+
+    it "Returns an array of orders that is the right length" do
+      order = Grocery::Order.count
+      order.must_equal true
+    end
+
+    it "Returns an array of Orders" do
+      order = Grocery::Order.order_objects
+      order.must_equal true
+    end
+
+   end
+
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do

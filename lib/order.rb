@@ -14,33 +14,49 @@ module Grocery
     def self.all
       orders_array = []
       CSV.read('./support/orders.csv').each do |row|
-        products_array = []
-        #or I can use an empty hash like products_hash = {}
+        products_hash = {}
+        #products_with_commas = row[1].gsub(/[;]/,',')
         products_colon = row[1].split(";")
         products_colon.each do |e|
           k = e.split(":").first
           v = e.split(":").last
-          products_array << {k => v}
-          #products_hash.merge({k => v})
+          new_hash = {k => v}
+          products_hash.merge!(new_hash)
         end
-        orders_array << Order.new(row[0], products_array) # this wouldbe products_hash as second argument
+        orders_array << Order.new(row[0], products_hash)
+        #ap products_hash
+         # this wouldbe products_hash as second argument
+        #ap orders_array
       end
       return orders_array
+      # puts "This is the orders_array:"
+      # ap orders_array
+      # puts ""
+      # puts "This is the flattened_array:"
+      # ap orders_array.flatten
     end
 
     def self.find(id)
+      #ordered_stuff = {}
       #if id > 1 && id <@orders_array.length
-        Orders.all.each do |order|
+        Grocery::Order.all.each do |order|
           if order.id == id
-            return order
+            ordered_stuff = order.products
+            return ordered_stuff
           end
+          # if id.to_i > order.id.length || id.to_i < 1
+          #   raise ArgumentError.new("You did not enter a valid order number.")
+          # end
         end
-        return nil
+        # if ordered_stuff == []
+        #   raise ArgumentError.new("You did not enter a valid order number.")
+        # end
+
     end
 
     def total
       # TO DO: implement total
-      sum = products.values.inject(0, :+)
+      sum = @products.values.inject(0, :+)
       total = sum + (sum * 0.075).round(2)
       return total
     end
@@ -62,7 +78,11 @@ module Grocery
   end # of class
 end # end of module
 
-#print Grocery::Order.all
+my_order = Grocery::Order.all
+print my_order
+#ap my_order
+
+
 
 # orders_array = [1 => [{Slivered Almonds => 22.88}, {Wholewheat flour => 1.93}, {Grape Seed Oil => 74.9}], 2 => [{Albacore Tuna => 36.92}, {Capers => 97.99}, {Sultanas => 2.82}, {Koshihikari rice => 7.55}]
 

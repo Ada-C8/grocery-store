@@ -33,7 +33,6 @@ describe "Order Wave 1" do
 
     it "Returns a total of zero if there are no products" do
       order = Grocery::Order.new(1337, {})
-
       order.total.must_equal 0
     end
   end
@@ -79,7 +78,7 @@ describe "Order Wave 1" do
     end
 end
 
-  describe "#remove_product" do
+  xdescribe "#remove_product" do
     it "Deletes an element from the products array" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
@@ -105,6 +104,7 @@ describe "Order Wave 2" do
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
+
     it "Returns the correct number of orders" do
       orders = Grocery::Order.all
       orders.length.must_equal  100
@@ -112,40 +112,43 @@ describe "Order Wave 2" do
 
     it "Returns correct order number of 1st order" do
       orders = Grocery::Order.all
-      orders[0].id.must_equal "1"
+      first_order = orders[0]
+      first_order.id.must_equal "1"
     end
 
     it "Returns correct products from 1st order" do
       orders = Grocery::Order.all
-      orders[0].products.must_equal [{"Slivered Almonds"=>"22.88"}, {"Wholewheat flour"=>"1.93"}, {"Grape Seed Oil"=>"74.9"}]
+      first_order = orders[0]
+      first_order.products.must_equal "Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"
     end
 
 
     it "Returns correct number of products from 1st order" do
       orders = Grocery::Order.all
-      orders[0].products.length.must_equal
-      3
+      orders[0].products.length.must_equal 3
     end
 
-    xit "Returns correct last order" do
+    it "Returns correct last order" do
     orders = Grocery::Order.all
-    orders["100"].must_equal [{"Allspice"=>"64.74"}, {"Bran"=>"14.72"}, {"UnbleachedFlour"=>"80.59"}]
+    orders[99].products.must_equal "Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"
     end
 
   end
 
   xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
+      order = Grocery::Order.find(1)
+      #puts "this is our order************asdf #{order[0].products} asdf**************"
+      ap order
+      order.must_equal [{"Slivered Almonds"=>"22.88"}, {"Wholewheat flour"=>"1.93"}, {"Grape Seed Oil"=>"74.9"}]
+    end
+
+    xit "Can find the last order from the CSV" do
       # TODO: Your test code here!
 
     end
 
-    it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-
-    end
-
-    it "Raises an error for an order that doesn't exist" do
+    xit "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
 
     end

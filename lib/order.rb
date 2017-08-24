@@ -44,13 +44,9 @@ module Grocery
       #reutnrs an instance of Order where the value of the id field in the CSV
       #matches the passed parameter
 
-      self.all.each do |order|
-        if order.id == id
-          return order
-        else
-          return "Sorry, we don't have a matching order for that ID number"
-        end
-      end
+      self.all.each {|order| return order if order.id == id}
+
+      # raise ArgumentError, "Sorry,we don't have an order with that ID" unless x.is_a? Numeric
 
     end
 
@@ -150,3 +146,5 @@ end
 #   return all_orders
 #
 # end
+#
+binding.pry

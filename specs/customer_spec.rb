@@ -5,11 +5,20 @@ require 'pry'
 require_relative '../lib/customer'
 # TODO: uncomment the next line once you start wave 3
 # require_relative '../lib/customer'
-
-xdescribe "Customer" do
+# 1,leonard.rogahn@hagenes.org,71596 Eden Route,Connellymouth,LA,98872-9105
+describe "Customer" do
   describe "#initialize" do
+    #"leonard.rogahn@hagenes.org", "71596 Eden Route,Connellymouth,LA,98872-9105")
+    # {address1: , city: , state: , zipcode: }
     it "Takes an ID, email and address info" do
-      # TODO: Your test code here!
+      customer = Grocery::Customer.new(1, "leonard.rogahn@hagenes.org", {address1: "71596 Eden Route" , city: "Connellymouth" , state: "LA", zip_code: "98872-9105" })
+
+      address = {:address1=>"71596 Eden Route", :city=>"Connellymouth",:state=>"LA", :zip_code=>"98872-9105"}
+
+      customer.must_respond_to :id && :email && :address
+      customer.id.must_equal 1
+      customer.email.must_equal "leonard.rogahn@hagenes.org"
+      customer.address.must_equal address
     end
   end
 

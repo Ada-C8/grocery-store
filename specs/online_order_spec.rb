@@ -24,9 +24,9 @@ describe "OnlineOrder" do
       online_order.customer.must_be_instance_of Grocery::Customer
     end
 
-    xit "Can access the online order status" do
-      online_order = Gorcery::OnlineOrder.new
-      online_order.status.must
+    it "Can access the online order status" do
+      online_order = Grocery::OnlineOrder.new(10, {"Jerusalem Artichoke" => 59.92}, 26, "complete")
+      online_order.status.must_equal "complete"
     end
   end
 

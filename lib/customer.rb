@@ -1,5 +1,5 @@
 require 'csv'
-# require_relative 'order.rb'
+require_relative 'order.rb'
 
 module Grocery
   class Customer
@@ -11,7 +11,6 @@ module Grocery
       @address = address
     end
 
-    # self.all - returns a collection of Customer instances, representing all of the Customer described in the CSV. See below for the CSV file specifications
     def self.all
       all_customers = []
       CSV.open("/Users/kimberley/ada/week-three/grocery-store/support/customers.csv", "r").each do |line|
@@ -29,9 +28,11 @@ module Grocery
       end
       return all_customers
     end
-    # self.find(id) - returns an instance of Customer where the value of the id field in the CSV matches the passed parameter.
 
     def self.find(id)
+      if id > self.all.count || id.to_i < 1
+        raise ArgumentError.new ("That customer ID does not exist.")
+      end
       index = id - 1
       return Grocery::Customer.all[index]
     end
@@ -39,5 +40,4 @@ module Grocery
   end #end of class
 end #end of module
 
-# puts Grocery::Customer.all[0]
-puts Grocery::Customer.find(18).email
+puts Grocery::Customer.all[0].email

@@ -57,11 +57,19 @@ module Grocery
       return orders
     end
 
-    def self.find
-      
-      # unless LEGAL_SUITS.include? suit
-      #   raise ArgumentError.new("Invalid suit: #{suit}")
-      # end
+    def self.find(id)
+      orders = Order.all
+      unless (0..orders.length).include?(id)
+        raise ArgumentError.new("Invalid id: #{id}")
+      end
+
+      found_order = nil
+      orders.each do |order|
+        if order.id == id
+          found_order = order
+        end
+      end
+      return found_order
     end
   end
 end

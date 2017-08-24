@@ -30,8 +30,14 @@ module Grocery
       return online_orders
     end
 
-    def self.find(id, csv_file)
-
+    def self.find_id(id, csv_file)
+      online_orders = self.all(csv_file)
+      online_orders.each do |order|
+        if order.id == id
+          return order
+        end
+      end
+      raise ArgumentError.new "This order doesn't exist"
     end
 
     def self.find_by_customer(customer_id)
@@ -64,6 +70,10 @@ module Grocery
 end
 
 # orders = Grocery::OnlineOrder.all('./support/online_orders.csv')
+
+p Grocery::OnlineOrder.find_id(15,'./support/online_orders.csv')
+
+
 
 # online_order = Grocery::OnlineOrder.new(10, {"Jerusalem Artichoke" => 59.92}, 26, "complete")
 

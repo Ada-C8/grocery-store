@@ -1,3 +1,5 @@
+require 'csv'
+
 module Grocery
   class Customer
     attr_reader :id, :email, :address

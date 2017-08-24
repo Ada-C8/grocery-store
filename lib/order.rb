@@ -1,7 +1,3 @@
-
-# Determine if the data structure you used in Wave 1 will still work for these new requirements
-# Note that to parse the product string from the CSV file you will need to use the split method
-
 require 'csv'
 
 module Grocery
@@ -16,11 +12,11 @@ module Grocery
       @total = 0
     end #initialize
 
-
-
-    def self.all
+    def self.all(file)
       products = {}
-      CSV.open('../support/orders.csv', 'r').each do |line|
+      #file.each do |line|
+        CSV.open(file, 'r').each do |line|
+
         id = line[0].to_i
         x = line[1].split(';')
         x.each do |item|
@@ -32,12 +28,12 @@ module Grocery
         @@all_orders << Grocery::Order.new(id, products)
         products = {}
       end #of CSV line by line
-      list = ""
-      @@all_orders.each do |thing|
-        puts "#{thing.id}: #{thing.products}"
-      end
-      return list
-      #return @@all_orders
+      return @@all_orders
+      # list = ""
+      # @@all_orders.each do |thing|
+      #   puts "#{thing.id}: #{thing.products}"
+      # end
+      # return list
     end
 
     def self.find(id)
@@ -55,6 +51,10 @@ module Grocery
         end#if statement
       end #of CSV line by line
     end# method def
+
+    def self.all_orders
+      return @@all_orders
+    end
 
     def total
       pretax = 0
@@ -93,6 +93,18 @@ module Grocery
 end #module
 
 
+puts "____________________________________"
+#puts Grocery::Order.all(many_orders)
+x = Grocery::Order.all('../support/orders.csv')
+puts x
+puts x[4].class
+puts Grocery::Order.find(1).show_order
+
+puts x.length
+
+order2 = Grocery::Order.new(10, {})
+puts order2.class
+
 #id = 1337
 # many_orders = []
 # products = {}
@@ -110,11 +122,7 @@ end #module
 #     products = {}
 # end #of CSV line by line
 
-puts "____________________________________"
-#puts Grocery::Order.all(many_orders)
-puts Grocery::Order.create
 
-puts Grocery::Order.find(85).show_order
 
 
 
@@ -127,7 +135,7 @@ puts Grocery::Order.find(85).show_order
 # end
 # order = Grocery::Order.new(1, {"Slivered Almonds" =>2.50, "Wholewheat flour" => 1.00, "Grape Seed Oil" => 100.00})
 
-# order = Grocery::Order.new(10, {})
+
 # puts "Adding Products to first order, apples, cake, and crackers."
 # order.add_product("apples", 2.50)
 # order.add_product("cake", 2.50)

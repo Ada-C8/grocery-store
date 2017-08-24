@@ -64,7 +64,22 @@ describe "OnlineOrder" do
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      ["pending", "paid"].each do |status|
+        products = { "banana" => 1.99, "cracker" => 3.00 }
+        before_count = products.count
+        online_order = Grocery::OnlineOrder.new(1337, products, 26, status)
+
+        online_order.add_product("salad", 4.25)
+        expected_count = before_count + 1
+        online_order.products.count.must_equal expected_count
+      end
+
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = Grocery::OnlineOrder.new(1337, products, 26, "pending")
+
+      online_order.add_product("sandwich", 4.25)
+      online_order.products.include?("sandwich").must_equal true
+
     end
   end
 

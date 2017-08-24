@@ -144,8 +144,12 @@ describe "Order Wave 2" do
     it "the ID and products of order.all[0] and order.all[99] match what is in the CSV file" do
       order_first = [1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
       order_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
-      @orders[0].must_equal order_first
-      @orders[0].must_equal order_last
+      # you have to call orders.first.id because orders is an array of instances of the class. You need to get down to the first instance in the array to call the class instance variable on it.
+      @orders.first.id.must_equal order_first[0]
+      # @orders.first.products.must_equal order_first[1]
+
+      @orders.last.id.must_equal order_last[0]
+      @orders.last.products.must_equal order_last[1]
     end
   end
 

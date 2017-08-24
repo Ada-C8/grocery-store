@@ -1,3 +1,6 @@
+require 'csv'
+# require 'pry'
+
 module Grocery
   class Order
     attr_reader :id, :products
@@ -5,6 +8,40 @@ module Grocery
     def initialize(id, products)
       @id = id
       @products = products
+    end
+
+    def self.all
+      all_orders = []
+      CSV.open("/Users/kimberley/ada/week-three/grocery-store/lib/orders.csv", "r").each do |line|
+        id = line[0]
+        line.delete_at(0)
+        line = line[0].split(";")
+
+        products = []
+        line.each do |item_info|
+          item_pair = item_info.split(":")
+          item_with_cost = {item_pair[0] => item_pair[1]}
+          products << item_with_cost
+        end
+
+        order = Grocery::Order.new(id, products)
+        all_orders << order
+      end
+      return all_orders
+
+    end
+
+    def self.find(id)
+      self.all.each do |order|
+        if id == order.id
+          return order
+          # return "Order ID: #{order.id} \nProducts: #{order.products}"
+        end
+      end
+
+      if id.to_i > self.all.count || id.to_i < 1
+        raise ArgumentError.new ("That order ID does not exist.")
+      end
     end
 
     def total
@@ -28,5 +65,15 @@ module Grocery
       end
     end
 
-  end
-end
+    def remove_product(product_name)
+      @products.delete(product_name)
+      @products.each do |name, cost|
+        if name == product_name
+          return false
+        else
+          return true
+        end
+      end
+    end
+  end # end of class
+end # end of module

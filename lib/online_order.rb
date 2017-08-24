@@ -1,7 +1,14 @@
 require_relative "order.rb"
 
 class OnlineOrder < Grocery::Order
+attr_reader :order, :customer, :status
 
+def initialize(order, customer, status: "pending")
+  @order = order
+  @customer = customer
+  @status = :status
+
+end
 
 
 def total

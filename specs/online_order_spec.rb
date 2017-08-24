@@ -16,6 +16,8 @@ require_relative '../lib/order'
 xdescribe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
+      online_order = OnlineOrder.new(order, customer)
+      online_order.is_kind_of Order
       # Check that an OnlineOrder is in fact a kind of Order
 
       # Instatiate your OnlineOrder here

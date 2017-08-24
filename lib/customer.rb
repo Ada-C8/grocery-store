@@ -3,7 +3,7 @@ require 'csv'
 
 module Grocery
   class Customer
-    attr_reader :delivery_address
+    attr_reader :delivery_address, :customer_id, :email
 
     @@all_customers = []
 

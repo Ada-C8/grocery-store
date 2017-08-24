@@ -55,8 +55,44 @@ describe "Customer" do
     end #it "will have the right number of Customer instances in the array" do
 
     it "will have the right customer_id for the first customer" do
-       
+      all_customers = []
+      CSV.open("support/customers.csv", 'r').each do |line|
+        all_customers << Grocery::Customer.new(line[0], line[1], line[2], line[3], line[4], line[5])
+      end
+
+      test = Grocery::Customer.all
+      test[0].customer_id.must_equal all_customers[0].customer_id.to_s
     end #it "will have the right customer_id for the first customer" do
+
+    it "will have the right email for the first customer" do
+      all_customers = []
+      CSV.open("support/customers.csv", 'r').each do |line|
+        all_customers << Grocery::Customer.new(line[0], line[1], line[2], line[3], line[4], line[5])
+      end
+
+      test = Grocery::Customer.all
+      test[0].email.must_equal all_customers[0].email
+    end #it "will have the right email for the first customer" do
+
+    it "will have the right customer_id for the last customer" do
+      all_customers = []
+      CSV.open("support/customers.csv", 'r').each do |line|
+        all_customers << Grocery::Customer.new(line[0], line[1], line[2], line[3], line[4], line[5])
+      end
+
+      test = Grocery::Customer.all
+      test[-1].customer_id.must_equal all_customers[-1].customer_id.to_s
+    end #it "will have the right customer_id for the last customer" do
+
+    it "will have the right email for the last customer" do
+      all_customers = []
+      CSV.open("support/customers.csv", 'r').each do |line|
+        all_customers << Grocery::Customer.new(line[0], line[1], line[2], line[3], line[4], line[5])
+      end
+
+      test = Grocery::Customer.all
+      test[-1].email.must_equal all_customers[-1].email
+    end #it "will have the right email for the last customer" do
 
 
   end #describe "Customer.all" do

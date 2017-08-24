@@ -11,6 +11,7 @@ describe "Customer" do
       id = 5
       email = "alice@email.com"
       address = "123 S 1st Ave"
+      comment = "this won't work"
       alice = Grocery::Customer.new(id, email, address)
 
       alice.must_be_kind_of Grocery::Customer
@@ -19,21 +20,43 @@ describe "Customer" do
       alice.email.must_equal email
       alice.address.must_equal address
 
+      # raises ArgumentError
+      # mad_hatter = Grocery::Customer.new(id, email, address, comment)
+
       # TODO: Your test code here!
     end
   end
 
-  xdescribe "Customer.all" do
-    it "Returns an array of all customers" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Customer.all returns an array
-      #   - Everything in the array is a Customer
-      #   - The number of orders is correct
-      #   - The ID, email address of the first and last
-      #       customer match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+  describe "Customer.all" do
+    before do
+      @customers = Grocery::Customer.all
     end
+    it "Returns an array" do
+      @customers.must_be_kind_of Array
+    end
+
+    it "Array is filled with Customers" do
+      10.times do
+        @customers[rand(100)].must_be_kind_of Grocery::Customer
+      end
+    end
+
+    it "Has right number of items" do
+      @customers.length.must_equal 100
+    end
+
+    it "first and last are same as csv" do
+      customers_first = 	[1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
+
+      @customers.first.id.must_equal customers_first[0]
+      @customers.first.products.must_equal customers_first[1]
+
+      customers_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
+
+      @customers.last.id.must_equal customers_last[0]
+      @customers.last.products.must_equal customers_last[1]
+    end
+
   end
 
   xdescribe "Customer.find" do

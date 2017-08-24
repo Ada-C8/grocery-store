@@ -35,7 +35,7 @@ module Grocery
 
     def self.all
       all_orders = []
-      CSV.open("../support/orders.csv", 'r').each do |line|
+      CSV.open("/Users/galeharrington/ada/week3/grocery-store/support/orders.csv", 'r').each do |line|
         products_array = []
         id = line.slice!(0).to_i
         line.join.split(";").each do |product| #Eliminate "outer" array. Split resulting string into array of products.

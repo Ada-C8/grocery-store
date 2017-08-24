@@ -266,6 +266,12 @@ describe "Order Wave 2" do
       Grocery::Order.all
       test = Grocery::Order.find("1")
       test.id.must_equal "1"
+      # array = []
+      # Grocery::Order.all
+      #  test = Grocery::Order.find("1")
+      #  array << test
+      #  array.length.must_equal 1
+
     end
 
     it "Raises an error for an order that doesn't exist" do
@@ -280,6 +286,10 @@ describe "Order Wave 2" do
       #  else
       #    return nil
       #  end
+
+      Grocery::Order.all
+      test = Grocery::Order.find("1000")
+      test.must_equal false
 
     end
   end

@@ -74,31 +74,35 @@ module Grocery
 
     def self.find(id_to_test)
       #self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
-      # all_orders = []
-      # self.all
-      #This is returning an array
-
-      @@all_orders.each do |order|
-        if order.id == id_to_test
-          return order
-        end
-      end
-
-      # indexed_order = @@all_orders.map{|a| a.id == order_id}
-      # return indexed_order
-      # @@all_orders.find_index {|item| item.seat_id == other.seat_id}
+# TODO GET THE ORDER RETURNED IF IT EXISTS AND RETURN FALSE IF IT DOESN'T EXIST:
+# if  @@all_orders.any?{|a| a.id == id_to_test}
+#       @@all_orders.each do |order|
+#         if order.id == id_to_test
+#           return order
+#         end
+#       end
+# else
+#   return false
+# end
 
 
+#code below is from before adding if statement to throw error
+@@all_orders.each do |order|
+  if order.id == id_to_test
+    return order
+  end
+end
 
     end #self.find(id)
 
   end #Order class
 end # Grocery module
 
- Grocery::Order.all
-test = Grocery::Order.find("2")
-
-puts test.products
+#  Grocery::Order.all
+# test = Grocery::Order.find("2")
+#
+# puts test
+#  #=> true
 
 
 

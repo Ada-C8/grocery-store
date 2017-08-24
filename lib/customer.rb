@@ -8,6 +8,9 @@ module Grocery
       @address = address
     end
 
-
+    def self.all
+      customers = []
+      return customers
+    end
   end
 end

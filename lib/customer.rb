@@ -14,7 +14,7 @@ class Grocery::Customer
     # returns a collection of Customer instances, representing all of the Customer described in the CSV. See below for the CSV file specifications
     customers = []
     CSV.read(csv_file).each do |customer_info|
-      id = customer_info[0]
+      id = customer_info[0].to_i
       email = customer_info[1]
       delivery_address = {
       address: customer_info[2],
@@ -30,9 +30,14 @@ class Grocery::Customer
 
   end
 
-  def self.find(id)
-    # returns an instance of Customer where the value of the id field in the CSV matches the passed parameter.
-
+  def self.find(id, csv_file)
+    customers = self.all(csv_file)
+    customers.each do |customer|
+      if customer.id == id
+        return customer
+      end
+    end
+    raise ArgumentError.new "This order doesn't exist"
   end
 
 end

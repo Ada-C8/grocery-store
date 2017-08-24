@@ -157,17 +157,18 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
+      #there is a better way to do this - check bennets code - make it dry and remove the order_first varible if possible.
       order_first = [1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
-
-
-      Grocery::Order.find(1).id.must_equal 1.to_i
-      # binding.pry
+      Grocery::Order.find(1).id.must_equal  order_first[0]
       Grocery::Order.find(1).products.must_equal order_first[1]
-      # TODO: Your test code here!
     end
 
     xit "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      #there is a better way to do this - check bennets code - make it dry and remove the order_last varible if possible.
+      order_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
+
+      Grocery::Order.find(100).id.must_equal order_last[0]
+      Grocery::Order.find(100).products.must_equal order_last[1]
     end
 
     xit "Raises an error for an order that doesn't exist" do

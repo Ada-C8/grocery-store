@@ -162,20 +162,24 @@ describe "Order Wave 2" do
       ##   - The ID and products of the first and last
       ##      orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
+  end
 
+  describe "Order.find" do
+    it "Can find the first order from the CSV" do
+      Grocery::Order.find(1).must_equal @orders.first
+      # TODO: Your test code here!
+    end
+
+    it "Can find the last order from the CSV" do
+      Grocery::Order.find(100).must_equal @orders.last
+      # TODO: Your test code here!
+    end
+
+    it "Raises an error for an order that doesn't exist" do
+      Grocery::Order.find(300).must_raise ArgumentError
+      # TODO: Your test code here!
+
+
+    end
   end
 end
-#   describe "Order.find" do
-#     it "Can find the first order from the CSV" do
-#       # TODO: Your test code here!
-#     end
-#
-#     it "Can find the last order from the CSV" do
-#       # TODO: Your test code here!
-#     end
-#
-#     it "Raises an error for an order that doesn't exist" do
-#       # TODO: Your test code here!
-#     end
-#   end
-# end

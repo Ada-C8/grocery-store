@@ -20,7 +20,7 @@ module Grocery
         order_contents.to_s.delete(" \" ")
 
 
-        products = []
+        products = Hash.new
         item_index = 0
         order_contents.each do |items|
           current_item = order_contents[item_index]
@@ -28,14 +28,10 @@ module Grocery
           item_cost = current_item.to_s.split("\:")[1].to_f
           item_index = item_index + 1
 
-          #make a hash for one product (item_name => item_cost)
-          current_item = Hash.new
-          current_item = {
-            item_name => item_cost
-          }
-          #make an array of hashes for all items in order
+
+          #make a hashes for all items in order
           #ex. ({name1 => cost 1}, {name2 => cost 2})
-          products << current_item
+          products[item_name] = item_cost
           products
         end
         # make an array with the order id and the products
@@ -46,8 +42,6 @@ module Grocery
       end
       array_of_all_orders
     end
-
-
 
   end #end of class
 
@@ -60,6 +54,16 @@ module Grocery
       @products = products
     end
 
+    def self.all
+      collection_of_orders=[]
+      new_database = Grocery_Records.new
+      records= new_database.read_csv("support/orders.csv")
+      records.each do |order|
+        collection_of_orders << Order.new(order[0], order[1])
+      end
+      return collection_of_orders
+    end
+
     def total
       total = 0
       products.each do |name, price|
@@ -67,16 +71,6 @@ module Grocery
       end
       return total.round(2)
     end
-
-    # def update_database(file_name)
-    #   new_database = Grocery_Records.new
-    #   new_database.read_csv(file_name)
-    #
-    #   new_database.each do |order|
-    #     Order
-    # end
-
-
 
     def add_product(product_name, product_price)
       if @products.key?(product_name)
@@ -99,16 +93,4 @@ module Grocery
   end #end  class Order
 end #end module Grocery
 #
-t = Grocery::Order.new(1, {"Slivered Almonds"=>22.88, "Wholewheat flour"=>1.93, "Grape Seed Oil"=>74.9})
-
-puts t.total
-
-# inventory = {
-#   "apple" => 1.0,
-#   "tomato_soup" => 2.0,
-#   "milk" => 2.50,
-#   "chicken" => 5.75
-# }
-#
-# t = Grocery::Order.new(1, inventory)
-# puts t.remove_product("apple")
+#puts Grocery::Order.all

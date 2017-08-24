@@ -29,14 +29,18 @@ class Grocery::Customer
   end
 
   def self.find(id)
-    # returns the Customer instance with the given id if found; else nil
-  end
+    # returns the Customer instance with the given id if found; else raise ArgumentError
+    all_customers = self.all
 
-  private
+    all_customers.each do |customer|
+      if customer.id == id
+        return customer
+      end
+    end
 
-  def self.get_address
-    # helper method that gets add
+    raise ArgumentError.new("no such customer id")
   end
+  
 end # end of Customer class
 
 #puts Grocery::Customer.all

@@ -1,6 +1,7 @@
 require 'csv'
 require_relative 'order.rb'
 require_relative 'customer.rb'
+require 'pry'
 
 module Grocery
   class OnlineOrder < Order
@@ -49,13 +50,29 @@ module Grocery
 
     end
 
-
-    # self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
-
+    def self.find(id)
+      if id > self.all.count || id.to_i < 1
+        raise ArgumentError.new ("That customer ID does not exist.")
+      end
+      index = id - 1
+      return Grocery::OnlineOrder.all[index]
+    end
 
     # self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
+    def self.find_by_customer(customer_id)
+      if customer_id.to_i > Grocery::Customer.all.count || customer_id.to_i < 1
+        raise ArgumentError.new ("That customer ID does not exist.")
+      end
+
+
+      customer_orders = []
+      Grocery::OnlineOrder.all.each do |onlineorder|
+        if onlineorder.customer.to_i == customer_id
+          customer_orders << onlineorder
+        end
+      end
+      return customer_orders
+    end
 
   end #end of class
 end # end of module
-
-puts Grocery::OnlineOrder.all[0].products.class

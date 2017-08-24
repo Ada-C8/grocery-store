@@ -43,11 +43,21 @@ module Grocery
     end
 
     def total
-
+      total = super
+      if total == 0
+        return 0
+      else
+        total += 10
+      end
+      return total
     end
 
     def add_product
-
+      if @status == "pending" || @status == "paid"
+        super
+      else
+        raise ArgumentError.new "I'm sorry, you may no longer add to this order."
+      end
     end
 
   end
@@ -56,5 +66,5 @@ end
 # orders = Grocery::OnlineOrder.all('./support/online_orders.csv')
 
 # online_order = Grocery::OnlineOrder.new(10, {"Jerusalem Artichoke" => 59.92}, 26, "complete")
-#
+
 # p online_order.customer.class

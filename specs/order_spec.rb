@@ -206,7 +206,7 @@ describe "Order Wave 2" do
         end
         products = order_products
         all_orders << Grocery::Order.new(id, products)
-      end 
+      end
 
       test = Grocery::Order.all
 
@@ -219,10 +219,19 @@ describe "Order Wave 2" do
       # TODO: Your test code here!
       #self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
       first_order = CSV.open('support/orders.csv', 'r') { |csv| csv.first }
-      test = Grocery::Order.all
+      order_products = {}
+      products = first_order[1].split(";")
+      products.each do |item_price|
+        product_then_price = item_price.split(":")
+        order_products[product_then_price[0]] = product_then_price[1].to_f
+      end
+      test_hash = {first_order[0] => order_products}
 
-      test[0].products.must_equal first_order[0][1]
-    end
+      Grocery::Order.all
+      test = Grocery::Order.find(1)
+
+      test[0].products.must_equal test_hash[first_order[0]]
+    end # it "Can find the first order...
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!

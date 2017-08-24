@@ -180,8 +180,10 @@ describe "Order Wave 2" do
       Grocery::Order.find(100).products.must_equal order100_products
     end
 
-    xit "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+    it "Raises an error for an order that doesn't exist" do
+      proc { Grocery::Order.find(800) }.must_raise ArgumentError
     end
+
   end
+
 end

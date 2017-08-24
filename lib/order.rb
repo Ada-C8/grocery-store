@@ -26,6 +26,7 @@ module Grocery
 
         order_products = {}
         idx = 0
+
         while idx < product_info.length
           order_products[product_info[idx]] = product_info[idx + 1].to_f
           idx += 2
@@ -41,12 +42,12 @@ module Grocery
     end
 
     def self.find(id)
-      #reutnrs an instance of Order where the value of the id field in the CSV
+      #returns an instance of Order where the value of the id field in the CSV
       #matches the passed parameter
 
       self.all.each {|order| return order if order.id == id}
+      raise ArgumentError.new "Sorry, we don't have an order matching that ID number."
 
-      # raise ArgumentError, "Sorry,we don't have an order with that ID" unless x.is_a? Numeric
 
     end
 
@@ -147,4 +148,4 @@ end
 #
 # end
 #
-binding.pry
+# binding.pry

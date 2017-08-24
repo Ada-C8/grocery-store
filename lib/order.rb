@@ -24,7 +24,6 @@ module Grocery
     def initialize(id, products)
       @id = id
       @products = products
-
     end #initialize
 
     def total
@@ -62,57 +61,67 @@ module Grocery
         products.each do |item_price|
           product_price = item_price.split(':')
           order_products[product_price[0]] = product_price[1].to_f
-        end
+        end #.each
 
         products = order_products
         @@all_orders << Grocery::Order.new(id, products)
-
-      end
+      end #open
 
       return @@all_orders
     end #all
 
     def self.find(id_to_test)
       #self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
-# TODO GET THE ORDER RETURNED IF IT EXISTS AND RETURN FALSE IF IT DOESN'T EXIST:
-# if  @@all_orders.any?{|a| a.id == id_to_test}
-#       @@all_orders.each do |order|
-#         if order.id == id_to_test
-#           return order
-#         end
-#       end
-# else
-#   return false
-# end
+      # TODO NEED TO MAKE THIS WORK
+      x = self.all
+      if id_to_test > x.length
+        raise ArgumentError.new("Error: order #{id_to_test} does not exsist!")
+      else
+        @@all_orders.each do |order|
+          if order.id == id_to_test
+            return order
+          end
+        end 
+        end
+
+        # TODO GET THE ORDER RETURNED IF IT EXISTS AND RETURN FALSE IF IT DOESN'T EXIST:
+        # if  @@all_orders.any?{|a| a.id == id_to_test}
+        #       @@all_orders.each do |order|
+        #         if order.id == id_to_test
+        #           return order
+        #         end
+        #       end
+        # else
+        #   return false
+        # end
 
 
-#code below is from before adding if statement to throw error
-@@all_orders.each do |order|
-  if order.id == id_to_test
-    return order
-  end
-end
+        #code below is from before adding if statement to throw error
+        # @@all_orders.each do |order|
+        #   if order.id == id_to_test
+        #     return order
+        #   end
+        # end
+      end #self.find(id)
 
-    end #self.find(id)
+    end #Order class
+  end # Grocery module
 
-  end #Order class
-end # Grocery module
-
-#  Grocery::Order.all
-# test = Grocery::Order.find("2")
-#
-# puts test
-#  #=> true
-
+  #  Grocery::Order.all
+  # test = Grocery::Order.find("2")
+  #
+  # puts test
+  #  #=> true
 
 
 
 
 
 
-# test_order = Grocery::Order.new(123, {"apple" =>  3, "pear" => 2})
-# list_before = test_order.products
-# puts list_before
-# test_order.remove_product("apple")
-# list_after = test_order.products
-# puts list_after
+
+  # test_order = Grocery::Order.new(123, {"apple" =>  3, "pear" => 2})
+  # list_before = test_order.products
+  # puts list_before
+  # test_order.remove_product("apple")
+  # list_after = test_order.products
+  # puts list_after

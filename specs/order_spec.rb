@@ -252,10 +252,10 @@ describe "Order Wave 2" do
       end
 
 
-       Grocery::Order.all
-       test = Grocery::Order.find(all_orders.length)
+      Grocery::Order.all
+      test = Grocery::Order.find(all_orders.length)
 
-#Not producing the same list of products....
+      #Not producing the same list of products....
       test[-1].products.must_equal all_orders[-1].products
     end
 
@@ -265,7 +265,7 @@ describe "Order Wave 2" do
     it "must return an array with one element " do
       Grocery::Order.all
       test = Grocery::Order.find("1")
-      test.id.must_equal "1"
+      test.length.must_equal 1
       # array = []
       # Grocery::Order.all
       #  test = Grocery::Order.find("1")
@@ -287,9 +287,12 @@ describe "Order Wave 2" do
       #    return nil
       #  end
 
+      #need to define order array of csv file data in here
+      #TODO NEED TO FINISH THIS TO MAKE IT PASS!!!!
+      yay_orders = CSV.read("support/orders.csv", 'r')
+
       Grocery::Order.all
-      test = Grocery::Order.find("1000")
-      test.must_equal false
+      proc {Grocery::Order.find(yay_orders.length + 1)}.must_raise ArgumentError
 
     end
   end

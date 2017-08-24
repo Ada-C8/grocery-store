@@ -72,7 +72,7 @@ module Grocery
         products_arr = line[1].split(';')
         products = Hash[products_arr.map { |i| i.split(":") }]
         products = Hash[products.keys.zip(products.values.map(&:to_f))]
-
+        # Hash[h.map {|k, v| [k, v.to_f] }]
         order = Grocery::Order.new(id, products)
         all_orders << order
       end
@@ -91,8 +91,6 @@ module Grocery
       unless id_arr.include? (id)
         raise ArgumentError.new("Invalid order id: #{id}")
       end
-
-      
 
       return orders[id-1]
     end

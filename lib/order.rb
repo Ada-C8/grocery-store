@@ -12,11 +12,10 @@ module Grocery
       @total = 0
     end #initialize
 
-    def self.all(file)
+    def self.all
       products = {}
       #file.each do |line|
-        CSV.open(file, 'r').each do |line|
-
+      CSV.open('../support/orders.csv', 'r').each do |line|
         id = line[0].to_i
         x = line[1].split(';')
         x.each do |item|
@@ -29,27 +28,30 @@ module Grocery
         products = {}
       end #of CSV line by line
       return @@all_orders
-      # list = ""
-      # @@all_orders.each do |thing|
-      #   puts "#{thing.id}: #{thing.products}"
-      # end
-      # return list
     end
 
     def self.find(id)
       products = {}
+      x = []
       CSV.open('../support/orders.csv', 'r').each do |line|
-        if id.to_i == line[0].to_i
+        if id.to_i == line[0].to_i #begin if statement
           x = line[1].split(';')
-          x.each do |item|
-            y = item.split(":")
-            x.length.times do
-              products[y[0]] = y[1].to_f
-            end
-          end #x
-          return Grocery::Order.new(id, products)
-        end#if statement
+          break
+        end # if statement
       end #of CSV line by line
+      if x == []
+        z = "there's nothing to see here"
+        return z
+        #raise ArgumentError.new("Order Not Found")
+      else
+        x.each do |item| #begin split by :
+          y = item.split(":")
+          x.length.times do #begin adding products to the hash
+            products[y[0]] = y[1].to_f
+          end #end adding products to hash
+        end #end split by :
+        return Grocery::Order.new(id, products)
+      end #second if statement
     end# method def
 
     def self.all_orders
@@ -88,22 +90,21 @@ module Grocery
       end #each end
       return list
     end #show order method end
-
   end #class end
 end #module
 
 
-puts "____________________________________"
-#puts Grocery::Order.all(many_orders)
-x = Grocery::Order.all('../support/orders.csv')
-puts x
-puts x[4].class
-puts Grocery::Order.find(1).show_order
+# puts "____________________________________"
+# #puts Grocery::Order.all(many_orders)
+# x = Grocery::Order.all
+# puts Grocery::Order.find(10).show_order
+# puts Grocery::Order.find(150)
+# puts Grocery::Order.find(20).show_order
 
-puts x.length
+# puts x.length
 
-order2 = Grocery::Order.new(10, {})
-puts order2.class
+# order2 = Grocery::Order.new(10, {})
+# puts order2.class
 
 #id = 1337
 # many_orders = []
@@ -121,12 +122,6 @@ puts order2.class
 #     many_orders << Grocery::Order.new(id, products)
 #     products = {}
 # end #of CSV line by line
-
-
-
-
-
-
 
 
 #puts many_orders.inspect
@@ -222,3 +217,9 @@ puts order2.class
 #   end
 #   return list
 # end #self.all method
+
+# list = ""
+# @@all_orders.each do |thing|
+#   puts "#{thing.id}: #{thing.products}"
+# end
+# return list

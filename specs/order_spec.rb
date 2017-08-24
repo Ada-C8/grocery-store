@@ -124,10 +124,10 @@ end
 
 
 describe "Order Wave 2" do
+  before do
+    @orders = Grocery::Order.all
+  end
   describe "Order.all" do
-    before do
-      @orders = Grocery::Order.all
-    end
     it "Returns an array" do
       @orders.must_be_kind_of Array
     end
@@ -166,17 +166,21 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      Grocery::Order.find(1).must_equal @orders.first
+      Grocery::Order.find(1).id.must_equal @orders.first.id
+      Grocery::Order.find(1).products.must_equal @orders.first.products
+
       # TODO: Your test code here!
     end
 
     it "Can find the last order from the CSV" do
-      Grocery::Order.find(100).must_equal @orders.last
+      Grocery::Order.find(100).id.must_equal @orders.last.id
+      Grocery::Order.find(100).products.must_equal @orders.last.products
+
       # TODO: Your test code here!
     end
 
     it "Raises an error for an order that doesn't exist" do
-      Grocery::Order.find(300).must_raise ArgumentError
+      proc {Grocery::Order.find(300)}.must_raise ArgumentError
       # TODO: Your test code here!
 
 

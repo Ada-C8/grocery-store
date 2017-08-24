@@ -1,4 +1,5 @@
 require 'csv'
+require 'pry'
 
 module Grocery
   class Order
@@ -12,6 +13,8 @@ module Grocery
       @products = products
       @tax = 0.075
     end
+
+    #if @@all_orders is a hash then find.all you can search the has for the key = order idea
 
     def self.all
       orders = []
@@ -32,7 +35,7 @@ module Grocery
     #   raise ArgumentError.new("Invalid suit: #{suit}")
     # end
 
-    #find a way to do a class variable 
+    #find a way to do a class variable
     def self.find(id_input)
       orders = Order.all
       counter = 0

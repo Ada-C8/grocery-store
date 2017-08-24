@@ -5,7 +5,6 @@ module Grocery
     attr_reader :id, :products
 
 
-    @@order_objects = []
 
     def initialize(id, products)
       @id = id
@@ -17,6 +16,7 @@ module Grocery
 
     def self.all
       #returns all the orders in the csv file
+      @@order_objects = []
       @@line_count = 0
       CSV.open("support/orders.csv", 'r').each do |line|
         @@line_count += 1
@@ -31,59 +31,22 @@ module Grocery
       end
       return @@order_objects
     end
-    #
-    # def self.order_objects
-    #   return @@order_objects
-    # end
-
-    # def self.order_objects
-    #   return true
-    # end
 
 
+    def self.line_count
+      return @@line_count
+    end
 
     def self.order_objects
-      @@order_objects.each do |order|
-        if order.class != Order
-          return false
-        else
-          return true
-        end
-      end
+      return @@order_objects
     end
 
-    def self.count
-      # puts @@line_count
-      # puts @order_objects.length
-      if @@order_objects.length == @@line_count
-        return true
-      else
-        return false
-      end
-    end
 
-  # if @orders.length != @line_count
-  #   return false
-  # end
-
-  # @orders.each |object|
-  #   unless object.class == Order
-  #     return false
-  #   end
-  # end
+  def self.find(id)
 
 
+  end
 
-
-  # def self.find(id)
-  #   @orders.each do |order|
-  #     if order.id == id
-  #       return order
-  #     end
-  #
-  #
-  #     #returns the order of that has the passed id
-  #   end
 
   def total
     #: implement total
@@ -115,7 +78,3 @@ module Grocery
   end
 end
 end
-
-
-
-# puts Grocery::Order.count

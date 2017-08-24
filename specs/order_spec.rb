@@ -166,8 +166,15 @@ describe "Order Wave 2" do
 
     it "will have the right product for the first order" do
       first_order = CSV.open('support/orders.csv', 'r') { |csv| csv.first }
+      order_products = {}
+      products = first_order[1].split(";")
+      products.each do |item_price|
+        product_then_price = item_price.split(":")
+        order_products[product_then_price[0]] = product_then_price[1].to_f
+      end
+      test_hash = {first_order[0] => order_products}
+
       test = Grocery::Order.all
-      test_hash = {first_order[0] => first_order[1].split(";")}
 
       test[0].products.must_equal test_hash[first_order[0]]
     end #it "will have the right product for the first order
@@ -188,10 +195,21 @@ describe "Order Wave 2" do
       #TODO is there a better way to do this that does't basically repeat the code in order.rb?
       all_orders = []
       CSV.open("support/orders.csv", 'r').each do |line|
-        all_orders << Grocery::Order.new(line[0], line[1].split(";"))
-      end
+        id = line[0]
+
+        order_products = {}
+        products = line[1].split(';')
+
+        products.each do |item_price|
+          product_price = item_price.split(':')
+          order_products[product_price[0]] = product_price[1].to_f
+        end
+        products = order_products
+        all_orders << Grocery::Order.new(id, products)
+      end 
 
       test = Grocery::Order.all
+
       test[-1].products.must_equal all_orders[-1].products
     end #it "will have the right products for the last order
   end # discribe "Order.all" do

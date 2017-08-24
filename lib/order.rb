@@ -8,6 +8,9 @@
 #To get the order total you should sum all the hash values and multiply it by the tax
 #Should I have a list of object ID's and what they link to?
 
+
+
+#Changed self.all method to create a hash for the product, so I think this broke some of my tests, because I wasn't treating @products as a hash in those tests
 require 'csv'
 
 module Grocery
@@ -63,15 +66,7 @@ module Grocery
       end
 
       return all_orders
-
-        # products_hash = {}
-        # products_arr = line[1].split';'
-        # products_arr.each do |item_colon_price|
-        # product_price = item_colon_price.split':'
-        # products_hash[product_price[0]] = product_price[1].to_f
-
-
-
+##### First try at self.all method (which didn't make hashes):
       # all_orders = []
       # product_hash = {}
       # CSV.open("support/orders.csv", 'r').each do |line|
@@ -89,8 +84,9 @@ module Grocery
   end #Order class
 end # Grocery module
 
- test = Grocery::Order.all[0].products
- puts test
+ # test = Grocery::Order.all[0].products
+ #
+ # puts test
 
 
 

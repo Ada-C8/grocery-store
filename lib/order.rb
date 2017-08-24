@@ -20,7 +20,7 @@ module Grocery
       # a collection of products and their cost
       # zero products is permitted
       # you can assume that there is only one of each product
-
+    end
 
 
     # calculate the total cost of the order by:
@@ -60,26 +60,42 @@ module Grocery
     end
 
     def self.all
-      arr = []
-      return arr
+      #return collection of order objects (don't need class variable)
+
+      id = nil
+      products_arr = []
+      products = {}
+      all_orders = []
+
+      CSV.open('support/orders.csv', 'r').each do |line|
+        id = line[0].to_i
+        products_arr = line[1].split(';')
+        products = Hash[products_arr.map { |i| i.split(":") }]
+        products = Hash[products.keys.zip(products.values.map(&:to_f))]
+
+        order = Grocery::Order.new(id, products)
+        all_orders << order
+      end
+
+      return all_orders
     end
+
+    def self.find(id)
+      orders = Grocery::Order.all
+
+      id_arr = []
+      orders.each do |order|
+        id_arr << order.id
+      end
+
+      unless id_arr.include? (id)
+        raise ArgumentError.new("Invalid order id: #{id}")
+      end
+
+      
+
+      return orders[id-1]
+    end
+
   end#Order
-end
-
-
-id = nil
-products_arr = []
-products = {}
-
-CSV.open('../support/orders.csv', 'r').each do |line|
-  id = line[0]
-  products_arr = line[1].split(';')
-  products = Hash[products_arr.map { |i| i.split(":") }]
-  products = Hash[products.keys.zip(products.values.map(&:to_f))]
-  puts products
-break
-  # id = line[0]
-  # products_arr = line
-end
-# puts id
 end

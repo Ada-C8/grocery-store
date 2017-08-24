@@ -163,7 +163,7 @@ describe "Order Wave 2" do
       Grocery::Order.find(1).products.must_equal order_first[1]
     end
 
-    xit "Can find the last order from the CSV" do
+    it "Can find the last order from the CSV" do
       #there is a better way to do this - check bennets code - make it dry and remove the order_last varible if possible.
       order_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
 
@@ -171,8 +171,8 @@ describe "Order Wave 2" do
       Grocery::Order.find(100).products.must_equal order_last[1]
     end
 
-    xit "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+    it "Raises an error for an order that doesn't exist" do
+      proc{Grocery::Order.find(107)}.must_raise ArgumentError
     end
   end
 end

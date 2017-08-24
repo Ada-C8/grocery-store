@@ -146,15 +146,16 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-
+# should be able to put in an id and the order should output and match
+      Grocery::Order.find(1).id.must_equal @orders.first.id
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.find(100).id.must_equal @orders.last.products
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Order.find(101)}.must_raise ArgumentError
     end
   end
 end

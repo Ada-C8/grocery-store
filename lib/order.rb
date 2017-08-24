@@ -15,7 +15,7 @@ module Grocery
       #Path.expand(__FILE__, relative file path)
       all_orders = []
       CSV.read("support/orders.csv").each do |line|
-        id = line[0]
+        id = line[0].to_i
         products = {}
         @item_colon_price_array = line[1].split(";")
         #still [item:price, item:price], need to put in hash
@@ -32,7 +32,7 @@ module Grocery
     end
 
     def self.find(id)
-      @@orders.each do |order|
+      self.all.each do |order|
         return order if order.id == id
       end
       raise ArgumentError.new("An order with the ID #{id} does not exist.")

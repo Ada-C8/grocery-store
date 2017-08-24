@@ -53,7 +53,7 @@ module Grocery
     def self.all
       #method that will return an array of all the orders
       #the numnber of orders in the array is correct,
-        @@all_orders = []
+      @@all_orders = []
       CSV.open("support/orders.csv", 'r').each do |line|
         id = line[0]
         order_products = {}
@@ -72,24 +72,33 @@ module Grocery
       return @@all_orders
     end #all
 
-    def self.find(order_id)
+    def self.find(id_to_test)
       #self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
       # all_orders = []
       # self.all
+      #This is returning an array
+
       @@all_orders.each do |order|
-        if order.id == order_id
-          return order.products
+        if order.id == id_to_test
+          return order
         end
       end
+
+      # indexed_order = @@all_orders.map{|a| a.id == order_id}
+      # return indexed_order
+      # @@all_orders.find_index {|item| item.seat_id == other.seat_id}
+
+
 
     end #self.find(id)
 
   end #Order class
 end # Grocery module
 
- # test = Grocery::Order.all[0].products
- #
- # puts test
+ Grocery::Order.all
+test = Grocery::Order.find("2")
+
+puts test.products
 
 
 

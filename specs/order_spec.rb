@@ -188,7 +188,7 @@ describe "Order Wave 2" do
       end
 
       test = Grocery::Order.all
-      test[-1].id.must_equal all_orders[-1].id
+      test[-1].id.must_equal all_orders[-1].id.to_s
     end #it "will have the right id for the last order
 
     it "will have the right products for the last order" do
@@ -235,10 +235,52 @@ describe "Order Wave 2" do
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
+
+      all_orders = []
+      CSV.open("support/orders.csv", 'r').each do |line|
+        id = line[0]
+
+        order_products = {}
+        products_split = line[1].split(';')
+
+        products_split.each do |item_price|
+          product_price = item_price.split(':')
+          order_products[product_price[0]] = product_price[1].to_f
+        end
+        products = order_products
+        all_orders << Grocery::Order.new(id, products)
+      end
+
+
+       Grocery::Order.all
+       test = Grocery::Order.find(all_orders.length)
+
+#Not producing the same list of products....
+      test[-1].products.must_equal all_orders[-1].products
+    end
+
+
+
+
+    it "must return an array with one element " do
+      Grocery::Order.all
+      test = Grocery::Order.find("1")
+      test.id.must_equal "1"
     end
 
     it "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
+      # test =  Grocery::Order.all
+
+      #  if test.any?{|order| order.(1000)}
+      #    @@all_orders.each do |order|
+      #      if order.id == order_id
+      #        return order.products
+      #      end
+      #  else
+      #    return nil
+      #  end
+
     end
   end
 end

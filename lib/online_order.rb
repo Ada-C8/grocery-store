@@ -4,7 +4,8 @@ class OnlineOrder < Grocery::Order
   attr_reader :customer
   attr_accessor :status
 
-  def initialize(customer_id, order_status = :pending, products = nil)
+  def initialize(order_id, customer_id, order_status = :pending, products = nil)
+    @id = order_id
     @customer = customer_id
     @products = products
     @status = order_status

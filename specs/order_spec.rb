@@ -130,6 +130,7 @@ describe "Order Wave 2" do
     end
     it "The number of orders is correct" do
       @orders.length.must_equal 100
+      #count not length?
     end
     it "Everything in the array is an Order" do
       10.times do
@@ -140,22 +141,30 @@ describe "Order Wave 2" do
       orders_first = [1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
       @orders.first.id.must_equal orders_first[0]
       @orders.first.products.must_equal orders_first[1]
+      # must_be versus must_equal
     end
 
   end
 
   describe "Order.find" do
+    #why doesn't this work???
+    # before do
+    #   @orders = Grocery::Order.find(id)
+    # end
     it "Can find the first order from the CSV" do
-# should be able to put in an id and the order should output and match
-      Grocery::Order.find(1).id.must_equal @orders.first.id
+      # should be able to put in an id and the order should output and match
+      Grocery::Order.find(1).id.must_equal 1 && @orders.first.id
     end
 
     it "Can find the last order from the CSV" do
-      Grocery::Order.find(100).id.must_equal @orders.last.id
+      Grocery::Order.find(100).id.must_equal 100 && @orders.last.id
     end
 
+
     it "Raises an error for an order that doesn't exist" do
+      all_orders = CSV.read("../support/orders.csv")
       proc {Grocery::Order.find(101)}.must_raise ArgumentError
+      proc {Grocery::Order.find(all_orders.length + 1)}.must_raise ArgumentError
     end
   end
 end

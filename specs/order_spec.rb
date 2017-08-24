@@ -30,11 +30,11 @@ describe "Order Wave 1" do
 
       order.total.must_equal expected_total
     end
+  end
 
     it "Returns a total of zero if there are no products" do
       order = Grocery::Order.new(1337, {})
       order.total.must_equal 0
-    end
   end
 
   describe "#add_product" do
@@ -47,6 +47,7 @@ describe "Order Wave 1" do
       expected_count = before_count + 1
       order.products.count.must_equal expected_count
     end
+  end
 
     it "Is added to the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -76,7 +77,7 @@ describe "Order Wave 1" do
       result = order.add_product("salad", 4.25)
       result.must_equal true
     end
-end
+
 
   xdescribe "#remove_product" do
     it "Deletes an element from the products array" do
@@ -135,22 +136,18 @@ describe "Order Wave 2" do
 
   end
 
-  xdescribe "Order.find" do
+  describe "Order.find" do
     it "Can find the first order from the CSV" do
-      order = Grocery::Order.find(1)
-      #puts "this is our order************asdf #{order[0].products} asdf**************"
-      ap order
-      order.must_equal [{"Slivered Almonds"=>"22.88"}, {"Wholewheat flour"=>"1.93"}, {"Grape Seed Oil"=>"74.9"}]
+      # order = Grocery::Order.all
+      Grocery::Order.find("1").must_equal "Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"
     end
 
-    xit "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-
+    it "Can find the last order from the CSV" do
+      Grocery::Order.find("100").must_equal "Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"
     end
 
-    xit "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
-
+    it "Raises an error for an order that doesn't exist" do
+      proc {Grocery::Order.find("101").must_raise ArgumentError}
     end
   end
 end

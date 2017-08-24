@@ -1,5 +1,6 @@
 require 'csv'
 require 'awesome_print'
+require 'pry'
 
 module Grocery
   class Order
@@ -36,11 +37,12 @@ module Grocery
       # ap orders_array.flatten
     end
 
-    def self.find(id)
-      #ordered_stuff = {}
+    def self.find(input_id)
+      ordered_stuff = {}
       #if id > 1 && id <@orders_array.length
-        Grocery::Order.all.each do |order|
-          if order.id == id
+        my_order = Grocery::Order.all
+        my_order.each do |order|
+          if order.id == input_id
             ordered_stuff = order.products
             return ordered_stuff
           end
@@ -48,9 +50,9 @@ module Grocery
           #   raise ArgumentError.new("You did not enter a valid order number.")
           # end
         end
-        # if ordered_stuff == []
-        #   raise ArgumentError.new("You did not enter a valid order number.")
-        # end
+        if ordered_stuff.empty?
+          raise ArgumentError.new("You did not enter a valid order number.")
+        end
 
     end
 
@@ -78,8 +80,8 @@ module Grocery
   end # of class
 end # end of module
 
-my_order = Grocery::Order.all
-print my_order
+Grocery::Order.all
+#print my_order
 #ap my_order
 
 

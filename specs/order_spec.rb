@@ -161,6 +161,12 @@ describe "Order Wave 2" do
       Grocery::Order.find(100).id.must_equal 100
     end
 
+    # it "Can find the products from the first order from the CSV" do
+    #   # TODO: Your test code here!
+    #   # orders = Grocery::Order.all
+    #   Grocery::Order.find(1).products.to_s.must_match / {"Slivered Almonds"=>22.88, "Wholewheat flour"=>1.93, "Grape Seed Oil"=>74.9} /
+    # end
+
     it "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
       proc { Grocery::Order.find(101) }.must_raise ArgumentError

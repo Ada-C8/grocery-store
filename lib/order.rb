@@ -67,11 +67,11 @@ module Grocery
         return orders[id-1]
       end
     end
-    
+
   end
 end
 
-# puts Grocery::Order.find(1).products
+puts Grocery::Order.find(1).products
 # puts Grocery::Order.find(101)
 
 # require "money"

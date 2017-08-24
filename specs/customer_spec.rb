@@ -3,12 +3,26 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 # TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/customer'
+require_relative '../lib/customer'
+require_relative '../lib/order'
 
-xdescribe "Customer" do
+describe "Customer" do
   describe "#initialize" do
     it "Takes an ID, email and address info" do
       # TODO: Your test code here!
+      id = 1
+      email = "test.email.com"
+      address = "123 somewhere lane, state, country, zip"
+      new_customer = Grocery::Customer.new(id, email, address)
+      new_customer.must_respond_to :id
+      new_customer.id.must_equal id
+      new_customer.id.must_be_kind_of Integer
+
+      new_customer.must_respond_to :email
+      new_customer.email.must_be_kind_of String
+
+      new_customer.must_respond_to :address
+      new_customer.address.must_be_kind_of String
     end
   end
 

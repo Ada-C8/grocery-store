@@ -28,12 +28,15 @@ module Grocery
     end
 
     def self.find(line)
-      self.all
       if @@all_orders[line] == nil
         raise ArgumentError.new ("Order does not exist")
       else
         return @@all_orders[line]
       end
+    end
+
+    def self.clear
+      @@all_orders = Array.new
     end
 
     def initialize(id, products)
@@ -71,6 +74,4 @@ module Grocery
 
   end
 
-Grocery::Order.import(CSV.read('support/orders.csv'))
-puts Grocery::Order.all[0]
 end

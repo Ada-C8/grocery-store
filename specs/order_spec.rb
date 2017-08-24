@@ -24,7 +24,7 @@ describe "Order Wave 1" do
       order = Grocery::Order.new(1337, products)
 
       sum = products.values.inject(0, :+)
-      expected_total = sum + (sum * 0.075).round(2)
+      expected_total = sum + (sum * 0.075).round(2) #NEED TO ADD TAX TO TOTAL
 
       order.total.must_equal expected_total
     end
@@ -78,12 +78,14 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+# change 'xdescribe' to 'describe' to run these tests
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      # Your test code here!
       # Useful checks might include:
+          Order.all.class.must_be Array
+          
       #   - Order.all returns an array
       #   - Everything in the array is an Order
       #   - The number of orders is correct

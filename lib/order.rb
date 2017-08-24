@@ -8,16 +8,16 @@
 #To get the order total you should sum all the hash values and multiply it by the tax
 #Should I have a list of object ID's and what they link to?
 
-
+require 'csv'
 
 module Grocery
   class Order
     attr_reader :id, :products
-
     #Need to allow 0 product to be entered
     def initialize(id, products)
       @id = id
       @products = products
+
     end #initialize
 
     def total
@@ -27,8 +27,6 @@ module Grocery
     end #total
 
     def add_product(product_name, product_price)
-      # TODO: implement add_product
-      # product_name = product_name.to_sym
       if @products.has_key?(product_name)
         return false
       else @products[product_name] = product_price
@@ -44,13 +42,65 @@ module Grocery
         return true
       end #if/else
     end #remove_product
-    end #Order class
-  end # Grocery module
+
+    def self.all
+      #method that will return an array of all the orders
+      #the numnber of orders in the array is correct,
+      all_orders = []
+      CSV.open("support/orders.csv", 'r').each do |line|
+        id = line[0]
+
+        order_products = {}
+        products = line[1].split(';')
+
+        products.each do |item_price|
+          product_price = item_price.split(':')
+          order_products[product_price[0]] = product_price[1].to_f
+        end
+
+        products = order_products
+        all_orders << Grocery::Order.new(id, products)
+      end
+
+      return all_orders
+
+        # products_hash = {}
+        # products_arr = line[1].split';'
+        # products_arr.each do |item_colon_price|
+        # product_price = item_colon_price.split':'
+        # products_hash[product_price[0]] = product_price[1].to_f
 
 
-  test_order = Grocery::Order.new(123, {"apple" =>  3, "pear" => 2})
-  list_before = test_order.products
-  puts list_before
-  test_order.remove_product("apple")
-  list_after = test_order.products
-  puts list_after
+
+      # all_orders = []
+      # product_hash = {}
+      # CSV.open("support/orders.csv", 'r').each do |line|
+      #   all_orders << Grocery::Order.new(line[0], line[1].split(";"))
+      #   #do we need to loop though line[1] to get the items into a hash?
+      #
+      # end
+      # return all_orders
+    end #all
+
+    def self.find(id)
+      #self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
+    end #self.find(id)
+
+  end #Order class
+end # Grocery module
+
+ test = Grocery::Order.all[0].products
+ puts test
+
+
+
+
+
+
+
+# test_order = Grocery::Order.new(123, {"apple" =>  3, "pear" => 2})
+# list_before = test_order.products
+# puts list_before
+# test_order.remove_product("apple")
+# list_after = test_order.products
+# puts list_after

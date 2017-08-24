@@ -79,7 +79,6 @@ describe "Order Wave 1" do
     end
   end # add_product
 
-
   describe "remove_product" do
     it "decreases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -128,23 +127,83 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
+    # TODO: Your test code here!
+    # Useful checks might include:
+    #   - Order.all returns an array
+    #   - Everything in the array is an Order
+    #   - The number of orders is correct
+    #   - The ID and products of the first and last
+    #       orders match what's in the CSV file
+    # Feel free to split this into multiple tests if needed
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
-    end
-  end
+      Grocery::Order.all.must_be_kind_of Array
+    end # it "Returns an array of all orders" do
+
+    it "will have erything in the Order.all array be an array" do
+      test = Grocery::Order.all
+      test.length.times do |i|
+        test[i].must_be_kind_of Grocery::Order
+      end
+    end #it "will have erything....
+
+    it "will contain the right numnber of orders" do
+      all_orders = []
+      CSV.open("support/orders.csv", 'r').each do |line|
+        all_orders << Grocery::Order.new(line[0], line[1].split(";"))
+      end
+
+      Grocery::Order.all.length.must_equal all_orders.length
+    end #it "will contain ....
+
+    it "will have the right id for the first order" do
+      first_order = CSV.open('support/orders.csv', 'r') { |csv| csv.first }
+      test = Grocery::Order.all
+
+      test[0].id.must_equal first_order[0][0]
+    end #it "will have the right id for the first order
+
+    it "will have the right product for the first order" do
+      first_order = CSV.open('support/orders.csv', 'r') { |csv| csv.first }
+      test = Grocery::Order.all
+      test_hash = {first_order[0] => first_order[1].split(";")}
+
+      test[0].products.must_equal test_hash[first_order[0]]
+    end #it "will have the right product for the first order
+
+
+    it "will have the right id for the last order" do
+      #TODO is there a better way to do this that does't basically repeat the code in order.rb?
+      all_orders = []
+      CSV.open("support/orders.csv", 'r').each do |line|
+        all_orders << Grocery::Order.new(line[0], line[1].split(";"))
+      end
+
+      test = Grocery::Order.all
+      test[-1].id.must_equal all_orders[-1].id
+    end #it "will have the right id for the last order
+
+    it "will have the right products for the last order" do
+      #TODO is there a better way to do this that does't basically repeat the code in order.rb?
+      all_orders = []
+      CSV.open("support/orders.csv", 'r').each do |line|
+        all_orders << Grocery::Order.new(line[0], line[1].split(";"))
+      end
+
+      test = Grocery::Order.all
+      test[-1].products.must_equal all_orders[-1].products
+    end #it "will have the right products for the last order
+  end # discribe "Order.all" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+      #self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
+      first_order = CSV.open('support/orders.csv', 'r') { |csv| csv.first }
+      test = Grocery::Order.all
+
+      test[0].products.must_equal first_order[0][1]
     end
 
     it "Can find the last order from the CSV" do

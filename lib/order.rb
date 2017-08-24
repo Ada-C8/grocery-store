@@ -47,29 +47,35 @@ module Grocery
       end
     end
 
-def self.all
-  orders = [] 
-end
+    def self.all
+      orders = []
+      CSV.open("../support/orders.csv", 'r').each do |line|
+        id = line[0].to_i
+        # line[1] = line[1].gsub! ';', ','
+        # line[1] = line[1].gsub! ':', '=>'
+        products = {}
+        products_arr = line[1].split';'
+        products_arr.each do |item|
+          product_price = item.split':'
+          products[product_price[0]] = product_price[1].to_f
+        end
+        orders << self.new(id, products)
+      end # each loop
+      return orders
+    end # self.all method
 
-      # def read_csv
-      #   @orders = {}
-      #   CSV.open("support/orders.csv", 'r').each do |line|
-      #     products_hash = line[1].split(",")
-      #     products_hash.each do
-      #   end # each loop
-      # end # read_csv method
   end # Order class
 end # Grocery module
 
 
-products = { "banana" => 1.99, "cracker" => 3.00 }
-test_order = Grocery::Order.new(1337, products)
-
-puts test_order.total
-
-
-test_order.add_product("sandwich", 4.25)
-puts test_order.products
-puts test_order.total
-test_order.remove_product("sandwich")
-puts test_order.products
+# products = { "banana" => 1.99, "cracker" => 3.00 }
+# test_order = Grocery::Order.new(1337, products)
+#
+# puts test_order.total
+#
+#
+# test_order.add_product("sandwich", 4.25)
+# puts test_order.products
+# puts test_order.total
+# test_order.remove_product("sandwich")
+# puts test_order.products

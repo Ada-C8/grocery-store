@@ -59,9 +59,8 @@ module Grocery
     end
 
     def self.find(id)
-      orders = Order.all
-      # logic error:
-      unless (0..orders.length).include?(id)
+      orders = self.all
+      unless (1..orders.length).include?(id)
         raise ArgumentError.new("Invalid id: #{id}")
       end
 

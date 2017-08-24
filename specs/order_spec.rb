@@ -154,6 +154,8 @@ describe "Order Wave 2" do
       @orders.last.products.must_equal orders_last[1]
     end
 
+    #price floats aren't rounding to 2 decimal places - fix.
+    
       # TODO: Your test code here!
       # Useful checks might include:
       ##   - Order.all returns an array

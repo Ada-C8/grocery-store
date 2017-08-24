@@ -61,17 +61,43 @@ describe "Customer" do
     end
   end
 
-  xdescribe "Customer.find" do
+  describe "Customer.find" do
+    before do
+
+    end
+
     it "Can find the first customer from the CSV" do
-      # TODO: Your test code here!
+      expected_id = 1
+      expected_email = "leonard.rogahn@hagenes.org"
+      expected_address = ["71596 Eden Route", "Connellymouth", "LA", "98872-9105"]
+
+      first_customer = Grocery::Customer.find(1)
+      first_id = first_customer.id
+      first_email = first_customer.email
+      first_address = first_customer.delivery_address
+
+      first_id.must_equal expected_id
+      first_email.must_equal expected_email
+      first_address.must_equal expected_address
     end
 
     it "Can find the last customer from the CSV" do
-      # TODO: Your test code here!
+      expected_id = 35
+      expected_email = "rogers_koelpin@oconnell.org"
+      expected_address = ["7513 Kaylee Summit", "Uptonhaven", "DE", "64529-2614"]
+
+      last_customer = Grocery::Customer.find(35)
+      last_id = last_customer.id
+      last_email = last_customer.email
+      last_address = last_customer.delivery_address
+
+      last_id.must_equal expected_id
+      last_email.must_equal expected_email
+      last_address.must_equal expected_address
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      # TODO: Your test code here!
+      proc { Grocery::Customer.find(500) }.must_raise ArgumentError
     end
   end
 end

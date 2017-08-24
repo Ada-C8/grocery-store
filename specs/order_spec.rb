@@ -191,7 +191,7 @@ describe "Order Wave 2" do
     end
 
     it "Raises an error for an order that doesn't exist" do
-      Grocery::Order.find(500).must_be_nil
+      proc { Grocery::Order.find(500) }.must_raise ArgumentError
     end
   end
 end

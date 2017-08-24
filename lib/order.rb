@@ -56,7 +56,6 @@ module Grocery
         id = row[0].to_i
         # get list of each product in form "name:price"
         product_info = row[1]
-        puts product_info
         products = parse_products(product_info)
 
         order = Order.new(id, products)
@@ -85,7 +84,7 @@ module Grocery
       end
 
       # if order not found
-      return nil
+      raise ArgumentError.new("No such order id")
     end
 
     private
@@ -108,6 +107,5 @@ module Grocery
 
       return products
     end
-
   end
 end

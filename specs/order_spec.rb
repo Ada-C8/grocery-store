@@ -141,7 +141,7 @@ describe "Order Wave 2" do
       Grocery::Order.all.must_be_kind_of Array
     end # it "Returns an array of all orders" do
 
-    it "will have erything in the Order.all array be an array" do
+    it "will have erything in the Order.all array be an instsnce of the Order class" do
       test = Grocery::Order.all
       test.length.times do |i|
         test[i].must_be_kind_of Grocery::Order

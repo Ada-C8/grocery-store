@@ -51,6 +51,7 @@ module Grocery
       orders = []
       CSV.open("../support/orders.csv", 'r').each do |line|
         id = line[0].to_i
+        # playing with .sub!
         # line[1] = line[1].gsub! ';', ','
         # line[1] = line[1].gsub! ':', '=>'
         products = {}
@@ -65,7 +66,7 @@ module Grocery
     end # self.all method
 
     def self.find(id)
-      orders = Order.all
+      orders = self.all
       if id > all.length
         raise ArgumentError.new("Error: #{id} does not exist")
       end
@@ -79,6 +80,7 @@ module Grocery
     end # end self.find method
   end # Order class
 end # Grocery module
+
 
 # test = Grocery::Order.new
 # puts test.find(2)

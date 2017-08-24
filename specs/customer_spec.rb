@@ -31,12 +31,23 @@ describe "Customer" do
       Grocery::Customer.all[0].must_be_instance_of Array
       #   - The number of orders is correct
       Grocery::Customer.all.length.must_equal 35
+
+    end
+    
+    it "First Customer matches CSV file" do
       #   - The ID, email address of the first and last
       #       customer match what's in the CSV file
       first_customer = CSV.read("support/orders.csv")[0]
       Grocery::Customer.all[0].id.must_equal first_customer[0].to_i
       Grocery::Customer.all[0].email.must_equal first_customer[1]
       Grocery::Customer.all[0].address.must_equal first_customer[2..5].join(", ")
+    end
+
+    it "Last Customer matches CSV file" do
+      last_customer = CSV.read("support/orders.csv")[34]
+      Grocery::Customer.all[34].id.must_equal last_customer[0].to_i
+      Grocery::Customer.all[34].email.must_equal last_customer[1]
+      Grocery::Customer.all[34].address.must_equal last_customer[2..5].join(", ")
 
       # Feel free to split this into multiple tests if needed
     end

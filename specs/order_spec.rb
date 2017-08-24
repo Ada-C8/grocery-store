@@ -158,16 +158,26 @@ describe "Order Wave 2" do
 
     #   - The ID and products of the first and last
     #       orders match what's in the CSV file
-    it "The IDs of the first and last orders matches the csv file" do
+    it "The products must matches the csv file" do
       new_orders = Grocery::Order.all
-      new_database = Grocery::Grocery_Records.new
-      records = new_database.read_csv("support/orders.csv")
-      new_orders[0].id.must_equal records[0][0]
-      new_orders[-1].id.must_equal records[-1][0]
+      index=0
+      CSV.open("support/orders.csv", 'r').each do |line|
+        line[1].delete(":").delete(";")
+        new_orders[index].products.flatten.join("")
+        index +=1
+      end
+
+
     end
 
-    # Feel free to split this into multiple tests if needed
-
+    it "The products ids match the csv file" do
+      new_orders = Grocery::Order.all
+      index = 0
+      CSV.open("support/orders.csv", 'r').each do |line|
+        line[0].must_equal new_orders[index].id
+        index +=1
+      end
+    end
   end
 
   describe "Order.find" do

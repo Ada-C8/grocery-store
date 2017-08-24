@@ -30,19 +30,37 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Adds a shipping fee" do
-      # TODO: Your test code here!
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = Grocery::OnlineOrder.new(1337, products, 26, "complete")
+
+      sum = products.values.inject(0, :+)
+      expected_total = sum + (sum * 0.075).round(2) + 10
+
+      online_order.total.must_equal expected_total
+
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
+      products = {}
+      online_order = Grocery::OnlineOrder.new(1337, products, 26, "complete")
+
+      expected_total = 0
+      online_order.total.must_equal expected_total
     end
   end
 
   describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
+      statuses = ["processing", "shipped", "complete"]
+      statuses.each do |status|
+
+        products = { "banana" => 1.99, "cracker" => 3.00 }
+        online_order = Grocery::OnlineOrder.new(1337, products, 26, status)
+
+        proc {online_order.add_product}.must_raise ArgumentError
+      end
     end
 
     it "Permits action for pending and paid satuses" do

@@ -9,9 +9,9 @@ describe "Customer" do
   describe "#initialize" do
     it "Takes an ID, email and address info" do
       test_customer = Grocery::Customer.new(1, "email@address.com", "address")
-      test_customer.id.must_equal 1
-      test_customer.email.must_equal "email@address.com"
-      test_customer.address.must_equal "address"
+      test_customer.id.must_be_kind_of Integer
+      test_customer.email.must_be_kind_of String
+      test_customer.address.must_be_kind_of String
     end
   end
 
@@ -29,11 +29,14 @@ describe "Customer" do
     # Everything in the array is a Customer
     it "Everthing in the array is a Customer" do
       @test_all_method[0].must_be_kind_of Grocery::Customer
+      @test_all_method[20].must_be_kind_of Grocery::Customer
     end
 
     # the number of orders is correct
     it "The number of orders is correct" do
-      # @test_all_method.length.must_equal 35
+      @test_all_method.length.must_equal 35
+      @test_all_method.length.must_equal (@test_all_method[-1].id)
+      # TYPO? NUMBER OF ORDERS? OR NUMBER OF CUSTOMERS?
     end
 
     # The ID, email address of the first and last customer match what's in the CSV file
@@ -47,19 +50,28 @@ describe "Customer" do
 
   describe "Customer.find" do
 
+    before do
+      @test_all_method = Grocery::Customer.all
+    end
+
     it "Can find the first customer from the CSV" do
       @test_find_method = Grocery::Customer.find(1)
 
       @test_find_method.must_be_kind_of Grocery::Customer
-      # @test_find_method.must_equal @test_all_method[0] => ???
+      @test_find_method.must_equal (@test_all_method[0])
     end
 
     it "Can find the last customer from the CSV" do
-      # TODO: Your test code here!
+      @test_find_method = Grocery::Customer.find(35)
+
+      @test_find_method.must_be_kind_of Grocery::Customer
+      @test_find_method.must_equal (@test_all_method[34])
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Customer.find(36)}.must_raise ArgumentError
+      proc {Grocery::Customer.find(-1)}.must_raise ArgumentError
+      proc {Grocery::Customer.find(0)}.must_raise ArgumentError
     end
   end
 end

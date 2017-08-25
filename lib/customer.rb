@@ -7,6 +7,7 @@
 require 'csv'
 
 module Grocery
+
   class Customer
     attr_reader :id, :email, :address
 
@@ -29,7 +30,7 @@ module Grocery
         email = line[1]
         address = line[2] + " " + line[3] + " " + line[4] + " " + line[5]
 
-      customer = Grocery::Customer.new(id, email, address)
+      customer = Customer.new(id, email, address)
       all_customers << customer
       end
 
@@ -39,21 +40,20 @@ module Grocery
 
     # self.find(id) - returns an instance of Customer where the value of the id field in the CSV matches the passed parameter.
     def self.find(id)
-      customers_arr = Grocery::Customer.all
+      customers_arr = Customer.all
 
-      # all_ids = []
-      # customers_arr.each do |customer|
-      #   all_ids << customer.id
-      # end
-      #
-      # unless all_ids.include? (id)
-      #   raise ArgumentError.new("Invalid customer id: #{id}")
-      # end
+      all_ids = []
+      customers_arr.each do |customer|
+        all_ids << customer.id
+      end
+
+      unless all_ids.include? (id)
+        raise ArgumentError.new("Invalid customer id: #{id}")
+      end
 
       return customers_arr[id-1]
     end
-  end
-end#Customer
-
+  end#Customer
+end
 # hello = Grocery::Customer.all
 # puts hello

@@ -1,5 +1,6 @@
 require 'csv'
 require_relative 'order'
+require_relative 'customer'
 # A customer object
 # A fulfillment status (stored as a Symbol)
 # pending, paid, processing, shipped or complete
@@ -7,10 +8,10 @@ require_relative 'order'
 
 class OnlineOrder < Grocery::Order
   attr_reader :customer, :status
-  def initialize(:status = "pending") #paid, processing, shipped, complete
+  def initialize(status: "pending") #paid, processing, shipped, complete
     super
     @customer = customer
-    @status = :status
+    @status = status.to_sym
   end
 
   # The total method should be the same, except it will add a $10 shipping fee
@@ -28,31 +29,32 @@ class OnlineOrder < Grocery::Order
   end
 
   # self.all - returns a collection of OnlineOrder instances, representing all of the OnlineOrders described in the CSV. See below for the CSV file specifications
-  def self.all
+  def self.all(file)
+    super
+    # id = nil
+    # status = nil
+    # customer_id = nil
+    # products_arr = []
+    # products = {}
+    # all_online_orders = []
 
-    id = nil
-    status = nil
-    products_arr = []
-    products = {}
-    all_online_orders = []
-
-    CSV.open('../support/online_orders.csv', 'r').each do |line|
-      id = line[0].to_i
-      status = line[2].to_sym
-      products_arr = line[1].split(';')
-      products = Hash[products_arr.map { |i| i.split(":") }]
-      products = Hash[products.keys.zip(products.values.map(&:to_f))]
-      # Hash[h.map {|k, v| [k, v.to_f] }]
-      order = Grocery::Order.new(id, products, status)
-      all_online_orders << order
-    end
-    return all_online_orders
+    # CSV.open('support/online_orders.csv', 'r').each do |line|
+    #   id = line[0].to_i
+    #   customer_id = line[2].to_i
+    #   status = line[3].to_sym
+    #   products_arr = line[1].split(';')
+    #   products = Hash[products_arr.map { |i| i.split(":") }]
+    #   products = Hash[products.keys.zip(products.values.map(&:to_f))]
+    #   # Hash[h.map {|k, v| [k, v.to_f] }]
+    #   order = OnlineOrder.new(id, products, customer_id, status)
+    #   all_online_orders << order
+    # end
+    # return all_online_orders
   end
-
+end
   # Question Ask yourself, what is different about this all method versus the Order.all method? What is the same?
   # self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
   # self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
-end#OnlineOrder
+#OnlineOrder
 
-hello = OnlineOrder.all
-puts hello[0]
+puts OnlineOrder.all('support/online_orders.csv')[0].products

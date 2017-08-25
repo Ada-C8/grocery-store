@@ -59,15 +59,16 @@ module Grocery
       end
     end
 
-    def self.all
+    def self.all(file)
       #return collection of order objects (don't need class variable)
 
       id = nil
       products_arr = []
       products = {}
       all_orders = []
+      csv_file = (CSV.open(file, 'r'))
 
-      CSV.open('support/orders.csv', 'r').each do |line|
+      csv_file.each do |line|
         id = line[0].to_i
         products_arr = line[1].split(';')
         products = Hash[products_arr.map { |i| i.split(":") }]
@@ -80,8 +81,8 @@ module Grocery
       return all_orders
     end
 
-    def self.find(id)
-      orders = Grocery::Order.all
+    def self.find(id) #have to pass in csv file?
+      orders = Grocery::Order.all('support/orders.csv')
 
       id_arr = []
       orders.each do |order|
@@ -97,3 +98,28 @@ module Grocery
 
   end#Order
 end
+
+
+
+
+
+# def self.all
+#   #return collection of order objects (don't need class variable)
+#
+#   id = nil
+#   products_arr = []
+#   products = {}
+#   all_orders = []
+#
+#   CSV.open('support/orders.csv', 'r').each do |line|
+#     id = line[0].to_i
+#     products_arr = line[1].split(';')
+#     products = Hash[products_arr.map { |i| i.split(":") }]
+#     products = Hash[products.keys.zip(products.values.map(&:to_f))]
+#     # Hash[h.map {|k, v| [k, v.to_f] }]
+#     order = Grocery::Order.new(id, products)
+#     all_orders << order
+#   end
+#
+#   return all_orders
+# end

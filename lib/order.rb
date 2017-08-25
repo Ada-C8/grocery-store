@@ -1,30 +1,10 @@
-# Create a class inside of a module
-# Create methods inside the class to perform actions
-# Learn how Ruby does error handling
-# Verify code correctness by testing
-
-# For Wave 1, all tests have been provided for you. For each piece of functionality that you build, you should run the tests from the command line using the rake command. To focus on only one test at a time, change all it methods to xit except for the one test you'd like to run. All tests provided should be passing at the end of your work on Wave 1.
-#
-# Requirements
-#
-# Create a Grocery module which will contain an Order class and any future grocery store logic.
-#
-# Create an Order class which should have the following functionality:
-
-# an ID, read-only
-# a collection of products and their cost
-# zero products is permitted
-# you can assume that there is only one of each product
-# A total method which will calculate the total cost of the order by:
-# summing up the products
-# adding a 7.5% tax
-# ensure the result is rounded to two decimal places
-# An add_product method which will take in two parameters, product name and price, and add the data to the product collection
-# It should return true if the item was successfully added and false if it was not
+require 'csv'
 
 module Grocery
   class Order
     attr_reader :id, :products
+
+    @@all_orders = []
 
     def initialize(id, products)
       @id = id
@@ -60,5 +40,43 @@ module Grocery
       end
     end # DEF
 
+    ## CAN I USE A CLASS VARIABLE HERE?
+    def self.all
+      @@all_orders = []
+      CSV.open("support/orders.csv", "r").each do |line|
+        items = {}
+        line[1].split(";").each do |item_and_price|
+          split = item_and_price.split(":")
+          items[split[0]] = split[1].to_f.round(2)
+        end
+        order = Grocery::Order.new(line[0].to_i, items)
+        @@all_orders << order
+      end
+      return @@all_orders # RETURNS ALL ORDERS AT THE TIME ORDERS.ALL
+    end
+
+    def self.find(order_num)
+      found_order = nil
+      CSV.open("support/orders.csv", "r").each do |line|
+        if line[0].to_i == order_num
+          items = {}
+          line[1].split(";").each do |item_and_price|
+            split = item_and_price.split(":")
+            items[split[0]] = split[1].to_f.round(2)
+          end
+          order = Grocery::Order.new(line[0].to_i, items)
+          found_order = order
+          break
+        end
+      end
+      if found_order == nil
+        raise ArgumentError.new("Order not found")
+      else
+        return found_order # RETURNS AN ORDER INSTANCE OF ORDER
+      end
+    end # DEF
   end # CLASS
+
+
+
 end # MODULE

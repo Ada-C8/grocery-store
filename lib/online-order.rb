@@ -39,27 +39,17 @@ module Grocery
     end
 
     def self.all(customer_file, csv_file)
-      #  order_array = super(csv_file[0])
-       array_of_onlineorders = []
-       csv_file.length.times do |i|
-        #  id = order_array[counter].id.to_i
-        #  products = order_array[counter].products
-#NOTE refactor to use order.all?
+      order_array = Grocery::Order.all(csv_file)
+      array_of_onlineorders = []
+      csv_file.length.times do |i|
+        id = order_array[i].id.to_i
+        products = order_array[i].products
         csv_line = csv_file[i]
-        id = csv_line[0].to_i
-        product_string = csv_line[1].split(";")
-        products = {}
-        product_string.each do |item|
-          item_array = item.split(":")
-          products[item_array[0]] = item_array[1].to_f
-        end
-         customer = Grocery::Customer.find(customer_file,csv_line[2].to_i)
-         status = csv_line[3].to_sym
-         array_of_onlineorders << self.new(id, products,customer, status: status)
-       end
-       return array_of_onlineorders
-
-
+        customer = Grocery::Customer.find(customer_file,csv_line[2].to_i)
+        status = csv_line[3].to_sym
+        array_of_onlineorders << self.new(id, products,customer, status: status)
+      end
+      return array_of_onlineorders
     end
 
     def self.find(customer_file, csv_file,id_lookup)
@@ -85,6 +75,16 @@ module Grocery
         end
       end
       return orders_to_return
+    end
+
+    def search_id(array_of_things, id_lookup)
+      things_to_return = []
+      array_of_things.each do |things|
+        if things.id == id_lookup
+          things_to_return << things
+        end
+      end
+      return things_to_return
     end
 
   end # end class

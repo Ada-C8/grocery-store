@@ -1,13 +1,13 @@
 require_relative "order.rb"
+require_relative "customer.rb"
 
 class OnlineOrder < Grocery::Order
 attr_reader :order, :customer, :status
 
-def initialize(order, customer, status: "pending")
-  @order = order
+def initialize(customer, status: "pending")
+  # @order = order
   @customer = customer
-  @status = :status
-
+  @status = status.to_sym
 end
 
 
@@ -22,4 +22,18 @@ def add_product
   ## else raise ArgumentError
 end
 
+def self.all(file)
+  # file = CSV.open("support/online_orders.csv", "r")
+  return super
+
 end
+end
+
+# test = OnlineOrder.new("customer")
+# puts test.status
+#
+# test = OnlineOrder.new("customer", status: "not pending")
+# puts test.status
+ puts OnlineOrder.all('support/online_orders.csv')[0].products
+
+# puts OnlineOrder("customer").total

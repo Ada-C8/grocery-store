@@ -16,13 +16,22 @@ require_relative '../lib/order'
 xdescribe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
-      online_order = OnlineOrder.new(order, customer)
-      online_order.is_kind_of Order
+      status = "paid"
+      online_order = OnlineOrder.new(order, customer, status)
+      online_order.is_kind_of Grocery::Order
+      online_order.
       # Check that an OnlineOrder is in fact a kind of Order
 
       # Instatiate your OnlineOrder here
       # online_order =
       # online_order.must_be_kind_of Grocery::Order
+    end
+
+    it "Status is stored as a symbol" do
+      # check that status is symbol
+      status = "paid"
+      online_order = OnlineOrder.new(order, customer, status)
+      online_order.status.is_kind_of Symbol
     end
 
     it "Can access Customer object" do
@@ -72,4 +81,5 @@ xdescribe "OnlineOrder" do
       # TODO: Your test code here!
     end
   end
+end
 end

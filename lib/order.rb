@@ -39,18 +39,21 @@ module Grocery
       end
     end
 
-    def self.all
+    def self.all(file)
       orders = []
-      data = []
-      CSV.open("support/orders.csv", "r").each do |line|
+      # data = []
+      csv_file = (CSV.open(file, "r"))
+      csv_file.each do |line|
+        data = []
+      # CSV.open("support/orders.csv", "r").each do |line|
         # @orders[line[0]] =
-        string = line[1..-1].join
+        string = line[1]
         product_data = string.split(/:|;/)
         product_data.each_with_index do |datum, i|
           if i % 2 == 0
             data << datum.to_s
           elsif i % 2 == 1
-            data << datum.to_f
+            data << datum.to_f.round(2)
           end
         end
         order = Grocery::Order.new(line[0].to_i, Hash[*data])
@@ -58,6 +61,30 @@ module Grocery
       end
       return orders
     end
+
+  #   orders = Grocery::Order.all("support/orders.csv")
+  #  puts orders[0].products
+    # def self.all
+    #   orders = []
+    #   data = []
+    #   file = CSV.open("support/orders.csv", "r")
+    #   file.each do |line|
+    #   # CSV.open("support/orders.csv", "r").each do |line|
+    #     # @orders[line[0]] =
+    #     string = line[1]
+    #     product_data = string.split(/:|;/)
+    #     product_data.each_with_index do |datum, i|
+    #       if i % 2 == 0
+    #         data << datum.to_s
+    #       elsif i % 2 == 1
+    #         data << datum.to_f
+    #       end
+    #     end
+    #     order = Grocery::Order.new(line[0].to_i, Hash[*data])
+    #     orders.push(order)
+    #   end
+    #   return orders
+    # end
 
     def self.find(id)
       orders = Grocery::Order.all
@@ -71,8 +98,10 @@ module Grocery
   end
 end
 
-puts Grocery::Order.find(1).products
+# puts Grocery::Order.find(1).products
 # puts Grocery::Order.find(101)
+
+puts Grocery::Order.all('support/orders.csv')[3].products
 
 # require "money"
 # require "csv"

@@ -121,12 +121,8 @@ describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
-      Grocery::Order.all.must_be_kind_of Array
+      Grocery::Order.all('support/orders.csv').must_be_kind_of Array
 
-
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
       #   - The number of orders is correct
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
@@ -134,7 +130,7 @@ describe "Order Wave 2" do
     end
     it "All items are Orders" do
       # order = Grocery::Order.all.must_be_kind_of Array
-      orders = Grocery::Order.all
+      orders = Grocery::Order.all('support/orders.csv')
       orders.each do |item|
         item.must_be_instance_of Grocery::Order
       end
@@ -142,8 +138,22 @@ describe "Order Wave 2" do
 
     it "Order total is correct" do
       # TODO: Your test code here!
-      total_orders = Grocery::Order.all.length
+      total_orders = Grocery::Order.all('support/orders.csv').length
       total_orders.must_equal 100
+    end
+
+    it "ID and product of the first order is correct" do
+      # TODO: Your test code here!
+      first_order = [ 1, {"Slivered Almonds"=>22.88, "Wholewheat flour"=>1.93, "Grape Seed Oil"=>74.9} ]
+      products = Grocery::Order.all('support/orders.csv')[0].products
+      products.must_equal first_order[1]
+    end
+
+    it "ID and product of the first order is correct" do
+      # TODO: Your test code here!
+      # order = [ 100, {"Allspice"=64.74;Bran:14.72;UnbleachedFlour:80.59"Slivered Almonds"=>22.88, "Wholewheat flour"=>1.93, "Grape Seed Oil"=>74.9} ]
+      products = Grocery::Order.all('support/orders.csv')[0].products
+      products.must_equal order[1]
     end
   end
 
@@ -168,7 +178,7 @@ describe "Order Wave 2" do
     # end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      # tells user this is an invalid id
       proc { Grocery::Order.find(101) }.must_raise ArgumentError
     end
   end

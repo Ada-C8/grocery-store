@@ -38,28 +38,26 @@ describe "Customer" do
 
     it "The ID, email address of the first and last
     customer match what's in the CSV file" do
-    test_customer = Grocery::Customer.new(1, "leonard.rogahn@hagenes.org", {address: "71596 Eden Route", city: "Connellymouth", state: "LA", zipcode: "98872-9105"})
-    # binding.pry
-    test_customer = Grocery::Customer.all
-    test_customer.first.id.must_equal test_customer.id
+      test_customer = Grocery::Customer.new(1, "leonard.rogahn@hagenes.org", {address: "71596 Eden Route", city: "Connellymouth", state: "LA", zipcode: "98872-9105"})
+      test_customer = Grocery::Customer.all
+      test_customer.first.id.must_equal test_customer.id
 
-    test_customer.first.email.must_equal test_customer.email
-  end # id and email match
-
-
-end # customer.all
-
-xdescribe "Customer.find" do
-  it "Can find the first customer from the CSV" do
-    # TODO: Your test code here!
+      test_customer.first.email.must_equal test_customer.email
+    end # id and email match
   end
 
-  it "Can find the last customer from the CSV" do
-    # TODO: Your test code here!
-  end
 
-  it "Raises an error for a customer that doesn't exist" do
-    # TODO: Your test code here!
+  xdescribe "Customer.find" do
+    it "Can find the first customer from the CSV" do
+      # TODO: Your test code here!
+    end
+
+    it "Can find the last customer from the CSV" do
+      # TODO: Your test code here!
+    end
+
+    it "Raises an error for a customer that doesn't exist" do
+      # TODO: Your test code here!
+    end
   end
-end
 end

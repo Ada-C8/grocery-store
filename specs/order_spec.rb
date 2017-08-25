@@ -91,7 +91,7 @@ describe "Order Wave 2" do
       order_1 = Grocery::Order.new(1313, products)
       order_2 = Grocery::Order.new(666, products)
 
-      expected_orders = {order_1.id => order_1.products, order_2.id => order_2.products}
+      expected_orders = {order_1.id => order_1, order_2.id => order_2}
       Grocery::Order.all.must_equal expected_orders
     end
 
@@ -103,7 +103,7 @@ describe "Order Wave 2" do
       Grocery::Order.all.length.must_equal 2
     end
 
-    xit "Verifies everything in the Hash is an Order" do
+    it "Verifies everything in the Hash is an Order" do
       products = { "cat" => 2 }
       Grocery::Order.new(1313, products)
       Grocery::Order.new(666, products)
@@ -114,15 +114,14 @@ describe "Order Wave 2" do
     end
 
     xit "Matches the ID and products of the first and last orders with what's in the CSV file" do
-      Grocery::Order.read_orders("support/orders.csv") #only works if test is run from its main dir :(
 
-      Grocery::Order.all[1].id.must_equal 1 # key 1, not index 1
+
       expected_products = {"Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"}
-      Grocery::Order.all[1].products.must_equal expected_products
+      Grocery::Order.all_orders[1].products.must_equal expected_products
 
-      Grocery::Order.all[100].id.must_equal 100 # key 100, not index 100
-      expected_products = {"Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"}
-      Grocery::Order.all[100].products.must_equal expected_products
+      # Grocery::Order.all[100].must_equal 100 # key 100, not index 100
+      # expected_products = {"Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"}
+      # Grocery::Order.all[100].products.must_equal expected_products
     end
   end
 

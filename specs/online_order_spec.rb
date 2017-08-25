@@ -3,7 +3,7 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 require_relative '../lib/online_order'
-# You may also need to require other classes here
+require_relative '../lib/order'
 
 # Because an OnlineOrder is a kind of Order, and we've
 # already tested a bunch of functionality on Order,
@@ -23,59 +23,123 @@ describe "OnlineOrder" do
       online_order.must_be_kind_of Grocery::Order
     end
 
-    xit "Can access Customer object" do
-      id = 1
+    it "Can access Customer object" do
       email = "leonard.rogahn@hagenes.org"
       address = "71596 Eden Route,Connellymouth,LA,98872-9105"
-      customer = Grocery::Customer.new(id, email, address)
+      customer = Grocery::Customer.new(1, email, address)
       customer.must_be_instance_of Grocery::Customer
     end
 
-    xit "Can access the online order status" do
-      id = 1
+    it "Can access the online order status" do
       email = "leonard.rogahn@hagenes.org"
       address = "71596 Eden Route,Connellymouth,LA,98872-9105"
+      customer = Grocery::Customer.new(1, email, address)
       status = :paid
       products = { "banana" => 1.99, "cracker" => 3.00 }
-      customer = Grocery::Customer.new(id, email, address)
-      online_order = OnlineOrder.new(customer, status, products)
+      online_order = OnlineOrder.new(products, 20, customer, status)
       online_order.status.must_equal :paid
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Adds a shipping fee" do
-      # id = 1
-      # email = "leonard.rogahn@hagenes.org"
-      # address = "71596 Eden Route,Connellymouth,LA,98872-9105"
-      # status = :paid
-      # products = { "banana" => 1.99, "cracker" => 3.00 }
-      # customer = Grocery::Customer.new(id, email, address)
-      # online_order = OnlineOrder.new(customer, status, products)
-      # sum = products.values.inject(0, :+)
-      # expected_total = sum + (sum * 0.075).round(2)
-      #
-      # online_order.total.must_equal expected_total + 10.00
+      email = "leonard.rogahn@hagenes.org"
+      address = "71596 Eden Route,Connellymouth,LA,98872-9105"
+      customer = Grocery::Customer.new(1, email, address)
+      status = :paid
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = OnlineOrder.new(20, products, customer, status)
+      online_order.total.must_equal 15.36
     end
 
-    xit "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
-    end
-  end
-
-  xdescribe "#add_product" do
-    it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
-    end
-
-    it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+    it "Doesn't add a shipping fee if there are no products" do
+      email = "leonard.rogahn@hagenes.org"
+      address = "71596 Eden Route,Connellymouth,LA,98872-9105"
+      customer = Grocery::Customer.new(1, email, address)
+      status = :paid
+      products = {}
+      online_order = OnlineOrder.new(20, products, customer, status)
+      online_order.total.must_equal 0
     end
   end
 
-  xdescribe "OnlineOrder.all" do
+  describe "#add_product" do
+    it "Does not permit action for shipped statuses" do
+      email = "leonard.rogahn@hagenes.org"
+      address = "71596 Eden Route,Connellymouth,LA,98872-9105"
+      customer = Grocery::Customer.new(1, email, address)
+      status = :shipped
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = OnlineOrder.new(20, products, customer, status)
+
+      proc {online_order.add_product("banana", 1.99)}.must_raise ArgumentError
+    end
+
+    it "Does not permit action for processing statuses" do
+      email = "leonard.rogahn@hagenes.org"
+      address = "71596 Eden Route,Connellymouth,LA,98872-9105"
+      customer = Grocery::Customer.new(1, email, address)
+      status = :processing
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = OnlineOrder.new(20, products, customer, status)
+
+      proc {online_order.add_product("banana", 1.99)}.must_raise ArgumentError
+    end
+
+    it "Does not permit action for completed statuses" do
+      email = "leonard.rogahn@hagenes.org"
+      address = "71596 Eden Route,Connellymouth,LA,98872-9105"
+      customer = Grocery::Customer.new(1, email, address)
+      status = :complete
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = OnlineOrder.new(20, products, customer, status)
+
+      proc {online_order.add_product("banana", 1.99)}.must_raise ArgumentError
+    end
+
+    it "Permits action for pending and paid statuses, if item already present" do
+      email = "leonard.rogahn@hagenes.org"
+      address = "71596 Eden Route,Connellymouth,LA,98872-9105"
+      customer = Grocery::Customer.new(1, email, address)
+      status = :paid
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = OnlineOrder.new(20, products, customer, status)
+      online_order.add_product("banana", 1.99).must_equal false
+    end
+
+    it "Permits action for pending and paid statuses, if item is new" do
+      email = "leonard.rogahn@hagenes.org"
+      address = "71596 Eden Route,Connellymouth,LA,98872-9105"
+      customer = Grocery::Customer.new(1, email, address)
+      status = :paid
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = OnlineOrder.new(20, products, customer, status)
+      online_order.add_product("orange", 3.99).must_equal true
+    end
+
+    it "Is added to the collection of products" do
+      email = "leonard.rogahn@hagenes.org"
+      address = "71596 Eden Route,Connellymouth,LA,98872-9105"
+      customer = Grocery::Customer.new(1, email, address)
+      status = :paid
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = OnlineOrder.new(20, products, customer, status)
+      online_order.add_product("orange", 3.99)
+      online_order.products.include?("orange").must_equal true
+    end
+  end # DESCRIBE
+
+  describe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
+      email = "leonard.rogahn@hagenes.org"
+      address = "71596 Eden Route,Connellymouth,LA,98872-9105"
+      customer = Grocery::Customer.new(1, email, address)
+      status = :paid
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = OnlineOrder.new(20, products, customer, status)
+
     end
+
     it "Everything in the array is an Order" do
     end
 

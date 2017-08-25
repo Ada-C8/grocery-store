@@ -34,6 +34,8 @@ module Grocery
 
   end
 end
+
+# puts Grocery::Customer.find(1).email
   # puts Grocery::Customer.all
   # puts Grocery::Customer.all
   # puts Customer.all.length

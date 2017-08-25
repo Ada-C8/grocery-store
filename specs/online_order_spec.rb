@@ -16,15 +16,11 @@ require_relative '../lib/order'
 xdescribe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
+      # Check that an OnlineOrder is in fact a kind of Order
       status = "paid"
       online_order = OnlineOrder.new(order, customer, status)
       online_order.is_kind_of Grocery::Order
-      online_order.
-      # Check that an OnlineOrder is in fact a kind of Order
-
-      # Instatiate your OnlineOrder here
-      # online_order =
-      # online_order.must_be_kind_of Grocery::Order
+      online_order.must_be_instance_of Grocery::OnlineOrder
     end
 
     it "Status is stored as a symbol" do
@@ -36,10 +32,14 @@ xdescribe "OnlineOrder" do
 
     it "Can access Customer object" do
       # TODO: Your test code here!
+      OnlineOrder.all[0].status.must_equal :complete
+      OnlineOrder.all[99].status.must_equal :pending
     end
 
     it "Can access the online order status" do
       # TODO: Your test code here!
+      OnlineOrder.all[0].status.must_equal :complete
+      OnlineOrder.all[99].status.must_equal :pending
     end
   end
 
@@ -73,6 +73,12 @@ xdescribe "OnlineOrder" do
       #   - The customer is present
       #   - The status is present
       # Feel free to split this into multiple tests if needed
+
+      it "Can access the online order status" do
+        # ensure status for first and last online orders are correct
+        OnlineOrder.all[0].status.must_equal :complete
+        OnlineOrder.all[99].status.must_equal :pending
+      end
     end
   end
 
@@ -81,5 +87,4 @@ xdescribe "OnlineOrder" do
       # TODO: Your test code here!
     end
   end
-end
 end

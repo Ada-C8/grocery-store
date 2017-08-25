@@ -2,10 +2,12 @@ require_relative "order.rb"
 require_relative "customer.rb"
 
 class OnlineOrder < Grocery::Order
-  attr_reader :order, :customer, :status
+  attr_reader :order, :customer, :status, :id, :products
+  # TODO: make the defualt status: "pending"
 
-  def initialize(customer, status: "pending")
-    # @order = order
+  def initialize(order, customer, status)
+    @order = order
+    super(id, products)
     @customer = customer
     @status = status.to_sym
   end
@@ -35,20 +37,18 @@ class OnlineOrder < Grocery::Order
           data << datum.to_f.round(2)
         end
       end
-      order = new(line[0].to_i, Hash[*data])
-      orders.push(order)
+      order = Grocery::Order.new(line[0].to_i, Hash[*data])
+      orders.push(OnlineOrder.new(order, Grocery::Customer.find(line[2].to_i), line[3]))
     end
     return orders
   end
 
-
 end
-
 # test = OnlineOrder.new("customer")
 # puts test.status
 #
 # test = OnlineOrder.new("customer", status: "not pending")
 # puts test.status
-# puts OnlineOrder.all('support/online_orders.csv')[0].products
+puts OnlineOrder.all[99].customer.email
 
 # puts OnlineOrder("customer").total

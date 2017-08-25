@@ -83,7 +83,6 @@ module Grocery
     # end
 
     def self.find(id)
-      # TODO: check about file passing
       orders = self.all
       if id > orders.length || id <=0
         raise ArgumentError.new('Invalid ID.')

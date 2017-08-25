@@ -2,7 +2,7 @@ require 'pry'
 require 'csv'
 module  Grocery
   class Customer
-    attr_reader :id, :email, :address 
+    attr_reader :id, :email, :address
 
     def initialize(id, email, address)
       @id = id
@@ -12,6 +12,7 @@ module  Grocery
     end
 
     def self.all
+      # return orders = [1]
       # returns a collection of Customer instances, representing all of the Customer described in the CSV. See below for the CSV file specifications
 
     end

@@ -18,11 +18,6 @@ describe "OnlineOrder" do
       online_order = Grocery::OnlineOrder.new(200, products, "1", :complete)
       result = online_order.is_a? Grocery::Order
       result.must_equal true
-      # Check that an OnlineOrder is in fact a kind of Order
-
-      # Instatiate your OnlineOrder here
-      # online_order = Groc
-      # online_order.must_be_kind_of Grocery::Order
     end
 
     it "Can access Customer object" do
@@ -33,7 +28,6 @@ describe "OnlineOrder" do
       result = actual_customer.is_a? Grocery::Customer
       result.must_equal true
 
-      # TODO: Your test code here!
     end
 
     it "Can access the online order status" do
@@ -44,7 +38,6 @@ describe "OnlineOrder" do
       actual_status = online_order.status
       result = [:pending, :paid, :shipped, :complete].include? actual_status
       result.must_equal true
-      # TODO: Your test code here!
     end
   end
   #
@@ -113,10 +106,6 @@ describe "OnlineOrder" do
       result[10].customer.must_be_instance_of Grocery::Customer
       result[-1].customer.must_be_instance_of Grocery::Customer
 
-      # result.each do |order|
-      #   has_customer = (1..35).include? order.id
-      #   has_customer.must_equal true
-      # end
 
     end
     it "The status is present" do
@@ -125,10 +114,6 @@ describe "OnlineOrder" do
       [:pending, :paid, :shipped, :complete].include? result[10].status
       [:pending, :paid, :shipped, :complete].include? result[-1].status
 
-      #   result.each do |order|
-      #     has_status = [:pending, :paid, :shipped, :complete].include? order.status
-      #     has_status.must_equal true
-      #   end
     end
 
   end

@@ -38,6 +38,7 @@ module Grocery
       end
     end
 
+
     def self.all(customer_file, csv_file)
       order_array = Grocery::Order.all(csv_file)
       array_of_onlineorders = []
@@ -53,17 +54,11 @@ module Grocery
     end
 
     def self.find(customer_file, csv_file,id_lookup)
-      order_to_return = nil
-      array_of_orders = self.all(customer_file,csv_file)
-      array_of_orders.each do |order|
-        if order.id == id_lookup
-          order_to_return = order
-        end
-      end
-      if order_to_return.nil?
+      order_to_return = self.search_id(self.all(customer_file,csv_file), id_lookup)
+      if order_to_return.empty?
         raise ArgumentError.new "No Order with that Id #"
       end
-      return order_to_return
+      return order_to_return[0]
     end
 
     def self.find_by_customer(customer_file,csv_file,id_lookup)
@@ -77,15 +72,6 @@ module Grocery
       return orders_to_return
     end
 
-    def search_id(array_of_things, id_lookup)
-      things_to_return = []
-      array_of_things.each do |things|
-        if things.id == id_lookup
-          things_to_return << things
-        end
-      end
-      return things_to_return
-    end
 
   end # end class
 end #end module

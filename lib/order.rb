@@ -50,18 +50,22 @@ module Grocery
       return array_of_orders
     end
 
-    def self.find(csv_file,id_lookup)
-      order_to_return = nil
-      array_of_orders = self.all(csv_file)
-      array_of_orders.each do |order|
-        if order.id == id_lookup
-          order_to_return = order
+    def self.search_id(array_of_things, id_lookup)
+      things_to_return = []
+      array_of_things.each do |things|
+        if things.id == id_lookup
+          things_to_return << things
         end
       end
-      if order_to_return.nil?
+      return things_to_return
+    end
+
+    def self.find(csv_file,id_lookup)
+      order_to_return = self.search_id(self.all(csv_file), id_lookup)
+      if order_to_return.empty?
         raise ArgumentError.new "No Order with that Id #"
       end
-      return order_to_return
+      return order_to_return[0]
     end
 
   end #end of class

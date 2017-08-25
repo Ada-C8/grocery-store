@@ -3,9 +3,9 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 # TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/customer'
+require_relative '../lib/customers.rb'
 
-xdescribe "Customer" do
+describe "Customer" do
   describe "#initialize" do
     it "Takes an ID, email and address info" do
       # TODO: Your test code here!
@@ -22,12 +22,16 @@ xdescribe "Customer" do
       #   - The ID, email address of the first and last
       #       customer match what's in the CSV file
       # Feel free to split this into multiple tests if needed
+      all = Grocery::Customer.all
+      # all must_be_instance_of Array
+      # all[4] must_be_instance_of Grocery::Customer
     end
   end
 
   describe "Customer.find" do
     it "Can find the first customer from the CSV" do
       # TODO: Your test code here!
+      # Grocery::Customer.find(30) must_be_instance_of String
     end
 
     it "Can find the last customer from the CSV" do

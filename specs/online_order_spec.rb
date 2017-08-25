@@ -1,8 +1,8 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
-
 require_relative '../lib/online_order'
+require_relative '../lib/customer'
 require 'pry'
 # You may also need to require other classes here
 
@@ -12,30 +12,34 @@ require 'pry'
 # only test things that are different.
 
 describe "OnlineOrder" do
+  before do
+      @test_order = Grocery::OnlineOrder.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21}, 25, "complete")
+
+      @customer_first = Grocery::Customer.new(25, "leonard.rogahn@hagenes.org", {address: "71596 Eden Route", city: "Connellymouth", state: "LA", zipcode: "98872-9105"})
+    end
+
   describe "#initialize" do
     it "Is a kind of Order" do
       # Check that an OnlineOrder is in fact a kind of Order
-
       # Instatiate your OnlineOrder here
-      online_order =
-      online_order.must_be_kind_of Grocery::Order
+     @test_order.must_be_kind_of Grocery::Order
     end
 
     it "Can access Customer object" do
-      # TODO: Your test code here!
+      @test_order.customer_id.must_equal @customer_first.customer_id
     end
 
     it "Can access the online order status" do
-      # TODO: Your test code here!
+      @test_order.must_respond_to :status
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Adds a shipping fee" do
       # TODO: Your test code here!
     end
 
-    it "Doesn't add a shipping fee if there are no products" do
+    xit "Doesn't add a shipping fee if there are no products" do
       # TODO: Your test code here!
     end
   end
@@ -63,7 +67,7 @@ describe "OnlineOrder" do
     end
   end
 
-  describe "OnlineOrder.find_by_customer" do
+  xdescribe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!
     end

@@ -11,12 +11,14 @@ module Grocery
       @id = id
       @products = products
       @status = status
-      @customer = customer
+      @customer = Grocery::Customer.find(customer)
     end
 
     def total
+    unless @products.count == 0
       total = super + 10
       return total
+    end
     end
 
     def add_product(product_name, product_price)
@@ -31,6 +33,7 @@ module Grocery
       all_online_orders = []
       CSV.open("/Users/kimberley/ada/week-three/grocery-store/support/online_orders.csv", "r").each do |line|
         id = line[0]
+        id = id.to_i
         all_products = line[1].split(";")
         products = []
 
@@ -76,3 +79,10 @@ module Grocery
 
   end #end of class
 end # end of module
+
+online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :paid)
+puts Grocery::OnlineOrder.all[26].customer.address
+
+# puts Grocery::OnlineOrder.all
+# online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :paid)
+# puts online_order.products.count

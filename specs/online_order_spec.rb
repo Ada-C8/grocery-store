@@ -76,7 +76,10 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+
+       Grocery::OnlineOrder.find_by_customer("./support/online_orders.csv", 2).must_be_instance_of Array
+
+       Grocery::OnlineOrder.find_by_customer("./support/online_orders.csv", 1000).length.must_equal 0
     end
   end
 end

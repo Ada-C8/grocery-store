@@ -7,7 +7,7 @@ require 'csv'
 
 describe "Customer" do
   before do
-    @customer_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/customers.csv")
+    @customer_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/customers.csv")
     @customer_array = Grocery::Customer.all(@customer_csv)
   end
   describe "#initialize" do

@@ -94,8 +94,8 @@ describe "OnlineOrder" do
       #   - The customer is present
       #   - The status is present
       # Feel free to split this into multiple tests if needed
-      customer_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/customers.csv")
-      order_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/online_orders.csv")
+      customer_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/customers.csv")
+      order_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/online_orders.csv")
       online_orders = Grocery::OnlineOrder.all(customer_csv,order_csv)
       online_orders.must_be_instance_of Array
 
@@ -116,8 +116,8 @@ describe "OnlineOrder" do
   describe "OnlineOrder.find" do
     it "returns the online order with correct id" do
 
-    customer_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/customers.csv")
-    order_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/online_orders.csv")
+    customer_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/customers.csv")
+    order_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/online_orders.csv")
     Grocery::OnlineOrder.find(customer_csv, order_csv, 1).must_be_instance_of Grocery::OnlineOrder
 
     online_order1 = Grocery::OnlineOrder.find(customer_csv, order_csv, 1)
@@ -128,8 +128,8 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      customer_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/customers.csv")
-      order_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/online_orders.csv")
+      customer_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/customers.csv")
+      order_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/online_orders.csv")
 
       Grocery::OnlineOrder.must_respond_to :find_by_customer
 

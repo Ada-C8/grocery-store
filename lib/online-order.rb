@@ -55,12 +55,11 @@ module Grocery
         end
          customer = Grocery::Customer.find(customer_file,csv_line[2].to_i)
          status = csv_line[3].to_sym
-
          array_of_onlineorders << self.new(id, products,customer, status: status)
-        #  array_of_onlineorders << self.new(1,{ "banana" => 1.99, "cracker" => 3.00 },Grocery::Customer.new(1,'',{}), status: :complete)
-         #id, products, customer, status: status)
        end
        return array_of_onlineorders
+
+
     end
 
     def self.find(customer_file, csv_file,id_lookup)

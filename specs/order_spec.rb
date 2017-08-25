@@ -124,7 +124,7 @@ end
 
 describe "Order Wave 2" do
   before do
-    @order_csv = CSV.read("/Users/averikitsch/ada/week-03/grocery-store/support/orders.csv")
+    @order_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/orders.csv")
     @order_array = Grocery::Order.all(@order_csv)
   end
   describe "Order.all" do

@@ -164,7 +164,6 @@ describe "Order Wave 2" do
     end
 
     it "Can find the last order from the CSV" do
-      #there is a better way to do this - check bennets code - make it dry and remove the order_last varible if possible.
       order_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
 
       Grocery::Order.find(100).id.must_equal order_last[0]

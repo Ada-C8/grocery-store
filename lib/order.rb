@@ -14,8 +14,6 @@ module Grocery
       @tax = 0.075
     end
 
-    #if @@all_orders is a hash then find.all you can search the has for the key = order idea
-    # each time we called orders.all it would re-run csv file
     def self.all
       if @@all_orders.length > 0
         return @@all_orders
@@ -33,13 +31,7 @@ module Grocery
       return @@all_orders
     end
 
-    # unless LEGAL_SUITS.include? suit
-    #   raise ArgumentError.new("Invalid suit: #{suit}")
-    # end
-
-    #find a way to do a class variable
     def self.find(id_input)
-      # orders = Order.all
       counter = 0
       Order.all.each do |order|
         if order.id == id_input
@@ -53,13 +45,11 @@ module Grocery
     end
 
     def total
-      # TODO: implement total
       sum = @products.values.inject(0, :+)
       return sum + (sum * @tax).round(2)
     end
 
     def add_product(product_name, product_price)
-      # TODO: implement add_product
       if @products.has_key?(product_name)
         return false
       else

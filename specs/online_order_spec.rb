@@ -66,27 +66,29 @@ describe "OnlineOrder" do
     end
   end
 
-  # xdescribe "#add_product" do
-  #   it "Does not permit action for processing, shipped or complete statuses" do
-  #     products = {"carrots" => 1.99, "salad mix" => 3.99}
-  #     complete_online_order = Grocery::OnlineOrder.new(200, products,1, :complete)
-  #     shipped_online_order = Grocery::OnlineOrder.new(201, products,1, :shipped)
-  #     processing_online_order = Grocery::OnlineOrder.new(202, products,1,:processing)
-  #
-  #     proc {complete_online_order.add_product("almond butt", 7.99)}.must_raise ArgumentError
-  #     proc {shipped_online_order.add_product("almond butt", 8.99)}.must_raise ArgumentError
-  #     proc {processing_online_order.add_product("almond butt", 9.99)}.must_raise ArgumentError
-  #   end
-  #
-  #   it "Permits action for pending and paid satuses" do
-  #     products = {"carrots" => 1.99, "salad mix" => 3.99}
-  #     pending_online_order = Grocery::OnlineOrder.new(200, products, 1, :pending)
-  #     paid_online_order = Grocery::OnlineOrder.new(201, products, 1, :paid)
-  #     expected_count = 3
-  #     pending_online_order.products.count.must_equal expected_count
-  #     paid_online_order.products.count.must_equal expected_count
-  #   end
-  # end
+  describe "#add_product" do
+    it "Does not permit action for processing, shipped or complete statuses" do
+      products = {"carrots" => 1.99, "salad mix" => 3.99}
+      complete_online_order = Grocery::OnlineOrder.new(200, products,"1", :complete)
+      shipped_online_order = Grocery::OnlineOrder.new(201, products,"1", :shipped)
+      processing_online_order = Grocery::OnlineOrder.new(202, products,"1",:processing)
+
+      proc {complete_online_order.add_product("almond butt", 7.99)}.must_raise ArgumentError
+      proc {shipped_online_order.add_product("almond butt", 8.99)}.must_raise ArgumentError
+      proc {processing_online_order.add_product("almond butt", 9.99)}.must_raise ArgumentError
+    end
+
+    it "Permits action for pending and paid satuses" do
+      products = {"carrots" => 1.99, "salad mix" => 3.99}
+      pending_online_order = Grocery::OnlineOrder.new(200, products, "1", :pending)
+      paid_online_order = Grocery::OnlineOrder.new(201, products, "1", :paid)
+      pending_online_order.add_product("almond butt", 4.99)
+      paid_online_order.add_product("almond butt", 3.99)
+      expected_count = 3
+      pending_online_order.products.count.must_equal expected_count
+      paid_online_order.products.count.must_equal expected_count
+    end
+  end
   #
   # xdescribe "OnlineOrder.all" do
   #   it "Returns an array" do

@@ -16,5 +16,14 @@ module Grocery
       else 0
       end
     end
+    def add_product(product_name, product_price)
+      case @status
+      when :pending, :paid
+        super
+      when :complete, :shipped, :processing
+        raise ArgumentError.new "Cannot add prodcut to complete, shipped or processing online orders"
+      end
+    end
+
   end
 end

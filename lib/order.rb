@@ -1,5 +1,6 @@
 require 'csv'
 module Grocery
+
   ### Don't forget to commit
   class Order
     attr_reader :id, :products
@@ -46,16 +47,26 @@ module Grocery
       orders = self.all
       orders.each do |order|
         # puts order.id == id
+        # puts order.id.class
+        # puts id.class
+
         if order.id == id
-          found_order = order
-        else
-          raise ArgumentError.new("Order does not exist")
+          return found_order = order
         end
-        return found_order
+
       end
+      raise ArgumentError.new("Order does not exist")
     end
+    # return found_order
   end # end of class
 end # module
+
+
+# order = Grocery::Order.find(101)
+# puts order.id
+
+
+
 
 # Grocery::Order.all.each do |order|
 # puts order.products

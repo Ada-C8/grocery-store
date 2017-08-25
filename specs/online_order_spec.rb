@@ -169,9 +169,18 @@ describe "OnlineOrder" do
     end #"Can find the last order from the CSV"
 
     it "must return only one order" do
+      test_array = []
+      Grocery::OnlineOrder.all
+      test = Grocery::OnlineOrder.find("2")
+      test_array << test.id
+      test_array.length.must_equal 1
     end #"must return only one order"
 
     it "Raises an error for an order that doesn't exist" do
+      yay_orders = CSV.read("support/orders.csv", 'r')
+
+      Grocery::Order.all
+      proc {Grocery::Order.find(yay_orders.length + 1)}.must_raise ArgumentError
     end #"Raises an error for an order that doesn't exist"
 
   end #describe "OnlineOrder.find" do

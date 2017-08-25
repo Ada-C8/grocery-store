@@ -41,17 +41,9 @@ describe "OnlineOrder" do
     it "Adds a shipping fee" do
       order = Grocery::OnlineOrder.find("./support/online_orders.csv", 1)
       order.total.must_equal 180.68
-
-
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
-    end
-  end
-
-  describe "#add_product" do
-    it "Does not permit action for processing, shipped or completed statuses" do
       id = 1337
       food_and_price = {}
       customer_id = 5
@@ -60,9 +52,25 @@ describe "OnlineOrder" do
       online_order = Grocery::OnlineOrder.new(id, food_and_price, customer_id, customer_object, status)
       online_order.total.must_equal 0
     end
+  end
+
+
+  describe "#add_product" do
+    it "Does not permit action for processing, shipped or completed statuses" do
+      order = Grocery::OnlineOrder.find("./support/online_orders.csv", 5)
+
+      proc {order.add_product("muffin", 2.00)}.must_raise ArgumentError
+    end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      order = Grocery::OnlineOrder.find("./support/online_orders.csv", 6)
+
+      order.must_respond_to :add_product
+
+      order.add_product("muffin", 2.00)
+
+      order.food_and_price.has_key?("muffin").must_equal true 
+
     end
   end
 
@@ -82,7 +90,7 @@ describe "OnlineOrder" do
       all_the_online_orders[97].must_respond_to :status
 
       all_the_online_orders.each do |check|
-        (check.is_a? Grocery::Order).must_equal true 
+        (check.is_a? Grocery::Order).must_equal true
       end
 
     end

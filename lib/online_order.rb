@@ -17,11 +17,12 @@ class OnlineOrder < Grocery::Order
     return super + 10
   end
 
-  def add_product
-
-    ## if status is pending or paid
-    return super
-    ## else raise ArgumentError
+  def add_product(product_name, product_price)
+    # adds product if status is pending or paid
+    if status == :pending || status == :paid
+      return super
+    else raise ArgumentError "product is not pending or paid"
+    end
   end
 
   def self.all
@@ -43,12 +44,31 @@ class OnlineOrder < Grocery::Order
     return orders
   end
 
-end
-# test = OnlineOrder.new("customer")
-# puts test.status
-#
-# test = OnlineOrder.new("customer", status: "not pending")
-# puts test.status
-puts OnlineOrder.all[99].customer.email
+  def self.find(id)
+    return super
+  end
 
-# puts OnlineOrder("customer").total
+  def self.find_by_customer(customer_id)
+    customer_orders = []
+    # (1..100).each do
+    OnlineOrder.all.each do |online_order|
+      if customer_id == online_order.customer.customer_id
+        customer_orders.push(online_order)
+      end
+    end
+    return customer_orders
+  end
+end
+
+# puts OnlineOrder.all
+puts OnlineOrder.find_by_customer(25)
+  # puts OnlineOrder.find(1).status
+  # test = OnlineOrder.new("customer")
+  # puts test.status
+  #
+  # test = OnlineOrder.new("customer", status: "not pending")
+  # puts test.status
+  # puts OnlineOrder.all[99].customer.email
+  # puts OnlineOrder.all[99].add_product
+
+  # puts OnlineOrder("customer").total

@@ -32,15 +32,9 @@ xdescribe "OnlineOrder" do
 
     it "Can access Customer object" do
       # TODO: Your test code here!
-      OnlineOrder.all[0].status.must_equal :complete
-      OnlineOrder.all[99].status.must_equal :pending
+      OnlineOrder.all[99].customer.is_kind_of Grocery::Customer
     end
 
-    it "Can access the online order status" do
-      # TODO: Your test code here!
-      OnlineOrder.all[0].status.must_equal :complete
-      OnlineOrder.all[99].status.must_equal :pending
-    end
   end
 
   describe "#total" do
@@ -56,6 +50,12 @@ xdescribe "OnlineOrder" do
   describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
       # TODO: Your test code here!
+      # 
+      # products = { "banana" => 1.99, "cracker" => 3.00 }
+      # order = Grocery::Order.new(1337, products)
+      #
+      # order.add_product("sandwich", 4.25)
+      # order.products.include?("sandwich").must_equal true
     end
 
     it "Permits action for pending and paid satuses" do

@@ -20,7 +20,7 @@ module Grocery
     end
 
     def add_product(product_name, product_price)
-      # TODO: implement add_product
+      #  adds a product if product doesn't exist
       if @products.has_key?(product_name)
         return false
       else

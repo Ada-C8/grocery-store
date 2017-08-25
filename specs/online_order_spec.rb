@@ -1,16 +1,9 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
-
-# TODO: uncomment the next line once you start wave 3
 require_relative '../lib/order.rb'
 require_relative '../lib/online_order'
-# You may also need to require other classes here
 
-# Because an OnlineOrder is a kind of Order, and we've
-# already tested a bunch of functionality on Order,
-# we effectively get all that testing for free! Here we'll
-# only test things that are different.
 
 describe "OnlineOrder" do
   describe "#initialize" do
@@ -62,24 +55,20 @@ describe "OnlineOrder" do
       proc {order.add_product("muffin", 2.00)}.must_raise ArgumentError
     end
 
-    it "Permits action for pending and paid satuses" do
+    it "Permits action for pending and paid statuses" do
       order = Grocery::OnlineOrder.find("./support/online_orders.csv", 6)
 
       order.must_respond_to :add_product
 
       order.add_product("muffin", 2.00)
 
-      order.food_and_price.has_key?("muffin").must_equal true 
+      order.food_and_price.has_key?("muffin").must_equal true
 
     end
   end
 
   describe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Everything in the array is an Order
-
       all_the_online_orders = Grocery::OnlineOrder.all("./support/online_orders.csv")
       all_the_online_orders.must_be_instance_of Array
 

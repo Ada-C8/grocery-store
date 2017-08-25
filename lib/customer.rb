@@ -1,7 +1,6 @@
 require 'csv'
 require 'pry'
 require 'awesome_print'
-# require_relative 'order.rb'
 
 module Grocery
 
@@ -47,13 +46,3 @@ module Grocery
   end
 
 end
-
-# all_the_customers = Grocery::Customer.all("./support/customers.csv")
-#
-# ap all_the_customers
-#
-# #
-# ap all_the_customers
-# customer = Grocery::Customer.find("./support/customers.csv", 1)
-#
-# puts customer.class

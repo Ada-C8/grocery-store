@@ -12,8 +12,6 @@ module Grocery
     attr_accessor :food_and_price
 
     def initialize(id, food_and_price, customer_id, customer_object, status)
-      # @id = id
-      # @food_and_price = food_and_price
       super(id, food_and_price)
       @customer_id = customer_id
       @customer_object = Grocery::Customer.find("./support/customers.csv", customer_id)
@@ -83,28 +81,3 @@ module Grocery
   end
 
 end
-
-
-order = Grocery::OnlineOrder.find("./support/online_orders.csv", 6)
-
-order.add_product("muffin", 2.00)
-
-puts order
-# order = Grocery::OnlineOrder.find("./support/online_orders.csv", 5)
-#
-# order.add_product("muffin", 2.00)
-
-# all_the_online_orders = Grocery::OnlineOrder.all("./support/online_orders.csv")
-
-# ap all_the_online_orders
-
-# puts all_the_online_orders[2].customer_object
-
-# order_total =  Grocery::OnlineOrder.find("./support/online_orders.csv", 1)
-#
-# puts order_total.total
-
-
-# order = Grocery::OnlineOrder.find_by_customer("./support/online_orders.csv", 1)
-#
-# puts order.class

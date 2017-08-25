@@ -1,7 +1,6 @@
 require 'csv'
 require 'pry'
 require 'awesome_print'
-# do i need to require_relative anything from customer and online_order here???
 
 module Grocery
   class Order
@@ -11,7 +10,6 @@ module Grocery
       @id = id
       @food_and_price = food_and_price
     end
-
 
     def self.all(file_name)
       @orders = []
@@ -65,13 +63,3 @@ module Grocery
 
   end
 end
-
-#
-# all_the_orders = Grocery::Order.all("./support/orders.csv")
-# #
-# ap all_the_orders
-
-# order = Grocery::Order.find("./support/orders.csv", 1)
-# #
-# puts order.total
-# puts order.id

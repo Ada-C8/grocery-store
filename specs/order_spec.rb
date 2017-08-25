@@ -124,7 +124,7 @@ xdescribe "Order Wave 1" do
 
 end
 
-describe "Order Wave 2" do
+xdescribe "Order Wave 2" do
   before do
     Grocery::Order.clear
   end

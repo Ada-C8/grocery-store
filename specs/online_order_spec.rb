@@ -14,7 +14,9 @@ require_relative '../lib/online_order'
 describe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
-      result = Grocery::OnlineOrder.is_a? Grocery::Order
+      products = {"carrots" => 1.99, "salad mix" => 3.99}
+      online_order = Grocery::OnlineOrder.new(200, products, "1", :complete)
+      result = online_order.is_a? Grocery::Order
       result.must_equal true
       # Check that an OnlineOrder is in fact a kind of Order
 
@@ -24,7 +26,8 @@ describe "OnlineOrder" do
     end
 
     it "Can access Customer object" do
-      online_order = Grocery::OnlineOrder.new()
+      products = {"carrots" => 1.99, "salad mix" => 3.99}
+      online_order = Grocery::OnlineOrder.new(200, products, "1", :complete)
       online_order.must_respond_to :customer
       actual_customer = online_order.customer
       result = actual_customer.is_a? Grocery::Customer
@@ -34,7 +37,8 @@ describe "OnlineOrder" do
     end
 
     it "Can access the online order status" do
-      online_order = Grocery::OnlineOrder.new()
+      products = {"carrots" => 1.99, "salad mix" => 3.99}
+      online_order = Grocery::OnlineOrder.new(200, products, "1", :complete)
       online_order.must_respond_to :status
 
       actual_status = online_order.status
@@ -43,34 +47,33 @@ describe "OnlineOrder" do
       # TODO: Your test code here!
     end
   end
-  # 
-  # xdescribe "#total" do
-  #   it "Adds a shipping fee" do
-  #     products = {"carrots" => 1.99, "salad mix" => 3.99}
-  #     regular_order = Grocery::Order.new(200, products)
-  #     online_order = Grocery::OnlineOrder.new(200, products, 1, :complete)
-  #     regular_total = regular_order.total
-  #     expected_online_total = regular_total + 10
-  #     online_order.total.must_equal expected_online_total
-  #   end
   #
-  #   it "Doesn't add a shipping fee if there are no products" do
-  #     empty_products = {}
-  #     online_order = Grocery::OnlineOrder.new(200, empty_products,1,:completed)
-  #     expected_online_total = 0
-  #     actual_online_total = online_order.total
-  #     actual_online_total.must_equal expected_online_total
-  #   end
-  # end
-  #
+  describe "#total" do
+    it "Adds a shipping fee" do
+      products = {"carrots" => 1.99, "salad mix" => 3.99}
+      regular_order = Grocery::Order.new(200, products)
+      online_order = Grocery::OnlineOrder.new(200, products, "1", :complete)
+      regular_total = regular_order.total
+      expected_online_total = regular_total + 10
+      online_order.total.must_equal expected_online_total
+    end
+
+    it "Doesn't add a shipping fee if there are no products" do
+      online_order = Grocery::OnlineOrder.new(200,"1",:complete)
+      expected_online_total = 0
+      actual_online_total = online_order.total
+      actual_online_total.must_equal expected_online_total
+    end
+  end
+
   # xdescribe "#add_product" do
-  #   it "Does not permit action for processing, shipped or completed statuses" do
+  #   it "Does not permit action for processing, shipped or complete statuses" do
   #     products = {"carrots" => 1.99, "salad mix" => 3.99}
-  #     completed_online_order = Grocery::OnlineOrder.new(200, products,1, :completed)
+  #     complete_online_order = Grocery::OnlineOrder.new(200, products,1, :complete)
   #     shipped_online_order = Grocery::OnlineOrder.new(201, products,1, :shipped)
   #     processing_online_order = Grocery::OnlineOrder.new(202, products,1,:processing)
   #
-  #     proc {completed_online_order.add_product("almond butt", 7.99)}.must_raise ArgumentError
+  #     proc {complete_online_order.add_product("almond butt", 7.99)}.must_raise ArgumentError
   #     proc {shipped_online_order.add_product("almond butt", 8.99)}.must_raise ArgumentError
   #     proc {processing_online_order.add_product("almond butt", 9.99)}.must_raise ArgumentError
   #   end
@@ -111,7 +114,7 @@ describe "OnlineOrder" do
   #   it "The status is present" do
   #     result = Grocery::OnlineOrder.all
   #     result.each do |order|
-  #       has_status = [:pending, :paid, :shipped, :completed].include? order.status
+  #       has_status = [:pending, :paid, :shipped, :complete].include? order.status
   #       has_status.must_equal true
   #     end
   #   end

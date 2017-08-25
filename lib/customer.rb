@@ -5,12 +5,17 @@ require_relative 'order'
 
 module Grocery
   class Customer
-    attr_reader :customer_id, :email_address, :delivery_address
+    attr_reader :customer_id, :email, :delivery_address
 
-    def initialize(customer_id, email_address, delivery_address)
+    def initialize(customer_id, email, delivery_address)
       @customer_id = customer_id
-      @email_address = email_address
+      @email = email
       @delivery_address = delivery_address
+
+      # raise ArgumentError.new("customer_id must be a float") if customer_id.class != Float
+      # raise ArgumentError.new("email must be a string") if email.class != String
+      # raise ArgumentError.new("delivery_address must be a string") if delivery_address.class != String
+
     end
 
     def self.all
@@ -20,14 +25,14 @@ module Grocery
 
       customers.each do |row|
         customer_id = row[0]
-        email_address = row[1]
+        email = row[1]
 
         #SHORTHAND for delivery_address:
         delivery_address = (row[2..5]).join(",")
         #LONGHAND for delivery_address:
         # delivery_address = "#{row[2]},#{row[3]},#{row[4]},#{row[5]}"
 
-        all_customers << Customer.new(customer_id.to_i, email_address, delivery_address)
+        all_customers << Customer.new(customer_id.to_i, email, delivery_address)
       end
 
       return all_customers
@@ -46,3 +51,5 @@ module Grocery
   end#of_Customer_class
 
 end#of_module
+
+ap Grocery::Customer.all

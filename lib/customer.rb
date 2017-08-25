@@ -5,7 +5,7 @@ module Grocery
   class Customer
     attr_reader :delivery_address, :customer_id, :email
 
-    @@all_customers = []
+    @all_customers = []
 
     def initialize(customer_id, email, street_address, city, state, zipcode)
       @customer_id = customer_id
@@ -20,7 +20,7 @@ module Grocery
     def self.all
       #returns a collection of Customer instances, representing all of the Customer described in the CSV. See below for the CSV file specifications
 
-      @@all_customers = []
+      @all_customers = []
 
       CSV.open("support/customers.csv", 'r').each do |line|
         customer_id = line[0]
@@ -30,18 +30,18 @@ module Grocery
         state = line[4]
         zipcode = line[5]
 
-        @@all_customers << Grocery::Customer.new(customer_id, email, street_address, city, state, zipcode)
+        @all_customers << Grocery::Customer.new(customer_id, email, street_address, city, state, zipcode)
       end #.open
 
-      return @@all_customers
+      return @all_customers
     end #self.all
 
     def self.find(customer_id_to_test)
       #  returns an instance of Customer where the value of the id field in the CSV matches the passed parameter.
-      # print @@all_customers
-      
-      if  @@all_customers.any?{|instance| instance.customer_id == customer_id_to_test.to_s}
-        @@all_customers.each do |customer|
+      # print @all_customers
+
+      if  @all_customers.any?{|instance| instance.customer_id == customer_id_to_test.to_s}
+        @all_customers.each do |customer|
           if customer.customer_id == customer_id_to_test.to_s
             return customer
           end #if

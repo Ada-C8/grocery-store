@@ -3,7 +3,7 @@ require 'csv'
 
 module Grocery
   attr_reader :customer_id, :status
-  @@all_online_orders = []
+  @all_online_orders = []
   class OnlineOrder < Order
     def initialize(id, products, customer_id, status)
       super(id, products)
@@ -37,10 +37,10 @@ module Grocery
       end #if/else
     end #add_product
 
-
+#TODO is it OK that I just totally rewrote the self.all method? Should I have used super?
     def self.all
       #Need to give this it's own class variabel so we don't mess with the regular orders
-      @@all_online_orders = []
+      @all_online_orders = []
 
       CSV.open("support/online_orders.csv", 'r').each do |line|
         id = line[0]
@@ -56,31 +56,18 @@ module Grocery
         customer_id = line[2]
         status = line[3]
 
-        @@all_online_orders << Grocery::OnlineOrder.new(id, products, customer_id, status)
+        @all_online_orders << Grocery::OnlineOrder.new(id, products, customer_id, status)
       end #.open
-      return @@all_online_orders
+      return @all_online_orders
     end #self.all
 
-    #below is self.all from Order
-    # def self.all
-    #   #method that will return an array of all the orders
-    #   #the numnber of orders in the array is correct,
-    #   @@all_orders = []
-    #   CSV.open("support/orders.csv", 'r').each do |line|
-    #     id = line[0]
-    #     order_products = {}
-    #     products = line[1].split(';')
-    #
-    #     products.each do |item_price|
-    #       product_price = item_price.split(':')
-    #       order_products[product_price[0]] = product_price[1].to_f
-    #     end #.each
-    #
-    #     products = order_products
-    #     @@all_orders << Grocery::Order.new(id, products)
-    #   end #open
-    #   return @@all_orders
-    # end #all
+    def self.find(id)
+      # self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
+
+      #TODO: is there a way to change the variable name called in the super method from @all_orders to @all_online_orders?
+      #TODO: or do I need to raname @all_online_orders to @@all_orders in OnlineOrder and recall it before super to redefine it within the self.find method?
+      super(id)
+    end #self.find
 end #OnlineOrder
 end #Grocery
 

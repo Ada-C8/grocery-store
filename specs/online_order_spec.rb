@@ -122,6 +122,58 @@ describe "OnlineOrder" do
     end #it "will have the customer present" do
   end #describe "OnlineOrder.all" do
 
+  describe "OnlineOrder.find" do
+
+    it "Can find the first order from the CSV" do
+      first_order = CSV.open("support/online_orders.csv", 'r'){ |csv| csv.first }
+      order_products = {}
+      products = first_order[1].split(";")
+      products.each do |item_price|
+        product_then_price = item_price.split(":")
+        order_products[product_then_price[0]] = product_then_price[1].to_f
+      end
+      test_hash = {first_order[0] => order_products}
+
+      Grocery::OnlineOrder.all
+      test = Grocery::OnlineOrder.find("1")
+
+      test.products.must_equal test_hash[first_order[0]]
+
+    end #"Can find the first order from the CSV" do
+
+    it "Can find the last order from the CSV" do
+
+      all_orders = []
+      CSV.open("support/online_orders.csv", 'r').each do |line|
+        id = line[0]
+
+        order_products = {}
+        products_split = line[1].split(';')
+
+        products_split.each do |item_price|
+          product_price = item_price.split(':')
+          order_products[product_price[0]] = product_price[1].to_f
+        end
+        products = order_products
+        all_orders << Grocery::Order.new(id, products)
+      end
+
+
+      Grocery::Order.all
+      test = Grocery::Order.find(all_orders.length)
+
+      #Not producing the same list of products....
+      test.products.must_equal all_orders[-1].products
+    end #"Can find the last order from the CSV"
+
+    it "must return only one order" do
+    end #"must return only one order"
+
+    it "Raises an error for an order that doesn't exist" do
+    end #"Raises an error for an order that doesn't exist"
+
+  end #describe "OnlineOrder.find" do
+
 
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do

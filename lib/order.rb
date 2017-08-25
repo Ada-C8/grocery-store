@@ -19,7 +19,7 @@ module Grocery
     #Need to allow 0 product to be entered
     #if I make this a class variable then the 'it "will contain the right numnber of orders"' test doesn't pass (it shows too many orders). Hoever, I am really not sure what kind variable to make @@all_orders so that I can both access the variable in the self.find method, and it won't be modified when I don't want it to be. Right now I am getting around this by resetting @@all_orders to and empty array every time self.all is run.
 
-    @@all_orders = []
+    @all_orders = []
 
     def initialize(id, products)
       @id = id
@@ -52,7 +52,7 @@ module Grocery
     def self.all
       #method that will return an array of all the orders
       #the numnber of orders in the array is correct,
-      @@all_orders = []
+      @all_orders = []
       CSV.open("support/orders.csv", 'r').each do |line|
         id = line[0]
         order_products = {}
@@ -64,10 +64,10 @@ module Grocery
         end #.each
 
         products = order_products
-        @@all_orders << Grocery::Order.new(id, products)
+        @all_orders << Grocery::Order.new(id, products)
       end #open
 
-      return @@all_orders
+      return @all_orders
     end #all
 
     def self.find(id_to_test)
@@ -83,10 +83,11 @@ module Grocery
       #     end
       #   end
       # end
-
-
-      if  @@all_orders.any?{|instance| instance.id == id_to_test.to_s}
-            @@all_orders.each do |order|
+#TODO: change this so that instead of saying @@all_orders.any? write a class method that will return @@all_orders (in Order class) and call class_method_name.any? instead
+#TODO: then in your subclass (OnlineOrder) you can override the class method discribed above to return @@all_online_orders instead
+#TODO: before doing the two above TODOs change @@all_orders and @@all_online_orders to instance variables.
+      if  @all_orders.any?{|instance| instance.id == id_to_test.to_s}
+            @all_orders.each do |order|
               if order.id == id_to_test.to_s
                 return order
               end #if

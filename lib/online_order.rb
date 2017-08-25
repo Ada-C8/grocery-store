@@ -24,6 +24,21 @@ module Grocery
         raise ArgumentError.new "Cannot add prodcut to complete, shipped or processing online orders"
       end
     end
-
+    def self.all
+      all_orders =[]
+      CSV.read('../support/online_orders.csv').each do |row|
+        order_id = row[0]
+        order_cust_id = row[2]
+        order_status = row[3].to_sym
+        order_products_hash = {}
+        product_row = row[1].split(";")
+        product_row.each do |pair|
+          pairs = pair.split(":")
+          order_products_hash[pairs[0]] = pairs[1]
+        end # end of product_row
+        all_orders.push(Grocery::OnlineOrder.new(order_id, order_products_hash, order_cust_id, order_status))
+      end #end of csv
+      return all_orders
+    end # end of load_data
   end
 end

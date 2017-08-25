@@ -89,39 +89,49 @@ describe "OnlineOrder" do
       paid_online_order.products.count.must_equal expected_count
     end
   end
-  #
-  # xdescribe "OnlineOrder.all" do
-  #   it "Returns an array" do
-  #     result = Grocery::OnlineOrder.all
-  #     result.must_be_instance_of Array
-  #   end
-  #   it "Everything in the array is an Order" do
-  #     result = Grocery::OnlineOrder.all
-  #     result.each do |element|
-  #       element.must_be_instance_of Grocery::Order
-  #     end
-  #   end
-  #   it "The number of order is correct" do
-  #     result = Grocery::OnlineOrder.all
-  #     result.length.must_equal 100
-  #   end
-  #   it "The customer is present" do
-  #     result = Grocery::OnlineOrder.all
-  #     result.each do |order|
-  #       has_customer = (1..35).include? order.id
-  #       has_customer.must_equal true
-  #     end
-  #
-  #   end
-  #   it "The status is present" do
-  #     result = Grocery::OnlineOrder.all
-  #     result.each do |order|
-  #       has_status = [:pending, :paid, :shipped, :complete].include? order.status
-  #       has_status.must_equal true
-  #     end
-  #   end
-  #
-  # end
+
+  describe "OnlineOrder.all" do
+    it "Returns an array" do
+      result = Grocery::OnlineOrder.all
+      result.must_be_instance_of Array
+    end
+    it "Everything in the array is an Order" do
+      result = Grocery::OnlineOrder.all
+      result.each do |element|
+        element.must_be_instance_of Grocery::OnlineOrder
+        result = element.is_a? Grocery::Order
+        result.must_equal true
+      end
+    end
+    it "The number of order is correct" do
+      result = Grocery::OnlineOrder.all
+      result.length.must_equal 100
+    end
+    it "The customer is present" do
+      result = Grocery::OnlineOrder.all
+      result[0].customer.must_be_instance_of Grocery::Customer
+      result[10].customer.must_be_instance_of Grocery::Customer
+      result[-1].customer.must_be_instance_of Grocery::Customer
+
+      # result.each do |order|
+      #   has_customer = (1..35).include? order.id
+      #   has_customer.must_equal true
+      # end
+
+    end
+    it "The status is present" do
+      result = Grocery::OnlineOrder.all
+      [:pending, :paid, :shipped, :complete].include? result[0].status
+      [:pending, :paid, :shipped, :complete].include? result[10].status
+      [:pending, :paid, :shipped, :complete].include? result[-1].status
+
+    #   result.each do |order|
+    #     has_status = [:pending, :paid, :shipped, :complete].include? order.status
+    #     has_status.must_equal true
+    #   end
+    end
+
+  end
   # xdescribe "OnlineOrder.find" do
   #   it "Returns an order" do
   #     result = Grocery::OnlineOrder.find(1)

@@ -1,3 +1,4 @@
+
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
@@ -11,11 +12,14 @@ require 'minitest/skip_dsl'
 # we effectively get all that testing for free! Here we'll
 # only test things that are different.
 
-xdescribe "OnlineOrder" do
+describe "OnlineOrder" do
   describe "#initialize" do
+    before do
+      @online_order = Grocery::OnlineOrder.new
+    end
     it "Is a kind of Order" do
       # Check that an OnlineOrder is in fact a kind of Order
-
+      @online_order.must_be_kind_of Grocery::Order
       # Instatiate your OnlineOrder here
       # online_order =
       # online_order.must_be_kind_of Grocery::Order
@@ -23,10 +27,12 @@ xdescribe "OnlineOrder" do
 
     it "Can access Customer object" do
       # TODO: Your test code here!
+      @online_order.customer
     end
 
     it "Can access the online order status" do
       # TODO: Your test code here!
+      @online_order.status
     end
   end
 
@@ -62,7 +68,7 @@ xdescribe "OnlineOrder" do
       # Feel free to split this into multiple tests if needed
     end
   end
-  
+
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!

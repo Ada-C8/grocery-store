@@ -1,5 +1,6 @@
 require 'pry'
 require 'csv'
+
 module  Grocery
   class Customer
     attr_reader :customer_id, :email, :address

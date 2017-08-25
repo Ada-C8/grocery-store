@@ -31,25 +31,21 @@ class Customer
     return @@all_customers
   end
 
-  # def self.show_customers
-  #   list = ""
-  #   @@customers.each do |id, email, delivery_address|
-  #     list += "#{id}:\t #{email}\n#{delivery_address}\n"
-  #   end #each end
-  #   return list
-  # end #show order method end
-
+  def self.find(id)
+    CSV.open('../support/customers.csv', 'r').each do |line|
+      if id.to_i == line[0].to_i #begin if statement
+        line[0] = line[0].to_i
+        line[2] = line[2] + ", " + line[3] + ", " + line[4] + ", " + line[5]
+        line.delete_at(5)
+        line.delete_at(4)
+        line.delete_at(3)
+        return Customer.new(line[0], line[1], line[2])
+        #break
+      end # if statement
+    end #CSV each
+  end# method def
 end #customer class
-# customer = Customer.new(5, "amymcash@gmail.com", "123 Fake St., Anytown, USA, 12345")
-#
-# puts customer.id.class
 
-# Customer.all.each do |name|
-#   puts name
-# end
-#puts Customer.all.length
-# end
-#
-# def self.find(id)
-#   # self.find(id) - returns an instance of Customer where the value of the id field in the CSV matches the passed parameter.
-# end
+puts Customer.find(1).delivery_address
+# 1,leonard.rogahn@hagenes.org,71596 Eden Route,Connellymouth,LA,98872-9105
+# 35,rogers_koelpin@oconnell.org,7513 Kaylee Summit,Uptonhaven,DE,64529-2614

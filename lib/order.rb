@@ -19,11 +19,27 @@ module Grocery
 
     def self.all
       all = []
-      # if testing with rake, just orders.csv
-      CSV.open("../support/orders.csv", "r").each do |row|
-          all << row
+      orders = {}
+      CSV.open("../support/orders.csv", "r", converters: :numeric).each do |row|
+        id = row[0] #id
+        products = row[1].split(";") # will be hash ["a:b", "c:d", "e:f"]
+        order = {}
+        products.each do |item|
+          item = item.split(":") # [a, b]
+          order[item[0]] = item[1]
+          # order = {a:b, c:d, etc}
+          orders[id] = order
+        end
       end
-      return all
+      all << orders
+
+      all_instances = []
+      all[0].each do |key, value|
+        order_instance = Order.new(key,value)
+        all_instances << order_instance
+      end
+
+      return all_instances
     end
 
     def self.find(id)
@@ -36,7 +52,6 @@ module Grocery
     end
 
     def total
-      # TODO: implement total
       if products.length == 0
         total = 0
         return total

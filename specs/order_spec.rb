@@ -77,82 +77,94 @@ require_relative '../lib/order'
 #     end
 #   end
 # end
-
-# # TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
-  describe "Order.all" do
-    it "Returns an array of all orders" do
-      order = Grocery::Order.all
-      order.must_be_kind_of Array
-    end
-    #     * checks the output of the array (should it be in this file.)
-    #* can be explicit based on the data
-    #*can compare to # of 100
-    #*check data was loaded correctly
-    #can assume that csv is working
-    #first[1] be explicit and reference 100[1]
-    #     it "Check everything in the array is an order" do
-    #     end
-    #     check there are no strings or characters etc
-    #
-    it "checks the number of orders is correct" do
-      order = Grocery::Order.all
-      order.length.must_equal 100
-    end
+  # describe "Order.all" do
+  #   it "Returns an array of all orders" do  #order.all returns an array
+  #     orders = Grocery::Order.all
+  #     orders.must_be_kind_of Array
+  #   end
+  #
+  #   it "checks if orders match what is the CSV file" do
+  #     orders = Grocery::Order.all
+  #     csv = CSV.read("./support/orders.csv", 'r')
+  #     csv_product = csv.to_a[18][1].gsub(/:|;/, " ")
+  #     # csv_product.must_be_same_as "cats"
+  #     order_product = orders[18].products.flatten.join(" ")
+  #     order_product.must_equal csv_product
+  #   end
+  #
+  #   it "checks the number of orders is correct" do #check # of orders
+  #     orders = Grocery::Order.all
+  #     orders.length.must_equal 100
+  #   end
+  #
+  # #   - The ID and products of the first and last
+  #   it "checks ID the first and last order match what's in the CSV file" do
+  #     orders = Grocery::Order.all
+  #     # print orders
+  #     csv = CSV.read("./support/orders.csv", 'r')
+  #     csv_product = csv.to_a[18][0]
+  #     csv_product.must_equal orders[18].id
+  #   end
+  #
+  #   it "checks ID of the last order match what's in the csv file" do
+  #     orders = Grocery::Order.all
+  #     csv = CSV.read("./support/orders.csv", 'r')
+  #     csv_product = csv.to_a[-1][0]
+  #     csv_product.must_equal orders[-1].id
+  #   end
+  #
+  #   it "checks product of the first order match what's in the csv file" do
+  #     orders = Grocery::Order.all
+  #     csv = CSV.read("./support/orders.csv", 'r')
+  #     csv_product = csv.to_a[0][1].gsub(/:|;/, " ")
+  #     order_product = orders[0].products.flatten.join(" ")
+  #     csv_product.must_equal order_product
+  #   end
+  #
+  #   it "checks product of the last order match what's in the csv file" do
+  #     orders = Grocery::Order.all
+  #     csv = CSV.read("./support/orders.csv", 'r')
+  #     csv_product = csv.to_a[-1][1].gsub(/:|;/, " ")
+  #     order_product = orders[-1].products.flatten.join(" ")
+  #     csv_product.must_equal order_product
+  #   end
+  #
+  # it "checks everything in the array is an order" do
+  #   orders = Grocery::Order.all
+  #   orders.each do |order|
+  #     order.must_be_instance_of Grocery::Order
+  #   end
+  #
+  #
+  # end
+  # end
 
-    it "checks ID the first and last order match what's in the CSV file" do
-      order = Grocery::Order.all
-      csv = CSV.open("./support/orders.csv", 'r')
-      csv.to_a[0][0].must_equal order[0].id
-    end
+  # end
 
-    it "checks ID of the last order match what's in the csv file" do
-      order = Grocery::Order.all
-      csv = CSV.open("./support/orders.csv", 'r')
-      csv.to_a[-1][0].must_equal order[-1].id
-    end
+    describe "Order.find" do
+      it "can find the first order from the CSV" do
+        order = Grocery::Order.find(1)
+        csv = CSV.read("./support/orders.csv", 'r')
+        csv_order= csv.to_a[0]
+        print "#{csv_order} Hi"
+        print "#{order} Yo"
+        order.id.must_equal csv_order[0].to_i
+      end
 
-    it "checks product of the first order match what's in the csv file" do
-      order = Grocery::Order.all
-      csv = CSV.open("./support/orders.csv", 'r')
-      csv_product = csv.to_a[0][1].delete(":").delete(";")
-      order_product = order[0].products.flatten.join
-      csv_product == order_product
-    end
-    # it "checks everything in the array is an order" do
-    #   order = Grocery::Order.all
-    #
-    #     order.products
-    #     products
-    # end
+      it "Can find the last order from the CSV" do
+        order = Grocery::Order.find(100)
+        csv = CSV.read("./support/orders.csv", 'r')
+        csv_order= csv.to_a[99]
+        print "#{csv_order} Hi"
+        print "#{order} Yo"
+        order.id.must_equal csv_order[0].to_i
+      end
+
+      it "Raises an error for an order that doesn't exist" do
+        proc {Grocery::Order.find(101)}.must_raise ArgumentError
+        proc {Grocery::Order.find(200)}.must_raise ArgumentError
+        proc {Grocery::Order.find(1000)}.must_raise ArgumentError
+      end
   end
 end
-
-
-#       compare the output of array to the line[1] and line[-1] from csv file
-  # end
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
-    # end
-# end
-# #
-# #   describe "Order.find" do
-# #     it "Can find the first order from the CSV" do
-# #       # TODO: Your test code here!
-# #     end
-# #
-# #     it "Can find the last order from the CSV" do
-# #       # TODO: Your test code here!
-# #     end
-# #
-# #     it "Raises an error for an order that doesn't exist" do
-# #       # TODO: Your test code here!
-# #     end
-# #   end
-# end

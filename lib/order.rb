@@ -6,7 +6,7 @@ module Grocery
     attr_reader :id
     attr_accessor :products
 
-    # @@all_orders
+    @@all_orders = []
 
     def initialize(id, products)
       @id = id
@@ -15,9 +15,11 @@ module Grocery
     end
 
     #if @@all_orders is a hash then find.all you can search the has for the key = order idea
-
+    # each time we called orders.all it would re-run csv file
     def self.all
-      orders = []
+      if @@all_orders.length > 0
+        return @@all_orders
+      end
       CSV.open("support/orders.csv", "r").each do |line|
         id = line[0].to_i
         products_hash = {}
@@ -26,9 +28,9 @@ module Grocery
           ind_product_price = product.split(':')
           products_hash[ind_product_price[0]] = ind_product_price[1].to_f
         end
-        orders << self.new(id, products_hash)
+        @@all_orders << self.new(id, products_hash)
       end
-      return orders
+      return @@all_orders
     end
 
     # unless LEGAL_SUITS.include? suit
@@ -37,9 +39,9 @@ module Grocery
 
     #find a way to do a class variable
     def self.find(id_input)
-      orders = Order.all
+      # orders = Order.all
       counter = 0
-      orders.each do |order|
+      Order.all.each do |order|
         if order.id == id_input
           counter += 1
           return order

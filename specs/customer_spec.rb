@@ -19,8 +19,8 @@ describe "Customer" do
 
       address = {:address1=>"71596 Eden Route", :city=>"Connellymouth",:state=>"LA", :zip_code=>"98872-9105"}
 
-      @customer_first.must_respond_to :id && :email && :address
-      @customer_first.id.must_equal 1
+      @customer_first.must_respond_to :customer_id && :email && :address
+      @customer_first.customer_id.must_equal 1
       @customer_first.email.must_equal "leonard.rogahn@hagenes.org"
       @customer_first.address.must_equal address
     end
@@ -42,10 +42,10 @@ describe "Customer" do
     end
 
     it "the ID email and address customers.all[0] and customers.all[35] match what is in the CSV file" do
-      Grocery::Customer.all.first.id.must_equal @customer_first.id
+      Grocery::Customer.all.first.customer_id.must_equal @customer_first.customer_id
       Grocery::Customer.all.first.address.must_equal @customer_first.address
       Grocery::Customer.all.first.email.must_equal @customer_first.email
-      Grocery::Customer.all.last.id.must_equal @customer_last.id
+      Grocery::Customer.all.last.customer_id.must_equal @customer_last.customer_id
       Grocery::Customer.all.last.address.must_equal @customer_last.address
       Grocery::Customer.all.last.email.must_equal @customer_last.email
     end
@@ -53,14 +53,14 @@ describe "Customer" do
 
   describe "Customer.find" do
     it "Can find the first customer from the CSV" do
-      Grocery::Customer.find(1).id.must_equal @customer_first.id
+      Grocery::Customer.find(1).customer_id.must_equal @customer_first.customer_id
       Grocery::Customer.find(1).email.must_equal @customer_first.email
       Grocery::Customer.find(1).address.must_equal @customer_first.address
 
     end
 
     it "Can find the last customer from the CSV" do
-      Grocery::Customer.find(35).id.must_equal @customer_last.id
+      Grocery::Customer.find(35).customer_id.must_equal @customer_last.customer_id
       Grocery::Customer.find(35).address.must_equal @customer_last.address
       Grocery::Customer.find(35).email.must_equal @customer_last.email
     end

@@ -14,49 +14,18 @@ module Grocery
       @id = id
       @products = products
       @total = 0
-      # @csv_file
     end
 
-    # def self.all(csv_file = "support/orders.csv")
     def self.all
       #returns an array of Order instances
       all_orders = []
-      # csv_file = "support/orders.csv"
-      # if self == Grocery::Order
-      #   csv_file = "support/orders.csv"
-      # elsif self == Grocery::OnlineOrder
-      #   csv_file = "support/online_orders.csv"
-      # end
 
-      # CSV.open(csv_file, "r").each do |row|
-      # CSV.open(self.read_csv, "r").each do |row|
-        #1st, create a hash of the products of each order
-        #2nd, create a new Order object, with the id and newly created products hash
-        #
-        # id = row[0].to_i
-        #
-        # product_info = row[1].gsub(":", ",").gsub(";", ",").split(",")
-        #
-        # order_products = {}
-        #
-        # idx = 0
-        #
-        # while idx < product_info.length
-        #   order_products[product_info[idx]] = product_info[idx + 1].to_f
-        #   idx += 2
-        # end
+      all_orders_by_row = self.order_info_by_row("support/orders.csv")
 
-        all_orders_by_row = self.order_info_by_row("support/orders.csv")
-
-        all_orders_by_row.each do |order|
-          order = Order.new(order[0],order[1])
-          all_orders << order
-        end
-
-        # order = Order.new(id, order_products)
-        # all_orders << order
-
-      # end
+      all_orders_by_row.each do |order|
+        order = Order.new(order[0].to_i,order[1])
+        all_orders << order
+      end
 
       return all_orders
 
@@ -140,20 +109,59 @@ module Grocery
 
   end #end of Order class
 
-  # def read_csv #can be called by any class in this module, called via Grocery::Class.read_csv or Class.read_csv
-  #   if self == Grocery::Order
-  #     csv_file = "support/orders.csv"
-  #   elsif self == Grocery::OnlineOrder
-  #     csv_file = "support/online_orders.csv"
-  #   end
-  # end
 
 end # end module
 
 
 
 
+############GRAVEYARD FOR PREVIOUS APPROACHES BELOW,  RIP & THANK YOU ######
 
+# def self.all(csv_file = "support/orders.csv")
+# def self.all
+  #returns an array of Order instances
+  # all_orders = []
+  # csv_file = "support/orders.csv"
+  # if self == Grocery::Order
+  #   csv_file = "support/orders.csv"
+  # elsif self == Grocery::OnlineOrder
+  #   csv_file = "support/online_orders.csv"
+  # end
+
+  # CSV.open(csv_file, "r").each do |row|
+  # CSV.open(self.read_csv, "r").each do |row|
+    #1st, create a hash of the products of each order
+    #2nd, create a new Order object, with the id and newly created products hash
+    #
+    # id = row[0].to_i
+    #
+    # product_info = row[1].gsub(":", ",").gsub(";", ",").split(",")
+    #
+    # order_products = {}
+    #
+    # idx = 0
+    #
+    # while idx < product_info.length
+    #   order_products[product_info[idx]] = product_info[idx + 1].to_f
+    #   idx += 2
+    # end
+
+    # order = Order.new(id, order_products)
+    # all_orders << order
+
+  # end
+
+  # return all_orders
+
+# end
+
+# def read_csv #can be called by any class in this module, called via Grocery::Class.read_csv or Class.read_csv
+#   if self == Grocery::Order
+#     csv_file = "support/orders.csv"
+#   elsif self == Grocery::OnlineOrder
+#     csv_file = "support/online_orders.csv"
+#   end
+# end
 
 ##### old way to do self.all below
 # def self.all
@@ -209,4 +217,4 @@ end # end module
 #
 # end
 #
-binding.pry
+# binding.pry

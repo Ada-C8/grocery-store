@@ -36,8 +36,17 @@ describe "OnlineOrder" do
   end
 
   describe "#total" do
+    before do
+      #test data
+      id = 1500
+      products = {"Spumoni" => 9.87}
+      customer_id = 3333
+      status = "completed"
+      @test_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+    end
+
     it "Adds a shipping fee" do
-      # TODO: Your test code here!
+      @test_order.total.must_equal (10.61 + 10)
     end
 
     it "Doesn't add a shipping fee if there are no products" do

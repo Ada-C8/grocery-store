@@ -10,5 +10,11 @@ module Grocery
       @c_id = customer_id
       @status = status
     end
+
+    def total
+      shipping = 10
+      super + shipping
+
+    end
   end #OnlineOrder
 end #module

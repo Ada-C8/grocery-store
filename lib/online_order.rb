@@ -13,7 +13,11 @@ module Grocery
 
     def total
       shipping = 10
-      super + shipping
+      if @products.length != 0
+        super + shipping
+      else
+        super
+      end
 
     end
   end #OnlineOrder

@@ -50,7 +50,12 @@ describe "OnlineOrder" do
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
+      id = 1500
+      products = {}
+      customer_id = 3333
+      status = "completed"
+      test2 = Grocery::OnlineOrder.new(id, products, customer_id, status)
+      test2.total.must_equal 0
     end
   end
 

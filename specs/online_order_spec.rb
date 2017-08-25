@@ -78,8 +78,8 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      Grocery::OnlineOrder.find_by_customer(2).must_be_instance_of Array
-      #Grocery::OnlineOrder.find_by_customer(2).sample.must_be_instance_of Grocery::OnlineOrder
+      Grocery::OnlineOrder.find_by_customer(12).must_be_instance_of Array
+      Grocery::OnlineOrder.find_by_customer(12).sample.must_be_instance_of Grocery::OnlineOrder
 
     end
   end

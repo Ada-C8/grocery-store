@@ -5,12 +5,13 @@ require_relative 'customer.rb'
 
 module Grocery
   class OnlineOrder < Order
-    attr_reader :customer, :status
+    attr_reader :customer, :status, :customer_id
     @@online_orders = []
     def initialize(id, collection, customer, status)
       @id = id
       @products_list = collection
       @customer = Grocery::Customer.find(customer)
+      @customer_id = customer
       @status = status
     end
 
@@ -52,7 +53,7 @@ module Grocery
     def self.find_by_customer(customer_id)
       customers_orders = []
       all.each do |order|
-        if order.customer == customer_id
+        if order.customer_id == customer_id
           customers_orders.push(order)
         end
       end
@@ -64,4 +65,4 @@ module Grocery
   end
 end
 
-puts "#{Grocery::OnlineOrder.find_by_customer(2)}"
+# puts "#{Grocery::OnlineOrder.find_by_customer(12)}"

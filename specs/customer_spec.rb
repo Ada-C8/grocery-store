@@ -54,14 +54,15 @@ describe "Customer" do
   describe "Customer.find" do
     it "Can find the first customer from the CSV" do
       Grocery::Customer.find(1).id.must_equal @customer_first.id
-      Grocery::Customer.find(1).email.must_equal @customer_first.email      Grocery::Customer.find(1).address.must_equal @customer_first.address
+      Grocery::Customer.find(1).email.must_equal @customer_first.email
+      Grocery::Customer.find(1).address.must_equal @customer_first.address
 
     end
 
     it "Can find the last customer from the CSV" do
-      Grocery::Customer.find(35).last.id.must_equal @customer_last.id
-      Grocery::Customer.find(35).last.address.must_equal @customer_last.address
-      Grocery::Customer.find(35).last.email.must_equal @customer_last.email
+      Grocery::Customer.find(35).id.must_equal @customer_last.id
+      Grocery::Customer.find(35).address.must_equal @customer_last.address
+      Grocery::Customer.find(35).email.must_equal @customer_last.email
     end
 
     it "Raises an error for a customer that doesn't exist" do

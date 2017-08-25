@@ -4,6 +4,8 @@ module  Grocery
   class Customer
     attr_reader :id, :email, :address
 
+    @@all_customers = []
+
     def initialize(id, email, address)
       @id = id
       @email = email
@@ -24,9 +26,17 @@ module  Grocery
       return customers
     end
 
-    def self.find(id)
-      # self.find(id) - returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
+    def self.find(id_input)
+      counter = 0
+      Customer.all.each do |customer|
+        if customer.id == id_input
+          counter += 1
+          return customer
+        end
+      end
+      if counter == 0
+        raise ArgumentError.new("Invalid Customer ID")
+      end
     end
-
   end
 end

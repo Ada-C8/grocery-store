@@ -3,6 +3,7 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/online_order'
 require_relative '../lib/order'
+require 'csv'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
@@ -84,17 +85,43 @@ describe "OnlineOrder" do
   end #describe "#add_product" do
 
   describe "OnlineOrder.all" do
+    # TODO: Your test code here!
+    # Useful checks might include:
+    #   - OnlineOrder.all returns an array
+    #   - Everything in the array is an Order
+    #   - The number of orders is correct
+    #   - The customer is present
+    #   - The status is present
+    # Feel free to split this into multiple tests if needed
     it "Returns an array of all online orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - OnlineOrder.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The customer is present
-      #   - The status is present
-      # Feel free to split this into multiple tests if needed
-    end
-  end
+      Grocery::OnlineOrder.all.must_be_kind_of Array
+    end #it "Returns an array ....
+
+    it "Everything in the array is an Order" do
+      test = Grocery::OnlineOrder.all
+      test.length.times do |i|
+        test[i].must_be_kind_of Grocery::Order
+      end #.times
+    end #it "Everything in the array is an Order" do
+
+    it "will have the right number of orders in the array" do
+      all_online_orders = []
+      CSV.open("support/online_orders.csv").each do |line|
+        all_online_orders << line
+      end
+
+      Grocery::OnlineOrder.all.length.must_equal all_online_orders.length
+    end #it "will have the right number of orders in the array" do
+
+    it "will have the customer present" do
+      Grocery::OnlineOrder.all[0].must_respond_to :customer_id
+    end #it "will have the customer present" do
+
+    it "will have the status present" do
+      Grocery::OnlineOrder.all[0].must_respond_to :status
+    end #it "will have the customer present" do
+  end #describe "OnlineOrder.all" do
+
 
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do

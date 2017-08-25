@@ -1,7 +1,9 @@
 require_relative 'Order'
+require 'csv'
 
 module Grocery
   attr_reader :customer_id, :status
+  @@all_online_orders = []
   class OnlineOrder < Order
     def initialize(id, products, customer_id, status)
       super(id, products)
@@ -35,7 +37,51 @@ module Grocery
       end #if/else
     end #add_product
 
-  end #OnlineOrder
+
+    def self.all
+      #Need to give this it's own class variabel so we don't mess with the regular orders
+      @@all_online_orders = []
+
+      CSV.open("support/online_orders.csv", 'r').each do |line|
+        id = line[0]
+        order_products = {}
+
+        products = line[1].split(";")
+        products.each do |item_price|
+          product_price = item_price.split(":")
+          order_products[product_price[0]] = product_price[1].to_f
+        end #.each
+
+        products = order_products
+        customer_id = line[2]
+        status = line[3]
+
+        @@all_online_orders << Grocery::OnlineOrder.new(id, products, customer_id, status)
+      end #.open
+      return @@all_online_orders
+    end #self.all
+
+    #below is self.all from Order
+    # def self.all
+    #   #method that will return an array of all the orders
+    #   #the numnber of orders in the array is correct,
+    #   @@all_orders = []
+    #   CSV.open("support/orders.csv", 'r').each do |line|
+    #     id = line[0]
+    #     order_products = {}
+    #     products = line[1].split(';')
+    #
+    #     products.each do |item_price|
+    #       product_price = item_price.split(':')
+    #       order_products[product_price[0]] = product_price[1].to_f
+    #     end #.each
+    #
+    #     products = order_products
+    #     @@all_orders << Grocery::Order.new(id, products)
+    #   end #open
+    #   return @@all_orders
+    # end #all
+end #OnlineOrder
 end #Grocery
 
 online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", "Paid")

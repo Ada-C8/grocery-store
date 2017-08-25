@@ -31,20 +31,31 @@ module Grocery
       return @@customers
     end
 
-    def self.find(id)
-      # customers = self.all
-      # logic error:
-      until (1..@@customers.length).include?(id) #&& (id.kind_of? Integer)
-        raise ArgumentError.new("Invalid id: #{id}")
-      end
-
-      found_customer = nil
-      @@customers.each do |customer|
-        if customer.id == id
-          found_customer = customer
+    def self.find(id_input)
+      counter = 0
+      self.all.each do |customer|
+        if customer.id == id_input
+          counter += 1
+          return customer
         end
       end
-      return found_customer
+      if counter == 0
+        raise ArgumentError.new("Invalid Customer ID")
+      end
     end
+    # def self.find(id)
+    #   # customers = self.all
+    #   until (1..@@customers.length).include?(id) #&& (id.kind_of? Integer)
+    #     raise ArgumentError.new("Invalid id: #{id}")
+    #   end
+    #
+    #   found_customer = nil
+    #   @@customers.each do |customer|
+    #     if customer.id == id
+    #       found_customer = customer
+    #     end
+    #   end
+    #   return found_customer
+    # end
   end
 end

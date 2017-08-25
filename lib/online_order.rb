@@ -15,11 +15,16 @@ module Grocery
     end
 
     def total
-      super + 10
+      if products != {}
+        total = super + 10
+      else
+        total = super
+      end
+      return total
     end
 
-  end
-end
+  end #end of class
+  end #end of module
 
 #
 # id = 13

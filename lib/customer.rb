@@ -27,10 +27,9 @@ module Grocery
 
     def self.find(id)
       if id.to_i > 35 || id.to_i < 1
-        return "This customer does not exist."
+        raise ArgumentError.new("This customer does not exist.")
       end
       return self.all[id.to_i - 1]
     end
   end
 end
-ap Grocery::Customer.all

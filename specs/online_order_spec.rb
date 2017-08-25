@@ -8,10 +8,11 @@ require_relative '../lib/online_order'
 describe "OnlineOrder" do
   describe "#initialize" do
     before do
-      products = [{"peas" => 2}, {"beer" => 8}]
+      id = 1
+      products = {"peas" => 2, "beer" => 8}
       customer = Grocery::Customer.new(34, "email", "address")
       status = :pending
-      @online_order = Grocery::OnlineOrder.new(1, products, customer, status)
+      @online_order = Grocery::OnlineOrder.new(id, products, customer, status)
     end
 
     it "Is a kind of Order" do
@@ -49,30 +50,53 @@ describe "OnlineOrder" do
   end
 
   describe "#add_product" do
+    before do
+      products = {}
+      customer = Grocery::Customer.new(34, "email", "address")
+      status = :pending
+      @online_order = Grocery::OnlineOrder.new(1, products, customer, status)
+    end
+
     it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
+      @online_order.status = :processing
+      proc {@online_order.add_product("peas", 2)}.must_raise ArgumentError
+      @online_order.status = :shipped
+      proc {@online_order.add_product("peas", 2)}.must_raise ArgumentError
+      @online_order.status = :complete
+      proc {@online_order.add_product("peas", 2)}.must_raise ArgumentError
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      @online_order.status = :pending
+      @online_order.add_product("peas", 2).must_equal true
+      @online_order.status = :paid
+      @online_order.add_product("carrots", 4).must_equal true
     end
   end
 
   describe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - OnlineOrder.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The customer is present
-      #   - The status is present
-      # Feel free to split this into multiple tests if needed
+      Grocery::OnlineOrder.all.must_be_instance_of Array
+      Grocery::OnlineOrder.all.each do |element|
+        element.must_be_instance_of Grocery::OnlineOrder
+      end
+      Grocery::OnlineOrder.all.length.must_equal 100
+      Grocery::OnlineOrder.all[0].customer.must_equal 25
+      Grocery::OnlineOrder.all[99].customer.must_equal 20
+      Grocery::OnlineOrder.all[0].status.must_equal :complete
+      Grocery::OnlineOrder.all[99].status.must_equal :pending
     end
   end
 
-  describe "OnlineOrder.find_by_customer" do
+  describe "OnlineOrder.find" do
+    it "can do find" do
+      Grocery::OnlineOrder.find(1).id.must_equal 1
+    end
+  end
+
+  xdescribe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
+      Grocery::OnlineOrder.find_by_customer()
       # TODO: Your test code here!
     end
   end

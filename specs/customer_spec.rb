@@ -40,7 +40,7 @@ describe "Customer" do
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      Grocery::Customer.find(0).must_equal "This customer does not exist."
+      proc {Grocery::Customer.find(0)}.must_raise ArgumentError #what's up with this proc syntax?
     end
   end
 end

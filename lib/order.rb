@@ -55,5 +55,3 @@ module Grocery
     end
   end
 end
-
-# ap Grocery::Order.all

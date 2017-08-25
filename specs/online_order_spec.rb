@@ -89,11 +89,20 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
-      # TODO: Your test code here!
+      Grocery::OnlineOrder.all.must_be_kind_of Array
+
+      5.times do
+        Grocery::OnlineOrder.all[rand(0..(Grocery::OnlineOrder.all.length - 1))].must_be_kind_of Grocery::OnlineOrder
+      end
+
+      Grocery::OnlineOrder.all.length.must_equal       CSV.read('support/online_orders.csv').length
+    end
+
+    it "Returns Customer and status as from csv" do
       # Useful checks might include:
-      #   - OnlineOrder.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
+      #   X OnlineOrder.all returns an array
+      #   X Everything in the array is an Order
+      #   X The number of orders is correct
       #   - The customer is present
       #   - The status is present
       # Feel free to split this into multiple tests if needed

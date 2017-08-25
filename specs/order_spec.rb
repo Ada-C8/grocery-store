@@ -76,6 +76,7 @@ xdescribe "Order Wave 1" do
       result.must_equal true
     end
   end
+
   describe "#remove_product" do
     it "Decreases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -118,39 +119,37 @@ xdescribe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
-    # TODO responds to all med
     it "responds to all method" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       my_order = Grocery::Order.new(1337, products)
       my_order.class.must_respond_to :all
     end
+
     it "Everything in the array is an order" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       my_order = Grocery::Order.new(1337, products)
       result = my_order.class.all
       result[0].must_be_instance_of Grocery::Order
     end
+
     it "The number of orders is correct" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       my_order = Grocery::Order.new(1337, products)
       result = my_order.class.all
       result.length.must_equal 100
     end
+
     it "The ID and product of the first and last orders match CSV" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       my_order = Grocery::Order.new(1337, products)
       result = my_order.class.all
       result[0].id.must_equal "1"
       result[-1].id.must_equal "100"
-      #result[0].products.must_equal
-      # ["1","Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
-      # result[-1].must_equal ["100","Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59"]
-    end
     end
   end
+end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do

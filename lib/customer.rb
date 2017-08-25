@@ -1,6 +1,8 @@
 require 'csv'
 module Grocery
+  
   class Customer
+
     attr_reader :id, :email, :address_info
 
     def initialize(input_id, input_email, input_address_info)
@@ -24,7 +26,6 @@ module Grocery
       end # => end of csv
       return all_customers
     end # => end of self.all
-
 
     def self.find(input_id)
       all_customers = self.all

@@ -2,14 +2,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
-# TODO: uncomment the next line once you start wave 3
 require_relative '../lib/online_order'
-# You may also need to require other classes here
-
-# Because an OnlineOrder is a kind of Order, and we've
-# already tested a bunch of functionality on Order,
-# we effectively get all that testing for free! Here we'll
-# only test things that are different.
 
 describe "OnlineOrder" do
   describe "#initialize" do
@@ -40,7 +33,7 @@ describe "OnlineOrder" do
       result.must_equal true
     end
   end
-  #
+
   describe "#total" do
     it "Adds a shipping fee" do
       products = {"carrots" => 1.99, "salad mix" => 3.99}
@@ -78,6 +71,7 @@ describe "OnlineOrder" do
       pending_online_order.add_product("almond butt", 4.99)
       paid_online_order.add_product("almond butt", 3.99)
       expected_count = 3
+
       pending_online_order.products.count.must_equal expected_count
       paid_online_order.products.count.must_equal expected_count
     end
@@ -88,6 +82,7 @@ describe "OnlineOrder" do
       result = Grocery::OnlineOrder.all
       result.must_be_instance_of Array
     end
+
     it "Everything in the array is an Order" do
       result = Grocery::OnlineOrder.all
       result.each do |element|
@@ -96,32 +91,33 @@ describe "OnlineOrder" do
         result.must_equal true
       end
     end
+
     it "The number of order is correct" do
       result = Grocery::OnlineOrder.all
       result.length.must_equal 100
     end
+
     it "The customer is present" do
       result = Grocery::OnlineOrder.all
       result[0].customer.must_be_instance_of Grocery::Customer
       result[10].customer.must_be_instance_of Grocery::Customer
       result[-1].customer.must_be_instance_of Grocery::Customer
-
-
     end
+
     it "The status is present" do
       result = Grocery::OnlineOrder.all
       [:pending, :paid, :shipped, :complete].include? result[0].status
       [:pending, :paid, :shipped, :complete].include? result[10].status
       [:pending, :paid, :shipped, :complete].include? result[-1].status
-
     end
-
   end
+
   describe "OnlineOrder.find" do
     it "Returns an order" do
       result = Grocery::OnlineOrder.find("1")
       result.must_be_instance_of Grocery::OnlineOrder
     end
+
     it "Returns an error if Order does not exist" do
       proc {Grocery::OnlineOrder.find(1000000)}.must_raise ArgumentError
     end
@@ -132,13 +128,14 @@ describe "OnlineOrder" do
       result = Grocery::OnlineOrder.find_by_customer("1")
       result.must_be_instance_of Array
     end
+
     it "Returns an array of online orders for a specific customer ID" do
       result = Grocery::OnlineOrder.find_by_customer("1")
       result.length.must_be :>, 0
     end
+
     it "Returns an error if customer doesn't exist" do
       proc {Grocery::OnlineOrder.find_by_customer("ksldjg")}.must_raise ArgumentError
     end
-
   end
 end

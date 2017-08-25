@@ -1,9 +1,13 @@
 require_relative 'order'
 require_relative 'customer'
 require 'csv'
+
 module Grocery
+
   class OnlineOrder < Order
+
     attr_reader :id, :products, :customer, :status
+
     def initialize(id, products = 0, customer_id, status)
       @id = id
       @products = products
@@ -11,14 +15,12 @@ module Grocery
       @status = status
     end
 
-
     def total
       if @products != 0
         super + 10
       else 0
       end
     end
-
 
     def add_product(product_name, product_price)
       case @status
@@ -28,7 +30,6 @@ module Grocery
         raise ArgumentError.new "Cannot add prodcut to complete, shipped or processing online orders"
       end
     end
-
 
     def self.all
       all_orders =[]
@@ -47,7 +48,6 @@ module Grocery
       return all_orders
     end # end of all
 
-
     def self.find_by_customer(input_id)
       customer_orders = []
       all_orders = self.all
@@ -62,6 +62,6 @@ module Grocery
       else
         return customer_orders
       end
-    end
-  end
-end
+    end #end of find_by_customer
+  end #end of class
+end #end of module

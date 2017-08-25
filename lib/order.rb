@@ -68,8 +68,5 @@ end
         return true
       end
     end
-  # def self.all
-  #   return @@all_orders
-  # end
   end # end of Order class
 end # end of Grocery module

@@ -2,10 +2,9 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
-# TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/customer'
+require_relative '../lib/customer'
 
-xdescribe "Customer" do
+describe "Customer" do
   describe "#initialize" do
     it "Takes an ID, email and address info" do
       id = 1337
@@ -37,8 +36,9 @@ xdescribe "Customer" do
     it "Everything in the array is a customer" do
       result = Grocery::Customer.all
       result.each do |element|
-        element.must_be_instance_of Customer
+        element.must_be_instance_of Grocery::Customer
       end
+      # result[0].must_be_instance_of Grocery::Customer
     end
     it "The number of order is correct" do
       result = Grocery::Customer.all
@@ -47,14 +47,14 @@ xdescribe "Customer" do
     it "The ID, email address of the first customer match CSV" do
       result = Grocery::Customer.all
       expected_first_customer = result[0]
-      expected_first_customer.id.must_equal
-      expected_first_customer.email_address.must_equal
+      expected_first_customer.id.must_equal "1"
+      expected_first_customer.email.must_equal "leonard.rogahn@hagenes.org"
     end
     it "The ID, email address of the last customer match CSV" do
       result = Grocery::Customer.all
       expected_last_customer = result[-1]
-      expected_last_customer.id.must_equal
-      expected_last_customer.email_address.must_equal
+      expected_last_customer.id.must_equal "35"
+      expected_last_customer.email.must_equal "rogers_koelpin@oconnell.org"
 
     end
   end # => end customers.all

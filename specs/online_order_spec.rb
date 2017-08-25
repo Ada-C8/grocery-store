@@ -3,7 +3,8 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 # TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/online_order'
+require_relative '../lib/online_order'
+require_relative '../lib/order'
 # You may also need to require other classes here
 
 # Because an OnlineOrder is a kind of Order, and we've
@@ -11,14 +12,13 @@ require 'minitest/skip_dsl'
 # we effectively get all that testing for free! Here we'll
 # only test things that are different.
 
-xdescribe "OnlineOrder" do
+describe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
-      # Check that an OnlineOrder is in fact a kind of Order
+      id = 1500
+      products = {"Spumoni" => 9.87}
 
-      # Instatiate your OnlineOrder here
-      # online_order =
-      # online_order.must_be_kind_of Grocery::Order
+      Grocery::OnlineOrder.new(id, products).must_be_kind_of Grocery::Order
     end
 
     it "Can access Customer object" do
@@ -62,7 +62,7 @@ xdescribe "OnlineOrder" do
       # Feel free to split this into multiple tests if needed
     end
   end
-  
+
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!

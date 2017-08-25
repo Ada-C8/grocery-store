@@ -58,7 +58,7 @@ module Grocery
       #returns a list of Online Order instances of all online orders that match the customer's id
       #check if customer id and id for find are strings or integers, make sure they match type
       customers_orders = []
-      self.all.each {|online_order| customers_orders << online_order if online_order.customer.id == id}
+      self.all.each {|online_order| customers_orders << online_order if online_order.customer.id == customer_id}
 
       raise ArgumentError.new "Sorry, we don't have an order matching that customer ID number." if customers_orders.empty?
 
@@ -75,7 +75,7 @@ module Grocery
 
 end #end Grocery module
 
-# binding.pry
+binding.pry
 
 
 

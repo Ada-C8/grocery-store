@@ -3,7 +3,8 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 # TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/online_order'
+require_relative '../lib/order.rb'
+require_relative '../lib/online_order'
 # You may also need to require other classes here
 
 # Because an OnlineOrder is a kind of Order, and we've
@@ -11,14 +12,15 @@ require 'minitest/skip_dsl'
 # we effectively get all that testing for free! Here we'll
 # only test things that are different.
 
-xdescribe "OnlineOrder" do
+describe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
-      # Check that an OnlineOrder is in fact a kind of Order
-
-      # Instatiate your OnlineOrder here
-      # online_order =
-      # online_order.must_be_kind_of Grocery::Order
+      id = 1337
+      food_and_price = {}
+      customer_id = 5
+      status = :pending
+      online_order = Grocery::OnlineOrder.new(id, food_and_price, customer_id, status)
+      online_order.must_be_kind_of Grocery::Order
     end
 
     it "Can access Customer object" do
@@ -26,7 +28,17 @@ xdescribe "OnlineOrder" do
     end
 
     it "Can access the online order status" do
-      # TODO: Your test code here!
+      Grocery::OnlineOrder.find("./support/online_orders.csv", 1).status.must_equal :complete
+
+      Grocery::OnlineOrder.find("./support/online_orders.csv", 100).status.must_equal :pending
+
+
+      id = 1337
+      food_and_price = {}
+      customer_id = 5
+      status = :pending
+      online_order = Grocery::OnlineOrder.new(id, food_and_price, customer_id, status)
+      online_order.status.must_equal :pending 
     end
   end
 
@@ -62,7 +74,7 @@ xdescribe "OnlineOrder" do
       # Feel free to split this into multiple tests if needed
     end
   end
-  
+
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!

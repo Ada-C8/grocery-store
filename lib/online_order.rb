@@ -22,7 +22,7 @@ module Grocery
     end #end initialize
 
 
-    def self.all # should I define a method that creates a hash/array of all object information? Self.all would then iterate through the array of object information, create the Object instance as relevant, and return an array of all the newly created objects
+    def self.all(csv_file) # should I define a method that creates a hash/array of all object information? Self.all would then iterate through the array of object information, create the Object instance as relevant, and return an array of all the newly created objects
       # super(csv_file = "support/online_orders.csv")
 
       all_online_orders = []
@@ -51,11 +51,11 @@ module Grocery
 
     end #end self.all
 
-  binding.pry
-
     def total
-      @total = super + 10 # shipping fee?
+      @total = (super + 10).round(2) # shipping fee?
     end
+
+binding.pry
 
     def add_product(product_name, product_price)
       # TODO: implement add_product

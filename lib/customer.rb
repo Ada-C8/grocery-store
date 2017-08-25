@@ -10,20 +10,21 @@ module  Grocery
       @id = id
       @email = email
       @address = address
-
     end
 
+    @@all_customers = []
+
     def self.all
-      # return orders = [1]
-      # returns a collection of Customer instances, representing all of the Customer described in the CSV. See below for the CSV file specifications
-      customers = []
+      if @@all_customers.length > 0
+        return @@all_customers
+      end
       CSV.open("support/customers.csv", "r").each do |line|
         id = line[0].to_i
         email = line[1]
         address = {address1: line[2], city: line[3], state: line[4], zip_code: line[5] }
-        customers << self.new(id, email, address)
+        @@all_customers << self.new(id, email, address)
       end
-      return customers
+      return @@all_customers
     end
 
     def self.find(id_input)

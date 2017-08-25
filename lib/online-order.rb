@@ -12,7 +12,7 @@ module Grocery
       get_order_status(@product_list)
       get_customer(@product_list)
       get_products(@product_list)
-      @customer
+      # @customer
       @status
 
 
@@ -51,7 +51,7 @@ module Grocery
     #
     def self.all
       list = []
-      CSV.read("../support/online_orders.csv").each do |row|
+      CSV.read("./support/online_orders.csv").each do |row|
         list << OnlineOrder.new(row[0], row[1..-1])
       end
       list
@@ -89,22 +89,22 @@ module Grocery
 
 
 
-
-
-puts OnlineOrder.find_by_customer("2")
- myord = OnlineOrder.new(CSV.read("../support/online_orders.csv")[1][0],CSV.read("../support/online_orders.csv")[1][1..-1])
-puts myord.products
-puts myord.product_list
-puts myord.status
-puts myord.status
-puts myord.customer
-puts myord.products
-puts myord.status
- puts myord.add_product("nameofprod","45")
- puts myord.total
-puts myord.id
-puts myord.products
-puts OnlineOrder.all
+#
+#
+# puts OnlineOrder.find_by_customer("2")
+#  myord = OnlineOrder.new(CSV.read("support/online_orders.csv")[1][0],CSV.read("support/online_orders.csv")[1][1..-1])
+# puts myord.products
+# puts myord.product_list
+# puts myord.status
+# puts myord.status
+# puts myord.customer
+# puts myord.products
+# puts myord.status
+#  puts myord.add_product("nameofprod","45")
+#  puts myord.total
+# puts myord.id
+# puts myord.products
+# puts OnlineOrder.all
 
 
 end

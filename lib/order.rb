@@ -1,5 +1,4 @@
 require 'csv'
-require_relative 'order'
 require_relative 'customer'
 
 module Grocery
@@ -39,7 +38,7 @@ module Grocery
 
     def self.all
       list = []
-      CSV.read("../support/orders.csv").each do |row|
+      CSV.read("support/orders.csv").each do |row|
         list << Order.new(row[0], row[1..-1])
       end
       list

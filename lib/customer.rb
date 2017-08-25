@@ -13,7 +13,7 @@ module Grocery
 
     def self.all
       customer_list = []
-      CSV.read('../support/customers.csv').each do |customer|
+      CSV.read('./support/customers.csv').each do |customer|
         customer_list << Customer.new(customer[0], customer[1],  customer[2..-2])
       end
       return customer_list

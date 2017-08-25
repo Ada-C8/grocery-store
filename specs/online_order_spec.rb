@@ -17,10 +17,10 @@ require 'csv'
 
 describe "OnlineOrder" do
   before do
-    @myord = Grocery::OnlineOrder.new(CSV.read("../support/online_orders.csv").first[0],CSV.read("../support/online_orders.csv").first[1..-1])
+    @myord = Grocery::OnlineOrder.new(CSV.read("support/online_orders.csv").first[0],CSV.read("support/online_orders.csv").first[1..-1])
 
 
-    @myord2 = Grocery::OnlineOrder.new(CSV.read("../support/online_orders.csv").last[0],CSV.read("../support/online_orders.csv").last[1..-1])
+    @myord2 = Grocery::OnlineOrder.new(CSV.read("support/online_orders.csv").last[0],CSV.read("support/online_orders.csv").last[1..-1])
 
 
     @allord = Grocery::OnlineOrder.all
@@ -96,7 +96,7 @@ describe "OnlineOrder" do
       # TODO: Your test code here!
       @allord.each do |online_order|
         if online_order.status == :processing || online_order.status == :shipped || online_order.status == :completed
-          proc {online_order.add_product(CSV.read("../support/online_orders.csv").first[0],CSV.read("../support/online_orders.csv").first[1..-1])}.must_raise ArgumentError
+          proc {online_order.add_product(CSV.read("support/online_orders.csv").first[0],CSV.read("support/online_orders.csv").first[1..-1])}.must_raise ArgumentError
         end
       end
 
@@ -106,7 +106,7 @@ describe "OnlineOrder" do
       # TODO: Your test code here!
       @allord.each do |online_order|
         if online_order.status == :paid
-          proc {return online_order.add_product(CSV.read("../support/online_orders.csv").first[0],CSV.read("../support/online_orders.csv").first[1..-1])}.must_output true
+          proc {return online_order.add_product(CSV.read("support/online_orders.csv").first[0],CSV.read("support/online_orders.csv").first[1..-1])}.must_output true
         end
       end
     end
@@ -125,7 +125,7 @@ describe "OnlineOrder" do
       end
       #   - The number of orders is correct
       count = 0
-      CSV.read("../support/online_orders.csv").each do |row|
+      CSV.read("support/online_orders.csv").each do |row|
         count += 1
       end
       @allord.count.must_be :==,count
@@ -144,13 +144,6 @@ describe "OnlineOrder" do
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!
-      customers_ids = []
-      @allord.each do |online_orders|
-        customers_ids << online_orders.customer.id
-      end
-      customers_ids.each do |id|
-        Grocery::OnlineOrder.find_by_customer(id).must_be_kind_of Array
-      end
       Grocery::OnlineOrder.find_by_customer("1").must_be_kind_of Array
       @allord.each do |online_orders|
         Grocery::OnlineOrder.find_by_customer(online_orders.customer.id).must_be_kind_of Array

@@ -41,10 +41,10 @@ describe "Customer" do
       all_the_customers.must_be_instance_of Array
       all_the_customers.length.must_equal 35
 
-      all_the_customers[0][:id].must_equal 1
-      all_the_customers[34][:id].must_equal 35
-      all_the_customers[0][:email].must_equal "leonard.rogahn@hagenes.org"
-      all_the_customers[34][:email].must_equal "rogers_koelpin@oconnell.org"
+      all_the_customers[0].id.must_equal 1
+      all_the_customers[34].id.must_equal 35
+      all_the_customers[0].email.must_equal "leonard.rogahn@hagenes.org"
+      all_the_customers[34].email.must_equal "rogers_koelpin@oconnell.org"
     end
   end
 

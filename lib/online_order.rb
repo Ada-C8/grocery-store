@@ -32,6 +32,37 @@ module Grocery
       end
     end
 
+    def self.all
+      csv_array_of_all_online_orders = []
+      CSV.open("support/online_orders.csv", 'r').each do |line|
+        product = Hash.new
+        id = line[0]
+        status = line[-1]
+        customer_id = line[-2]
+        all_items_and_prices = line[1...-2]
+        item_and_price = all_items_and_prices.to_s.split(";")
+        item_and_price.each do |item_and_price|
+          item = item_and_price.split(":")[0]
+          item = item.delete("[")
+          item = item.delete("\"")
+          price = item_and_price.split(":")[1]
+          price = price.delete("]")
+          price = price.delete("\"")
+          price
+          product[item] = price.to_f
+        end
+        current_order = [id, product, customer_id, status]
+        csv_array_of_all_online_orders << current_order
+      end
+      all_online_orders = []
+      csv_array_of_all_online_orders.each do |online_order|
+        all_online_orders << OnlineOrder.new(online_order[0], online_order[1], online_order[2], online_order[3])
+      end
+      return all_online_orders
+    end
+
+
+
   end #end of class
 end #end of module
 

@@ -13,7 +13,7 @@ module Grocery
     def total
       sum = 0
       products.each do |item, price|
-        sum = (sum + cost)
+        sum = (sum + price)
       end
       return ((sum * 0.075) + sum).round(2)
     end

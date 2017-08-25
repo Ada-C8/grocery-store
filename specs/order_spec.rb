@@ -150,18 +150,15 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
       Grocery::Order.find(1).must_be_instance_of Grocery::Order
 
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
       Grocery::Order.find(100).must_be_instance_of Grocery::Order
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
       proc { Grocery::Order.find(101) }.must_raise ArgumentError
     end
   end

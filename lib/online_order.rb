@@ -7,7 +7,9 @@ require_relative 'customer.rb'
 module Grocery
   class OnlineOrder < Order
 
-    attr_reader :id, :all_online_orders, :food_and_price, :status, :customer_id, :customer_object
+    attr_reader :id, :all_online_orders, :status, :customer_id, :customer_object
+
+    attr_accessor :food_and_price
 
     def initialize(id, food_and_price, customer_id, customer_object, status)
       # @id = id
@@ -70,8 +72,12 @@ module Grocery
       end
     end
 
-    def add_product
-
+    def add_product(product, price)
+      if status == :pending || status == :paid
+        @food_and_price[product] = price
+      else
+        raise ArgumentError.new "Too late to add items"
+      end
     end
 
   end
@@ -79,6 +85,14 @@ module Grocery
 end
 
 
+order = Grocery::OnlineOrder.find("./support/online_orders.csv", 6)
+
+order.add_product("muffin", 2.00)
+
+puts order
+# order = Grocery::OnlineOrder.find("./support/online_orders.csv", 5)
+#
+# order.add_product("muffin", 2.00)
 
 # all_the_online_orders = Grocery::OnlineOrder.all("./support/online_orders.csv")
 

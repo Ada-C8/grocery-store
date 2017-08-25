@@ -13,17 +13,17 @@ describe "Order Wave 1" do
       order.id.must_equal id
       order.id.must_be_kind_of Integer
 
-      order.must_respond_to :products
-      order.products.length.must_equal 0
+      order.must_respond_to :food_and_price
+      order.food_and_price.length.must_equal 0
     end
   end
 
   describe "#total" do
     it "Returns the total from the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
-      order = Grocery::Order.new(1337, products)
+      food_and_price = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, food_and_price)
 
-      sum = products.values.inject(0, :+)
+      sum = food_and_price.values.inject(0, :+)
       expected_total = sum + (sum * 0.075).round(2)
 
       order.total.must_equal expected_total
@@ -44,7 +44,7 @@ describe "Order Wave 1" do
 
       order.add_product("salad", 4.25)
       expected_count = before_count + 1
-      order.products.count.must_equal expected_count
+      order.food_and_price.count.must_equal expected_count
     end
 
     it "Is added to the collection of products" do
@@ -52,7 +52,7 @@ describe "Order Wave 1" do
       order = Grocery::Order.new(1337, products)
 
       order.add_product("sandwich", 4.25)
-      order.products.include?("sandwich").must_equal true
+      order.food_and_price.include?("sandwich").must_equal true
     end
 
     it "Returns false if the product is already present" do
@@ -85,7 +85,7 @@ describe "Order Wave 1" do
 
         order.remove_product("banana")
         expected_count = before_count - 1
-        order.products.count.must_equal expected_count
+        order.food_and_price.count.must_equal expected_count
       end
 
       it "Is deleted from the collection of products" do
@@ -93,17 +93,17 @@ describe "Order Wave 1" do
         order = Grocery::Order.new(1337, products)
 
         order.remove_product("cracker")
-        order.products.include?("cracker").must_equal false
+        order.food_and_price.include?("cracker").must_equal false
       end
 
       it "Returns true if the product is present" do
         products = { "banana" => 1.99, "cracker" => 3.00 }
 
         order = Grocery::Order.new(1337, products)
-        num_of_items = order.products.keys.length
+        num_of_items = order.food_and_price.keys.length
 
         result = order.remove_product("banana")
-        after_num_of_items = order.products.keys.length
+        after_num_of_items = order.food_and_price.keys.length
 
         result.must_equal true
         (num_of_items - 1).must_equal after_num_of_items
@@ -130,8 +130,8 @@ describe "Order Wave 2" do
     all_the_orders.length.must_equal 100
     all_the_orders[0].id.must_equal 1
     all_the_orders[98].id.must_equal 99
-    all_the_orders[1].products.must_equal({"Albacore Tuna"=>36.92, "Capers"=>97.99, "Sultanas"=>2.82, "Koshihikari rice"=>7.55 })
-    all_the_orders[99].products.must_equal({"Allspice"=>64.74, "Bran"=>14.72, "UnbleachedFlour"=>80.59})
+    all_the_orders[1].food_and_price.must_equal({"Albacore Tuna"=>36.92, "Capers"=>97.99, "Sultanas"=>2.82, "Koshihikari rice"=>7.55 })
+    all_the_orders[99].food_and_price.must_equal({"Allspice"=>64.74, "Bran"=>14.72, "UnbleachedFlour"=>80.59})
     end
   end
 

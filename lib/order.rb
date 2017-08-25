@@ -38,7 +38,7 @@ module Grocery
       if id_input > all.length
         raise ArgumentError.new("That id doesn't exist")
       end
-      
+
       @@orders.each do |order|
         if order.id == id_input
           return order

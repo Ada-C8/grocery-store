@@ -3,10 +3,10 @@ require 'csv'
 
 module Grocery
   class Customer
-    attr_accessor :id, :email, :delivery_address
+    attr_accessor :id, :email, :delivery_address, :customers
     @@customers = []
     def initialize(id, email, delivery_address)
-      @id = id.to_i
+      @id = id
       @email = email
       @delivery_address = delivery_address
     end
@@ -18,9 +18,10 @@ module Grocery
 
       CSV.open("./support/customers.csv", "r",
       headers: true).each do |customer|
+        id = customer["id"].to_i
         address = "#{customer["address1"]}\n#{customer["city"]}, #{customer["state"]} #{customer["zip"]}"
 
-        @@customers.push(Customer.new(customer["id"], customer["email"], address))
+        @@customers.push(Customer.new(id, customer["email"], address))
       end
       return @@customers
     end
@@ -30,7 +31,7 @@ module Grocery
         all
       end
 
-      if id_input > all.length
+      if id_input > all.length #!!!
         raise ArgumentError.new("That customer doesn't exist")
       end
 
@@ -40,11 +41,5 @@ module Grocery
         end
       end
     end
-
-
-
   end
-
 end
-
-puts Grocery::Customer.find(1)

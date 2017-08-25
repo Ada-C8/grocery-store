@@ -14,7 +14,7 @@ require_relative '../lib/order'
 describe "OnlineOrder" do
 
   before do
-    @online_order = OnlineOrder.new(23, {"Cherries" => 90.16}, 10, "complete")
+    @online_order = OnlineOrder.new(23, {"Cherries" => 90.16}, Grocery::Customer.find(1), "complete")
   end
 
   describe "#initialize" do
@@ -26,36 +26,39 @@ describe "OnlineOrder" do
       @online_order.customer.must_be_kind_of Grocery::Customer
     end
 
-    xit "Can access the online order status" do
-      # todo: Your test code here!
+    it "Can access the online order status" do
+      @online_order.status.must_equal :complete
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Adds a shipping fee" do
-      # todo: Your test code here!
+      @online_order.total.must_equal 106.92
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      # todo: Your test code here!
+      online_order_2 = OnlineOrder.new(23, {}, Grocery::Customer.find(1), "complete")
+
+      online_order_2.total.must_equal 0
     end
   end
 
-  xdescribe "#add_product" do
-    it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
+  describe "#add_product" do
+    it "Does not permit action for processing, shipped or completed statuses and raises an argument error" do
+      proc {@online_order.add_product("Bananas", 5.99)}.must_raise ArgumentError
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      online_order_3 = OnlineOrder.new(23, {"Cherries" => 90.16}, Grocery::Customer.find(1), "pending")
+
+      online_order_3.add_product("Kiwi", 1.50).must_equal true
     end
   end
 
-  xdescribe "OnlineOrder.all" do
+  describe "OnlineOrder.all" do
+    @online_order_all = OnlineOrder.all
     it "Returns an array of all online orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - OnlineOrder.all returns an array
+      @online_order_all.must_be_kind_of Array
       #   - Everything in the array is an Order
       #   - The number of orders is correct
       #   - The customer is present

@@ -8,7 +8,7 @@ require_relative 'customer'
 
 class OnlineOrder < Grocery::Order
   attr_reader :customer, :status
-  def initialize(id, products, customer, status) #paid, processing, shipped, complete status: "pending"
+  def initialize(id, products, customer, status = :pending) #paid, processing, shipped, complete status: "pending"
     super(id, products)
     @customer = customer
     @status = status.to_sym
@@ -16,13 +16,20 @@ class OnlineOrder < Grocery::Order
 
   # The total method should be the same, except it will add a $10 shipping fee
   def total
-    return super + 10
+    total_no_shipping = super
+    total = nil
+    if total_no_shipping == 0
+      total = 0
+    else#total_no_shipping != 0
+      total = total_no_shipping + 10
+    end
+    return total
   end
 
   # The add_product method should be updated to permit a new product to be added ONLY if the status is either pending or paid (no other statuses permitted)
   # Otherwise, it should raise an ArgumentError (Google this!)
-  def add_product
-    unless @status != :pending || @status != :paid
+  def add_product(product_name, product_price)
+    unless @status == :pending || @status == :paid
       raise ArgumentError.new("You can't add a product unless your status is pending or paid")
     end
     return super
@@ -33,7 +40,6 @@ class OnlineOrder < Grocery::Order
     id = nil
     products_arr = []
     products = {}
-    customer_id = nil
     status = nil
     all_online_orders = []
 
@@ -55,7 +61,7 @@ class OnlineOrder < Grocery::Order
 # self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter
 end
 
-puts OnlineOrder.all[1].customer.email
+# puts OnlineOrder.all[1].customer.email
 
 
 

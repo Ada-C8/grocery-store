@@ -9,14 +9,17 @@ module Grocery
 
     attr_reader :id, :all_online_orders, :food_and_price, :status, :customer_id, :customer_object
 
-    def initialize(id, food_and_price, customer_id, status)
-      @id = id
-      @food_and_price = food_and_price
-      # super
-      # is this what I'm supposed to be doing here??
+    def initialize(id, food_and_price, customer_id, customer_object, status)
+      # @id = id
+      # @food_and_price = food_and_price
+      super(id, food_and_price)
       @customer_id = customer_id
-      # @customer_object = Grocery::Customer.find("../support/customers.csv", @customer_id)
-      @status = status
+      @customer_object = Grocery::Customer.find("./support/customers.csv", customer_id)
+      if status == nil
+        @status = :pending
+      else
+        @status = status
+      end
     end
 
     def self.all(file_name)
@@ -25,14 +28,15 @@ module Grocery
         @food_and_price = {}
         @id = row[0].to_i
         @customer_id = row[2].to_i
-        # @customer_object = Grocery::Customer.find("./support/customers.csv", @customer_id)
+        # puts @customer_id
         @status = row[3].to_sym
         @items = row[1].split(";")
         @items.each do |sep|
           food_price_array = sep.split(":")
           @food_and_price[food_price_array[0].to_s] = food_price_array[2].to_f
         end
-        @all_online_orders << Grocery::OnlineOrder.new(@id, @food_and_price, @customer_id, @status)
+        @customer_object = Grocery::Customer.find("./support/customers.csv", @customer_id)
+        @all_online_orders << Grocery::OnlineOrder.new(@id, @food_and_price, @customer_id, @customer_object, @status)
       end
       return @all_online_orders
     end
@@ -45,31 +49,42 @@ module Grocery
       end
       raise ArgumentError.new "Invalid Order Number"
     end
+
+
+    def self.find_by_customer(file_name, customer_id)
+      list_by_customer = []
+      self.all(file_name).each do |instance|
+        if instance.customer_id == customer_id
+          list_by_customer << instance
+        end
+      end
+      return list_by_customer
+    end
+
+    def total
+
+
+    end
+
+    def add_product
+
+    end
+
   end
+
 end
 
 
-# def self.find_by_customer(file_name, customer_id)
-#   list_by_customer = ""
-#   self.all(file_name).each do |instance|
-#     if instance.customer_id == customer_id
-#       list_by_customer << instance
-#     end
-#   end
-#     if list_by_customer.length > 0
-#       return list_by_customer
-#     else
-#       return "No orders from that customer"
-#     end
-# end
 
-  all_the_online_orders = Grocery::OnlineOrder.all("./support/online_orders.csv")
+# all_the_online_orders = Grocery::OnlineOrder.all("./support/online_orders.csv")
+#
+# ap all_the_online_orders.customer_object
 
-  # ap all_the_online_orders
+# puts all_the_online_orders[2].customer_object
 
-  puts Grocery::OnlineOrder.find("./support/online_orders.csv", 1).status 
+# puts Grocery::OnlineOrder.find("./support/online_orders.csv", 1).status
 
 
-  # order = Grocery::OnlineOrder.find_by_customer("./support/online_orders.csv", 1)
-  #
-  # puts order
+order = Grocery::OnlineOrder.find_by_customer("./support/online_orders.csv", 1)
+
+puts order.class

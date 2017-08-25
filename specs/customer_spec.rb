@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/customer'
+require 'pry'
 
 describe "Customer" do
   describe "#initialize" do
@@ -26,31 +27,39 @@ describe "Customer" do
     end # big returns array
 
     it "Everything in the array is a Customer" do
-      customers = Grocery::Customer.all
       10.times do
-        customers[rand(35)].must_be_instance_of Grocery::Customer
-      end # everything in array is a Customer
-
-      it "The number of orders is correct (35)" do
-        Grocery::Customer.all.length.must_equal 35
-      end # number of orders equals 35
-
-      #   - The ID, email address of the first and last
-      #       customer match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
-    end # customer.all
-
-    xdescribe "Customer.find" do
-      it "Can find the first customer from the CSV" do
-        # TODO: Your test code here!
+        Grocery::Customer.all[rand(35)].must_be_instance_of Grocery::Customer
       end
+    end # everything in array is a Customer
 
-      it "Can find the last customer from the CSV" do
-        # TODO: Your test code here!
-      end
+    it "The number of orders is correct (35)" do
+      Grocery::Customer.all.length.must_equal 35
+    end # number of orders equals 35
 
-      it "Raises an error for a customer that doesn't exist" do
-        # TODO: Your test code here!
-      end
-    end
+    it "The ID, email address of the first and last
+    customer match what's in the CSV file" do
+    test_customer = Grocery::Customer.new(1, "leonard.rogahn@hagenes.org", {address: "71596 Eden Route", city: "Connellymouth", state: "LA", zipcode: "98872-9105"})
+    # binding.pry
+    test_customer = Grocery::Customer.all
+    test_customer.first.id.must_equal test_customer.id
+
+    test_customer.first.email.must_equal test_customer.email
+  end # id and email match
+
+
+end # customer.all
+
+xdescribe "Customer.find" do
+  it "Can find the first customer from the CSV" do
+    # TODO: Your test code here!
   end
+
+  it "Can find the last customer from the CSV" do
+    # TODO: Your test code here!
+  end
+
+  it "Raises an error for a customer that doesn't exist" do
+    # TODO: Your test code here!
+  end
+end
+end

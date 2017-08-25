@@ -53,8 +53,10 @@ describe "Customer" do
       customer.first.id.must_equal customer_one.id
 
       Grocery::Customer.all.first.email.must_equal customer_one.email
+      #
+      Grocery::Customer.all.first.address.must_equal customer_one.address
 
-      Grocery::Customer.all.first.email.must_equal customer_one.address
+      Grocery::Customer.all.first.email.must_equal customer_one.email
     end
   end
 

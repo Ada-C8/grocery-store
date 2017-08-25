@@ -124,12 +124,12 @@ describe "Order Wave 2" do
       all = Grocery::Order.all
 
       all.must_be_instance_of Array
-      all.each_index do |i|
-        all[i][0].must_equal "#{i + 1}"
-      end
       all.length.must_equal 100
-      all[45].must_equal ["46", "Corn Oil:53.98;Flaxseed:96.52"]
-      all[-1].must_equal ["100", "Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59"]
+      all[4].must_be_instance_of Grocery::Order
+      test = {"Goat Milk"=>"44.72", "Hijiki"=>"45.47", "Feta"=>"4.61", "Aubergine"=>"69.45"}
+      all[29].products.must_equal test
+      last = {"Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"}
+      all[99].products.must_equal last
 
     end
   end
@@ -137,14 +137,16 @@ describe "Order Wave 2" do
   describe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
-      Grocery::Order.find(1).must_be_instance_of Array
-      Grocery::Order.find(1).must_equal ["1", "Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
+      Grocery::Order.find(1).must_be_instance_of Grocery::Order
+      first = {"Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"}
+      Grocery::Order.find(1).products.must_equal first
     end
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
-      Grocery::Order.find(100).must_be_instance_of Array
-      Grocery::Order.find(100).must_equal ["100", "Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59"]
+      Grocery::Order.find(100).must_be_instance_of Grocery::Order
+      last = {"Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"}
+      Grocery::Order.find(100).products.must_equal last
     end
 
     it "Raises an error for an order that doesn't exist" do

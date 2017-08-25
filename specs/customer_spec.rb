@@ -49,12 +49,35 @@ describe "Customer" do
       end
     end
 
+    it "Id's of first and last customers match array" do
+      all_customers = Customer.all
+      csv = CSV.open("support/customers.csv", 'r')
+      csv_id_first = csv.to_a[0][0]
+      all_customers[0].customer_id.must_equal csv_id_first
 
-    #   - Everything in the array is a Customer
-    #   - The number of orders is correct
-    #   - The ID, email address of the first and last
-    #       customer match what's in the CSV file
-    # Feel free to split this into multiple tests if needed
+
+      csv = CSV.open("support/customers.csv", 'r')
+      csv_id_last = csv.to_a[-1][0]
+      all_customers[-1].customer_id.must_equal csv_id_last
+
+    end
+
+    it "The email of the first and last customers must match array" do
+      all_customers = Customer.all
+      cvs = CSV.open("support/customers.csv", 'r')
+      cvs_email_first = cvs.to_a[0][1]
+      all_customers[0].email.must_equal cvs_email_first
+
+      cvs = CSV.open("support/customers.csv", 'r')
+      cvs_email_last = cvs.to_a[-1][1]
+      all_customers[-1].email.must_equal cvs_email_last
+    end
+
+    it "The number of orders is correct" do
+      all_customers = Customer.all
+      cvs = CSV.open("support/customers.csv", 'r')
+      all_customers.length.must_equal cvs.to_a.length
+    end
 
   end
 

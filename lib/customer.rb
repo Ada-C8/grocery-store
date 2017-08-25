@@ -31,20 +31,23 @@ class Customer
     return @@all_customers
   end
 
-  def self.show_customers
-    list = ""
-    @@customers.each do |id, email, delivery_address|
-      list += "#{id}:\t #{email}\n#{delivery_address}\n"
-    end #each end
-    return list
-  end #show order method end
-
+  # def self.show_customers
+  #   list = ""
+  #   @@customers.each do |id, email, delivery_address|
+  #     list += "#{id}:\t #{email}\n#{delivery_address}\n"
+  #   end #each end
+  #   return list
+  # end #show order method end
 
 end #customer class
 # customer = Customer.new(5, "amymcash@gmail.com", "123 Fake St., Anytown, USA, 12345")
 #
 # puts customer.id.class
-puts Customer.all.show_customers
+
+# Customer.all.each do |name|
+#   puts name
+# end
+#puts Customer.all.length
 # end
 #
 # def self.find(id)

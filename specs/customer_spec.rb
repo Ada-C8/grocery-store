@@ -37,14 +37,6 @@ describe "Customer" do
 
   describe "Customer.all" do
     it "Returns an array of all customers" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Customer.all returns an array
-      #   - Everything in the array is a Customer
-      #   - The number of orders is correct
-      #   - The ID, email address of the first and last
-      #       customer match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
       all_the_customers = Grocery::Customer.all("./support/customers.csv")
       all_the_customers.must_be_instance_of Array
       all_the_customers.length.must_equal 35

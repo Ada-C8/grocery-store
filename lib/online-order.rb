@@ -60,7 +60,21 @@ module Grocery
     end
 
     def self.find_by_customer(customer_id)
-      
+      customer_orders = []
+      all_online_orders = self.all
+
+      all_online_orders.each do |online_order|
+        if online_order.customer.id == customer_id
+          customer_orders << online_order
+        end
+      end
+
+      customer_orders.length > 0 ? customer_orders : ArgumentError.new("no such customer id")
+      # if customer_orders.length > 0
+      #   return customer_orders
+      # else
+      #   raise ArgumentError.new("no such customer id")
+      # end
     end
 
   end # end of OnlineOrder class

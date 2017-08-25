@@ -49,7 +49,7 @@ module Grocery
       # returns a collection of all Orders from the csv
       #1,Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9
 
-      csv = "support/orders.csv"
+      csv = "./support/orders.csv"
       all_orders = []
 
       CSV.foreach(csv) do |row|

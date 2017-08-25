@@ -48,12 +48,12 @@ module Grocery
 
 end
 
-all_the_customers = Grocery::Customer.all("./support/customers.csv")
-
-# ap all_the_customers
-
+# all_the_customers = Grocery::Customer.all("./support/customers.csv")
 #
-ap all_the_customers
-customer = Grocery::Customer.find("./support/customers.csv", 1)
-
-puts customer.class
+# # ap all_the_customers
+#
+# #
+# ap all_the_customers
+# customer = Grocery::Customer.find("./support/customers.csv", 1)
+#
+# puts customer.class

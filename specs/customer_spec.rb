@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
-require_relative '../lib/customer'
+require_relative '/Users/kimberley/ada/week-three/grocery-store/lib/customer.rb'
 
 describe "Customer" do
   describe "#initialize" do

@@ -11,7 +11,7 @@ module Grocery
 
     def self.all
       all_orders = []
-      CSV.open("/Users/kimberley/ada/week-three/grocery-store/lib/orders.csv", "r").each do |line|
+      CSV.open("/Users/kimberley/ada/week-three/grocery-store/support/orders.csv", "r").each do |line|
         id = line[0].to_i
         line.delete_at(0)
         line = line[0].split(";")

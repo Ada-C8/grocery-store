@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require 'csv'
-require_relative '../lib/order'
+require_relative '/Users/kimberley/ada/week-three/grocery-store/lib/order.rb'
 
 describe "Order Wave 1" do
   describe "#initialize" do

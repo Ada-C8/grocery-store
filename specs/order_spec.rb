@@ -125,10 +125,10 @@ describe "Order Wave 1" do
 end
 
 describe "Order Wave 2" do
-
+  before do
+    Grocery::Order.clear
+  end
   describe "Order.all" do
-    before do
-    end
     it "Returns an array of all orders" do
       Grocery::Order.all.must_be_kind_of Array
 
@@ -175,6 +175,9 @@ describe "Order Wave 2" do
   end
 
   describe "Order.find" do
+    before do
+      Grocery::Order.all
+    end
 
     it "Can find the first order from the CSV" do
       Grocery::Order.find(0).must_be_kind_of Grocery::Order

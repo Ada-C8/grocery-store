@@ -1,31 +1,39 @@
 require 'csv'
+
 module Grocery
   TAX = 0.075
+
+  require_relative 'customer'
 
   class Order
     attr_reader :id, :products
     attr_accessor :all_orders
 
+    @@imported = false
 
     # Class methods
     def self.all
-      @@all_orders = Array.new
 
-      CSV.read('support/orders.csv').each do |row_order|
-        data_id = row_order[0]
-        row_items = row_order[1].split(";") #array format to hash
-        data_products = Hash.new
-        row_items.each do |pair|
-          key = pair.to_s.partition(":").first.to_s
-          value = pair.to_s.partition(":").last
-          data_products.store( key, value)
+      if @@imported == false
+        @@all_orders = Array.new
+
+        CSV.read('support/orders.csv').each do |row_order|
+          data_id = row_order[0]
+          row_items = row_order[1].split(";") #array format to hash
+          data_products = Hash.new
+
+          row_items.each do |pair|
+            key = pair.to_s.partition(":").first.to_s
+            value = pair.to_s.partition(":").last
+            data_products.store( key, value)
+          end
+
+          @@all_orders << Order.new(data_id, data_products)
         end
-        @@all_orders << Order.new(data_id, data_products)
+        @@imported == true
       end
-      return @@all_orders
-    end
 
-    def self.import
+      return @@all_orders
     end
 
     def self.find(line)
@@ -36,14 +44,13 @@ module Grocery
       end
     end
 
-    # def self.clear
-    #   @@all_orders = Array.new
-    # end
+    def self.clear #for testing
+      @@all_orders = Array.new
+    end
 
     def initialize(id, products)
       @id = id
       @products = products #as hashes with key of "product" and value of cost
-      # @@all_orders << self
     end
 
     # Instance methods

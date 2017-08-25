@@ -45,7 +45,8 @@ module Grocery
 
     def total
       sum = @products.values.inject(0, :+)
-      return sum + (sum * @tax).round(2)
+      total = sum + (sum * @tax)
+      return total.round(2)
     end
 
     def add_product(product_name, product_price)

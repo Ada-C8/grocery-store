@@ -80,6 +80,7 @@ describe "Customer" do
 
     it "Raises an error for an customer that doesn't exist" do
       proc {Grocery::Customer.find(300)}.must_raise ArgumentError
+      # proc {Grocery::Customer.find(30)}.wont_raise ArgumentError
       # what the hell is proc?
       # TODO: Your test code here!
 

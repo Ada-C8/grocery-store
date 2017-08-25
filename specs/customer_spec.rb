@@ -39,10 +39,10 @@ describe "Customer" do
     it "The ID, email address of the first and last
     customer match what's in the CSV file" do
       test_customer = Grocery::Customer.new(1, "leonard.rogahn@hagenes.org", {address: "71596 Eden Route", city: "Connellymouth", state: "LA", zipcode: "98872-9105"})
-      test_customer = Grocery::Customer.all
-      test_customer.first.id.must_equal test_customer.id
+      # test_customer = Grocery::Customer.all
+      Grocery::Customer.all.first.id.must_equal test_customer.id
 
-      test_customer.first.email.must_equal test_customer.email
+      Grocery::Customer.all.first.email.must_equal test_customer.email
     end # id and email match
   end
 

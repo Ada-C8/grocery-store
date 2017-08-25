@@ -30,14 +30,12 @@ module Grocery
     end
 
     def self.find(id)
-      if id > self.all.count || id.to_i < 1
+      if id.to_i > self.all.count || id.to_i < 1
         raise ArgumentError.new ("That customer ID does not exist.")
       end
-      index = id - 1
+      index = id.to_i - 1
       return Grocery::Customer.all[index]
     end
 
   end #end of class
 end #end of module
-
-puts Grocery::Customer.all[0].email

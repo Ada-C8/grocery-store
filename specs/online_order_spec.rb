@@ -15,8 +15,8 @@ require_relative '../lib/customer'
 describe "OnlineOrder" do
   describe "#initialize" do
     before do
-      @online_order = Grocery::OnlineOrder.new(3, {"fish": 123}, Grocery::Customer.new(12, "mom@mom.com", "Planettown"), :pending)
-      @online_order_without_status = Grocery::OnlineOrder.new(3, {"fish": 123}, Grocery::Customer.new(12, "mom@mom.com", "Planettown"))
+      @online_order = Grocery::OnlineOrder.new(3, {"fish" => 123}, Grocery::Customer.new(12, "mom@mom.com", "Planettown"), :pending)
+      @online_order_without_status = Grocery::OnlineOrder.new(3, {"fish" => 123}, Grocery::Customer.new(12, "mom@mom.com", "Planettown"))
     end
 
     it "Is a kind of Order" do
@@ -26,13 +26,15 @@ describe "OnlineOrder" do
       @online_order.must_be_kind_of Grocery::Order
     end
 
+    it "Can access products object" do
+      @online_order.products.must_be_instance_of Hash
+    end
+
     it "Can access Customer object" do
-      # TODO: Your test code here!
       @online_order.customer.must_be_instance_of Grocery::Customer
     end
 
     it "Can access the online order status" do
-      # TODO: Your test code here!
       @online_order.status.must_be_instance_of Symbol
       @online_order_without_status.status.must_be_instance_of Symbol
       @online_order_without_status.status.must_equal :pending
@@ -41,30 +43,44 @@ describe "OnlineOrder" do
 
   describe "#total" do
     before do
-      @online_order = Grocery::OnlineOrder.new(3, {"fish": 12.00, "banana": 18.00}, Grocery::Customer.new(12, "mom@mom.com", "Planettown"), :pending)
+      @online_order = Grocery::OnlineOrder.new(3, {"fish" => 12.00, "banana" => 18.00}, Grocery::Customer.new(12, "mom@mom.com", "Planettown"), :pending)
       @online_order_without_products = Grocery::OnlineOrder.new(3, {}, Grocery::Customer.new(12, "mom@mom.com", "Planettown"))
     end
 
     it "Adds a shipping fee" do
-      # TODO: Your test code here!
       @online_order.total.must_be_instance_of Float
       @online_order.total.must_equal 42.25
 
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
       @online_order_without_products.total.must_equal 0
     end
   end
 
   describe "#add_product" do
-    it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
+    before do
+      @online_order_shipped = Grocery::OnlineOrder.new(3, {"fish" => 12.00, "banana" => 18.00}, Grocery::Customer.new(12, "mom@mom.com", "Planettown"), :shipped)
+      @online_order_pending = Grocery::OnlineOrder.new(3, {"fish" => 12.00, "banana" => 18.00}, Grocery::Customer.new(12, "mom@mom.com", "Planettown"), :pending)
     end
 
-    it "Permits action for pending and paid satuses" do
+    it "Does not permit action for processing, shipped or completed statuses" do
+      # Should return an ArgumentError
+      proc {@online_order_shipped.add_product("apple", 12.3)}.must_raise ArgumentError
+
+    end
+
+    it "Permits action for pending and paid statuses & product isn't in customer's existing product list" do
       # TODO: Your test code here!
+      @online_order_pending.must_respond_to(:add_product)
+      @online_order_pending.add_product("apple", 12.3).must_equal true
+
+    end
+
+    it "Does not permit action for pending and paid satuses when product is in customer's existing product list" do
+      # TODO: Your test code here!
+      @online_order_pending.add_product("banana", 12.3).must_equal false
+
     end
   end
 

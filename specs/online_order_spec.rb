@@ -29,6 +29,9 @@ describe "OnlineOrder" do
     @customer = Grocery::Customer.new(id,email,address)
     @online_order = Grocery::OnlineOrder.new(@id_order, @products, @customer, status: :complete)
     @online_order_status = Grocery::OnlineOrder.new(@id_order, @products, @customer)
+
+    @customer_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/customers.csv")
+    @order_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/online_orders.csv")
   end
   describe "#initialize" do
     it "Is a kind of Order" do
@@ -61,6 +64,8 @@ describe "OnlineOrder" do
     it "Doesn't add a shipping fee if there are no products" do
       order = Grocery::OnlineOrder.new(@id_order, {}, @customer, status: :complete)
       order.total.must_equal 0
+      order = Grocery::OnlineOrder.new(@id_order, {"banana"=> 0}, @customer, status: :complete)
+      order.total.must_equal 10
     end
   end
 
@@ -94,16 +99,14 @@ describe "OnlineOrder" do
       #   - The customer is present
       #   - The status is present
       # Feel free to split this into multiple tests if needed
-      customer_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/customers.csv")
-      order_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/online_orders.csv")
-      online_orders = Grocery::OnlineOrder.all(customer_csv,order_csv)
+      online_orders = Grocery::OnlineOrder.all(@customer_csv,@order_csv)
       online_orders.must_be_instance_of Array
 
       online_orders.each do |order|
         order.must_be_instance_of Grocery::OnlineOrder
       end
 
-      online_orders.length.must_equal order_csv.length
+      online_orders.length.must_equal @order_csv.length
 
       online_orders[0].must_respond_to :customer
       online_orders[0].must_respond_to :status
@@ -115,12 +118,9 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find" do
     it "returns the online order with correct id" do
+    Grocery::OnlineOrder.find(@customer_csv, @order_csv, 1).must_be_instance_of Grocery::OnlineOrder
 
-    customer_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/customers.csv")
-    order_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/online_orders.csv")
-    Grocery::OnlineOrder.find(customer_csv, order_csv, 1).must_be_instance_of Grocery::OnlineOrder
-
-    online_order1 = Grocery::OnlineOrder.find(customer_csv, order_csv, 1)
+    online_order1 = Grocery::OnlineOrder.find(@customer_csv, @order_csv, 1)
     order_first = {"Lobster" => 17.18,"Annatto seed"=>58.38,"Camomile"=>83.21}
     online_order1.products.must_equal order_first
     end
@@ -128,12 +128,9 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      customer_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/customers.csv")
-      order_csv = CSV.read("/Users/averikitsch/ada/03-week/grocery-store/support/online_orders.csv")
-
       Grocery::OnlineOrder.must_respond_to :find_by_customer
 
-      orders = Grocery::OnlineOrder.find_by_customer(customer_csv, order_csv, 10)
+      orders = Grocery::OnlineOrder.find_by_customer(@customer_csv, @order_csv, 10)
       orders.must_be_instance_of Array
       orders[0].must_be_instance_of Grocery::OnlineOrder
       orders[0].id.must_equal 2

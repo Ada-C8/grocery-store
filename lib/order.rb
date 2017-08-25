@@ -58,12 +58,11 @@ module Grocery
       end
       products = {}
       pairs.to_h.each do |item, cost|
-        products[item] = cost.to_i
+        products[item] = cost.to_f
       end
+      return products
     end
 
   end #end of class
-end #end of module
 
-# order_1 = Grocery::Order.new(1, {"juice" => 4.99})
-# puts order_1.all_orders
+end #end of module

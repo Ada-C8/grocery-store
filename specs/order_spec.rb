@@ -94,7 +94,13 @@ describe "Order Wave 2" do
       Grocery::Order.all.length.must_equal 100
     end
 
-  
+    it "the ID and products match the first order in the CSV file" do
+      Grocery::Order.all.first.id.must_equal 1
+      Grocery::Order.all.first.products.must_equal("Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9)
+
+      Grocery::Order.all.last.id.must_equal 100
+      Grocery::Order.all.last.products.must_equal("Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59)
+    end
 
 
       # TODO: Your test code here!

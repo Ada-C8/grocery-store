@@ -3,12 +3,28 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 # TODO: uncomment the next line once you start wave 3
-require_relative '../lib/customers.rb'
+require_relative '../lib/customers'
 
 describe "Customer" do
   describe "#initialize" do
     it "Takes an ID, email and address info" do
       # TODO: Your test code here!
+      id = 5
+      email = "jhkhkjh@gmail.com"
+      address = "11134 Acorn loop, Tahoma, WI 92342"
+      customer = Customer.new(id, email, address)
+
+      customer.must_respond_to :id
+      customer.id.must_equal id
+      customer.id.must_be_kind_of Integer
+
+      customer.must_respond_to :email
+      customer.email.must_equal email
+      customer.email.must_be_instance_of String
+
+      customer.must_respond_to :address
+      customer.address.must_equal address
+      customer.address.must_be_instance_of String
     end
   end
 
@@ -22,16 +38,24 @@ describe "Customer" do
       #   - The ID, email address of the first and last
       #       customer match what's in the CSV file
       # Feel free to split this into multiple tests if needed
-      all = Grocery::Customer.all
-      # all must_be_instance_of Array
-      # all[4] must_be_instance_of Grocery::Customer
+      Customer.all.must_be_instance_of Array
+      Customer.all[1].must_be_instance_of Customer
+      Customer.all.length.must_equal 35
+
+      Customer.all[0].id.must_equal 1
+      Customer.all[0].email.must_equal "leonard.rogahn@hagenes.org"
+      Customer.all[34].id.must_equal 35
+      Customer.all[34].address.must_equal "7513 Kaylee Summit, Uptonhaven, DE, 64529-2614"
     end
   end
 
   describe "Customer.find" do
     it "Can find the first customer from the CSV" do
       # TODO: Your test code here!
-      # Grocery::Customer.find(30) must_be_instance_of String
+      Customer.find(1).id.must_equal 1
+      Customer.find(1).email.must_equal "leonard.rogahn@hagenes.org"
+      Customer.find(1).address.must_equal "71596 Eden Route, Connellymouth, LA, 98872-9105"
+
     end
 
     it "Can find the last customer from the CSV" do

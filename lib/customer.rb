@@ -22,21 +22,18 @@ module Grocery
       end # => end of csv
       return all_customers
     end # => end of self.all
-    # def self.all
-    #   all_orders =[]
-    #   CSV.read('../support/orders.csv').each do |row|
-    #     id = row[0]
-    #     products_hash = {}
-    #     product_row = row[1].split(";")
-    #     product_row.each do |pair|
-    #       pairs = pair.split(":")
-    #       products_hash[pairs[0]] = pairs[1]
-    #     end # end of product_row
-    #     all_orders.push(Grocery::Order.new(id, products_hash))
-    #   end #end of csv
-    #   return all_orders
-    # end # end of load_data
     def self.find(input_id)
-    end
-  end
-end
+      all_customers = self.all
+      finder = false
+      while finder == false
+        all_customers.each do |unique_customer|
+          if unique_customer.id == input_id
+            finder = true
+            return unique_customer
+          end
+        end # =>  end customers.each
+        raise ArgumentError.new "Customer ID does not exist"
+      end
+    end # => end self.find
+  end # => end of Customer class
+end # => end of Grocery module

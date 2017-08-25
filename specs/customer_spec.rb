@@ -59,19 +59,31 @@ describe "Customer" do
     end
   end # => end customers.all
 
-  xdescribe "Customer.find" do
+  describe "Customer.find" do
     it "Can find the first customer from the CSV" do
-      result = Grocery::Customer.find(1)
+      result = Grocery::Customer.find("1")
       all_customers = Grocery::Customer.all
-      expected_customer = all_customers[0]
-      result.must_equal expected_customer
+      result.id.must_equal all_customers[0].id
+      result.email.must_equal all_customers[0].email
+      result.address_info.must_equal all_customers[0].address_info
+
+      result.id.must_equal "1"
+      result.email.must_equal "leonard.rogahn@hagenes.org"
+
+
+
+
     end
 
     it "Can find the last customer from the CSV" do
-      result = Grocery::Customer.find(35)
-      all_customers = Grocer::Customers.all
-      expected_customer = all_customers[-1]
-      result.must_equal expected_customer
+      result = Grocery::Customer.find("35")
+      all_customers = Grocery::Customer.all
+      result.id.must_equal all_customers[-1].id
+      result.email.must_equal all_customers[-1].email
+      result.address_info.must_equal all_customers[-1].address_info
+
+      result.id.must_equal "35"
+      result.email.must_equal "rogers_koelpin@oconnell.org"
     end
 
     it "Raises an error for a customer that doesn't exist" do

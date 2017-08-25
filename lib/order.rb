@@ -2,16 +2,21 @@ require 'csv'
 
 module Grocery
 
-def isabel
+def self.isabel
   return "cute doge"
 end
 
   class Order
     attr_reader :id, :products
 
+    def initialize(id, products = 0)
+      @id = id
+      @products = products
+    end
+
     def self.all
       all_orders =[]
-      CSV.read('../support/orders.csv').each do |row|
+      CSV.read('support/orders.csv').each do |row|
         id = row[0]
         products_hash = {}
         product_row = row[1].split(";")
@@ -37,31 +42,6 @@ end
       raise ArgumentError.new "ID does not exit"
     end
   end
-
-
-
-    def initialize(id, products = 0)
-      @id = id
-      @products = products
-    end
-    # def initialize(id, products = 0)
-    #   @id = id
-    #   @products = products
-    #   @@all_orders.replace([])
-    #   product_hash = {}
-    #   CSV.read('../support/orders.csv').each do |row|
-    #     @@all_orders.push(row)
-    #     @id = row[0]
-    #     product_row = row[1].split(";")
-    #     product_row.each do |pair|
-    #       pairs = pair.split(":")
-    #       pairs.each do |product_price|
-    #         product_hash[product_price[0]] = product_price[1]
-    #       end # end of pairs
-    #     end # end of product_row
-    #   end #end of csv
-    #   @products = @product_hash
-    # end
 
     def total
       sum = 0

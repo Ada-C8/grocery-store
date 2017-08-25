@@ -1,5 +1,6 @@
 require_relative 'order'
 require_relative 'customer'
+require 'csv'
 module Grocery
   class OnlineOrder < Order
     attr_reader :id, :products, :customer, :status
@@ -7,7 +8,6 @@ module Grocery
       @id = id
       @products = products
       @customer = Grocery::Customer.find(customer_id)
-      # @customer = customer_id
       @status = status
     end
 
@@ -32,7 +32,7 @@ module Grocery
 
     def self.all
       all_orders =[]
-      CSV.read('../support/online_orders.csv').each do |row|
+      CSV.read('support/online_orders.csv').each do |row|
         order_id = row[0]
         order_cust_id = row[2]
         order_status = row[3].to_sym

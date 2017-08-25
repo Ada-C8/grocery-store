@@ -86,13 +86,9 @@ describe "Order Wave 2" do
       Grocery::Order.all.must_be_kind_of Hash
     end
 
-    xit "Returns a Hash of all orders" do
-      products = { "cat" => 2 }
-      order_1 = Grocery::Order.new(1313, products)
-      order_2 = Grocery::Order.new(666, products)
-
-      expected_orders = {order_1.id => order_1, order_2.id => order_2}
-      Grocery::Order.all.must_equal expected_orders
+    it "Returns a Hash of all orders" do
+      total_orders = CSV.read("support/orders.csv", 'r').length
+      Grocery::Order.all.length.must_equal total_orders
     end
 
     xit "Verifies the number of orders is correct" do

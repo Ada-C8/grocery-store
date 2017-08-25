@@ -1,4 +1,5 @@
 module Grocery
+  require 'csv'
   class Order
     attr_reader :id, :products
 
@@ -21,6 +22,24 @@ module Grocery
       else
         return false # otherwise, it isn't unique, and something with that name is already on file.
       end
+    end
+
+    def self.all
+      all_orders = {}
+      CSV.open("support/orders.csv", 'r').each do |line|
+        id = line[0]
+        products = {}
+        line[1].split(";").each do |item|
+          details = item.split(":")
+          products[details[0]] = details[1]
+        end
+        all_orders[id] = self.new(id, products) # creates new Order Hash after separating each order/product
+      end
+      return all_orders
+    end
+
+    def self.find(id)
+      return self.all[id]
     end
   end
 end

@@ -1,7 +1,7 @@
 require "customer"
 
 class OnlineOrder
-  self < Order
+  self << Grocery::Order
   attr_accessor :fulfillment_status
 
   def initialize(fulfillment_status = 0)

@@ -42,6 +42,7 @@ module Grocery
         #{id_number => {item => price}}
 
         info_array = (ugly_string_line[1]).split(/;|:/)
+
         id_num = (ugly_string_line[0]).to_i
         hashy_hash = {}
 
@@ -50,6 +51,7 @@ module Grocery
           cost = info_array.delete_at(0)
           hashy_hash[item] = cost
         end
+          binding.pry
         all_orders << self.new(id_num, hashy_hash)
       end
       all_orders
@@ -63,6 +65,6 @@ module Grocery
   end
 
 end
-# 
-# Grocery::Order.find(5)
+
+Grocery::Order.all
 #  binding.pry

@@ -6,15 +6,12 @@ module Grocery
     attr_reader :id, :products
     attr_accessor :all_orders
 
-    @@all_orders = Array.new
 
     # Class methods
     def self.all
-      return @@all_orders
-    end
+      @@all_orders = Array.new
 
-    def self.import(arr_of_arrs)
-      arr_of_arrs.each do |row_order|
+      CSV.read('support/orders.csv').each do |row_order|
         data_id = row_order[0]
         row_items = row_order[1].split(";") #array format to hash
         data_products = Hash.new
@@ -23,8 +20,12 @@ module Grocery
           value = pair.to_s.partition(":").last
           data_products.store( key, value)
         end
-        Order.new(data_id, data_products)
+        @@all_orders << Order.new(data_id, data_products)
       end
+      return @@all_orders
+    end
+
+    def self.import
     end
 
     def self.find(line)
@@ -35,14 +36,14 @@ module Grocery
       end
     end
 
-    def self.clear
-      @@all_orders = Array.new
-    end
+    # def self.clear
+    #   @@all_orders = Array.new
+    # end
 
     def initialize(id, products)
       @id = id
       @products = products #as hashes with key of "product" and value of cost
-      @@all_orders << self
+      # @@all_orders << self
     end
 
     # Instance methods

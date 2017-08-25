@@ -125,12 +125,10 @@ describe "Order Wave 1" do
 end
 
 describe "Order Wave 2" do
-  before do
-    Grocery::Order.clear
-    Grocery::Order.import(CSV.read('support/orders.csv'))
-  end
 
   describe "Order.all" do
+    before do
+    end
     it "Returns an array of all orders" do
       Grocery::Order.all.must_be_kind_of Array
 
@@ -177,6 +175,7 @@ describe "Order Wave 2" do
   end
 
   describe "Order.find" do
+
     it "Can find the first order from the CSV" do
       Grocery::Order.find(0).must_be_kind_of Grocery::Order
 
@@ -194,42 +193,4 @@ describe "Order Wave 2" do
     end
   end
 
-  xdescribe "Order.import" do
-    it "Returns an array of all orders" do
-      Grocery::Order.all.must_be_kind_of Array
-
-      Grocery::Order.all[rand(0..(Grocery::Order.all.length - 1))].must_be_kind_of Grocery::Order
-
-      Grocery::Order.all.length.must_equal       CSV.read('support/orders.csv').length
-    end
-
-    it "Returns the ID and products of an order as from .csv data set" do
-
-      #Testing for first CSV order
-      Grocery::Order.all[0].id.must_equal CSV.read('support/orders.csv')[0][0]
-      order_1_array =
-
-      CSV.read('support/orders.csv')[0][1].gsub(":",";").split(";")
-      Grocery::Order.all[0].products.each do |hash|
-        hash.each do |k,v| #
-          order_1_array.delete(k)
-          order_1_array.delete(v)
-        end
-      end
-      order_1_array.must_equal []
-
-      #Testing for first CSV order
-      Grocery::Order.all[-1].id.must_equal CSV.read('support/orders.csv')[-1][0]
-      order_1_array =
-
-      CSV.read('support/orders.csv')[-1][1].gsub(":",";").split(";")
-      Grocery::Order.all[-1].products.each do |hash|
-        hash.each do |k,v| #
-          order_1_array.delete(k)
-          order_1_array.delete(v)
-        end
-      end
-      order_1_array.must_equal []
-    end
-  end
 end

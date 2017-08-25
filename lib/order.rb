@@ -21,8 +21,8 @@ module Grocery
       @products.each_value do |cost|
         add_product  += cost
       end
-      total = (add_product + (add_product * 0.075).round(2))
-      return total
+      total = (add_product + (add_product * 0.075))
+      return total.round(2)
     end # total method
 
     # @products.each do |product, values|

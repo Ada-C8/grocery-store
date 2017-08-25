@@ -132,15 +132,15 @@ describe "OnlineOrder" do
     end
 
   end
-  # xdescribe "OnlineOrder.find" do
-  #   it "Returns an order" do
-  #     result = Grocery::OnlineOrder.find(1)
-  #     result.must_be_instance_of Grocery::Order
-  #   end
-  #   it "Returns an error if Order does not exist" do
-  #     proc {Grocery::OnlineOrder.find(1000000)}.must_raise ArgumentError
-  #   end
-  # end
+  describe "OnlineOrder.find" do
+    it "Returns an order" do
+      result = Grocery::OnlineOrder.find("1")
+      result.must_be_instance_of Grocery::OnlineOrder
+    end
+    it "Returns an error if Order does not exist" do
+      proc {Grocery::OnlineOrder.find(1000000)}.must_raise ArgumentError
+    end
+  end
   #
   # xdescribe "OnlineOrder.find_by_customer" do
   #   it "Returns an array" do

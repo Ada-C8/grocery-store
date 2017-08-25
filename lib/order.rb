@@ -19,7 +19,7 @@ module Grocery
         name_price = product.split(":")
         @products[name_price[0]] = name_price[1].to_f
       end
-      @@orders.push(self)
+      collect_instance
     end
 
     def total
@@ -60,6 +60,12 @@ module Grocery
         return order if order.id == number
       end
       raise ArgumentError.new("This order id does not exist")
+    end
+
+    private
+
+    def collect_instance
+      @@orders.push(self)
     end
 
   end # class Order

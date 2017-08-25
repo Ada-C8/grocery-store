@@ -1,8 +1,11 @@
 require 'csv'
 require 'pry'
 
+# require_relative customer.rb
+# require_relative online_order.rb
 
 module Grocery
+
   class Order
     attr_reader :id, :products
     TAX = 0.075
@@ -11,31 +14,49 @@ module Grocery
       @id = id
       @products = products
       @total = 0
+      # @csv_file
     end
 
+    # def self.all(csv_file = "support/orders.csv")
     def self.all
       #returns an array of Order instances
       all_orders = []
+      # csv_file = "support/orders.csv"
+      # if self == Grocery::Order
+      #   csv_file = "support/orders.csv"
+      # elsif self == Grocery::OnlineOrder
+      #   csv_file = "support/online_orders.csv"
+      # end
 
-      CSV.open("support/orders.csv", "r").each do |row|
+      # CSV.open(csv_file, "r").each do |row|
+      # CSV.open(self.read_csv, "r").each do |row|
         #1st, create a hash of the products of each order
         #2nd, create a new Order object, with the id and newly created products hash
-        id = row[0].to_i
+        #
+        # id = row[0].to_i
+        #
+        # product_info = row[1].gsub(":", ",").gsub(";", ",").split(",")
+        #
+        # order_products = {}
+        #
+        # idx = 0
+        #
+        # while idx < product_info.length
+        #   order_products[product_info[idx]] = product_info[idx + 1].to_f
+        #   idx += 2
+        # end
 
-        product_info = row[1].gsub(":", ",").gsub(";", ",").split(",")
+        all_orders_by_row = self.order_info_by_row("support/orders.csv")
 
-        order_products = {}
-        idx = 0
-
-        while idx < product_info.length
-          order_products[product_info[idx]] = product_info[idx + 1].to_f
-          idx += 2
+        all_orders_by_row.each do |order|
+          order = Order.new(order[0],order[1])
+          all_orders << order
         end
 
-        order = Order.new(id, order_products)
-        all_orders << order
+        # order = Order.new(id, order_products)
+        # all_orders << order
 
-      end
+      # end
 
       return all_orders
 
@@ -86,8 +107,48 @@ module Grocery
       return false
     end
 
-  end
-end
+
+    def self.order_info_by_row(csv_file="support/orders.csv")
+      #stores a properly, comma separated row for each Object (order or online order)
+      all_order_info = []
+
+      CSV.open(csv_file, "r").each do |row|
+        all_order_info << row #array where first is id (in string format) and second index is jumbostring with all product info
+      end
+
+      ###loop below will replace the second index with a hash of product info
+      all_order_info.each do |order_info|
+        product_info = order_info[1].gsub(":", ",").gsub(";", ",").split(",")
+
+        order_products = {}
+
+        idx = 0
+
+        while idx < product_info.length
+          order_products[product_info[idx]] = product_info[idx + 1].to_f
+          idx += 2
+        end
+
+        order_info[1] = order_products
+      end
+
+      return all_order_info # an array of arrays objects. Each array object has the comma separted value for each order, and the second object of this subarray is a hash of all product information
+
+    end
+
+
+
+  end #end of Order class
+
+  # def read_csv #can be called by any class in this module, called via Grocery::Class.read_csv or Class.read_csv
+  #   if self == Grocery::Order
+  #     csv_file = "support/orders.csv"
+  #   elsif self == Grocery::OnlineOrder
+  #     csv_file = "support/online_orders.csv"
+  #   end
+  # end
+
+end # end module
 
 
 
@@ -148,4 +209,4 @@ end
 #
 # end
 #
-# binding.pry
+binding.pry

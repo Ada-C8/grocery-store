@@ -15,25 +15,25 @@ require_relative '../lib/online_order'
 describe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
-      online_order = Grocery::OnlineOrder.new(10, {"Jerusalem Artichoke" => 59.92}, 26, "complete")
+      online_order = Grocery::OnlineOrder.new(10, {"Jerusalem Artichoke" => 59.92}, 26, :complete)
       (online_order.is_a? Grocery::Order).must_equal true
     end
 
     it "Can access Customer object" do
-      online_order = Grocery::OnlineOrder.new(10, {"Jerusalem Artichoke" => 59.92}, 26, "complete")
+      online_order = Grocery::OnlineOrder.new(10, {"Jerusalem Artichoke" => 59.92}, 26, :complete)
       online_order.customer.must_be_instance_of Grocery::Customer
     end
 
     it "Can access the online order status" do
-      online_order = Grocery::OnlineOrder.new(10, {"Jerusalem Artichoke" => 59.92}, 26, "complete")
-      online_order.status.must_equal "complete"
+      online_order = Grocery::OnlineOrder.new(10, {"Jerusalem Artichoke" => 59.92}, 26, :complete)
+      online_order.status.must_equal :complete
     end
   end
 
   describe "#total" do
     it "Adds a shipping fee" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
-      online_order = Grocery::OnlineOrder.new(1337, products, 26, "complete")
+      online_order = Grocery::OnlineOrder.new(1337, products, 26, :complete)
 
       sum = products.values.inject(0, :+)
       expected_total = sum + (sum * 0.075).round(2) + 10
@@ -44,7 +44,7 @@ describe "OnlineOrder" do
 
     it "Doesn't add a shipping fee if there are no products" do
       products = {}
-      online_order = Grocery::OnlineOrder.new(1337, products, 26, "complete")
+      online_order = Grocery::OnlineOrder.new(1337, products, 26, :complete)
 
       expected_total = 0
       online_order.total.must_equal expected_total
@@ -53,7 +53,7 @@ describe "OnlineOrder" do
 
   describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
-      statuses = ["processing", "shipped", "complete"]
+      statuses = [:processing, :shipped, :complete]
       statuses.each do |status|
 
         products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -64,7 +64,7 @@ describe "OnlineOrder" do
     end
 
     it "Permits action for pending and paid satuses" do
-      ["pending", "paid"].each do |status|
+      [:pending, :paid].each do |status|
         products = { "banana" => 1.99, "cracker" => 3.00 }
         before_count = products.count
         online_order = Grocery::OnlineOrder.new(1337, products, 26, status)
@@ -75,7 +75,7 @@ describe "OnlineOrder" do
       end
 
       products = { "banana" => 1.99, "cracker" => 3.00 }
-      online_order = Grocery::OnlineOrder.new(1337, products, 26, "pending")
+      online_order = Grocery::OnlineOrder.new(1337, products, 26, :pending)
 
       online_order.add_product("sandwich", 4.25)
       online_order.products.include?("sandwich").must_equal true
@@ -106,7 +106,7 @@ describe "OnlineOrder" do
       end
 
       #Status is present
-      statuses = ["pending", "paid", "processing", "shipped", "complete"]
+      statuses = [:pending, :paid, :processing, :shipped, :complete]
 
       Grocery::OnlineOrder.all('./support/online_orders.csv').each do |online_order|
         statuses.include?(online_order.status).must_equal true
@@ -135,7 +135,7 @@ describe "OnlineOrder" do
     end
 
     it "Raises an error for an order that doesn't exist" do
-      proc {Grocery::OnlineOrder.find_id(0, './support/orders.csv')}.must_raise ArgumentError
+      proc {Grocery::OnlineOrder.find_id(0, './support/online_orders.csv')}.must_raise ArgumentError
     end
   end
 
@@ -143,20 +143,17 @@ describe "OnlineOrder" do
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
 
-      Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv').must_be_instance_of Array
+      order = Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv')
 
-      Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv').length.must_equal 7
+      order.must_be_instance_of Array
 
-      Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv')[0].status.must_equal "complete"
+      order.length.must_equal 7
 
-      Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv')[0].id.must_equal 12
+      order[0].status.must_equal :complete
+
+      order[0].id.must_equal 12
 
       proc {Grocery::OnlineOrder.find_by_customer(123, './support/online_orders.csv')}.must_raise ArgumentError
-
-
-
-
-
 
     end
   end

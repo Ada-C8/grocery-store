@@ -18,7 +18,7 @@ module Grocery
       CSV.read(csv_file).each do |purchase_array|
         order_id = purchase_array[0].to_i
         customer_id = purchase_array[2].to_i
-        status = purchase_array[3]
+        status  = purchase_array[3].to_sym
         products_list = purchase_array[1].split(";")
         products = {}
         products_list.each do |product|
@@ -69,7 +69,7 @@ module Grocery
     end
 
     def add_product(product, price)
-      if @status == "pending" || @status == "paid"
+      if @status == :pending || @status == :paid
         super(product, price)
       else
         raise ArgumentError.new "I'm sorry, you may no longer add to this order."
@@ -79,11 +79,18 @@ module Grocery
   end
 end
 
-# order = Grocery::OnlineOrder.find_id(1, './support/online_orders.csv')
+
+
+
+
+
+
+
+# order = Grocery::OnlineOrder.find_id(0, './support/online_orders.csv')
 #
 # ap order
 
-ap Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv')
+# ap Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv')
 
 # orders = Grocery::OnlineOrder.all('./support/online_orders.csv')
 #

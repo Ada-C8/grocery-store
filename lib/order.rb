@@ -35,7 +35,6 @@ module Grocery
       self.all.each do |order|
         if id == order.id
           return order
-          # return "Order ID: #{order.id} \nProducts: #{order.products}"
         end
       end
 

@@ -15,8 +15,10 @@ module Grocery
     end
 
     def total
-    unless @products.count == 0
-      total = super + 10
+    if @products.count == 0
+      total = super
+    else
+      total = (super) + 10
       return total
     end
     end
@@ -25,7 +27,7 @@ module Grocery
       if @status == :pending || @status == :paid
         super
       else
-        raise ArgumentError.new ("You may only add products to paid or pending orders.")
+        raise ArgumentError.new("You may only add products to paid or pending orders.")
       end
     end
 
@@ -63,16 +65,15 @@ module Grocery
 
     # self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
     def self.find_by_customer(customer_id)
-      if customer_id.to_i > Grocery::Customer.all.count || customer_id.to_i < 1
-        raise ArgumentError.new ("That customer ID does not exist.")
-      end
+      customer = Grocery::Customer.find(customer_id)
 
 
       customer_orders = []
       Grocery::OnlineOrder.all.each do |onlineorder|
-        if onlineorder.customer.to_i == customer_id
+        if onlineorder.customer.id == customer.id
           customer_orders << onlineorder
         end
+      # binding.pry
       end
       return customer_orders
     end
@@ -80,9 +81,6 @@ module Grocery
   end #end of class
 end # end of module
 
-online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :paid)
-puts Grocery::OnlineOrder.all[26].customer.address
-
-# puts Grocery::OnlineOrder.all
-# online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :paid)
-# puts online_order.products.count
+# online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :shipped)
+# online_order.add_product("salmon", 8.99)
+# puts online_order.products

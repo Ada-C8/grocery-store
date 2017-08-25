@@ -6,6 +6,7 @@ require 'csv'
 module Grocery
   class Order
     attr_reader :id, :products
+    @@all_orders = []
 
     def initialize(id, products)
       @id = id
@@ -48,7 +49,9 @@ module Grocery
     end
 
     def self.all
-      orders = []
+      if @@all_orders.length > 0
+        return @@all_orders
+      end
       CSV.open("../support/orders.csv", 'r').each do |line|
         id = line[0].to_i
         # playing with .sub!
@@ -60,18 +63,18 @@ module Grocery
           product_price = item.split':'
           products[product_price[0]] = product_price[1].to_f
         end
-        orders << self.new(id, products)
+        @@all_orders << self.new(id, products)
       end # each loop
-      return orders
+      return @@all_orders
     end # self.all method
 
     def self.find(id)
-      orders = self.all
+      # orders = self.all
       if id > all.length
         raise ArgumentError.new("Error: #{id} does not exist")
       end
 
-      orders.each do |order|
+      Order.all.each do |order|
         if order.id == id
           return order
         end

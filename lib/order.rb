@@ -1,6 +1,16 @@
 require 'csv'
 
 module Grocery
+  def product_parse
+    order_products = row["products"].split(";")
+    products = {}
+    order_products.each do |product_price|
+      product_hash = product_price.split(":")
+      products.store(product_hash[0], product_hash[1].to_f)
+    end
+    products
+  end
+
   class Order
     attr_reader :id, :products
 

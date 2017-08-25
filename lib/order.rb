@@ -11,6 +11,7 @@ module Grocery
 
   class Order
     attr_reader :id, :products
+    @@csv = "../support/orders.csv"
 
     def initialize(id, products)
       @id = id
@@ -20,16 +21,32 @@ module Grocery
     def self.all
       all = []
       orders = {}
-      CSV.open("../support/orders.csv", "r", converters: :numeric).each do |row|
+      CSV.open(@@csv, "r", converters: :numeric).each do |row|
         id = row[0] #id
         products = row[1].split(";") # will be hash ["a:b", "c:d", "e:f"]
+        # customer = row[2]
+        # status = row[3]
         order = {}
+        # customer_id = {}
+        # status_order = {}
+        # customer_id["customer"] = customer
+        # # p customer_id
+        # status_order["status"] = status
+        # # p status_order
         products.each do |item|
           item = item.split(":") # [a, b]
           order[item[0]] = item[1]
           # order = {a:b, c:d, etc}
+          # orders[id] = order
+        end
+        if @@csv == "../support/online_orders.csv"
+          customer = row[2]
+          status = row[3]
+          orders[id] = order, customer, status
+        else
           orders[id] = order
         end
+        # all << row
       end
       all << orders
 
@@ -40,6 +57,7 @@ module Grocery
       end
 
       return all_instances
+      return all
     end
 
     def self.find(id)
@@ -82,3 +100,6 @@ module Grocery
 
   end
 end
+
+p "Order"
+p Grocery::Order.find(35)

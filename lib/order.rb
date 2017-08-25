@@ -41,7 +41,6 @@ module Grocery
 
     def self.all(file)
       orders = []
-      # data = []
       csv_file = (CSV.open(file, "r"))
       csv_file.each do |line|
         data = []
@@ -87,7 +86,8 @@ module Grocery
     # end
 
     def self.find(id)
-      orders = Grocery::Order.all
+      # TODO: check about file passing
+      orders = Grocery::Order.all('support/orders.csv')
       if id > orders.length || id <=0
         raise ArgumentError.new('Invalid ID.')
       else
@@ -101,7 +101,7 @@ end
 # puts Grocery::Order.find(1).products
 # puts Grocery::Order.find(101)
 
-puts Grocery::Order.all('support/orders.csv')[3].products
+# puts Grocery::Order.all('support/orders.csv')[99].products
 
 # require "money"
 # require "csv"

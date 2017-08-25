@@ -37,7 +37,7 @@ module Grocery
       end #if/else
     end #add_product
 
-#TODO is it OK that I just totally rewrote the self.all method? Should I have used super?
+    #TODO is it OK that I just totally rewrote the self.all method? Should I have used super?
     def self.all
       #Need to give this it's own class variabel so we don't mess with the regular orders
       @all_online_orders = []
@@ -62,17 +62,35 @@ module Grocery
     end #self.all
 
     #Add this method so that the same self.find method in Order and OnlineOrder can access differnt arrays! I will override this method in the OnlineOrder class to return @all_online_orders
-        def self.return_csv_array
-          return @all_online_orders
-        end
+    def self.return_csv_array
+      return @all_online_orders
+    end
     def self.find(id)
       # self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
-
       #TODO: is there a way to change the variable name called in the super method from @all_orders to @all_online_orders?
       #TODO: or do I need to raname @all_online_orders to @@all_orders in OnlineOrder and recall it before super to redefine it within the self.find method?
       super(id)
     end #self.find
-end #OnlineOrder
+
+
+    def self.find_by_customer(customer_id_find)
+    # self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
+
+    customer_orders = []
+
+    if @all_online_orders.any?{|instance| instance.customer_id == customer_id_find.to_s}
+      @all_online_orders.each do |order|
+        if order.customer_id == customer_id_find
+          customer_orders << order
+        end #if
+      end #.each
+    else
+        raise ArgumentError.new("Error: order #{customer_id_find} does not exsist!")
+    end #if/else
+    return customer_orders
+    end #self.find_by_customer
+
+  end #OnlineOrder
 end #Grocery
 
 online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", "Paid")

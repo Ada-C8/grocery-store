@@ -177,10 +177,11 @@ describe "OnlineOrder" do
     end #"must return only one order"
 
     it "Raises an error for an order that doesn't exist" do
+      #TODO: need to edit this test now that the self.find method has different functionality
       yay_orders = CSV.read("support/orders.csv", 'r')
 
-      Grocery::Order.all
-      proc {Grocery::Order.find(yay_orders.length + 1)}.must_raise ArgumentError
+      Grocery::OnlineOrder.all
+      proc {Grocery::OnlineOrder.find(yay_orders.length + 1)}.must_raise ArgumentError
     end #"Raises an error for an order that doesn't exist"
 
   end #describe "OnlineOrder.find" do
@@ -188,7 +189,21 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
-    end
-  end
-end
+      Grocery::OnlineOrder.all
+      Grocery::OnlineOrder.find_by_customer(29).must_be_kind_of Array
+    end #"Returns an array of online orders for a specific customer ID"
+
+    it "Can access all the orders for a customer" do
+      #TODO: is there a better way to test this then just knowing how many orders are from customer_id 29?
+      Grocery::OnlineOrder.all
+      test = Grocery::OnlineOrder.find_by_customer("29")
+      test.length.must_equal 2
+    end #it "Can access all the orders for a customer"
+
+    it "raises an error if the customer_id does not exsis" do
+      #TODO rewrite this test to find the max value of customer_id and then add 1 to that and try to call the method!
+      Grocery::OnlineOrder.all
+      proc {Grocery::OnlineOrder.find_by_customer("1000")}.must_raise ArgumentError
+    end #"raises an error if the customer_id does not exsis"
+  end #describe "OnlineOrder.find_by_customer"
+end #describe "OnlineOrder" do

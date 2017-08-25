@@ -4,7 +4,7 @@ require_relative 'customer'
 
 module Grocery
   class OnlineOrder < Order
-    attr_reader :status, :customer
+    attr_reader :status, :customer, :products
 
     def initialize(id, products, customer_id, status = :pending)
       @id = id
@@ -23,8 +23,17 @@ module Grocery
       return total
     end
 
+    def add_product(product_name, product_price)
+      changes_prohibited = [:processing, :shipped, :complete]
+      if changes_prohibited.include?(status)
+        puts "No changes can be made to the order at this time."
+      else
+        super
+      end
+    end
+
   end #end of class
-  end #end of module
+end #end of module
 
 #
 # id = 13

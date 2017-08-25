@@ -125,10 +125,10 @@ describe "OnlineOrder" do
       [:pending, :paid, :shipped, :complete].include? result[10].status
       [:pending, :paid, :shipped, :complete].include? result[-1].status
 
-    #   result.each do |order|
-    #     has_status = [:pending, :paid, :shipped, :complete].include? order.status
-    #     has_status.must_equal true
-    #   end
+      #   result.each do |order|
+      #     has_status = [:pending, :paid, :shipped, :complete].include? order.status
+      #     has_status.must_equal true
+      #   end
     end
 
   end
@@ -141,20 +141,19 @@ describe "OnlineOrder" do
       proc {Grocery::OnlineOrder.find(1000000)}.must_raise ArgumentError
     end
   end
-  #
-  # xdescribe "OnlineOrder.find_by_customer" do
-  #   it "Returns an array" do
-  #     result = Grocery::OnlineOrder.find_by_customer(1)
-  #     result.must_be_instance_of Array
-  #   end
-  #   it "Returns an array of online orders for a specific customer ID" do
-  #     actual_result = Grocery::OnlineOrder.find_by_customer(1)
-  #     expected_result = #TODO whatever customer 1 bought
-  #     actual_result.must_equal expected_result
-  #   end
-  #   it "Returns an error if customer doesn't exist"
-  #     proc {Grocery::OnlineOrder.find_by_customer(10000)}.must_raise ArgumentError
-  #   end
 
+  describe "OnlineOrder.find_by_customer" do
+    it "Returns an array" do
+      result = Grocery::OnlineOrder.find_by_customer("1")
+      result.must_be_instance_of Array
+    end
+    it "Returns an array of online orders for a specific customer ID" do
+      result = Grocery::OnlineOrder.find_by_customer("1")
+      result.length.must_be :>, 0
+    end
+    it "Returns an error if customer doesn't exist" do
+      proc {Grocery::OnlineOrder.find_by_customer("ksldjg")}.must_raise ArgumentError
+    end
 
+  end
 end

@@ -17,7 +17,7 @@ describe "OnlineOrder" do
       # Check that an OnlineOrder is in fact a kind of Order
 
       # Instatiate your OnlineOrder here
-      online_order = 
+      online_order =
       online_order.must_be_kind_of Grocery::Order
     end
 
@@ -30,7 +30,7 @@ describe "OnlineOrder" do
     end
   end
 
-  describe "#total" do
+  xdescribe "#total" do
     it "Adds a shipping fee" do
       # TODO: Your test code here!
     end
@@ -40,7 +40,7 @@ describe "OnlineOrder" do
     end
   end
 
-  describe "#add_product" do
+  xdescribe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
       # TODO: Your test code here!
     end
@@ -50,7 +50,7 @@ describe "OnlineOrder" do
     end
   end
 
-  describe "OnlineOrder.all" do
+  xdescribe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
       # TODO: Your test code here!
       # Useful checks might include:

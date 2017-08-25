@@ -79,15 +79,11 @@ module Grocery
   end
 end
 
-order = Grocery::OnlineOrder.find_id(1, './support/online_orders.csv')
+# order = Grocery::OnlineOrder.find_id(1, './support/online_orders.csv')
+#
+# ap order
 
-ap order
-
-
-
-
-
-# ap Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv')
+ap Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv')
 
 # orders = Grocery::OnlineOrder.all('./support/online_orders.csv')
 #

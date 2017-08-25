@@ -71,9 +71,9 @@ module Grocery
   end
 end
 
-orders = Grocery::Order.all('./support/orders.csv')
-
-p Grocery::Order.find_id('./support/orders.csv', 54)
+# orders = Grocery::Order.all('./support/orders.csv')
+#
+# p Grocery::Order.find_id('./support/orders.csv', 54)
 #
 # ap Grocery::Order.show_all_orders
 

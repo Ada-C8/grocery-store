@@ -129,8 +129,8 @@ describe "OnlineOrder" do
       order.id.must_equal 1
     end
 
-    xit "Can find the last order from the CSV" do
-      order = Grocery::OnlineOrder.find_id(100,'./support/orders.csv')
+    it "Can find the last order from the CSV" do
+      order = Grocery::OnlineOrder.find_id(100,'./support/online_orders.csv')
       order.id.must_equal 100
     end
 
@@ -140,9 +140,24 @@ describe "OnlineOrder" do
   end
 
 
-  xdescribe "OnlineOrder.find_by_customer" do
+  describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+
+      Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv').must_be_instance_of Array
+
+      Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv').length.must_equal 7
+
+      Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv')[0].status.must_equal "complete"
+
+      Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv')[0].id.must_equal 12
+
+      proc {Grocery::OnlineOrder.find_by_customer(123, './support/online_orders.csv')}.must_raise ArgumentError
+
+
+
+
+
+
     end
   end
 end

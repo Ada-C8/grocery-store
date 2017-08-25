@@ -58,17 +58,20 @@ describe "Customer" do
     end
   end
 
-  xdescribe "Customer.find" do
+  describe "Customer.find" do
     it "Can find the first customer from the CSV" do
-      # TODO: Your test code here!
+      customer = Grocery::Customer.find("1")
+      customer.email.must_equal "leonard.rogahn@hagenes.org"
     end
 
     it "Can find the last customer from the CSV" do
-      # TODO: Your test code here!
+      customer = Grocery::Customer.find("35")
+      customer.email.must_equal "rogers_koelpin@oconnell.org"
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      # TODO: Your test code here!
+      customer = Grocery::Customer.find("36")
+      proc {customer.email.must_raise ArgumentError}
     end
   end
 end

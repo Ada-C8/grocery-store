@@ -47,7 +47,6 @@ describe "Order Wave 1" do
       expected_count = before_count + 1
       order.products.count.must_equal expected_count
     end
-  end
 
     it "Is added to the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -78,8 +77,7 @@ describe "Order Wave 1" do
       result.must_equal true
     end
 
-
-  xdescribe "#remove_product" do
+  describe "#remove_product" do
     it "Deletes an element from the products array" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
@@ -89,22 +87,15 @@ describe "Order Wave 1" do
       actual_result.must_equal expected_result
     end
   end
+end #end describe Order Wave 1
 end #end of Wave 1
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
-    # it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
+
     it "Order.all returns an array" do
       Grocery::Order.all.must_be_instance_of Array
     end
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
 
     it "Returns the correct number of orders" do
       orders = Grocery::Order.all

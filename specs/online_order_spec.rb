@@ -56,20 +56,37 @@ describe "OnlineOrder" do
   end
 
   describe "OnlineOrder.all" do
-    @online_order_all = OnlineOrder.all
+
+    before do
+      @online_order_all = OnlineOrder.all
+    end
+
     it "Returns an array of all online orders" do
       @online_order_all.must_be_kind_of Array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The customer is present
-      #   - The status is present
-      # Feel free to split this into multiple tests if needed
+    end
+
+    it "Everything in the array is an Order" do
+      @online_order_all[0].must_be_kind_of Grocery::Order
+    end
+
+    it "The number of orders is correct" do
+      @online_order_all.length.must_equal 100
+    end
+
+    it "The customer is present" do
+      @online_order_all[0].customer.must_be_kind_of Grocery::Customer
+    end
+
+    it "The status is present" do
+      @online_order_all[0].status.must_equal :complete
     end
   end
 
-  xdescribe "OnlineOrder.find_by_customer" do
+  describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+      online_order_4 = OnlineOrder.find(1)
+
+      online_order_4.must_be_kind_of Array
     end
   end
 end

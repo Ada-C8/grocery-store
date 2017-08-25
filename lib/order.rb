@@ -78,7 +78,7 @@ module Grocery
       return all_orders
     end
 
-    def self.find(id) #have to pass in csv file?
+    def self.find(id) 
       orders = Grocery::Order.all
 
       id_arr = []

@@ -57,12 +57,31 @@ class OnlineOrder < Grocery::Order
     return all_online_orders
   end
 
-#   self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
-# self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter
+  # self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
+  def self.find(id)
+    return super
+  end
+
+  # self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter
+  def self.find_by_customer(cus_id)
+    online_orders = OnlineOrder.all
+
+    customer_orders = []#store all orders made by cus_id
+
+    online_orders.each do |order|
+      if order.customer.id == cus_id
+        customer_orders << order
+      else
+      end
+    end
+
+    return customer_orders
+  end
+
 end
 
 # puts OnlineOrder.all[1].customer.email
-
+puts OnlineOrder.all[1].customer.id
 
 
 # Question Ask yourself, what is different about this all method versus the Order.all method? What is the same?

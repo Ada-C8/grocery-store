@@ -142,7 +142,7 @@ describe "Order Wave 2" do
       products = Hash[products_arr.map { |i| i.split(":") }]
       products = Hash[products.keys.zip(products.values.map(&:to_f))]
 
-      Grocery::Order.new(id, products)
+      # Grocery::Order.new(id, products)
 
       @orders[0].id.must_equal id
       @orders[0].products.must_equal products

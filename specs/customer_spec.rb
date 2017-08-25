@@ -18,7 +18,7 @@ xdescribe "Customer" do
       # Useful checks might include:
       #   - Customer.all returns an array
       #   - Everything in the array is a Customer
-      #   - The number of orders is correct
+      #   - The number of customers is correct
       #   - The ID, email address of the first and last
       #       customer match what's in the CSV file
       # Feel free to split this into multiple tests if needed

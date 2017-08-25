@@ -26,14 +26,6 @@ describe "Customer" do
     end
   end
 
-  # TODO: Your test code here!
-  # Useful checks might include:
-  #   - Customer.all returns an array
-  #   - Everything in the array is a Customer
-  #   - The number of orders is correct
-  #   - The ID, email address of the first and last
-  #       customer match what's in the CSV file
-  # Feel free to split this into multiple tests if needed
   describe "Customer.all" do
     it "Customer.all returns an array" do
       Grocery::Customer.all.must_be_kind_of Array
@@ -49,7 +41,6 @@ describe "Customer" do
       Grocery::Customer.all.length.must_equal 35
     end
 
-    #this could be more efficient test
     it "the ID email and address customers.all[0] and customers.all[35] match what is in the CSV file" do
       Grocery::Customer.all.first.id.must_equal @customer_first.id
       Grocery::Customer.all.first.address.must_equal @customer_first.address
@@ -68,11 +59,13 @@ describe "Customer" do
     end
 
     it "Can find the last customer from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Customer.find(35).last.id.must_equal @customer_last.id
+      Grocery::Customer.find(35).last.address.must_equal @customer_last.address
+      Grocery::Customer.find(35).last.email.must_equal @customer_last.email
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      # TODO: Your test code here!
+      proc{Grocery::Customer.find(100)}.must_raise ArgumentError
     end
   end
 end

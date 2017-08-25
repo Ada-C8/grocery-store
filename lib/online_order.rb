@@ -24,10 +24,12 @@ module Grocery
     def add_product(product_name, product_price)
       if @status == :pending || @status == :paid
         new_product = { product_name => product_price }
-        exists_in_products = false
-        @products.has_key?(product_name) ? exists_in_products = false : exists_in_products = true
-        @products.merge!(new_product) { |key, old_value, new_value| old_value }
-        return exists_in_products
+        can_successfully_add = false
+        @products.has_key?(product_name) ? can_successfully_add = false : can_successfully_add = true
+        if can_successfully_add
+          @products.merge!(new_product) { |key, old_value, new_value| old_value }
+        end
+        return can_successfully_add
       end
       raise ArgumentError.new("Status is neither pending nor paid")
     end

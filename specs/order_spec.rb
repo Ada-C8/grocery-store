@@ -112,12 +112,12 @@ describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # checks that .all returns array
-      Grocery::Order.all('support/orders.csv').must_be_kind_of Array
+      Grocery::Order.all.must_be_kind_of Array
     end
 
     it "All items are Orders" do
       # order = Grocery::Order.all.must_be_kind_of Array
-      orders = Grocery::Order.all('support/orders.csv')
+      orders = Grocery::Order.all
       orders.each do |item|
         item.must_be_instance_of Grocery::Order
       end
@@ -125,22 +125,22 @@ describe "Order Wave 2" do
 
     it "Order total is correct" do
       # checks order total
-      total_orders = Grocery::Order.all('support/orders.csv').length
+      total_orders = Grocery::Order.all.length
       total_orders.must_equal 100
     end
 
     it "ID and product of the first order is correct" do
       # tests ID and products for first order
       first_order = [ 1, {"Slivered Almonds"=>22.88, "Wholewheat flour"=>1.93, "Grape Seed Oil"=>74.9} ]
-      Grocery::Order.all('support/orders.csv')[0].products.must_equal first_order[1]
-      Grocery::Order.all('support/orders.csv')[0].id.must_equal first_order[0]
+      Grocery::Order.all[0].products.must_equal first_order[1]
+      Grocery::Order.all[0].id.must_equal first_order[0]
     end
 
     it "ID and product of the last order is correct" do
       # tests ID and products for last order
       last_order = [ 100, {"Allspice"=>64.74, "Bran"=>14.72, "UnbleachedFlour"=>80.59} ]
-      Grocery::Order.all('support/orders.csv')[99].products.must_equal last_order[1]
-      Grocery::Order.all('support/orders.csv')[99].id.must_equal last_order[0]
+      Grocery::Order.all[99].products.must_equal last_order[1]
+      Grocery::Order.all[99].id.must_equal last_order[0]
     end
   end
 

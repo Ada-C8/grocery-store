@@ -39,13 +39,10 @@ module Grocery
       end
     end
 
-    def self.all(file)
+    def self.all
       orders = []
-      csv_file = (CSV.open(file, "r"))
-      csv_file.each do |line|
+      CSV.open("support/orders.csv", "r").each do |line|
         data = []
-      # CSV.open("support/orders.csv", "r").each do |line|
-        # @orders[line[0]] =
         string = line[1]
         product_data = string.split(/:|;/)
         product_data.each_with_index do |datum, i|
@@ -55,7 +52,7 @@ module Grocery
             data << datum.to_f.round(2)
           end
         end
-        order = Grocery::Order.new(line[0].to_i, Hash[*data])
+        order = new(line[0].to_i, Hash[*data])
         orders.push(order)
       end
       return orders
@@ -87,7 +84,7 @@ module Grocery
 
     def self.find(id)
       # TODO: check about file passing
-      orders = Grocery::Order.all('support/orders.csv')
+      orders = self.all
       if id > orders.length || id <=0
         raise ArgumentError.new('Invalid ID.')
       else

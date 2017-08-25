@@ -4,7 +4,7 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 # TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/online_order'
+require_relative '../lib/online_order'
 # You may also need to require other classes here
 
 # Because an OnlineOrder is a kind of Order, and we've
@@ -15,7 +15,7 @@ require 'minitest/skip_dsl'
 describe "OnlineOrder" do
   describe "#initialize" do
     before do
-      @online_order = Grocery::OnlineOrder.new
+      @online_order = Grocery::OnlineOrder.new(1, {"Salmon" => 25.00}, 22, :processing)
     end
     it "Is a kind of Order" do
       # Check that an OnlineOrder is in fact a kind of Order
@@ -27,12 +27,12 @@ describe "OnlineOrder" do
 
     it "Can access Customer object" do
       # TODO: Your test code here!
-      @online_order.customer
+      @online_order.customer(22).must_equal Grocery::Customer.find(22)
     end
 
     it "Can access the online order status" do
       # TODO: Your test code here!
-      @online_order.status
+      @online_order.must_respond_to :status
     end
   end
 

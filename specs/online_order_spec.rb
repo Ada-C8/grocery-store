@@ -62,24 +62,28 @@ describe "OnlineOrder" do
     before do
       #test data
       @id = 1500
-      @products = {"Spumoni" => 9.87}
+      products = {"Spumoni" => 9.87}
       @customer_id = 3333
       status = "completed"
-      @test_order = Grocery::OnlineOrder.new(@id, @products, @customer_id, status)
+      @test_order = Grocery::OnlineOrder.new(@id, products, @customer_id, status)
     end
 
     it "Does not permit action for processing, shipped or completed statuses" do
       @test_order.add_product("Tofu", 30).must_equal false
 
-      test3 = Grocery::OnlineOrder.new(@id, @products, @customer_id, "processing")
+      test3 = Grocery::OnlineOrder.new(@id, {"Spumoni" => 9.87}, @customer_id, "processing")
       test3.add_product("Tofu", 30).must_equal false
 
-      test4 = Grocery::OnlineOrder.new(@id, @products, @customer_id, "shipped")
+      test4 = Grocery::OnlineOrder.new(@id, {"Spumoni" => 9.87}, @customer_id, "shipped")
       test4.add_product("Tofu", 30).must_equal false
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      test5 = Grocery::OnlineOrder.new(@id, {"Spumoni" => 9.87}, @customer_id, "pending")
+      test5.add_product("Tofu", 30).must_equal true
+
+      test6 = Grocery::OnlineOrder.new(@id, {"Spumoni" => 9.87}, @customer_id, "paid")
+      test6.add_product("Tofu", 30).must_equal true
     end
   end
 

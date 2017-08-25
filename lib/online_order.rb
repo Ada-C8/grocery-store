@@ -26,7 +26,7 @@ module Grocery
       when "processing", "shipped", "completed"
         return false
       else
-        super
+        return super(product_name, product_price)
       end
     end
 

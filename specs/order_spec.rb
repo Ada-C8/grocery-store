@@ -143,9 +143,7 @@ xdescribe "Order Wave 2" do
 
       #Testing for first CSV order
       Grocery::Order.all[0].id.must_equal CSV.read('support/orders.csv')[0][0]
-      order_1_array = Array.new
-
-      CSV.read('support/orders.csv')[0][1].gsub(":",";").split(";")
+      order_1_array = CSV.read('support/orders.csv')[0][1].gsub(":",";").split(";")
       Grocery::Order.all[0].products.each do |hash|
         hash.each do |k,v| #
           order_1_array.delete(k)
@@ -156,9 +154,7 @@ xdescribe "Order Wave 2" do
 
       #Testing for last CSV order
       Grocery::Order.all[-1].id.must_equal CSV.read('support/orders.csv')[-1][0]
-      order_last_array = Array.new
-
-      CSV.read('support/orders.csv')[-1][1].gsub(":",";").split(";")
+      order_last_array = CSV.read('support/orders.csv')[-1][1].gsub(":",";").split(";")
       Grocery::Order.all[-1].products.each do |hash|
         hash.each do |k,v| #
           order_last_array.delete(k)

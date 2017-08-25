@@ -88,6 +88,10 @@ describe "OnlineOrder" do
   end
 
   describe "OnlineOrder.all" do
+    before do
+      @csv_data = CSV.read('support/online_orders.csv')
+    end
+
     it "Returns an array of all online orders" do
       Grocery::OnlineOrder.all.must_be_kind_of Array
 
@@ -95,17 +99,20 @@ describe "OnlineOrder" do
         Grocery::OnlineOrder.all[rand(0..(Grocery::OnlineOrder.all.length - 1))].must_be_kind_of Grocery::OnlineOrder
       end
 
-      Grocery::OnlineOrder.all.length.must_equal       CSV.read('support/online_orders.csv').length
+      Grocery::OnlineOrder.all.length.must_equal       @csv_data.length
     end
 
-    it "Returns Customer and status as from csv" do
-      # Useful checks might include:
-      #   X OnlineOrder.all returns an array
-      #   X Everything in the array is an Order
-      #   X The number of orders is correct
-      #   - The customer is present
-      #   - The status is present
-      # Feel free to split this into multiple tests if needed
+    it "Returns Customer and Status as from csv" do
+      #Testing for first CSV order
+      Grocery::OnlineOrder.all[0].c_id.must_equal @csv_data[0][2]
+
+      Grocery::OnlineOrder.all[0].status.must_equal @csv_data[0][3]
+
+      #Testing for last CSV order
+      Grocery::OnlineOrder.all[-1].c_id.must_equal @csv_data[-1][2]
+
+      Grocery::OnlineOrder.all[-1].status.must_equal @csv_data[-1][3]
+
     end
   end
 

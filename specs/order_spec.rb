@@ -78,45 +78,47 @@ require_relative '../lib/order'
 #   end
 # end
 describe "Order Wave 2" do
-  # describe "Order.all" do
-  #   it "Returns an array of all orders" do  #order.all returns an array
-  #     orders = Grocery::Order.all
-  #     orders.must_be_kind_of Array
-  #   end
-  #
-  #   it "checks if orders match what is the CSV file" do
-  #     orders = Grocery::Order.all
-  #     csv = CSV.read("./support/orders.csv", 'r')
-  #     csv_product = csv.to_a[18][1].gsub(/:|;/, " ")
-  #     # csv_product.must_be_same_as "cats"
-  #     order_product = orders[18].products.flatten.join(" ")
-  #     order_product.must_equal csv_product
-  #   end
-  #
-  #   it "checks the number of orders is correct" do #check # of orders
-  #     orders = Grocery::Order.all
-  #     orders.length.must_equal 100
-  #   end
-  #
-  # #   - The ID and products of the first and last
-  #   it "checks ID the first and last order match what's in the CSV file" do
-  #     orders = Grocery::Order.all
-  #     # print orders
-  #     csv = CSV.read("./support/orders.csv", 'r')
-  #     csv_product = csv.to_a[18][0]
-  #     csv_product.must_equal orders[18].id
-  #   end
-  #
+  describe "Order.all" do
+    # it "Returns an array of all orders" do  #order.all returns an array
+    #   orders = Grocery::Order.all
+    #   orders.must_be_kind_of Array
+    # end
+    #
+    # it "checks if orders match what is the CSV file" do
+    #   orders = Grocery::Order.all
+    #   csv = CSV.read("./support/orders.csv")
+    #   csv_product = csv.to_a[18][1].gsub(/:|;/, " ")
+    #   # csv_product.must_be_same_as "cats"
+    #   order_product = orders[18].products.flatten.join(" ")
+    #   order_product.must_equal csv_product
+    # end
+    #
+    # it "checks the number of orders is correct" do #check # of orders
+    #   orders = Grocery::Order.all
+    #   orders.length.must_equal 100
+    # end
+
+  #   - The ID and products of the first and last
+    # it "checks ID of the first order match what's in the CSV file" do
+    #   orders = Grocery::Order.all
+    #   # print orders
+    #   csv = CSV.read("./support/orders.csv")
+    #   csv_product = csv.to_a[0][0]
+    #   csv_product.must_equal orders[0].id.to_i
+    # end
+
   #   it "checks ID of the last order match what's in the csv file" do
   #     orders = Grocery::Order.all
-  #     csv = CSV.read("./support/orders.csv", 'r')
+  #     csv = CSV.read("./support/orders.csv")
   #     csv_product = csv.to_a[-1][0]
-  #     csv_product.must_equal orders[-1].id
+  #     # print "#{csv_product} boo!"
+  #     print "#{orders} hey!"
+  #     csv_product.must_equal orders[-1]
   #   end
   #
   #   it "checks product of the first order match what's in the csv file" do
   #     orders = Grocery::Order.all
-  #     csv = CSV.read("./support/orders.csv", 'r')
+  #     csv = CSV.read("./support/orders.csv")
   #     csv_product = csv.to_a[0][1].gsub(/:|;/, " ")
   #     order_product = orders[0].products.flatten.join(" ")
   #     csv_product.must_equal order_product
@@ -124,17 +126,17 @@ describe "Order Wave 2" do
   #
   #   it "checks product of the last order match what's in the csv file" do
   #     orders = Grocery::Order.all
-  #     csv = CSV.read("./support/orders.csv", 'r')
+  #     csv = CSV.read("./support/orders.csv")
   #     csv_product = csv.to_a[-1][1].gsub(/:|;/, " ")
   #     order_product = orders[-1].products.flatten.join(" ")
   #     csv_product.must_equal order_product
   #   end
   #
-  # it "checks everything in the array is an order" do
-  #   orders = Grocery::Order.all
-  #   orders.each do |order|
-  #     order.must_be_instance_of Grocery::Order
-  #   end
+    # it "checks everything in the array is an order" do
+    #   orders = Grocery::Order.all
+    #   orders.each do |order|
+    #     order.must_be_instance_of Grocery::Order
+    #   end
   #
   #
   # end
@@ -142,29 +144,30 @@ describe "Order Wave 2" do
 
   # end
 
-    describe "Order.find" do
-      it "can find the first order from the CSV" do
-        order = Grocery::Order.find(1)
-        csv = CSV.read("./support/orders.csv", 'r')
-        csv_order= csv.to_a[0]
-        print "#{csv_order} Hi"
-        print "#{order} Yo"
-        order.id.must_equal csv_order[0].to_i
-      end
+    # describe "Order.find" do
+    #   it "can find the first order from the CSV" do
+    #     order = Grocery::Order.find(1)
+    #     csv = CSV.read("./support/orders.csv")
+    #     csv_order= csv.to_a[0]
+    #     print "#{csv_order} Hi"
+    #     print "#{order} Yo"
+    #     order.id.must_equal csv_order[0].to_i
+    #   end
+    #
+    #   it "Can find the last order from the CSV" do
+    #     order = Grocery::Order.find(100)
+    #     csv = CSV.read("./support/orders.csv")
+    #     csv_order= csv.to_a[99]
+    #     print "#{csv_order} Hi"
+    #     print "#{order} Yo"
+    #     order.id.must_equal csv_order[0].to_i
+    #   end
 
-      it "Can find the last order from the CSV" do
-        order = Grocery::Order.find(100)
-        csv = CSV.read("./support/orders.csv", 'r')
-        csv_order= csv.to_a[99]
-        print "#{csv_order} Hi"
-        print "#{order} Yo"
-        order.id.must_equal csv_order[0].to_i
-      end
-
-      it "Raises an error for an order that doesn't exist" do
-        proc {Grocery::Order.find(101)}.must_raise ArgumentError
-        proc {Grocery::Order.find(200)}.must_raise ArgumentError
-        proc {Grocery::Order.find(1000)}.must_raise ArgumentError
-      end
+    it "Raises an error for an order that doesn't exist" do
+      # print Grocery::Order.find(101)
+      proc {Grocery::Order.find(101)}.must_raise ArgumentError
+      proc {Grocery::Order.find(200)}.must_raise ArgumentError
+      proc {Grocery::Order.find(1000)}.must_raise ArgumentError
+    end
   end
 end

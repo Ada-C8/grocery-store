@@ -15,6 +15,7 @@ module Grocery
 
     def total
       # TODO: implement total
+      total = 0
       subtotal = @products.values.inject(0, :+)
       total = (subtotal * 1.075).round(2)
       return total

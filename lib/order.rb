@@ -1,4 +1,7 @@
+require 'csv'
+require 'pry'
 module Grocery
+
   class Order
     attr_reader :id, :products
 
@@ -33,9 +36,33 @@ module Grocery
     end
 
     def self.all
+      all_orders = []
+      CSV.open("support/orders.csv", 'r').each do |ugly_string_line|
+        #sort the ugly string out
+        #{id_number => {item => price}}
+
+        info_array = (ugly_string_line[1]).split(/;|:/)
+        id_num = (ugly_string_line[0]).to_i
+        hashy_hash = {}
+
+        while info_array != []
+          item = info_array.delete_at(0)
+          cost = info_array.delete_at(0)
+          hashy_hash[item] = cost
+        end
+        all_orders << self.new(id_num, hashy_hash)
+      end
+      all_orders
     end
 
-
+    def self.find(number)
+      found_it = (Grocery::Order.all).detect{|grocery_order| grocery_order.id == number}
+      raise ArgumentError.new("Order Not Found") if found_it == nil
+      found_it
+    end
   end
 
 end
+# 
+# Grocery::Order.find(5)
+#  binding.pry

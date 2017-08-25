@@ -22,6 +22,7 @@
 #
 # Add a remove_product method to the Order class which will take in one parameter, a product name, and remove the product from the collection
 # It should return true if the item was successfully remove and false if it was not
+require 'awesome_print'
 
 module Grocery
   class Order
@@ -30,6 +31,21 @@ module Grocery
     def initialize(id, products)
       @id = id
       @products = products
+    end
+
+    orders = []
+    items = {}
+
+    require 'csv'
+    CSV.open("support/orders.csv", 'r').each do |line|
+      id = line[0]
+      product_array = line[1].split(';') # array of product:price
+
+      product_array.each do |element_pair|
+         item = element_pair.split(':') # array [0]item, [1]price
+         items[item[0]] = item[1]
+      end
+      orders << Order.new(id, items)
     end
 
     def total

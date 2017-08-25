@@ -22,7 +22,11 @@ module Grocery
     end
 
     def total
-      super
+      if super != 0
+        super + 10
+      else
+        return 0
+      end
     end
 
     def add_product

@@ -194,16 +194,40 @@ describe "OnlineOrder" do
     end #"Returns an array of online orders for a specific customer ID"
 
     it "Can access all the orders for a customer" do
-      #TODO: is there a better way to test this then just knowing how many orders are from customer_id 29?
-      Grocery::OnlineOrder.all
-      test = Grocery::OnlineOrder.find_by_customer("29")
-      test.length.must_equal 2
+  
+      all_orders = Grocery::OnlineOrder.all
+      customer_id_1 = []
+      all_orders.each do |instance|
+        puts "In loop, instance.customer_id is #{instance.customer_id}"
+        if instance.customer_id == "1"
+          customer_id_1 << instance
+        end #if
+      end #.each
+      puts "orders for customer 1: #{customer_id_1}"
+      test = Grocery::OnlineOrder.find_by_customer("1")
+      test.length.must_equal customer_id_1.length
+
+  #How test was:
+      # Grocery::OnlineOrder.all
+      # test = Grocery::OnlineOrder.find_by_customer("29")
+      # test.length.must_equal 2
     end #it "Can access all the orders for a customer"
 
     it "raises an error if the customer_id does not exsis" do
-      #TODO rewrite this test to find the max value of customer_id and then add 1 to that and try to call the method!
-      Grocery::OnlineOrder.all
-      proc {Grocery::OnlineOrder.find_by_customer("1000")}.must_raise ArgumentError
+      #find the max value of customer_id and then add 1 to that and try to call the method!
+      all_orders = Grocery::OnlineOrder.all
+      max_id = 0
+      all_orders.each do |order|
+        if order.customer_id.to_i > max_id
+        max_id = order.customer_id.to_i
+        end
+      end
+      max_plus_1 = max_id + 1
+      proc {Grocery::OnlineOrder.find_by_customer(max_plus_1.to_s)}.must_raise ArgumentError
+
+  #How the test origionaly was:
+      # Grocery::OnlineOrder.all
+      # proc {Grocery::OnlineOrder.find_by_customer("1000")}.must_raise ArgumentError
     end #"raises an error if the customer_id does not exsis"
   end #describe "OnlineOrder.find_by_customer"
 end #describe "OnlineOrder" do

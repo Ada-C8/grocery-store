@@ -92,7 +92,3 @@ module Grocery
 
   end #OnlineOrder
 end #Grocery
-
-online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", "Paid")
-puts online_order.customer_id
-# 1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete

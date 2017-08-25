@@ -15,6 +15,7 @@ require_relative '../lib/customer'
 describe "OnlineOrder" do
   before do
     @online_order_one = Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25,"complete")
+    @online_order_two = Grocery::OnlineOrder.new(2,{}, 26,"complete")
     @customer_first = Grocery::Customer.new(25, "leonard.rogahn@hagenes.org", {address1: "71596 Eden Route" , city: "Connellymouth" , state: "LA", zip_code: "98872-9105" })
   end
   describe "#initialize" do
@@ -33,11 +34,11 @@ describe "OnlineOrder" do
 
   describe "#total" do
     it "Adds a shipping fee" do
-      # TODO: Your test code here!
+      @online_order_one.total.must_equal 180.68
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
+      @online_order_two.total.must_equal 0
     end
   end
 

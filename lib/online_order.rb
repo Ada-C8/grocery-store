@@ -2,17 +2,20 @@ require 'csv'
 require 'pry'
 require 'awesome_print'
 require_relative 'order.rb'
+require_relative 'customer.rb'
 
 module Grocery
   class OnlineOrder < Order
 
-    attr_reader :id, :all_online_orders, :food_and_price, :status, :customer_id
+    attr_reader :id, :all_online_orders, :food_and_price, :status, :customer_id, :customer_object
 
     def initialize(id, food_and_price, customer_id, status)
       @id = id
       @food_and_price = food_and_price
       # super
+      # is this what I'm supposed to be doing here??
       @customer_id = customer_id
+      # @customer_object = Grocery::Customer.find("../support/customers.csv", @customer_id)
       @status = status
     end
 
@@ -22,6 +25,7 @@ module Grocery
         @food_and_price = {}
         @id = row[0].to_i
         @customer_id = row[2].to_i
+        # @customer_object = Grocery::Customer.find("./support/customers.csv", @customer_id)
         @status = row[3].to_sym
         @items = row[1].split(";")
         @items.each do |sep|
@@ -44,10 +48,28 @@ module Grocery
   end
 end
 
-  # all_the_online_orders = Grocery::OnlineOrder.all("./support/online_orders.csv")
-  #
+
+# def self.find_by_customer(file_name, customer_id)
+#   list_by_customer = ""
+#   self.all(file_name).each do |instance|
+#     if instance.customer_id == customer_id
+#       list_by_customer << instance
+#     end
+#   end
+#     if list_by_customer.length > 0
+#       return list_by_customer
+#     else
+#       return "No orders from that customer"
+#     end
+# end
+
+  all_the_online_orders = Grocery::OnlineOrder.all("./support/online_orders.csv")
+
   # ap all_the_online_orders
 
-  order = Grocery::OnlineOrder.find("./support/online_orders.csv", 1)
+  puts Grocery::OnlineOrder.find("./support/online_orders.csv", 1).status 
 
-  puts order.id 
+
+  # order = Grocery::OnlineOrder.find_by_customer("./support/online_orders.csv", 1)
+  #
+  # puts order

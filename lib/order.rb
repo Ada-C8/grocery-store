@@ -116,7 +116,7 @@ module Grocery
       @delivery_address = delivery_address
     end
 
-    def self.all(file_pathway)
+    def self.all
       customers = CSV.read('/Users/janedrozo/Desktop/grocery-store/support/customers.csv')
 
       all_customers = []
@@ -130,7 +130,7 @@ module Grocery
         #LONGHAND for delivery_address:
         # delivery_address = "#{row[2]},#{row[3]},#{row[4]},#{row[5]}"
 
-        all_customers << Customer.new(customer_id.to_f, email_address, delivery_address)
+        all_customers << Customer.new(customer_id.to_i, email_address, delivery_address)
       end
 
       return all_customers
@@ -140,7 +140,7 @@ module Grocery
       customers = Grocery::Customer.all
 
       customers.each do |customer_row_info|
-        if element.customer_id == customer_id
+        if customer_row_info.customer_id == customer_id
           return customer_row_info
         end
       end
@@ -154,4 +154,6 @@ end#of_module
 # ap Grocery::Order.all('/Users/janedrozo/Desktop/grocery-store/support/orders.csv')
 
 #TEST CUSTOMER
-ap Grocery::Customer.all('/Users/janedrozo/Desktop/grocery-store/support/customers.csv')
+# ap Grocery::Customer.all
+
+ap Grocery::Customer.find(1)

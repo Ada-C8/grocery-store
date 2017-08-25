@@ -19,30 +19,44 @@ module Grocery
       end
     end
 
-    def self.all
-      # orders = []
-      if @@orders.length > 0
-        return @@orders
+    def add_product(product_name, product_price)
+      #if the order status is processing, shipped, completed it won't do anything
+      #how do you test the status?
+      case @status
+      when :processing, :shipped, :completed
+        return false
+      when :pending, :paid
+        super
+      # else
+      #   return "lalalala"
       end
-      CSV.open("support/orders.csv", 'r').each do |line|
-        id = line[0].to_i
-        # line[1] = line[1].split(';')
-        # line[1] = line[1].gsub!':' '=>'
-        # products = line[1].to_h
-        # products = line[1]
-        products_hash = {}
-        products_arr = line[1].split';'
-        products_arr.each do |item_colon_price|
-          product_price = item_colon_price.split':'
-          products_hash[product_price[0]] = product_price[1].to_f
-
-        end
-
-        @@orders << self.new(id, products_hash)
-
-      end
-      return @@orders
     end
+
+    # def self.all
+    #   # orders = []
+    #   if @@orders.length > 0
+    #     return @@orders
+    #   end
+    #   CSV.open("support/orders.csv", 'r').each do |line|
+    #     id = line[0].to_i
+    #     # line[1] = line[1].split(';')
+    #     # line[1] = line[1].gsub!':' '=>'
+    #     # products = line[1].to_h
+    #     # products = line[1]
+    #     products_hash = {}
+    #     products_arr = line[1].split';'
+    #     products_arr.each do |item_colon_price|
+    #       product_price = item_colon_price.split':'
+    #       products_hash[product_price[0]] = product_price[1].to_f
+    #
+    #     end
+    #
+    #     @@orders << self.new(id, products_hash)
+    #
+    #   end
+    #   return @@orders
+    # end
+
 
     def self.find(id)
       super

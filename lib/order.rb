@@ -48,10 +48,10 @@ module Grocery
 
     def add_product(product_name, product_price)
       new_product = { product_name => product_price }
-      exists_in_products = false
-      @products.has_key?(product_name) ? exists_in_products = false : exists_in_products = true
+      can_successfully_add = false
+      @products.has_key?(product_name) ? can_successfully_add = false : can_successfully_add = true
       @products.merge!(new_product) { |key, old_value, new_value| old_value }
-      return exists_in_products
+      return can_successfully_add
     end
 
     def remove_product(product_name)

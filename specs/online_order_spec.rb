@@ -15,9 +15,9 @@ require_relative '../lib/order'
 
 describe "OnlineOrder" do
   before do
-    @online_order = Grocery::OnlineOrder.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21}, 25, :complete)
-    @order = Grocery::Order.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21})
-    @product_free = Grocery::OnlineOrder.new(35, {}, 25, :complete)
+    @online_order = Grocery::OnlineOrder.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21}, 25, :completed)
+
+
   end
   describe "#initialize" do
     it "Is a kind of Order" do
@@ -41,28 +41,33 @@ describe "OnlineOrder" do
 
   describe "#total" do
     it "Adds a shipping fee" do
+        order = Grocery::Order.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21})
       # TODO: Your test code here!
-      @online_order.total.must_equal (@order.total + 10)
+      @online_order.total.must_equal (order.total + 10)
       # (180.68)
     end
 
     it "Doesn't add a shipping fee if there are no products" do
+      product_free = Grocery::OnlineOrder.new(35, {}, 25, :completed)
       # TODO: Your test code here!
-      @product_free.total.must_equal 0
+      product_free.total.must_equal 0
     end
   end
 
   describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
       # TODO: Your test code here!
+      @online_order.add_product("Kale", 2.99).must_equal false
     end
 
     it "Permits action for pending and paid satuses" do
+      pending = Grocery::OnlineOrder.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21}, 25, :paid)
       # TODO: Your test code here!
+      pending.add_product("Kale", 2.99).must_equal true
     end
   end
 
-  describe "OnlineOrder.all" do
+  xdescribe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
       # TODO: Your test code here!
       # Useful checks might include:
@@ -75,7 +80,7 @@ describe "OnlineOrder" do
     end
   end
 
-  describe "OnlineOrder.find_by_customer" do
+  xdescribe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!
     end

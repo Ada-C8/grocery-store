@@ -116,21 +116,66 @@ describe "OnlineOrder" do
   end
 
   describe "OnlineOrder.all" do
-    it "Returns an array of all online orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - OnlineOrder.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The customer is present
-      #   - The status is present
-      # Feel free to split this into multiple tests if needed
+    before do
+      @all_online_orders = Grocery::OnlineOrder.all
     end
+
+    it "Returns an array of all online orders" do
+      @all_online_orders.must_be_instance_of Array
+
+      @all_online_orders.each do |online_order|
+        online_order.must_be_instance_of Grocery::OnlineOrder
+      end
+    end
+
+    it "Returns the same number of online orders as in csv file" do
+      num_orders = 100 # num in csv file
+      @all_online_orders.length.must_equal num_orders
+    end
+
+    it "Each online order must reference a Customer object" do
+      @all_online_orders.each do |online_order|
+        online_order.customer.must_be_instance_of Grocery::Customer
+      end
+    end
+
+    it "Each online order must have a status" do
+      status_list = [:pending, :paid, :processing, :shipped, :complete]
+
+      @all_online_orders.each do |online_order|
+        status_list.must_include online_order.status
+      end
+    end
+
   end
 
   describe "OnlineOrder.find_by_customer" do
+    before do
+      # customer 25 has 6 online orders
+      @expected_id = 25
+      @customer_orders = Grocery::OnlineOrder.find_by_customer(@expected_id)
+    end
+
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+      @customer_orders.must_be_instance_of Array
+
+      @customer_orders.each do |order|
+        order.must_be_instance_of Grocery::OnlineOrder
+        order.customer.id.must_equal @expected_id
+      end
+    end
+
+    it "Finds all online orders for a given customer ID" do
+      all_online_orders = Grocery::OnlineOrder.all
+      expected_num_orders = 0
+
+      all_online_orders.each do |online_order|
+        if online_order.customer.id == @expected_id
+          expected_num_orders += 1
+        end
+      end
+
+      @customer_orders.length.must_equal expected_num_orders
     end
   end
 end

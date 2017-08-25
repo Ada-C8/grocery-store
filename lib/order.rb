@@ -1,4 +1,6 @@
 require 'csv'
+require_relative 'order'
+require_relative 'customer'
 
 module Grocery
   class Order
@@ -22,14 +24,13 @@ module Grocery
     end
 
     def split_order_info(products)
-        @product_list = products.split(";")
+        @product_list = products.join(";").split(";")
         return @product_list
     end
 
     def get_products(info_array)
       @products = {}
-      product_list2 = @product_list.join(";").split(";")
-      product_list2.each do |productandprice|
+      @product_list.each do |productandprice|
         prodprice_arr = productandprice.split(":")
         @products[prodprice_arr[0]] = prodprice_arr[1]
       end
@@ -39,7 +40,7 @@ module Grocery
     def self.all
       list = []
       CSV.read("../support/orders.csv").each do |row|
-        list << Order.new(row[0], row[1..-1].join(";"))
+        list << Order.new(row[0], row[1..-1])
       end
       list
     end
@@ -79,12 +80,12 @@ module Grocery
     end
   end
 
-myord = Order.new(CSV.read("../support/orders.csv")[0][0],CSV.read("../support/orders.csv")[0][1])
-  puts myord.add_product("nameofprod","45")
-  puts myord.total
- puts myord.id
- puts myord.products
- puts Order.all
-puts Order.find("1")
+# myord = Order.new(CSV.read("../support/orders.csv")[0][0],CSV.read("../support/orders.csv")[0][1..-1])
+# puts myord.add_product("nameofprod","45")
+#   puts myord.total
+#  puts myord.id
+#  puts myord.products
+#  puts Order.all
+# puts Order.find("1")
 
 end #module Grocery

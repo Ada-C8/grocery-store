@@ -4,7 +4,7 @@ require_relative 'customer'
 
 module Grocery
   class OnlineOrder < Order
-    attr_reader :customer_id, :status, :id, :products, :product_list, :customer
+    attr_reader :id, :products, :product_list, :status, :customer
     def initialize(id, products)
       @id = id
       @products = products
@@ -12,6 +12,9 @@ module Grocery
       get_order_status(@product_list)
       get_customer(@product_list)
       get_products(@product_list)
+      @customer
+      @status
+
 
       # @product_list = products.split(",")
       # split_order_info(@products)
@@ -26,7 +29,7 @@ module Grocery
     end
 
     def split_order_info(products)
-        @product_list = products.split(",")
+        @product_list = products.join(";").split(";")
         return @product_list
     end
     def get_order_status(info_array)
@@ -46,13 +49,13 @@ module Grocery
     #   return@products
     # end
     #
-    # def self.all
-    #   list = []
-    #   CSV.read("../support/online_orders.csv").each do |row|
-    #     list << OnlineOrder.new(row[0], row[1..-1].join(","))
-    #   end
-    #   list
-    # end
+    def self.all
+      list = []
+      CSV.read("../support/online_orders.csv").each do |row|
+        list << OnlineOrder.new(row[0], row[1..-1])
+      end
+      list
+    end
 
     def self.find_by_customer(customer_id)
       list = []
@@ -72,8 +75,10 @@ module Grocery
       if self.status == :pending || self.status == :paid
         super
         return true
+      else
+        raise ArgumentError.new("Order's status is #{self.status.to_s}.")
       end
-      raise ArgumentError.new("Order's status is #{self.status.to_s}.")
+      return true
     end
 
     def total
@@ -82,8 +87,15 @@ module Grocery
     end
   end
 
-myord = OnlineOrder.new("1", "prod:2;prad:3,1,pending")
 
+
+
+
+puts OnlineOrder.find_by_customer("2")
+ myord = OnlineOrder.new(CSV.read("../support/online_orders.csv")[1][0],CSV.read("../support/online_orders.csv")[1][1..-1])
+puts myord.products
+puts myord.product_list
+puts myord.status
 puts myord.status
 puts myord.customer
 puts myord.products
@@ -93,12 +105,6 @@ puts myord.status
 puts myord.id
 puts myord.products
 puts OnlineOrder.all
-
-puts OnlineOrder.find_by_customer("2")
- myord = OnlineOrder.new(CSV.read("../support/online_orders.csv")[0][0],CSV.read("../support/online_orders.csv")[0][1..-1].join(","))
-puts myord.products
-puts myord.product_list
-puts myord.status
 
 
 end

@@ -20,15 +20,28 @@ describe "Order Wave 1" do
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Returns the total from the collection of products" do
-      products = ["banana:1.99,cracker:3.00"]
+      products = ["banana:1.99;cracker:3.00"]
       order = Grocery::Order.new(1337, products)
+      products_pairs = products.join(";").split(";")
+      div_products_pairs = {}
+      products_pairs.each do |pair|
+        prod_price = pair.split(":")
+        div_products_pairs[prod_price[0]] = prod_price[1].to_f
+      end
 
-      sum = products.values.inject(0, :+)
-      expected_total = sum + (sum * 0.075).round(2)
+      sum = 0
 
-      order.total.must_equal expected_total
+      div_products_pairs.each do |product, price|
+          sum += price
+      end
+
+
+
+      sum = sum + (sum * 7.5/100).round(2)
+
+      order.total.must_equal sum
     end
 
     it "Returns a total of zero if there are no products" do
@@ -40,8 +53,8 @@ describe "Order Wave 1" do
 
   describe "#add_product" do
     it "Increases the number of products" do
-      products = ["banana:1.99,cracker:3.00"]
-      before_count = products.count
+      products = ["banana:1.99;cracker:3.00"]
+      before_count = products.join(";").split(";").count
       order = Grocery::Order.new(1337, products)
 
       order.add_product("salad",4.25)
@@ -50,7 +63,7 @@ describe "Order Wave 1" do
     end
 
     it "Is added to the collection of products" do
-      products = ["banana:1.99,cracker:3.00"]
+      products = ["banana:1.99;cracker:3.00"]
       order = Grocery::Order.new(1337, products)
 
       order.add_product("sandwich", 4.25)
@@ -58,7 +71,7 @@ describe "Order Wave 1" do
     end
 
     it "Returns false if the product is already present" do
-      products = ["banana:1.99,cracker:3.00"]
+      products = ["banana:1.99;cracker:3.00"]
 
       order = Grocery::Order.new(1337, products)
       before_total = order.total
@@ -71,7 +84,7 @@ describe "Order Wave 1" do
     end
 
     it "Returns true if the product is new" do
-      products = ["banana:1.99,cracker:3.00"]
+      products = ["banana:1.99;cracker:3.00"]
       order = Grocery::Order.new(1337, products)
 
       result = order.add_product("salad", 4.25)
@@ -82,8 +95,8 @@ describe "Order Wave 1" do
 
   describe "#remove_product" do
     it "decreases the number of products" do
-      products = ["banana:1.99,cracker:3.00"]
-      before_count = products.count
+      products = ["banana:1.99;cracker:3.00"]
+      before_count = products.join(";").split(";").count
       order = Grocery::Order.new(1337, products)
 
       order.remove_product("banana")
@@ -92,7 +105,7 @@ describe "Order Wave 1" do
     end
 
     it "Is removed to the collection of products" do
-      products = ["banana:1.99,cracker:3.00"]
+      products = ["banana:1.99;cracker:3.00"]
       order = Grocery::Order.new(1337, products)
 
       order.remove_product("banana")
@@ -100,7 +113,7 @@ describe "Order Wave 1" do
     end
 
     it "Returns false if the product is not present" do
-      products = ["banana:1.99,cracker:3.00"]
+      products = ["banana:1.99;cracker:3.00"]
 
       order = Grocery::Order.new(1337, products)
       before_total = order.total
@@ -113,7 +126,7 @@ describe "Order Wave 1" do
     end
 
     it "Returns true if the product is removed" do
-      products = ["banana:1.99,cracker:3.00"]
+      products = ["banana:1.99;cracker:3.00"]
       order = Grocery::Order.new(1337, products)
 
       result = order.remove_product("banana")
@@ -126,7 +139,7 @@ end
 describe "Order Wave 2" do
 
   # before do
-  #   products = { "banana" => 1.99, "cracker" => 3.00 }
+  #   products = { "banana" => 1.99; "cracker" => 3.00 }
   #   order = Grocery::Order.new(1337, products)
   # end
 

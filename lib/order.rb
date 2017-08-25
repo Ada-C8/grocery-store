@@ -41,46 +41,46 @@ module Grocery
     end
 
 
-  def self.find(id)
-    @@order_objects.each do |object|
-      if object.id == id
-        return object
+    def self.find(id)
+      @@order_objects.each do |object|
+        if object.id == id
+          return object
+        end
       end
+      raise ArgumentError.new("That is not an existing order")
     end
-    raise "That is not an existing order"
-  end
 
 
-  def total
-    #: implement total
-    @total = 0
-    @products.each do |product, price|
-      @total += price + price*(0.075)
-    end
-    return @total.round(2)
-  end
-
-  def add_product(product_name, product_price)
-    #  implement add_product
-    @products.each do |product, price|
-      if product == product_name
-        return false
+    def total
+      #: implement total
+      @total = 0
+      @products.each do |product, price|
+        @total += price + price*(0.075)
       end
+      return @total.round(2)
     end
-    @products[product_name] = product_price
-    return true
-  end
 
-  def remove_product(product_name)
-    @original_length = @products.length
-    @products.delete(product_name)
-    if products.length == @original_length
-      return false
-    else
+    def add_product(product_name, product_price)
+      #  implement add_product
+      @products.each do |product, price|
+        if product == product_name
+          return false
+        end
+      end
+      @products[product_name] = product_price
       return true
     end
+
+    def remove_product(product_name)
+      @original_length = @products.length
+      @products.delete(product_name)
+      if products.length == @original_length
+        return false
+      else
+        return true
+      end
+    end
   end
-end
 end
 
 # Grocery::Order.all

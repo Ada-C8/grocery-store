@@ -17,8 +17,10 @@ describe "OnlineOrder" do
     it "Is a kind of Order" do
       id = 1500
       products = {"Spumoni" => 9.87}
+      customer_id = 3333333
+      status = "completed"
 
-      Grocery::OnlineOrder.new(id, products).must_be_kind_of Grocery::Order
+      Grocery::OnlineOrder.new(id, products, customer_id, status).must_be_kind_of Grocery::Order
     end
 
     it "Can access Customer object" do

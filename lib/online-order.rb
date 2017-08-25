@@ -6,20 +6,23 @@ module Grocery
   class OnlineOrder < Order
     attr_reader :customer_id, :status, :id, :products, :product_list, :customer
     def initialize(id, products)
-      super
-      # @product_list = products.split(",")
+      @id = id
+      @products = products
       split_order_info(@products)
       get_order_status(@product_list)
-      # @status = @product_list.pop.to_sym
-      # @customer = Customer.find(@product_list.pop.to_s)
       get_customer(@product_list)
+      get_products(@product_list)
+
+      # @product_list = products.split(",")
+      # split_order_info(@products)
+      # @status = @product_list.pop.to_sym
+      # @customer Customer.find(@product_list.pop.to_s)
     #   @products = {}
     #   @product_list2 = @product_list.join.split(";")
     #   @product_list2.each do |productandprice|
     #    prodprice_arr = productandprice.split(":")
     #    @products[prodprice_arr[0]] = prodprice_arr[1]
     #  end
-    get_products(@product_list)
     end
 
     def split_order_info(products)
@@ -33,23 +36,23 @@ module Grocery
     def get_customer(info_array)
       @customer = Customer.find(info_array.pop.to_s)
     end
-    def get_products(info_array)
-      @products = {}
-      product_list2 = @product_list.join.split(";")
-      product_list2.each do |productandprice|
-        prodprice_arr = productandprice.split(":")
-        @products[prodprice_arr[0]] = prodprice_arr[1]
-      end
-      return@products
-    end
-
-    def self.all
-      list = []
-      CSV.read("../support/online_orders.csv").each do |row|
-        list << OnlineOrder.new(row[0], row[1..-1].join(","))
-      end
-      list
-    end
+    # def get_products(info_array)
+    #   @products = {}
+    #   product_list2 = @product_list.join.split(";")
+    #   product_list2.each do |productandprice|
+    #     prodprice_arr = productandprice.split(":")
+    #     @products[prodprice_arr[0]] = prodprice_arr[1]
+    #   end
+    #   return@products
+    # end
+    #
+    # def self.all
+    #   list = []
+    #   CSV.read("../support/online_orders.csv").each do |row|
+    #     list << OnlineOrder.new(row[0], row[1..-1].join(","))
+    #   end
+    #   list
+    # end
 
     def self.find_by_customer(customer_id)
       list = []

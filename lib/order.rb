@@ -7,6 +7,8 @@ module Grocery
     def initialize(id, products)
       @id = id
       @products = products
+      split_order_info(@products)
+      get_products(@product_list)
     #   @products = products.join(",")
     #   @product_list = @products.split(",")
     #   @products = {}
@@ -15,9 +17,8 @@ module Grocery
     #    prodprice_arr = productandprice.split(":")
     #    @products[prodprice_arr[0]] = prodprice_arr[1]
     #  end
-  
-      split_order_info(@products)
-      get_products(@product_list)
+
+
     end
 
     def split_order_info(products)

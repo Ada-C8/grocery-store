@@ -19,26 +19,21 @@ describe "OnlineOrder" do
       food_and_price = {}
       customer_id = 5
       status = :pending
-      online_order = Grocery::OnlineOrder.new(id, food_and_price, customer_id, status)
+      customer_object = {}
+      online_order = Grocery::OnlineOrder.new(id, food_and_price, customer_id, customer_object, status)
       online_order.must_be_kind_of Grocery::Order
     end
 
     it "Can access Customer object" do
-      # TODO: Your test code here!
+      Grocery::OnlineOrder.find("./support/online_orders.csv", 1).customer_object.class.must_equal Grocery::Customer
+
+        Grocery::OnlineOrder.find("./support/online_orders.csv", 50).customer_object.class.must_equal Grocery::Customer
     end
 
     it "Can access the online order status" do
       Grocery::OnlineOrder.find("./support/online_orders.csv", 1).status.must_equal :complete
 
       Grocery::OnlineOrder.find("./support/online_orders.csv", 100).status.must_equal :pending
-
-
-      id = 1337
-      food_and_price = {}
-      customer_id = 5
-      status = :pending
-      online_order = Grocery::OnlineOrder.new(id, food_and_price, customer_id, status)
-      online_order.status.must_equal :pending 
     end
   end
 
@@ -66,12 +61,16 @@ describe "OnlineOrder" do
     it "Returns an array of all online orders" do
       # TODO: Your test code here!
       # Useful checks might include:
-      #   - OnlineOrder.all returns an array
       #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The customer is present
-      #   - The status is present
-      # Feel free to split this into multiple tests if needed
+
+      all_the_online_orders = Grocery::OnlineOrder.all("./support/online_orders.csv")
+      all_the_online_orders.must_be_instance_of Array
+
+      all_the_online_orders.length.must_equal 100
+
+      all_the_online_orders[2].must_respond_to :customer_object
+
+      all_the_online_orders[97].must_respond_to :status
     end
   end
 

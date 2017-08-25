@@ -14,7 +14,14 @@ module Grocery
 # 1,leonard.rogahn@hagenes.org,71596 Eden Route,Connellymouth,LA,98872-9105
 
     def self.all
-      CSV.open("../support/customers.csv", 'r').each
+      customers = []
+      CSV.open("../support/customers.csv", 'r').each do |line|
+        id = line[0].to_i
+        address = {}
+        address_arr = line[2].split','
+
+
+      return customers
     end # self.all
 
     def self.find(id)

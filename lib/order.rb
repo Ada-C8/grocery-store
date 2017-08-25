@@ -1,29 +1,8 @@
 require 'csv'
 
-hash = {}
-
-CSV.open("support/orders.csv", "r").each do |line|
-   hash[line[0].to_i] = line[1]
- end
-
-hash.each do |k, v|
-  hash[k] = v.split(";")
-end
-
-hash.each do |k,v|
-  product_hash = {}
-  v.each do |string|
-    order = string.split(":")
-    product_hash[order[0]] = order[1].to_f
-  end
-  hash[k] = product_hash
-end
-
 module Grocery
   class Order
     attr_reader :id, :products
-
-@@array = []
 
     def initialize(id, products)
       @id = id
@@ -33,8 +12,6 @@ module Grocery
         products.each {|product, value| @products[product] = value}
       end
 
-      item_array = [@id, @products]
-      @@array << item_array
     end
 
     def total
@@ -61,27 +38,109 @@ module Grocery
       else
         return @products
       end
+    end
 
-#class method
-#returns a collection of order instances, representing all the orders
-#in the CSV file
-
+    # class method
+    # returns a collection of order instances, representing all the orders
+    # in the CSV file
     def self.all
-    end
+      all_orders = []
 
-#class method
-    def self.find(id)
-    end
+      CSV.open("support/orders.csv", "r").each do |line|
+        puts "Read line #{line}"
+        id = line[0].to_i
+        product_array = line[1].split(/;|:/)
+        puts "decoded to id #{id}, products #{product_array}"
+
+        product_hash = {}
+        product_name = nil
+        product_array.each_with_index do |value, i|
+          if i % 2 == 0
+            product_name = value
+          elsif i % 2 == 1
+            product_hash[product_name] = value.to_f
+          end
+        end
+
+        puts "turned product array into hash #{product_hash}"
+
+        order = Order.new(id, product_hash)
+        all_orders << order
+        puts
+      end
+
 
     end
 
   end
+
 end
+order = Grocery::Order.all
 
 
-array = []
-hash[1].each_value do |product, value|
-  array << [product] = value
-end
 
-puts array
+
+
+### additional code that I worked on to try to get things to run ###
+
+### create 2 loops to split string into useful data sets
+## created a series of arrays within a hash, within another hash
+# hash = {}
+
+# CSV.open("support/orders.csv", "r").each do |line|
+#    hash[line[0].to_i] = line[1]
+#  end
+#
+# hash.each do |k, v|
+#   hash[k] = v.split(";")
+# end
+#
+#
+# hash.each do |k,v|
+#   #product_hash = {}
+#   v.each do |string|
+#     order = string.split(":")
+#     myOrder[order[0]] = order[1].to_f
+#   end
+#   hash[k] = product_hash
+# end
+#
+# puts hash
+
+
+
+  #   CSV.open("support/orders.csv", "r").each do |line|
+  #     string = line[1..-1]
+  #     string.split(/;|:/)
+  #
+  #   hash.each do |k, v|
+  #     @@array << v
+  #   end
+  #   return @@array
+  # end
+
+
+#
+#
+# object = Grocery::Order.new(1, {"banana" => 1.99, "cracker" => 3.00 })
+# puts object.id
+# puts object.products
+
+
+# CSV.open("support/orders.csv", "r").each do |line|
+#   # hash[line[0].to_i] = line[1]
+#   string = line[1].split(/;|:/)
+#   print string
+#   # hash[line[0]] = string
+#   # print hash
+#   string.each_with_index do |value, i|
+#     if i % 2 == 0
+#       data << value.to_s
+#     elsif i % 2 == 1
+#       data << value.to_f
+#     end
+#   end
+#       all_order << Order.new(hash[line[0].to_i],data)
+#       return all_order
+# end
+# end

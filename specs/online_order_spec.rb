@@ -14,21 +14,24 @@ require_relative '../lib/order'
 
 describe "OnlineOrder" do
   describe "#initialize" do
-    it "Is a kind of Order" do
+    before do
+      #test data
       id = 1500
       products = {"Spumoni" => 9.87}
-      customer_id = 3333333
+      customer_id = 3333
       status = "completed"
-
-      Grocery::OnlineOrder.new(id, products, customer_id, status).must_be_kind_of Grocery::Order
+      @test_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+    end
+    it "Is a kind of Order" do
+      @test_order.must_be_kind_of Grocery::Order
     end
 
     it "Can access Customer object" do
-      # TODO: Your test code here!
+      @test_order.c_id.must_equal 3333
     end
 
     it "Can access the online order status" do
-      # TODO: Your test code here!
+      @test_order.status.must_equal "completed"
     end
   end
 

@@ -5,8 +5,10 @@ require_relative 'order'
 module Grocery
   class OnlineOrder < Order
 
+    attr_reader :customer_id, :status
+
     def initialize(id, products, customer_id, status)
-      super(id, proucts)
+      super(id, products)
       @customer_id = customer_id
       @status = status.to_sym
     end

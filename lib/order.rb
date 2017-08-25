@@ -3,8 +3,7 @@ require 'pry'
 
 module Grocery
   class Order
-    attr_reader :id
-    attr_accessor :products
+    attr_reader :id, :products
 
     @@all_orders = []
 

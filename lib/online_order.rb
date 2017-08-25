@@ -52,16 +52,16 @@ class OnlineOrder < Grocery::Order
     customer_orders = []
     # (1..100).each do
     OnlineOrder.all.each do |online_order|
-      if customer_id == online_order.customer.customer_id
+      if customer_id == online_order.customer.id
         customer_orders.push(online_order)
       end
     end
     return customer_orders
   end
 end
+# puts OnlineOrder.find_by_customer(25).length
 
 # puts OnlineOrder.all
-puts OnlineOrder.find_by_customer(25)
   # puts OnlineOrder.find(1).status
   # test = OnlineOrder.new("customer")
   # puts test.status

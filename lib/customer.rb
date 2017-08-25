@@ -6,9 +6,9 @@ module Grocery
     # include Grocery
 
 
-    attr_reader :customer_id, :email, :address
-    def initialize(customer_id, email, address)
-      @customer_id = customer_id
+    attr_reader :id, :email, :address
+    def initialize(id, email, address)
+      @id = id
       @email = email
       @address = address
     end

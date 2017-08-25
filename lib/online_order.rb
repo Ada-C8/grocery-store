@@ -61,6 +61,10 @@ module Grocery
       return @all_online_orders
     end #self.all
 
+    #Add this method so that the same self.find method in Order and OnlineOrder can access differnt arrays! I will override this method in the OnlineOrder class to return @all_online_orders
+        def self.return_csv_array
+          return @all_online_orders
+        end
     def self.find(id)
       # self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
 

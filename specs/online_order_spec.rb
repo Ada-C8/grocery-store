@@ -155,12 +155,14 @@ describe "OnlineOrder" do
           order_products[product_price[0]] = product_price[1].to_f
         end
         products = order_products
-        all_orders << Grocery::Order.new(id, products)
+        customer_id = line[2]
+        status = line[3]
+        all_orders << Grocery::OnlineOrder.new(id, products, customer_id, status)
       end
 
 
-      Grocery::Order.all
-      test = Grocery::Order.find(all_orders.length)
+      Grocery::OnlineOrder.all
+      test = Grocery::OnlineOrder.find(all_orders.length)
 
       #Not producing the same list of products....
       test.products.must_equal all_orders[-1].products

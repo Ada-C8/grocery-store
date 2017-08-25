@@ -70,6 +70,11 @@ module Grocery
       return @all_orders
     end #all
 
+#Add this method so that the same self.find method in Order and OnlineOrder can access differnt arrays! I will override this method in the OnlineOrder class to return @all_online_orders
+    def self.return_csv_array
+      return @all_orders
+    end
+
     def self.find(id_to_test)
       #self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
       # I chose not to do this because in a different situation where we loaded the orders in a differnt way it wouldn't work
@@ -86,8 +91,8 @@ module Grocery
 #TODO: change this so that instead of saying @@all_orders.any? write a class method that will return @@all_orders (in Order class) and call class_method_name.any? instead
 #TODO: then in your subclass (OnlineOrder) you can override the class method discribed above to return @@all_online_orders instead
 #TODO: before doing the two above TODOs change @@all_orders and @@all_online_orders to instance variables.
-      if  @all_orders.any?{|instance| instance.id == id_to_test.to_s}
-            @all_orders.each do |order|
+      if  return_csv_array.any?{|instance| instance.id == id_to_test.to_s}
+            return_csv_array.each do |order|
               if order.id == id_to_test.to_s
                 return order
               end #if

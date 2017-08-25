@@ -71,12 +71,27 @@ describe "OnlineOrder" do
 
   describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
-      
-      # TODO: Your test code here!
+      id = 12
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      customer_id = 1
+      status = :shipping
+      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+
+      online_order.add_product("apple", 3.00)
+      online_order.products.must_equal products
+
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      id = 12
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      customer_id = 1
+      status = :pending
+      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+      updated_products ={ "banana" => 1.99, "cracker" => 3.00, "apple" => 3.00}
+
+      online_order.add_product("apple", 3.00)
+      online_order.products.must_equal products
     end
   end
 

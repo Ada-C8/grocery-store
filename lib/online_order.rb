@@ -40,8 +40,18 @@ module Grocery
       raise ArgumentError.new "This order doesn't exist"
     end
 
-    def self.find_by_customer(customer_id)
-
+    def self.find_by_customer(customer_id, csv_file)
+      customer_orders = []
+      online_orders = self.all(csv_file)
+      online_orders.each do |order|
+        if order.customer.id == customer_id
+          customer_orders << order
+        end
+      end
+      if customer_orders.length != 0
+        return customer_orders
+      end
+      raise ArgumentError.new "This customer doesn't exist"
     end
 
     def get_customer(customer_id)
@@ -69,9 +79,19 @@ module Grocery
   end
 end
 
-# orders = Grocery::OnlineOrder.all('./support/online_orders.csv')
+order = Grocery::OnlineOrder.find_id(1, './support/online_orders.csv')
 
-p Grocery::OnlineOrder.find_id(15,'./support/online_orders.csv')
+ap order
+
+
+
+
+
+# ap Grocery::OnlineOrder.find_by_customer(20, './support/online_orders.csv')
+
+# orders = Grocery::OnlineOrder.all('./support/online_orders.csv')
+#
+# p Grocery::OnlineOrder.find_id(15,'./support/online_orders.csv')
 
 
 

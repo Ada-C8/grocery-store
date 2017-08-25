@@ -14,6 +14,8 @@ require 'pry'
 describe "OnlineOrder" do
   before do
       @test_order = Grocery::OnlineOrder.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21}, 25, "complete")
+      @test_order2 = Grocery::OnlineOrder.new(2, {}, 26, "pending")
+
 
       @customer_first = Grocery::Customer.new(25, "leonard.rogahn@hagenes.org", {address: "71596 Eden Route", city: "Connellymouth", state: "LA", zipcode: "98872-9105"})
     end
@@ -36,11 +38,11 @@ describe "OnlineOrder" do
 
   describe "#total" do
     it "Adds a shipping fee" do
-      # TODO: Your test code here!
+      @test_order.total.must_equal 180.68
     end
 
-    xit "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
+    it "Doesn't add a shipping fee if there are no products" do
+      @test_order2.total.must_equal 0
     end
   end
 

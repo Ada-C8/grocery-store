@@ -1,71 +1,121 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require_relative '/Users/kimberley/ada/week-three/grocery-store/lib/online-order.rb'
+require_relative '../lib/customer'
 
-# TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/online_order'
-# You may also need to require other classes here
-
-# Because an OnlineOrder is a kind of Order, and we've
-# already tested a bunch of functionality on Order,
-# we effectively get all that testing for free! Here we'll
-# only test things that are different.
-
-xdescribe "OnlineOrder" do
+describe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
-      # Check that an OnlineOrder is in fact a kind of Order
+      online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :paid)
 
-      # Instatiate your OnlineOrder here
-      # online_order =
-      # online_order.must_be_kind_of Grocery::Order
+      online_order.must_be_kind_of Grocery::Order
+      online_order.must_be_instance_of Grocery::OnlineOrder
     end
 
     it "Can access Customer object" do
-      # TODO: Your test code here!
+      online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :paid)
+
+      online_order.customer.must_be_instance_of Grocery::Customer
     end
 
     it "Can access the online order status" do
-      # TODO: Your test code here!
+      online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :paid)
+
+      online_order.must_respond_to :status
+      online_order.status.must_be_instance_of Symbol
+      online_order.status.must_equal :paid
     end
   end
 
   describe "#total" do
     it "Adds a shipping fee" do
-      # TODO: Your test code here!
+      online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :paid)
+
+      test_total = (4.99 + (4.99 * 0.075).round(2)) + 10
+      online_order.total.must_equal test_total
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
+      online_order = Grocery::OnlineOrder.new(53, {}, 24, status: :paid)
+
+      online_order.total.must_equal 0
     end
   end
 
   describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
+      online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :processing)
+      proc {online_order.add_product("salmon", 8.99)}.must_raise ArgumentError
+
+      online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :shipped)
+      proc {online_order.add_product("salmon", 8.99)}.must_raise ArgumentError
+
+      online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :completed)
+      proc {online_order.add_product("salmon", 8.99)}.must_raise ArgumentError
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :paid)
+
+      online_order.add_product("salmon", 8.99)
+      online_order.products.count.must_equal 3
+
+      online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :pending)
+
+      online_order.add_product("salmon", 8.99)
+      online_order.products.count.must_equal 3
     end
   end
 
   describe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - OnlineOrder.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The customer is present
-      #   - The status is present
-      # Feel free to split this into multiple tests if needed
+      Grocery::OnlineOrder.all.must_be_instance_of Array
+
+      Grocery::OnlineOrder.all[17].must_be_instance_of Grocery::OnlineOrder
     end
+
+    it "each object in the array is an order" do
+      order = Grocery::OnlineOrder.all[1]
+      order.must_be_instance_of Grocery::OnlineOrder
+
+      order = Grocery::OnlineOrder.all[99]
+      order.must_be_instance_of Grocery::OnlineOrder
+
+      order = Grocery::OnlineOrder.all[12]
+      order.must_be_instance_of Grocery::OnlineOrder
+    end
+
+    it "has correct order status" do
+      order = Grocery::OnlineOrder.all[0]
+      order.status.must_equal :complete
+
+      order = Grocery::OnlineOrder.all[99]
+      order.status.must_equal :pending
+
+      Grocery::OnlineOrder.all[18].status.must_be_instance_of Symbol
+    end
+
+    it "The number of online orders is correct" do
+      Grocery::OnlineOrder.all.count.must_equal 100
+    end
+
   end
-  
-  describe "OnlineOrder.find_by_customer" do
-    it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
-    end
+end
+
+describe "OnlineOrder.find_by_customer" do
+  it "Returns an array of online orders for a specific customer  ID" do
+    Grocery::OnlineOrder.find_by_customer(26).must_be_instance_of Array
+
+    orders = Grocery::OnlineOrder.find_by_customer(26)
+    orders[0].must_be_instance_of Grocery::OnlineOrder
+  end
+
+  it "Raises an error for a customer that doesn't exist" do
+    proc {Grocery::OnlineOrder.find_by_customer(1000)}.must_raise ArgumentError
+
+    proc {Grocery::OnlineOrder.find_by_customer(-3)}.must_raise ArgumentError
+
+    proc {Grocery::OnlineOrder.find_by_customer(0)}.must_raise ArgumentError
   end
 end

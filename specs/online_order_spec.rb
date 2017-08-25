@@ -11,27 +11,18 @@ require_relative '../lib/order'
 # we effectively get all that testing for free! Here we'll
 # only test things that are different.
 
-xdescribe "OnlineOrder" do
+describe "OnlineOrder" do
 
-  # before do
-  #   id = 100
-  #   products = { "banana" => 1.99, "cracker" => 3.00 }
-  #   customer = 23
-  #   status = pending
-  # end
-  #
-  #   @online_order = OnlineOrder.new(id, products, customer, status)
-  #
+  before do
+    @online_order = OnlineOrder.new(23, {"Cherries" => 90.16}, 10, "complete")
+  end
 
-  xdescribe "#initialize" do
+  describe "#initialize" do
     it "Is a kind of Order" do
       @online_order.must_be_kind_of Grocery::Order
-      # Instatiate your OnlineOrder here
-      # online_order =
-      # online_order.must_be_kind_of Grocery::Order
     end
 
-    xit "Can access Customer object" do
+    it "Can access Customer object" do
       @online_order.customer.must_be_kind_of Grocery::Customer
     end
 

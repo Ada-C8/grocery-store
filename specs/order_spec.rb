@@ -114,7 +114,7 @@ end
 describe "Order Wave 2" do
 
   before do
-    @orders = Grocery::Order.all('support/orders.csv')
+    @orders = Grocery::Order.all
   end
 
   describe "Order.all" do

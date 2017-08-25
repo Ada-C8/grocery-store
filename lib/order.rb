@@ -6,7 +6,6 @@ module Grocery
 
     def initialize(id, products)
       #raise argument error if id or order is a negative number
-
       if id < 1
         raise ArgumentError.new("Invalid id: #{id}")
       end
@@ -59,16 +58,14 @@ module Grocery
       end
     end
 
-    def self.all(file)
+    def self.all
       #return collection of order objects (don't need class variable)
-
       id = nil
       products_arr = []
       products = {}
       all_orders = []
-      csv_file = (CSV.open(file, 'r'))
 
-      csv_file.each do |line|
+      CSV.open('support/orders.csv', 'r').each do |line|
         id = line[0].to_i
         products_arr = line[1].split(';')
         products = Hash[products_arr.map { |i| i.split(":") }]
@@ -82,7 +79,7 @@ module Grocery
     end
 
     def self.find(id) #have to pass in csv file?
-      orders = Grocery::Order.all('support/orders.csv')
+      orders = Grocery::Order.all
 
       id_arr = []
       orders.each do |order|
@@ -99,8 +96,7 @@ module Grocery
   end#Order
 end
 
-
-
+# puts Grocery::Order.all.length
 
 
 # def self.all

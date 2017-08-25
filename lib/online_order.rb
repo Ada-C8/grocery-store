@@ -5,8 +5,9 @@ require_relative 'customer.rb'
 
 module Grocery
   class OnlineOrder < Order
-    attr_reader :customer, :status, :customer_id
+    attr_reader :customer, :status, :customer_id, :products_list
     @@online_orders = []
+
     def initialize(id, collection, customer, status)
       @id = id
       @products_list = collection
@@ -58,6 +59,19 @@ module Grocery
         end
       end
       return customers_orders
+    end
+
+    def add_product(name, price)
+      @no_action = [:shipped, :processing, :complete]
+      @action = [:paid, :pending]
+
+      if @no_action.include?(@status)
+        return "Sorry, you cannot add items at this time."
+
+      elsif @action.include?(@status)
+        @products_list.update(name => price)
+      end
+
     end
 
 

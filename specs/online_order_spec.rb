@@ -45,13 +45,17 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "#add_product" do
+  describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
+      @online_order.add_product("hummus", 2.41).must_match "Sorry, you cannot add items at this time."
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      @online_order2 = Grocery::OnlineOrder.new(101, {"bananas" => 2.20}, 12, :pending)
+      original_list = @online_order2.products_list
+
+      @online_order2.add_product("hummus", 2.41)
+      @online_order2.products_list.wont_match original_list
     end
   end
 

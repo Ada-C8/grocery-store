@@ -10,9 +10,9 @@ describe "Customer" do
 
       test_customer = Grocery::Customer.new(1, "leonard.rogahn@hagenes.org", {address: "71596 Eden Route", city: "Connellymouth", state: "LA", zipcode: "98872-9105"})
 
-      test_customer.must_respond_to :id && :email && :address
-      test_customer.id.must_equal 1
-      test_customer.id.must_be_kind_of Integer
+      test_customer.must_respond_to :customer_id && :email && :address
+      test_customer.customer_id.must_equal 1
+      test_customer.customer_id.must_be_kind_of Integer
 
       address = {:address=>"71596 Eden Route", :city=>"Connellymouth", :state=>"LA", :zipcode=>"98872-9105"}
 
@@ -40,7 +40,7 @@ describe "Customer" do
     customer match what's in the CSV file" do
       test_customer = Grocery::Customer.new(1, "leonard.rogahn@hagenes.org", {address: "71596 Eden Route", city: "Connellymouth", state: "LA", zipcode: "98872-9105"})
       # test_customer = Grocery::Customer.all
-      Grocery::Customer.all.first.id.must_equal test_customer.id
+      Grocery::Customer.all.first.customer_id.must_equal test_customer.customer_id
 
       Grocery::Customer.all.first.email.must_equal test_customer.email
     end # id and email match
@@ -49,17 +49,20 @@ describe "Customer" do
 
   describe "Customer.find" do
     it "Can find the first customer from the CSV" do
-      Grocery::Customer.find(1).id.must_equal 1
+      Grocery::Customer.find(1).customer_id.must_equal 1
       Grocery::Customer.find(1).email.must_equal "leonard.rogahn@hagenes.org"
     end
 
     it "Can find the last customer from the CSV" do
-      Grocery::Customer.find(35).id.must_equal 35
+      Grocery::Customer.find(35).customer_id.must_equal 35
       Grocery::Customer.find(35).email.must_equal "rogers_koelpin@oconnell.org"
     end
 
     it "Raises an error for a customer that doesn't exist" do
+      error_customer = (Grocery::Customer.all.max_by{|o|o.customer_id}).customer_id + 1
+
       proc {Grocery::Customer.find(36)}.must_raise ArgumentError
+      proc {Grocery::Customer.find(error_customer)}.must_raise ArgumentError
     end
   end
 end

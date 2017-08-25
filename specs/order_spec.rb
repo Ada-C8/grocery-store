@@ -124,13 +124,6 @@ end
 
 
 
-
-
-
-
-
-
-
 # TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
@@ -169,7 +162,7 @@ describe "Order Wave 2" do
       csv.to_a[-1][0].must_equal new_orders[-1].id
     end
 
-#I am not sure this is a great way to check the products
+#I am not sure this is a great way to check the product
     it "The first product must match the first csv line" do
       new_orders = Grocery::Order.all
       csv = CSV.open("support/orders.csv", 'r')
@@ -185,6 +178,8 @@ describe "Order Wave 2" do
       order_product = new_orders[-1].products.flatten.join("")
       order_product.must_equal csv_product
     end
+
+
   end
 
   describe "Order.find" do

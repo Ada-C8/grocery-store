@@ -49,9 +49,7 @@ module Grocery
 
     def self.find(order_id)
       collection_of_orders = Order.all
-      collection_of_orders.length
       collection_of_orders.each do |order|
-        order.id
         if order.id == order_id.to_s
           return order
         end
@@ -89,14 +87,3 @@ module Grocery
   end #end  class Order
 end #end module Grocery
 #
-
-# new_orders = Grocery::Order.all
-# csv = CSV.open("../support/orders.csv", 'r')
-# puts csv.class
-
-#
-my_order = Grocery::Order.find(1)
-puts my_order.id
-puts my_order.products
-# puts coll_of_orders[0].products.class
-# puts coll_of_orders[0].products.class

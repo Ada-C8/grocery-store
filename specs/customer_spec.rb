@@ -34,16 +34,28 @@ describe "Customer" do
   end
 
   describe "Customer.all" do
+    # TODO: Your test code here!
+    # Useful checks might include:
+    #   - Customer.all returns an array
     it "Returns an array of all customers" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Customer.all returns an array
-      #   - Everything in the array is a Customer
-      #   - The number of orders is correct
-      #   - The ID, email address of the first and last
-      #       customer match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      all_customers = Customer.all
+      all_customers.must_be_kind_of Array
     end
+
+    it "Everything in the Array is a Customer" do
+      all_customers = Customer.all
+      all_customers.each do |single_customer|
+        single_customer.must_be_instance_of Customer
+      end
+    end
+
+
+    #   - Everything in the array is a Customer
+    #   - The number of orders is correct
+    #   - The ID, email address of the first and last
+    #       customer match what's in the CSV file
+    # Feel free to split this into multiple tests if needed
+
   end
 
   describe "Customer.find" do

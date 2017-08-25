@@ -33,7 +33,8 @@ module Grocery
         @items = row[1].split(";")
         @items.each do |sep|
           food_price_array = sep.split(":")
-          @food_and_price[food_price_array[0].to_s] = food_price_array[2].to_f
+          # puts food_and_price_array
+          @food_and_price[food_price_array[0].to_s] = food_price_array[1].to_f
         end
         @customer_object = Grocery::Customer.find("./support/customers.csv", @customer_id)
         @all_online_orders << Grocery::OnlineOrder.new(@id, @food_and_price, @customer_id, @customer_object, @status)
@@ -62,8 +63,11 @@ module Grocery
     end
 
     def total
-
-
+      if !(food_and_price.empty?)
+        super + 10
+      else
+        return 0
+      end
     end
 
     def add_product
@@ -77,14 +81,16 @@ end
 
 
 # all_the_online_orders = Grocery::OnlineOrder.all("./support/online_orders.csv")
-#
-# ap all_the_online_orders.customer_object
+
+# ap all_the_online_orders
 
 # puts all_the_online_orders[2].customer_object
 
-# puts Grocery::OnlineOrder.find("./support/online_orders.csv", 1).status
+# order_total =  Grocery::OnlineOrder.find("./support/online_orders.csv", 1)
+#
+# puts order_total.total
 
 
-order = Grocery::OnlineOrder.find_by_customer("./support/online_orders.csv", 1)
-
-puts order.class
+# order = Grocery::OnlineOrder.find_by_customer("./support/online_orders.csv", 1)
+#
+# puts order.class

@@ -42,7 +42,7 @@ module Grocery
       @food_and_price.values.each do |price|
         sum += price
       end
-      total = sum + (sum * 0.075).round(2)
+      total = (sum + (sum * 0.075)).round(2)
     end
 
     def add_product(product_name, product_price)
@@ -62,7 +62,7 @@ module Grocery
         return false
       end
     end
-    
+
   end
 end
 
@@ -72,6 +72,6 @@ end
 # ap all_the_orders
 
 # order = Grocery::Order.find("./support/orders.csv", 1)
-#
-# puts order.id
+# #
+# puts order.total
 # puts order.id

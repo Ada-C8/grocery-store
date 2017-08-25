@@ -55,7 +55,6 @@ describe "Customer" do
       Grocery::Customer.all.first.email.must_equal customer_one.email
 
       Grocery::Customer.all.first.email.must_equal customer_one.address
-
     end
   end
 

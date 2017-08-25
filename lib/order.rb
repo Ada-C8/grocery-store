@@ -47,10 +47,10 @@ module Grocery
       all_orders = []
 
       CSV.open("support/orders.csv", "r").each do |line|
-        puts "Read line #{line}"
+        # puts "Read line #{line}"
         id = line[0].to_i
         product_array = line[1].split(/;|:/)
-        puts "decoded to id #{id}, products #{product_array}"
+        # puts "decoded to id #{id}, products #{product_array}"
 
         product_hash = {}
         product_name = nil
@@ -72,12 +72,48 @@ module Grocery
 
     end
 
+    # self.find(id) - returns an instance of Order
+    # where the value of the id field in the CSV matches the passed parameter.
+
+
+    def self.find(order_num)
+      # all_orders = []
+      order_num_array = []
+
+      CSV.open("support/orders.csv", "r").each do |line|
+        # puts "Read line #{line}"
+        id = line[0].to_i
+        order_num_array << id
+      end
+
+      if order_num_array.include?(order_num)
+        puts "Great we have your order!"
+        CSV.open("support/orders.csv", "r").each do |line|
+          id = line[0].to_i
+          if id == order_num
+            product_array = line[1].split(/;|:/)
+
+            product_hash = {}
+            product_name = nil
+            product_array.each_with_index do |value, i|
+              if i % 2 == 0
+                product_name = value
+              elsif i % 2 == 1
+                product_hash[product_name] = value.to_f
+              end
+            end
+            puts "The products for order #{id} are: #{product_hash}"
+          end
+        end
+    # when Order.find is called with an ID that doesn't exist?
+      else
+          puts "Sorry, it appears we don't have an order #{order_num}."
+      end
+    end
   end
-
 end
-order = Grocery::Order.all
 
-
+order = Grocery::Order.find(101)
 
 
 
@@ -109,15 +145,15 @@ order = Grocery::Order.all
 
 
 
-  #   CSV.open("support/orders.csv", "r").each do |line|
-  #     string = line[1..-1]
-  #     string.split(/;|:/)
-  #
-  #   hash.each do |k, v|
-  #     @@array << v
-  #   end
-  #   return @@array
-  # end
+#   CSV.open("support/orders.csv", "r").each do |line|
+#     string = line[1..-1]
+#     string.split(/;|:/)
+#
+#   hash.each do |k, v|
+#     @@array << v
+#   end
+#   return @@array
+# end
 
 
 #

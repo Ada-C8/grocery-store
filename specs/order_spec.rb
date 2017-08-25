@@ -6,7 +6,7 @@ require_relative '../lib/order'
 require 'csv'
 
 
-describe "Order Wave 1" do
+xdescribe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
       id = 1337
@@ -124,7 +124,7 @@ describe "Order Wave 1" do
 
 end
 
-describe "Order Wave 2" do
+xdescribe "Order Wave 2" do
   before do
     Grocery::Order.clear
   end

@@ -2,13 +2,19 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
-# TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/customer'
+require_relative '../lib/customer'
 
-xdescribe "Customer" do
+describe "Customer" do
+  before do
+    customer_array = [1,"leonard.rogahn@hagenes.org","71596 Eden Route","Connellymouth","LA","98872-9105"]
+  end
+
   describe "#initialize" do
     it "Takes an ID, email and address info" do
-      # TODO: Your test code here!
+      id = 1
+      email = "bobbi@bobcat.org"
+      address = "5 Alleycat Way S, Seattle WA 98144"
+      Customer.new(id, email, address).must_be_kind_of Customer
     end
   end
 
@@ -25,7 +31,7 @@ xdescribe "Customer" do
     end
   end
 
-  describe "Customer.find" do
+  xdescribe "Customer.find" do
     it "Can find the first customer from the CSV" do
       # TODO: Your test code here!
     end

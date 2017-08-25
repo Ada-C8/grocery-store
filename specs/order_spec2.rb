@@ -1,15 +1,13 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
-require 'csv'
-require_relative '../lib/order.rb'
+require_relative '../lib/order2'
 
-
-xdescribe "Order Wave 1" do
+describe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
       id = 1337
-      order = Grocery::Order.new(id, {})
+      order = Grocery::Order.new(id, [])
 
       order.must_respond_to :id
       order.id.must_equal id
@@ -22,10 +20,14 @@ xdescribe "Order Wave 1" do
 
   describe "#total" do
     it "Returns the total from the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = [{ "name" => "banana", "price" => 1.99, "quantity" => 6 }, { "name" => "sandwich", "price" => 4.99, "quantity" => 1 }]
       order = Grocery::Order.new(1337, products)
 
-      sum = products.values.inject(0, :+)
+      sum = 0
+      products.each do |hash|
+        sum +=  (hash["price"] * hash["quantity"])
+      end
+
       expected_total = sum + (sum * 0.075).round(2)
 
       order.total.must_equal expected_total
@@ -40,49 +42,55 @@ xdescribe "Order Wave 1" do
 
   describe "#add_product" do
     it "Increases the number of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = [{ "name" => "banana", "price" => 1.99, "quantity" => 6 }, { "name" => "sandwich", "price" => 4.99, "quantity" => 1 }]
       before_count = products.count
       order = Grocery::Order.new(1337, products)
 
-      order.add_product("salad", 4.25)
+      order.add_product({ "name" => "salad", "price" => 2.49, "quantity" => 2 })
       expected_count = before_count + 1
       order.products.count.must_equal expected_count
     end
 
     it "Is added to the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = [{ "name" => "banana", "price" => 1.99, "quantity" => 6 }, { "name" => "sandwich", "price" => 4.99, "quantity" => 1 }]
+      products2 = products
       order = Grocery::Order.new(1337, products)
 
-      order.add_product("sandwich", 4.25)
-      order.products.include?("sandwich").must_equal true
+      order.add_product({ "name" => "salad", "price" => 2.49, "quantity" => 2 })
+
+      # new_prod = false
+      # order.products.each do |hash|
+      #   if hash["name"] = "salad"
+      #     new_prod = true
+      #   end
+      # end
+      # new_prod.must_equal true
+
+      products2 << {"name" => "salad", "price" => 2.49, "quantity" => 2 }
+
+      products.must_equal products2
+
     end
 
-    it "Returns false if the product is already present" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
-
+    it "Updates the quantity of a product already present" do
+      products = [{ "name" => "banana", "price" => 1.99, "quantity" => 6 }, { "name" => "sandwich", "price" => 4.99, "quantity" => 1 }]
       order = Grocery::Order.new(1337, products)
-      before_total = order.total
 
-      result = order.add_product("banana", 4.25)
-      after_total = order.total
+      order.add_product({ "name" => "banana", "price" => 1.99, "quantity" => 1 })
 
-      result.must_equal false
-      before_total.must_equal after_total
+      order.products.each do |hash|
+        if hash["name"] = "banana"
+          hash["quantity"].must_equal 1
+        end
+      end
     end
 
-    it "Returns true if the product is new" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
-      order = Grocery::Order.new(1337, products)
-
-      result = order.add_product("salad", 4.25)
-      result.must_equal true
-    end
   end
 
 
-  describe "#remove_product" do
+  xdescribe "#remove_product" do
     it "decreases the number of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = [{ "name" => "banana", "price" => 1.99, "quantity" => 6 }, { "name" => "sandwich", "price" => 4.99, "quantity" => 1 }]
       before_count = products.count
       order = Grocery::Order.new(1337, products)
 
@@ -123,43 +131,31 @@ xdescribe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-describe "Order Wave 2" do
-
-  before do
-    products = { "banana" => 1.99, "cracker" => 3.00 }
-    order = Grocery::Order.new(1337, products)
-  end
-
+xdescribe "Order Wave 2" do
   describe "Order.all" do
-
     it "Returns an array of all orders" do
-      Grocery::Order.all.must_be_kind_of Array
+      # TODO: Your test code here!
+      # Useful checks might include:
+      #   - Order.all returns an array
+      #   - Everything in the array is an Order
+      #   - The number of orders is correct
+      #   - The ID and products of the first and last
+      #       orders match what's in the CSV file
+      # Feel free to split this into multiple tests if needed
     end
   end
 
-    # TODO: Your test code here!
   describe "Order.find" do
-
     it "Can find the first order from the CSV" do
-      myorders = []
-      CSV.read("./support/orders.csv").each do |row|
-        myorders << Grocery::Order.new(row[0], row[1..-1])
-      end
-      Grocery::Order.find("1").must_be_instance_of Grocery::Order
-      Grocery::Order.find("1").id.must_equal myorders[0].id
+      # TODO: Your test code here!
     end
 
     it "Can find the last order from the CSV" do
-      myorders = []
-      CSV.read("./support/orders.csv").each do |row|
-        myorders << Grocery::Order.new(row[0], row[1..-1])
-      end
-      Grocery::Order.find("100").must_be_instance_of Grocery::Order
-      Grocery::Order.find("100").id.must_equal myorders[99].id
+      # TODO: Your test code here!
     end
 
     it "Raises an error for an order that doesn't exist" do
-      proc {Grocery::Order.find("101")}.must_raise ArgumentError
+      # TODO: Your test code here!
     end
   end
 end

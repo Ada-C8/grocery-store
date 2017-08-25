@@ -15,17 +15,15 @@
 #-An add_product method which will take in two parameters, product name and price, and add the data to the product collection
 #-It should return true if the item was successfully added and false if it was not
 
+require 'csv'
+require 'awesome_print'
+
 module Grocery
   class Order
     attr_reader :id, :products
 
     def initialize(id, products)
       @id = id
-
-      # if products.length <= 0
-      #   raise ArgumentError.new("You must initialize with a product id and a collection of products") #ArgumentError means this argument is wrong
-      # end
-
       @products = products #a collection of products and their cost -> products = {product_name: cost}
     end
 
@@ -46,19 +44,101 @@ module Grocery
     def add_product(product_name, product_price)
       #GOAL: implement add_product
       new_product = {product_name => product_price}
-      product_keys = @products.keys
+
+      product_keys = @products.keys #get list of product_names in products hash to compare new product name to
 
       if product_keys.include?(product_name)
         return false
       else
         @products.merge!(new_product)
         return true
+      end
     end
 
-    def remove_product
-      #Add a remove_product method to the Order class which will take in one parameter, a product name, and remove the product from the collection
-      #It should return true if the item was successfully remove and false if it was not
+    # def remove_product(product_name)
+    #   #Add a remove_product method to the Order class which will take in one parameter, a product name to
+    #   #Remove the product from the collection
+    #   #It should return true if the item was successfully remove and false if it was not
+    #
+    #   @products.delete(product_name)
+    # end
+
+    # def self.all #or self.all since you are creating a class method
+    #   # This class method will handle all of the fields from the CSV file used as input
+    #   # To test, choose the data from the first line of the CSV file and ensure you can create a new instance of your Order using that data
+    #
+    #   # Each row in CSV file is structured as such: {ID = Products Hash {product_name => price}}
+    #
+    #   orders = CSV.read('/Users/janedrozo/Desktop/grocery-store/support/orders.csv', converters: :numeric)
+    #
+    #   # @all_orders = []
+    #   orders.each do |row|
+    #     id = row[0]
+    #     items = row[1].split(';')
+    #     #generates (for first row):
+    #     #id, items = ["Slivered Almonds: 22.88", "Wholewheat flour:1.93", "Grape Seed Oil:74.9"]
+    #
+    #     products = {} #products hash {product_name: product_price}
+    #
+    #     items.each do |item|
+    #       product_price = item.split(":")
+    #       #generates:
+    #       #id, items = [["Slivered Almonds", "22.88"], ["Wholewheat flour", "1.93"], ["Grape Seed Oil","74.9"]]
+    #
+    #       product_name = product_price[0]
+    #       price = product_price[1]
+    #       products[product_name] = price
+    #     end
+    #
+    #     @all_orders << Order.new(id, products)
+    #
+    #     # puts "#{id} with products #{products}"
+    #   end
+
+    def self.all(file_pathway)
+      # This class method will handle all of the fields from the CSV file used as input
+      # To test, choose the data from the first line of the CSV file and ensure you can create a new instance of your Order using that data
+      orders = CSV.read(file_pathway, converters: :numeric)
+
+      all_orders = []
+      orders.each do |row|
+        id = row[0]
+        items = row[1].split(';')
+        #generates (for first row):
+        #id, items = ["Slivered Almonds: 22.88", "Wholewheat flour:1.93", "Grape Seed Oil:74.9"]
+
+        products = {} #products hash {product_name: product_price}
+
+        items.each do |item|
+          product_price = item.split(":")
+          #generates:
+          #id, items = [["Slivered Almonds", "22.88"], ["Wholewheat flour", "1.93"], ["Grape Seed Oil","74.9"]]
+          product_name = product_price[0]
+          price = product_price[1]
+          products[product_name] = price.to_f
+        end
+
+        all_orders << Order.new(id, products)
+        #test using puts "#{id} with products #{products}"
+      end
+
+      return all_orders
     end
-  end
-end
-end
+
+    def self.find(id)
+      #self.find(id) - returns an instance of Order (an element in the all_orders array) where the value of the id field in the CSV matches the passed parameter
+      orders = Grocery::Order.all
+
+      orders.each do |element|
+        if element.id == id
+          return element
+        end
+      end
+        raise ArgumentError.new("ORDER ##{id} NOT FOUND!")
+    end
+
+  end#of_Order_class
+
+end#of_module
+
+ap Grocery::Order.all('/Users/janedrozo/Desktop/grocery-store/support/orders.csv')

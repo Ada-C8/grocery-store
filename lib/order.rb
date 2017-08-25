@@ -9,7 +9,6 @@ module Grocery
     def initialize(id, products)
       @id = id
       @products = products
-      @original_length = @products.length
     end
 
 
@@ -20,14 +19,14 @@ module Grocery
       @@line_count = 0
       CSV.open("support/orders.csv", 'r').each do |line|
         @@line_count += 1
-        id = line[0]
+        @id = line[0]
         product_hash ={}
         product_array = line[1].split(';')
         product_array.each do |info|
           smaller_array = info.split(':')
           product_hash[smaller_array[0]] = smaller_array[1]
         end
-        @@order_objects << Order.new(id, product_hash)
+        @@order_objects << Order.new(@id.to_i, product_hash)
       end
       return @@order_objects
     end
@@ -43,8 +42,12 @@ module Grocery
 
 
   def self.find(id)
-
-
+    @@order_objects.each do |object|
+      if object.id == id
+        return object
+      end
+    end
+    raise "That is not an existing order"
   end
 
 
@@ -69,6 +72,7 @@ module Grocery
   end
 
   def remove_product(product_name)
+    @original_length = @products.length
     @products.delete(product_name)
     if products.length == @original_length
       return false
@@ -78,3 +82,6 @@ module Grocery
   end
 end
 end
+
+# Grocery::Order.all
+# puts Grocery::Order.find(200)

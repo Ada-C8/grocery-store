@@ -1,7 +1,6 @@
 require 'csv'
 require_relative 'order.rb'
 require_relative 'customer.rb'
-require 'pry'
 
 module Grocery
   class OnlineOrder < Order
@@ -15,12 +14,12 @@ module Grocery
     end
 
     def total
-    if @products.count == 0
-      total = super
-    else
-      total = (super) + 10
-      return total
-    end
+      if @products.count == 0
+        total = super
+      else
+        total = (super) + 10
+        return total
+      end
     end
 
     def add_product(product_name, product_price)
@@ -34,8 +33,7 @@ module Grocery
     def self.all
       all_online_orders = []
       CSV.open("/Users/kimberley/ada/week-three/grocery-store/support/online_orders.csv", "r").each do |line|
-        id = line[0]
-        id = id.to_i
+        id = line[0].to_i
         all_products = line[1].split(";")
         products = []
 
@@ -52,7 +50,6 @@ module Grocery
         all_online_orders << online_order
       end
       return all_online_orders
-
     end
 
     def self.find(id)
@@ -63,24 +60,17 @@ module Grocery
       return Grocery::OnlineOrder.all[index]
     end
 
-    # self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
     def self.find_by_customer(customer_id)
       customer = Grocery::Customer.find(customer_id)
-
 
       customer_orders = []
       Grocery::OnlineOrder.all.each do |onlineorder|
         if onlineorder.customer.id == customer.id
           customer_orders << onlineorder
         end
-      # binding.pry
       end
       return customer_orders
     end
 
   end #end of class
 end # end of module
-
-# online_order = Grocery::OnlineOrder.new(53, {"banana" => 1.99, "cracker" => 3.00}, 24, status: :shipped)
-# online_order.add_product("salmon", 8.99)
-# puts online_order.products

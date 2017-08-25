@@ -14,7 +14,6 @@ module Grocery
     def self.all
       all_customers = []
       CSV.open("/Users/kimberley/ada/week-three/grocery-store/support/customers.csv", "r").each do |line|
-
         id = line[0]
         email = line[1]
         street_address = line[2]

@@ -10,6 +10,8 @@ describe "Customer" do
 
       customer = Grocery::Customer.new(19, "me@mac.com", {street_address: "123 Fake Street", city: "Brooklyn", state: "NY", zipcode: "11217"})
 
+      customer.must_be_instance_of Grocery::Customer
+
       customer.must_respond_to :id
       customer.id.must_equal 19
       customer.id.must_be_kind_of Integer
@@ -22,12 +24,11 @@ describe "Customer" do
       customer.address.must_equal address
       customer.address.must_be_kind_of Hash
     end
-
   end
 
   describe "Customer.all" do
     it "Returns an array of all customers" do
-        Grocery::Customer.all.must_be_instance_of Array
+      Grocery::Customer.all.must_be_instance_of Array
     end
 
     it "each object in the array is a customer" do
@@ -59,15 +60,20 @@ describe "Customer" do
   xdescribe "Customer.find" do
     it "Can find the first customer from the CSV" do
       Grocery::Customer.find(1).must_be_instance_of Grocery::Customer
+
+      Grocery::Customer.find(1).email.must_equal "leonard.rogahn@hagenes.org"
     end
 
     it "Can find the last customer from the CSV" do
       Grocery::Customer.find(35).must_be_instance_of Grocery::Customer
+
+      Grocery::Customer.find(35).email.must_equal "rogers_koelpin@oconnell.org"
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      proc {Grocery::Customer.find("1000")}.must_raise ArgumentError
-      proc {Grocery::Customer.find("0")}.must_raise ArgumentError
-      proc {Grocery::Customer.find("-12")}.must_raise ArgumentError    end
+      proc {Grocery::Customer.find(1000)}.must_raise ArgumentError
+      proc {Grocery::Customer.find(0)}.must_raise ArgumentError
+      proc {Grocery::Customer.find(-12)}.must_raise ArgumentError
+    end
   end
 end

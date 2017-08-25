@@ -4,7 +4,6 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
-# uncomment the next line once you start wave 3
 require_relative '../lib/customer'
 
 describe "Customer" do
@@ -38,7 +37,6 @@ describe "Customer" do
       end
     end
 
-    ##NOT FINSIHED:
     #   - The number of orders is correct
     it "Number of orders is correct" do
       Grocery::Customer.all.length.must_equal 35 #CHECK CSV file for this
@@ -56,17 +54,21 @@ describe "Customer" do
     end
   end
 
+  before do
+    @customers = Grocery::Customer.all
+  end
+
   describe "Customer.find" do  ## Be careful with find - might try using Ruby's find instead of mine!
     it "Can find the first customer from the CSV" do
-          Grocery::Customer.all.find(1).must_equal Grocery::Customer.all[0]
-        end
+      Grocery::Customer.find(1).id.must_equal @customers[0].id
+    end
 
-        it "Can find the last customer from the CSV" do
-          Gorcery::Customer.all.find(35).must_equal Grocery::Customer.all[34]
-        end
+    it "Can find the last customer from the CSV" do
+      Grocery::Customer.find(35).id.must_equal @customers[34].id
+    end
 
-        it "Raises an error for a customer that doesn't exist" do
-            proc {Grocery::Customer.all.find(105)}.must_raise ArgumentError
+    it "Raises an error for a customer that doesn't exist" do
+      proc {Grocery::Customer.find(105)}.must_raise ArgumentError
     end
   end
 end

@@ -16,6 +16,7 @@ describe "Customer" do
     it "Takes an ID, email and address info" do
       marcel = Grocery::Customer.new(12, "marcel@alexandchristiane.com", "1400 60th street, 98107 Seattle, WA")
       marcel.must_be_instance_of Grocery::Customer
+
       walter = Grocery::Customer.new(CSV.read('../support/customers.csv').first[0], CSV.read('../support/customers.csv').first[1], CSV.read('../support/customers.csv').first[2..-2])
       walter.must_be_instance_of Grocery::Customer
     end

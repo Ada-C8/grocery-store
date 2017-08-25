@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
-# TODO: uncomment the next line once you start wave 3
+# TODO: uncomment the next line once you start wave 3 
 # require_relative '../lib/online_order'
 # You may also need to require other classes here
 
@@ -62,7 +62,7 @@ xdescribe "OnlineOrder" do
       # Feel free to split this into multiple tests if needed
     end
   end
-  
+
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!

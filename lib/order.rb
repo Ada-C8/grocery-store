@@ -7,12 +7,38 @@ module Grocery
     def initialize(id, products)
       @id = id
       @products = products
+    #   @products = products.join(",")
+    #   @product_list = @products.split(",")
+    #   @products = {}
+    #   @product_list2 = @product_list.join.split(";")
+    #   @product_list2.each do |productandprice|
+    #    prodprice_arr = productandprice.split(":")
+    #    @products[prodprice_arr[0]] = prodprice_arr[1]
+    #  end
+  
+      split_order_info(@products)
+      get_products(@product_list)
+    end
+
+    def split_order_info(products)
+        @product_list = products.split(";")
+        return @product_list
+    end
+
+    def get_products(info_array)
+      @products = {}
+      product_list2 = @product_list.join(";").split(";")
+      product_list2.each do |productandprice|
+        prodprice_arr = productandprice.split(":")
+        @products[prodprice_arr[0]] = prodprice_arr[1]
+      end
+      return@products
     end
 
     def self.all
       list = []
-      CSV.read("./support/orders.csv").each do |row|
-        list << Order.new(row[0], row[1..-1])
+      CSV.read("../support/orders.csv").each do |row|
+        list << Order.new(row[0], row[1..-1].join(";"))
       end
       list
     end
@@ -51,5 +77,13 @@ module Grocery
       @products.has_key?(product_name) ? @products.delete(product_name) && true : false
     end
   end
+
+myord = Order.new(CSV.read("../support/orders.csv")[0][0],CSV.read("../support/orders.csv")[0][1])
+  puts myord.add_product("nameofprod","45")
+  puts myord.total
+ puts myord.id
+ puts myord.products
+ puts Order.all
+puts Order.find("1")
 
 end #module Grocery

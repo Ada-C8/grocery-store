@@ -5,11 +5,11 @@ require 'csv'
 require_relative '../lib/order.rb'
 
 
-xdescribe "Order Wave 1" do
+describe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
       id = 1337
-      order = Grocery::Order.new(id, {})
+      order = Grocery::Order.new(id, [])
 
       order.must_respond_to :id
       order.id.must_equal id
@@ -20,9 +20,9 @@ xdescribe "Order Wave 1" do
     end
   end
 
-  describe "#total" do
+  xdescribe "#total" do
     it "Returns the total from the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = ["banana:1.99,cracker:3.00"]
       order = Grocery::Order.new(1337, products)
 
       sum = products.values.inject(0, :+)
@@ -32,7 +32,7 @@ xdescribe "Order Wave 1" do
     end
 
     it "Returns a total of zero if there are no products" do
-      order = Grocery::Order.new(1337, {})
+      order = Grocery::Order.new(1337, [])
 
       order.total.must_equal 0
     end
@@ -40,17 +40,17 @@ xdescribe "Order Wave 1" do
 
   describe "#add_product" do
     it "Increases the number of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = ["banana:1.99,cracker:3.00"]
       before_count = products.count
       order = Grocery::Order.new(1337, products)
 
-      order.add_product("salad", 4.25)
+      order.add_product("salad",4.25)
       expected_count = before_count + 1
       order.products.count.must_equal expected_count
     end
 
     it "Is added to the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = ["banana:1.99,cracker:3.00"]
       order = Grocery::Order.new(1337, products)
 
       order.add_product("sandwich", 4.25)
@@ -58,7 +58,7 @@ xdescribe "Order Wave 1" do
     end
 
     it "Returns false if the product is already present" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = ["banana:1.99,cracker:3.00"]
 
       order = Grocery::Order.new(1337, products)
       before_total = order.total
@@ -71,7 +71,7 @@ xdescribe "Order Wave 1" do
     end
 
     it "Returns true if the product is new" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = ["banana:1.99,cracker:3.00"]
       order = Grocery::Order.new(1337, products)
 
       result = order.add_product("salad", 4.25)
@@ -82,7 +82,7 @@ xdescribe "Order Wave 1" do
 
   describe "#remove_product" do
     it "decreases the number of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = ["banana:1.99,cracker:3.00"]
       before_count = products.count
       order = Grocery::Order.new(1337, products)
 
@@ -92,7 +92,7 @@ xdescribe "Order Wave 1" do
     end
 
     it "Is removed to the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = ["banana:1.99,cracker:3.00"]
       order = Grocery::Order.new(1337, products)
 
       order.remove_product("banana")
@@ -100,7 +100,7 @@ xdescribe "Order Wave 1" do
     end
 
     it "Returns false if the product is not present" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = ["banana:1.99,cracker:3.00"]
 
       order = Grocery::Order.new(1337, products)
       before_total = order.total
@@ -113,7 +113,7 @@ xdescribe "Order Wave 1" do
     end
 
     it "Returns true if the product is removed" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = ["banana:1.99,cracker:3.00"]
       order = Grocery::Order.new(1337, products)
 
       result = order.remove_product("banana")
@@ -125,10 +125,10 @@ end
 # TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
 
-  before do
-    products = { "banana" => 1.99, "cracker" => 3.00 }
-    order = Grocery::Order.new(1337, products)
-  end
+  # before do
+  #   products = { "banana" => 1.99, "cracker" => 3.00 }
+  #   order = Grocery::Order.new(1337, products)
+  # end
 
   describe "Order.all" do
 
@@ -142,7 +142,7 @@ describe "Order Wave 2" do
 
     it "Can find the first order from the CSV" do
       myorders = []
-      CSV.read("./support/orders.csv").each do |row|
+      CSV.read("../support/orders.csv").each do |row|
         myorders << Grocery::Order.new(row[0], row[1..-1])
       end
       Grocery::Order.find("1").must_be_instance_of Grocery::Order
@@ -151,7 +151,7 @@ describe "Order Wave 2" do
 
     it "Can find the last order from the CSV" do
       myorders = []
-      CSV.read("./support/orders.csv").each do |row|
+      CSV.read("../support/orders.csv").each do |row|
         myorders << Grocery::Order.new(row[0], row[1..-1])
       end
       Grocery::Order.find("100").must_be_instance_of Grocery::Order

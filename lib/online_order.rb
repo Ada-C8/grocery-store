@@ -10,7 +10,7 @@ module Grocery
 
     def initialize(id, collection, customer, status)
       @id = id
-      @products_list = collection
+      @products = collection
       @customer = Grocery::Customer.find(customer)
       @customer_id = customer
       @status = status
@@ -69,9 +69,18 @@ module Grocery
         return "Sorry, you cannot add items at this time."
 
       elsif @action.include?(@status)
-        @products_list.update(name => price)
+        super
       end
 
+    end
+
+
+    def total
+      if @products.length > 0
+        return super + 10
+      else
+        return 0
+      end
     end
 
 
@@ -79,4 +88,7 @@ module Grocery
   end
 end
 
-# puts "#{Grocery::OnlineOrder.find_by_customer(12)}"
+#puts "#{Grocery::OnlineOrder.find_by_customer(12)}"
+online_order2 = Grocery::OnlineOrder.new(101, {"bananas" => 2.20}, 12, :pending)
+
+puts "#{online_order2.total}"

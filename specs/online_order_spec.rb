@@ -32,16 +32,15 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "#total" do
-    before do
-      #online_order = OnlineOrder.new()
-    end
+  describe "#total" do
     it "Adds a shipping fee" do
-      #total of the items must not match total at checkout
+      @online_order.total.must_equal (3.41*1.075 + 10).round(2)
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      #if there are no products in the order, the shipping fee is 0
+      @online_order2 = Grocery::OnlineOrder.new(111, {}, 3, :complete)
+      @online_order2.total.must_equal 0
+
     end
   end
 

@@ -39,18 +39,16 @@ module Grocery
     def self.find(customer_id_to_test)
       #  returns an instance of Customer where the value of the id field in the CSV matches the passed parameter.
       # print @@all_customers
-
-      x = self.all
-
-      if customer_id_to_test.to_i > x.length
-        raise ArgumentError.new("Error: The customer id #{id_to_test} does not exsist!")
-      else
-        @@all_customers.each do |instance|
-          if instance.customer_id == customer_id_to_test
-            return instance
+      
+      if  @@all_customers.any?{|instance| instance.customer_id == customer_id_to_test.to_s}
+        @@all_customers.each do |customer|
+          if customer.customer_id == customer_id_to_test.to_s
+            return customer
           end #if
-        end #.each
-      end #if/else
+        end # .each
+      else
+        raise ArgumentError.new("Error: The customer ID #{id_to_test} does not exsist!")
+      end # if/else
 
     end #self.find
 
@@ -64,4 +62,4 @@ end #Grocery
 
 
 
-  #1,leonard.rogahn@hagenes.org,71596 Eden Route,Connellymouth,LA,98872-9105
+#1,leonard.rogahn@hagenes.org,71596 Eden Route,Connellymouth,LA,98872-9105

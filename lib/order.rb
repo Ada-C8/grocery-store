@@ -63,38 +63,6 @@ module Grocery
     #   @products.delete(product_name)
     # end
 
-    # def self.all #or self.all since you are creating a class method
-    #   # This class method will handle all of the fields from the CSV file used as input
-    #   # To test, choose the data from the first line of the CSV file and ensure you can create a new instance of your Order using that data
-    #
-    #   # Each row in CSV file is structured as such: {ID = Products Hash {product_name => price}}
-    #
-    #   orders = CSV.read('/Users/janedrozo/Desktop/grocery-store/support/orders.csv', converters: :numeric)
-    #
-    #   # @all_orders = []
-    #   orders.each do |row|
-    #     id = row[0]
-    #     items = row[1].split(';')
-    #     #generates (for first row):
-    #     #id, items = ["Slivered Almonds: 22.88", "Wholewheat flour:1.93", "Grape Seed Oil:74.9"]
-    #
-    #     products = {} #products hash {product_name: product_price}
-    #
-    #     items.each do |item|
-    #       product_price = item.split(":")
-    #       #generates:
-    #       #id, items = [["Slivered Almonds", "22.88"], ["Wholewheat flour", "1.93"], ["Grape Seed Oil","74.9"]]
-    #
-    #       product_name = product_price[0]
-    #       price = product_price[1]
-    #       products[product_name] = price
-    #     end
-    #
-    #     @all_orders << Order.new(id, products)
-    #
-    #     # puts "#{id} with products #{products}"
-    #   end
-
     def self.all(file_pathway)
       # This class method will handle all of the fields from the CSV file used as input
       # To test, choose the data from the first line of the CSV file and ensure you can create a new instance of your Order using that data
@@ -134,11 +102,56 @@ module Grocery
           return element
         end
       end
-        raise ArgumentError.new("ORDER ##{id} NOT FOUND!")
+      raise ArgumentError.new("ORDER ##{id} NOT FOUND!")
     end
 
   end#of_Order_class
 
+  class Customer
+    attr_reader :customer_id, :email_address, :delivery_address
+
+    def initialize(customer_id, email_address, delivery_address)
+      @customer_id = customer_id
+      @email_address = email_address
+      @delivery_address = delivery_address
+    end
+
+    def self.all(file_pathway)
+      customers = CSV.read('/Users/janedrozo/Desktop/grocery-store/support/customers.csv')
+
+      all_customers = []
+
+      customers.each do |row|
+        customer_id = row[0]
+        email_address = row[1]
+
+        #SHORTHAND for delivery_address:
+        delivery_address = (row[2..5]).join(",")
+        #LONGHAND for delivery_address:
+        # delivery_address = "#{row[2]},#{row[3]},#{row[4]},#{row[5]}"
+
+        all_customers << Customer.new(customer_id.to_f, email_address, delivery_address)
+      end
+
+      return all_customers
+    end
+
+    def self.find(customer_id)
+      customers = Grocery::Customer.all
+
+      customers.each do |customer_row_info|
+        if element.customer_id == customer_id
+          return customer_row_info
+        end
+      end
+      raise ArgumentError.new("CUSTOMER ##{customer_id} NOT FOUND!")
+    end
+  end#of_Customer_class
+
 end#of_module
 
-ap Grocery::Order.all('/Users/janedrozo/Desktop/grocery-store/support/orders.csv')
+#TEST ORDER
+# ap Grocery::Order.all('/Users/janedrozo/Desktop/grocery-store/support/orders.csv')
+
+#TEST CUSTOMER
+ap Grocery::Customer.all('/Users/janedrozo/Desktop/grocery-store/support/customers.csv')

@@ -1,3 +1,5 @@
+require 'csv'
+
 module Grocery
   class Order
     attr_reader :id, :products
@@ -5,6 +7,40 @@ module Grocery
     def initialize(id, products)
       @id = id
       @products = products
+    end
+
+    #CSV must be in an array
+    #in order to test using rake, only one period (instead of two) is needed
+    def self.all
+      array = []
+      CSV.open('./support/orders.csv', 'r').each do |line|    ##
+        id = line.shift.to_i
+        products = {} ##from produce_hash to products?
+        produce = line.shift.split(";")
+        produce.each do |items|
+          two_item_array = items.split(":")
+          item = two_item_array[0]
+          price = two_item_array[1]
+        # the following line didn't work
+        # products.merge({item => price}) ##from produce_hash to products?
+          products[item] = price
+        end
+        array << Order.new(id, products) ##from produce_hash to products?
+      end
+      #returns object memory address
+      return array
+    end
+
+    def self.find(id)
+      id_array = []
+      all_orders = Grocery::Order.all
+      all_orders.each do |arr|
+        id_array << arr.id
+        if id_array.include? id
+          return Order.new(arr.id, arr.products)
+        end
+      end
+      raise ArgumentError.new("Invalid parameters for order number")
     end
 
     def total
@@ -23,7 +59,6 @@ module Grocery
           return false
         end
       end
-
       @products[@product_name] = @product_price
       return true
     end

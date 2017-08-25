@@ -60,10 +60,15 @@ describe "Customer" do
 
     it "Can find the last customer from the CSV" do
       # TODO: Your test code here!
+      Customer.find(35).id.must_equal 35
+      Customer.find(35).email.must_equal "rogers_koelpin@oconnell.org"
+      Customer.find(35).address.must_equal "7513 Kaylee Summit, Uptonhaven, DE, 64529-2614"
     end
 
     it "Raises an error for a customer that doesn't exist" do
       # TODO: Your test code here!
+      Customer.find(0).must_be_instance_of String
+      Customer.find(36).must_be_instance_of String
     end
   end
 end

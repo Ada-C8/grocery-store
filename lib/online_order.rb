@@ -1,3 +1,4 @@
+require 'pry'
 module Grocery
 
   require_relative 'order'
@@ -18,7 +19,16 @@ module Grocery
       else
         super
       end
-
     end
+
+    def add_product(product_name, product_price)
+      case @status
+      when "processing", "shipped", "completed"
+        return false
+      else
+        super
+      end
+    end
+
   end #OnlineOrder
 end #module

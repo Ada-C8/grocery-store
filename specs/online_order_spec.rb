@@ -4,7 +4,6 @@ require 'minitest/skip_dsl'
 
 # TODO: uncomment the next line once you start wave 3
 require_relative '../lib/online_order'
-require_relative '../lib/order'
 # You may also need to require other classes here
 
 # Because an OnlineOrder is a kind of Order, and we've
@@ -60,8 +59,23 @@ describe "OnlineOrder" do
   end
 
   describe "#add_product" do
+    before do
+      #test data
+      @id = 1500
+      @products = {"Spumoni" => 9.87}
+      @customer_id = 3333
+      status = "completed"
+      @test_order = Grocery::OnlineOrder.new(@id, @products, @customer_id, status)
+    end
+
     it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
+      @test_order.add_product("Tofu", 30).must_equal false
+
+      test3 = Grocery::OnlineOrder.new(@id, @products, @customer_id, "processing")
+      test3.add_product("Tofu", 30).must_equal false
+
+      test4 = Grocery::OnlineOrder.new(@id, @products, @customer_id, "shipped")
+      test4.add_product("Tofu", 30).must_equal false
     end
 
     it "Permits action for pending and paid satuses" do

@@ -1,5 +1,4 @@
 require 'csv'
-# require 'pry'
 
 module Grocery
   class Order
@@ -16,28 +15,24 @@ module Grocery
         id = line[0]
         line.delete_at(0)
         line = line[0].split(";")
-
         products = []
         line.each do |item_info|
           item_pair = item_info.split(":")
           item_with_cost = {item_pair[0] => item_pair[1]}
           products << item_with_cost
         end
-
         order = Grocery::Order.new(id, products)
         all_orders << order
       end
       return all_orders
-
     end
 
     def self.find(id)
       self.all.each do |order|
-        if id == order.id
+        if id == order.id.to_i
           return order
         end
       end
-
       if id.to_i > self.all.count || id.to_i < 1
         raise ArgumentError.new ("That order ID does not exist.")
       end
@@ -74,5 +69,6 @@ module Grocery
         end
       end
     end
+
   end # end of class
 end # end of module

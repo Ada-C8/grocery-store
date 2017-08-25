@@ -1,3 +1,5 @@
+require 'csv'
+
 module Grocery
   class Order
     attr_reader :id, :products
@@ -6,6 +8,17 @@ module Grocery
       @id = id
       @products = products
     end
+
+    def self.all
+      @all_orders = []
+      CSV.read("support/orders.csv").each do |row|
+        order = self.order_from_row(row)
+        @all_orders << order
+      end
+      return @all_orders
+    end
+
+
 
     def total
       total = 0
@@ -29,5 +42,28 @@ module Grocery
       end
     end
 
+    private
+
+    def self.order_from_row(row)
+      id = row[0].to_i
+      products = self.parse_product_string(row[1])
+      Order.new(id, products)
+    end
+
+    def self.parse_product_string(product_string)
+      pair_strings = product_string.split(';')
+      pairs = []
+      pair_strings.each do |pair|
+        pairs << pair.split(':')
+      end
+      products = {}
+      pairs.to_h.each do |item, cost|
+        products[item] = cost.to_i
+      end
+    end
+
   end #end of class
 end #end of module
+
+# order_1 = Grocery::Order.new(1, {"juice" => 4.99})
+# puts order_1.all_orders

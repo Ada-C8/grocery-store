@@ -67,7 +67,7 @@ describe "Order Wave 1" do
       result.must_equal false
       before_total.must_equal after_total
     end
-    
+
     it "Returns true if the product is new" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Grocery::Order.new(1337, products)
@@ -78,19 +78,31 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
+      Grocery::Order.all.must_be_kind_of Array
+    end
+
+    it "Everything in the array is an Order" do
+      Grocery::Order.all.each do |order|
+        order.must_be_kind_of Grocery::Order
+      end
+    end
+
+    it "the number of orders is correct" do
+      Grocery::Order.all.length.must_equal 100
+    end
+
+  
+
+
       # TODO: Your test code here!
       # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
-    end
+
   end
 
   xdescribe "Order.find" do

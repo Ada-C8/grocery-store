@@ -3,7 +3,6 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 require_relative '../lib/online_order'
-# You may also need to require other classes here
 
 describe "OnlineOrder" do
   describe "#initialize" do
@@ -36,6 +35,7 @@ describe "OnlineOrder" do
       online_order = Grocery::OnlineOrder.new(1, products, customer, status)
 
       offline_order = Grocery::Order.new(1, {"peas" => 2, "beer" => 8})
+
       online_order.total.must_equal offline_order.total + 10
     end
 
@@ -97,7 +97,6 @@ describe "OnlineOrder" do
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       Grocery::OnlineOrder.find_by_customer(25).must_equal [1, 20, 28, 51, 72, 95]
-      # TODO: Your test code here!
     end
   end
 end

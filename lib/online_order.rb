@@ -23,7 +23,7 @@ module Grocery
 
     def add_product(product_name, product_price)
       if [:processing, :shipped, :complete].include?(self.status)
-        raise ArgumentError.new("This action not permitted for processing, shipped, or completed orders.")
+        raise ArgumentError.new("This action not permitted for processing, shipped, or complete orders.")
       end
       super
     end

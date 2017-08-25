@@ -40,7 +40,7 @@ describe "Customer" do
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      proc {Grocery::Customer.find(0)}.must_raise ArgumentError #what's up with this proc syntax?
+      proc {Grocery::Customer.find(0)}.must_raise ArgumentError #Question: what's up with this proc syntax?
     end
   end
 end

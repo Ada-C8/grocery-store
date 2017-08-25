@@ -84,6 +84,7 @@ describe "Order Wave 1" do
       order = Grocery::Order.new(1337, products)
 
       order.remove_product("cracker")
+
       expected_count = before_count - 1
       order.products.count.must_equal expected_count
     end
@@ -98,7 +99,6 @@ describe "Order Wave 1" do
 
     it "Returns false if the product is not in the order" do
       products = { "banana" => 1.99, "cracker" => 3.00}
-
       order = Grocery::Order.new(1337, products)
       before_total = order.total
 
@@ -119,7 +119,6 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
@@ -143,11 +142,11 @@ describe "Order Wave 2" do
       Grocery::Order.find(100).id.must_equal 100
     end
 
-    #Question: is there a benefit to specifically raising an ArgumentError?
+    #Question: is there a benefit to specifically raising an ArgumentError? Rather than just returning a message?
     it "Raises an error for an order that doesn't exist" do
-      Grocery::Order.find(0).must_equal "This order does not exist."
-      Grocery::Order.find(101).must_equal "This order does not exist."
-      Grocery::Order.find("one").must_equal "This order does not exist."
+      proc {Grocery::Order.find(0)}.must_raise ArgumentError
+      proc {Grocery::Order.find(101)}.must_raise ArgumentError
+      proc {Grocery::Order.find("one")}.must_raise ArgumentError
     end
   end
 end

@@ -11,9 +11,9 @@ module Grocery
 
     def total
       @sum = 0
-        @products.each_value do |value|
-          @sum += value
-        end
+      @products.each_value do |value|
+        @sum += value
+      end
       @total = @sum + (@sum * 0.075).round(2)
     end
 
@@ -49,7 +49,7 @@ module Grocery
 
     def self.find(id)
       if id.to_i < 1 || id.to_i > 100
-        return "This order does not exist."
+        raise ArgumentError.new("This order number does not exist.")
       end
       return self.all[id - 1]
     end

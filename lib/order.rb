@@ -51,7 +51,6 @@ module Grocery
           cost = info_array.delete_at(0)
           hashy_hash[item] = cost
         end
-          binding.pry
         all_orders << self.new(id_num, hashy_hash)
       end
       all_orders
@@ -66,5 +65,4 @@ module Grocery
 
 end
 
-Grocery::Order.all
 #  binding.pry

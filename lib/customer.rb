@@ -19,14 +19,15 @@ module Grocery
     end
 
     def self.all
+      all_customers =[]
       CSV.open("support/customers.csv", 'r').each do |info_sheet|
         #sort the ugly string out
         #{id_number => {item => price}}
-        all_customers =[]
         # customer_id, email, address, city, state, zip_code)
-        all_customers << self.new((info_sheet[0]).to_i,  info_sheet[1],  info_sheet[2],  info_sheet[3], info_sheet[4],  info_sheet[5])
-        binding.pry
+        all_customers << self.new((info_sheet[0]).to_i, info_sheet[1], info_sheet[2], info_sheet[3], info_sheet[4], info_sheet[5])
+
       end
+      all_customers
     end
 
     def self.find(id)
@@ -34,5 +35,6 @@ module Grocery
 
   end
 end
-
-Grocery::Customer.all
+# #
+# blue = CSV.open("support/customers.csv", 'r')
+# binding.pry

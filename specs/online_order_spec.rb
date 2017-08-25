@@ -94,9 +94,9 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "OnlineOrder.find_by_customer" do
+  describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      Grocery::OnlineOrder.find_by_customer()
+      Grocery::OnlineOrder.find_by_customer(25).must_equal [1, 20, 28, 51, 72, 95]
       # TODO: Your test code here!
     end
   end

@@ -43,7 +43,15 @@ module Grocery
       return all_orders
     end
 
+    def self.find_by_customer(customer)
+      order_array = []
+      self.all.each do |order|
+        if order.customer == customer
+          order_array << order.id
+        end
+      end
+      return order_array
+    end
+
   end
 end
-
-ap Grocery::OnlineOrder.find(1)

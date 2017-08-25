@@ -129,7 +129,6 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # order = Grocery::Order.all
       Grocery::Order.find("1").must_equal "Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"
     end
 

@@ -84,17 +84,31 @@ describe "OnlineOrder" do
     end
   end
 
-  describe "OnlineOrder.all" do
-    it "Returns an array of all online orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
+  describe "OnlineOrder.all an array of all online orders" do
+
       #   - OnlineOrder.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The customer is present
-      #   - The status is present
-      # Feel free to split this into multiple tests if needed
+
+    it "OnlineOrder.all returns an array" do
+      Grocery::OnlineOrder.must_respond_to :all
+      Grocery::OnlineOrder.all.must_be_instance_of Array
     end
+    #   - Everything in the array is an Order
+    it "OnlineOrder.all array contains OnlineOrder objects" do
+      Grocery::OnlineOrder.all[rand(0..100)].must_be_instance_of Grocery::OnlineOrder
+    end
+    #   - The number of orders is correct
+    it "Has the correct number of online orders initialized" do
+      Grocery::OnlineOrder.all.length.must_equal 100
+    end
+    #   - The customer is present
+    it "Has OnlineOrder objects that have Customer objects" do
+      Grocery::OnlineOrder.all[rand(0..100)].customer.must_be_instance_of Grocery::Customer
+    end
+    #   - The status is present
+    it "Has OnlineOrder objects that have statuses" do
+      Grocery::OnlineOrder.all[rand(0..100)].status.must_be_instance_of Symbol
+    end
+
   end
 
   describe "OnlineOrder.find_by_customer" do

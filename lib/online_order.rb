@@ -33,6 +33,29 @@ module Grocery
       end
       raise ArgumentError.new("Status is neither pending nor paid")
     end
-    
+
+    def self.all
+      #Path.expand(__FILE__, relative file path)
+      all_orders = []
+      CSV.read("support/online_orders.csv").each do |order|
+        #0 id, 1 product string, 2 customer id, 3 status
+        id = order[0].to_i
+        products = {}
+        @item_price_array = order[1].split(";")
+        #still [item:price, item:price], need to put in hash
+        @item_price_array.each do |product|
+          split_product = product.split(":")
+          item = split_product[0]
+          price = split_product[1]
+          product_hash = {item => price}
+          products.merge!(product_hash)
+        end
+        customer = Grocery::Customer.find(order[2].to_i)
+        status = order[3].to_sym
+        all_orders << Grocery::OnlineOrder.new(id, products, customer, status)
+      end
+      return all_orders
+    end
+
   end
 end

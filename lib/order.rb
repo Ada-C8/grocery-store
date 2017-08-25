@@ -72,40 +72,38 @@ module Grocery
 
     def self.find(id_to_test)
       #self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
-      # TODO NEED TO MAKE THIS WORK
-      x = self.all
-      if id_to_test.to_i > x.length
-        raise ArgumentError.new("Error: order #{id_to_test} does not exsist!")
-      else
-        @@all_orders.each do |order|
-          if order.id == id_to_test
-            return order
-          end
-        end
-      end
-
-      # TODO GET THE ORDER RETURNED IF IT EXISTS AND RETURN FALSE IF IT DOESN'T EXIST:
-      # if  @@all_orders.any?{|a| a.id == id_to_test}
-      #       @@all_orders.each do |order|
-      #         if order.id == id_to_test
-      #           return order
-      #         end
-      #       end
+      # I chose not to do this because in a different situation where we loaded the orders in a differnt way it wouldn't work
+      # x = self.all
+      # if id_to_test.to_i > x.length
+      #   raise ArgumentError.new("Error: order #{id_to_test} does not exsist!")
       # else
-      #   return false
+      #   @@all_orders.each do |order|
+      #     if order.id == id_to_test
+      #       return order
+      #     end
+      #   end
       # end
 
 
+      if  @@all_orders.any?{|instance| instance.id == id_to_test.to_s}
+            @@all_orders.each do |order|
+              if order.id == id_to_test.to_s
+                return order
+              end #if
+            end # .each
+      else
+        raise ArgumentError.new("Error: order #{id_to_test} does not exsist!")
+      end # if/else
 
     end #self.find(id)
 
   end #Order class
 end # Grocery module
 
- Grocery::Order.all
-test = Grocery::Order.find("2")
-
-puts test
+#  Grocery::Order.all
+# test = Grocery::Order.find("2")
+#
+# puts test
  #=> true
 
 

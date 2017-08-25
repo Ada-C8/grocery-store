@@ -230,7 +230,7 @@ describe "Order Wave 2" do
       Grocery::Order.all
       test = Grocery::Order.find(1)
 
-      test[0].products.must_equal test_hash[first_order[0]]
+      test.products.must_equal test_hash[first_order[0]]
     end # it "Can find the first order...
 
     it "Can find the last order from the CSV" do
@@ -256,7 +256,7 @@ describe "Order Wave 2" do
       test = Grocery::Order.find(all_orders.length)
 
       #Not producing the same list of products....
-      test[-1].products.must_equal all_orders[-1].products
+      test.products.must_equal all_orders[-1].products
     end
 
 
@@ -269,7 +269,7 @@ describe "Order Wave 2" do
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      # TODO: need to modify the add_product method to add the instance onto the @@all_orders array and then check @@all_orders.length + 1 here instead of yay_orders.length + 1
       yay_orders = CSV.read("support/orders.csv", 'r')
 
       Grocery::Order.all

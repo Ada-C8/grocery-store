@@ -5,6 +5,7 @@ require 'minitest/skip_dsl'
 
 # TODO: uncomment the next line once you start wave 3
 require_relative '../lib/online_order'
+require_relative '../lib/order'
 # You may also need to require other classes here
 
 # Because an OnlineOrder is a kind of Order, and we've
@@ -13,10 +14,12 @@ require_relative '../lib/online_order'
 # only test things that are different.
 
 describe "OnlineOrder" do
+  before do
+    @online_order = Grocery::OnlineOrder.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21}, 25, :complete)
+    @order = Grocery::Order.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21})
+    @product_free = Grocery::OnlineOrder.new(35, {}, 25, :complete)
+  end
   describe "#initialize" do
-    before do
-      @online_order = Grocery::OnlineOrder.new(1, {"Salmon" => 25.00}, 22, :processing)
-    end
     it "Is a kind of Order" do
       # Check that an OnlineOrder is in fact a kind of Order
       @online_order.must_be_kind_of Grocery::Order
@@ -39,10 +42,13 @@ describe "OnlineOrder" do
   describe "#total" do
     it "Adds a shipping fee" do
       # TODO: Your test code here!
+      @online_order.total.must_equal (@order.total + 10)
+      # (180.68)
     end
 
     it "Doesn't add a shipping fee if there are no products" do
       # TODO: Your test code here!
+      @product_free.total.must_equal 0
     end
   end
 

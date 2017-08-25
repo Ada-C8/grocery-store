@@ -1,12 +1,70 @@
+require_relative 'order'
 module Grocery
   class OnlineOrder < Order
+    attr_reader :customer_id, :status
+
     def initialize(id, products, customer_id, status)
-      super
+      super(id, products)
       @customer_id = customer_id
-      @status = status
+      @status = status.to_sym
 
     end
 
+    def total
+      if super == 0
+        return 0
+      else
+        t = super + 10
+        return t
+      end
+    end
+
+    def self.all
+      # orders = []
+      if @@orders.length > 0
+        return @@orders
+      end
+      CSV.open("support/orders.csv", 'r').each do |line|
+        id = line[0].to_i
+        # line[1] = line[1].split(';')
+        # line[1] = line[1].gsub!':' '=>'
+        # products = line[1].to_h
+        # products = line[1]
+        products_hash = {}
+        products_arr = line[1].split';'
+        products_arr.each do |item_colon_price|
+          product_price = item_colon_price.split':'
+          products_hash[product_price[0]] = product_price[1].to_f
+
+        end
+
+        @@orders << self.new(id, products_hash)
+
+      end
+      return @@orders
+    end
+
+    def self.find(id)
+      super
+      # # customers = self.all
+      # # logic error:
+      # until (1..@@customers.length).include?(id) #&& (id.kind_of? Integer)
+      #   raise ArgumentError.new("Invalid id: #{id}")
+      # end
+      #
+      # found_customer = nil
+      # @@customers.each do |customer|
+      #   if customer.id == id
+      #     found_customer = customer
+      #   end
+      # end
+      # return found_customer
+    end
+
+    def customer(customer_id)
+      customer = Grocery::Customer.find(customer_id)
+      return customer
+    end
   end
 end
 

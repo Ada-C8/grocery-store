@@ -8,10 +8,8 @@ module Grocery
     attr_reader :id, :products
 
     def initialize(id, products)
-      #@products_array = [] #Not sure if this will work, might need to make instance @product_array
       @id = id
       @products = products
-      #@products_array << products
     end
 
     def add_product(product_name, product_price)
@@ -25,10 +23,9 @@ module Grocery
     end
 
     def total
-
       sum = 0
       @products.each do |key, value|
-        sum += value
+        sum += value.to_f     #changed this to .to_f in case a string gets entered
       end
       sum_incl_tax = (sum + (sum * 0.075)).round(2)
       return sum_incl_tax

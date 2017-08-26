@@ -131,26 +131,20 @@ describe "Order Wave 2" do
         order.must_be_kind_of Grocery::Order
       end
     end
-    #   - Order.all returns an array
     it "Order.all returns an array" do
       Grocery::Order.all.must_be_kind_of Array
     end
 
-    #   - The number of orders is correct
     it "the number of orders is correct" do
-      # binding.pry
       Grocery::Order.all.length.must_equal 100
     end
 
-    #   - The ID and products of the first and last
-    #       orders match what's in the CSV file
     it "the ID and products of order.all[0] and order.all[99] match what is in the CSV file" do
       order_first = [1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
       order_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
       # you have to call orders.first.id because orders is an array of instances of the class. You need to get down to the first instance in the array to call the class instance variable on it.
       Grocery::Order.all.first.id.must_equal order_first[0]
       Grocery::Order.all.first.products.must_equal order_first[1]
-
       Grocery::Order.all.last.id.must_equal order_last[0]
       Grocery::Order.all.last.products.must_equal order_last[1]
     end
@@ -158,17 +152,11 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      #there is a better way to do this - check bennets code - make it dry and remove the order_first varible if possible.
-      order_first = [1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
-      Grocery::Order.find(1).id.must_equal  order_first[0]
-      Grocery::Order.find(1).products.must_equal order_first[1]
+      Grocery::Order.find(1).must_be_same_as Grocery::Order.all.first
     end
 
     it "Can find the last order from the CSV" do
-      order_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
-
-      Grocery::Order.find(100).id.must_equal order_last[0]
-      Grocery::Order.find(100).products.must_equal order_last[1]
+      Grocery::Order.find(100).must_be_same_as Grocery::Order.all.last
     end
 
     it "Raises an error for an order that doesn't exist" do

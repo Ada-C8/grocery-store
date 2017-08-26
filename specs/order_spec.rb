@@ -10,11 +10,9 @@ describe "Order Wave 1" do
     it "Takes an ID and collection of products" do
       id = 1337
       order = Grocery::Order.new(id, {})
-
       order.must_respond_to :id
       order.id.must_equal id
       order.id.must_be_kind_of Integer
-
       order.must_respond_to :products
       order.products.length.must_equal 0
     end

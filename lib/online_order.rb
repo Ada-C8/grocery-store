@@ -6,17 +6,16 @@ require_relative 'order'
 require_relative 'customer'
 
 module Grocery
-
   class OnlineOrder < Order
   # The OnlineOrder class will inherit behavior from the Order class and include additional data to track the customer and order status.
-    attr_reader :id, :products, :customer, :order_status
+    attr_reader :id, :products, :customer_id, :order_status
 
-    def initialize(id, products, customer, order_status = :pending)
+    def initialize(id, products, customer_id, order_status = :pending)
       @id = id
       @products = products
-      @customer = customer # or? Grocery::Customer.all
+      @customer_id = Grocery::Customer.find(customer_id)
+      #or Grocery::OnlineOrder.find_by_customer(customer_id) or #
       @order_status = order_status
-      status_array = [:pending, :paid, :processing, :shipped, :complete]
     end
 
     def total
@@ -46,7 +45,7 @@ module Grocery
 
     def self.all
       orders_array = []
-      CSV.read('./support/online_orders.csv').each do |row|
+      CSV.read('online_orders.csv').each do |row|
         products_hash = {}
         products_colon = row[1].split(";")
         products_colon.each do |e|
@@ -54,29 +53,64 @@ module Grocery
           v = e.split(":").last
           products_hash.merge!({k => v})
         end
-        orders_array << Grocery::Order.new(row[0], products_hash)
+        orders_array << [Grocery::Order.new(row[0], products_hash), row[2], row[3]]
+        #ap orders_array
       end
       return orders_array
-      # puts "This is the orders_array:"
-      # ap orders_array
+      puts "This is the orders_array:"
+      ap orders_array
     end
 
-    def self.find(input_id)
-      ordered_stuff = {}
+    def self.find(order_id)
+      # returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
+      #this returns only one piece of data- the order at that order id. It will return the whole object, not just the array of products.
+      ordered_stuff = []
       #if id > 1 && id <@orders_array.length
-        my_order = Grocery::OnlineOrder.all
-        my_order.each do |order|
-          if order.id == input_id
-            ordered_stuff = order.products
-            return ordered_stuff
+      all_online_orders = Grocery::OnlineOrder.all
+      #puts "ALL ONLINE ORDERS:"
+      #ap all_online_orders
+      all_online_orders.each do |order|
+        #ap order[0].id
+        #ap order_id
+        if order[0].id == order_id
+          ordered_stuff << order
+          return ordered_stuff
+        end
+      end
+      if ordered_stuff.empty?
+        raise ArgumentError.new("You did not enter a valid order number.")
+      end
+    end
+
+    def self.find_by_customer(customer_id)
+      # returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
+      #i.e. return ALL orders made by a specific customer- need to store them in an array
+      #it will return an array of objects, not just a products array
+      orders_by_customer_x = []
+      all_online_orders = Grocery::OnlineOrder.all
+      puts all_online_orders
+      all_online_orders.each do |order|
+          if order == customer_id
+            orders_by_customer_x << order
           end
+          #ap orders_by_customer_x
+          return orders_by_customer_x
         end
-        if ordered_stuff.empty?
-          raise ArgumentError.new("You did not enter a valid order number.")
+        if orders_by_customer_x.empty?
+          raise ArgumentError.new("You did not enter a valid customer ID or that customer does not have any online orders.")
         end
+
     end
 
   end #end of class OnlineOrder
 end #end of module
 
-Grocery::OnlineOrder.all
+#grocery = Grocery::OnlineOrder.all
+#puts "TESTING FIND (BY ORDER ID):"
+#ap Grocery::OnlineOrder.find("1")
+
+puts "TESTING FIND BY CUSTOMER METHOD:"
+# Customer 6 has 3 online orders
+ap Grocery::OnlineOrder.find_by_customer("6")
+
+#ap Grocery::OnlineOrder.all

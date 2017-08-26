@@ -14,7 +14,7 @@ module Grocery
     #imports orders in from CSV
     def self.all
       orders_array = []
-      CSV.read('./support/orders.csv').each do |row|
+      CSV.read('orders.csv').each do |row|
         products_hash = {}
         products_colon = row[1].split(";")
         products_colon.each do |e|

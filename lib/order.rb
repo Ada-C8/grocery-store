@@ -4,21 +4,29 @@ module Grocery
   class Order
     attr_reader :id, :products
 
+    @@all_orders = []
+
     def initialize(id, products)
       @id = id
       @products = products
     end
 
     def self.all
-      @all_orders = []
+      @@all_orders = []
       CSV.read("support/orders.csv").each do |row|
         order = self.order_from_row(row)
-        @all_orders << order
+        @@all_orders << order
       end
-      return @all_orders
+      return @@all_orders
     end
 
-
+    def self.find(id)
+      @@all_orders.each do |order|
+        if order.id == id
+          return order
+        end
+      end
+    end
 
     def total
       total = 0

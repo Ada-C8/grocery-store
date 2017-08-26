@@ -1,7 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
-require_relative '../lib/order'
+require_relative 'spec_helper'
 
 describe "Order Wave 1" do
   describe "#initialize" do
@@ -101,23 +98,16 @@ describe "Order Wave 2" do
       Grocery::Order.all.last.id.must_equal 100
       Grocery::Order.all.last.products.must_equal("Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59)
     end
-
-
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
-
   end
 
-  xdescribe "Order.find" do
+  describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      orders = Grocery::Order.find(1).must_be_kind_of Grocery::Order
+      orders = Grocery::Order.find(1).products.must_equal("Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9)
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      # orders = Grocery::Order.all.find(-1)
     end
 
     it "Raises an error for an order that doesn't exist" do

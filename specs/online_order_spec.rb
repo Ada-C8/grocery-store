@@ -70,7 +70,6 @@ describe "OnlineOrder" do
       tests = Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25)
 
       tests.status
-      binding.pry
 
       after = Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25,"paid")
 
@@ -98,12 +97,9 @@ describe "OnlineOrder" do
 
     #The wording on this prompt is vauge. I'm not sure this test is targeted at extracting the approptiate information
     it "The customer is present - Raises and error if the customer ID doesn't exist" do
-      # proc{Grocery::OnlineOrder.find(107)}.must_raise ArgumentError
-    end
-
-    it "OnlineOrder.all responds to status" do
-      @online_orders.must_respond_to :status
-
+      @online_orders.each do |order|
+        order.customer_id.wont_be_empty
+      end
     end
 
     it "The status is present - all users have a status AKA default parameter value works" do

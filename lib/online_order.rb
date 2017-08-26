@@ -1,14 +1,16 @@
 require 'csv'
 require_relative 'order'
+require_relative 'customer'
 
 module Grocery
   class OnlineOrder < Order
     attr_reader :customer_id, :status
     @@all_online_orders = []
 
-    def initialize(id, products, customer_id, status = :pending)
+    def initialize(id, products, customer, status = :pending)
       super(id, products)
-      @customer_id = customer_id
+      @customer = Grocery::Customer.find(customer)
+      @customer_id = customer
       @status = status.to_sym
     end #initialize
 
@@ -60,9 +62,35 @@ module Grocery
       return @@all_online_orders
     end #self.all
 
-    def self.find(id)
-      super
-    end #self.find(id)
+    # def self.find(id)
+    #   # use super?
+    #   # super
+    #   # if id > all.length
+    #   #   raise ArgumentError.new("Error: #{id} does not exist")
+    #   # end
+    #   if id > @@all_online_orders.length
+    #     raise ArgumentError.new("That #{id} doesn't exist")
+    #   end
+    #
+    #   all.each do |order|
+    #     if id == order.id
+    #       return order
+    #     end
+    #   end
+    #
+    # end #self.find(id)
 
+    def self.find_by_customer(customer_id)
+      if customer_id > @@all_online_orders.length
+        raise ArgumentError.new("Sorry, customer #{customer_id} doesn't exist")
+      end
+      customers_orders = []
+      all.each do |order|
+        if order.customer_id == customer_id
+          customers_orders << order
+        end
+      end
+      return customers_orders
+    end
   end # Customer class
 end # Grocery module

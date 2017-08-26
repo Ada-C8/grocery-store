@@ -24,7 +24,7 @@ describe "Customer" do
       customers.each { |customer| customer.must_be_instance_of Grocery::Customer }
     end
 
-    it "Has the correct number of orders" do
+    it "Has the correct number of customers" do
       Grocery::Customer.all.length.must_equal 35
     end
 
@@ -50,7 +50,7 @@ describe "Customer" do
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      Grocery::Customer.find(105).must_equal "Invalid Customer Number"
+      proc { Grocery::Customer.find(105) }.must_raise ArgumentError
     end
 
     it "Returns an Customer object" do

@@ -52,13 +52,13 @@ describe "OnlineOrder" do
   describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
       online_order = Grocery::OnlineOrder.new(1337, 3, :shipped, {"banana" => 1.0, "apple" => 1.25, "whole milk" => 3.59})
-      online_order.add_product("olives", 4.59)
+      proc { online_order.add_product("olives", 4.59) }.must_raise ArgumentError
       online_order.products.has_key?("olives").must_equal false
     end
 
-    xit "Raise ArgumentError for processing, shipped, or completed statuses" do
+    it "Raise ArgumentError for processing, shipped, or completed statuses" do
       online_order = Grocery::OnlineOrder.new(1337, 3, :procesing, {"banana" => 1.0, "apple" => 1.25, "whole milk" => 3.59})
-      online_order.add_product("olives", 4.59).must_raise ArgumentError
+      proc { online_order.add_product("olives", 4.59) }.must_raise ArgumentError
     end
 
     it "Permits action for pending and paid satuses" do
@@ -84,7 +84,7 @@ describe "OnlineOrder" do
     end
   end
 
-  describe "Order.find" do
+  describe "OnlineOrder.find" do
     it "Can find the first order from the CSV" do
       Grocery::OnlineOrder.find(1).id.must_equal 1
     end

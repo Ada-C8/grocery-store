@@ -29,7 +29,7 @@ module Grocery
         return customer if customer.id == id_num
       end
       if !(ids.include?(id_num))
-        return "Invalid Customer Number"
+        raise ArgumentError.new("Invalid Customer ID")
       end
     end
   end

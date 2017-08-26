@@ -2,6 +2,7 @@ require_relative './order'
 
 module Grocery
   class OnlineOrder < Grocery::Order
+    extend Grocery
     attr_reader :id, :customer, :products
     attr_accessor :status
 
@@ -15,13 +16,7 @@ module Grocery
     def self.all
       orders = []
       CSV.open('./support/online_orders.csv', "r", headers: true).each do |row|
-        order_products = row["products"].split(";")
-        products = {}
-        order_products.each do |product_price|
-          product_hash = product_price.split(":")
-          products.store(product_hash[0], product_hash[1].to_f)
-        end
-        orders << OnlineOrder.new(row["id"], row["customer_id"], row["status"], products)
+        orders << OnlineOrder.new(row["id"], row["customer_id"], row["status"], product_parse(row))
       end
       orders
     end
@@ -64,7 +59,7 @@ module Grocery
       if @status == :pending || @status == :paid
         super
       else
-       return "This order cannot be modified."
+       raise ArgumentError.new("This order cannot be modified.")
       end
     end
   end

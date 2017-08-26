@@ -1,7 +1,7 @@
 require 'csv'
 
 module Grocery
-  def product_parse
+  def product_parse(row)
     order_products = row["products"].split(";")
     products = {}
     order_products.each do |product_price|
@@ -12,6 +12,7 @@ module Grocery
   end
 
   class Order
+    extend Grocery
     attr_reader :id, :products
 
     def initialize(id, products)
@@ -22,13 +23,7 @@ module Grocery
     def self.all
       orders = []
       CSV.open('./support/orders.csv', "r", headers: true).each do |row|
-        order_products = row["products"].split(";")
-        products = {}
-        order_products.each do |product_price|
-          product_hash = product_price.split(":")
-          products.store(product_hash[0], product_hash[1].to_f)
-        end
-        orders << Order.new(row["id"].to_i, products)
+        orders << Order.new(row["id"].to_i, product_parse(row))
       end
       orders
     end
@@ -41,7 +36,7 @@ module Grocery
         return order if order.id == id_num
       end
       if !(ids.include?(id_num))
-        return "Invalid Order Number"
+        raise ArgumentError.new("Invalid Order Number")
       end
     end
 

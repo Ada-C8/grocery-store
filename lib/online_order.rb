@@ -22,9 +22,15 @@ module Grocery
       end
     end
 
-    def add_product
-      super
-    end #add_product
+    def add_product(product_name, product_price)
+      case @status
+      when :pending, :paid
+        super(product_name, product_price)
+      when :complete, :processing, :shipped
+        raise ArgumentError.new("Error: Cannot add if #{@status}.")
+      end
+    end
+
 
     def self.all
       # not using super b/c new csv and taking in more arguments (we don't want anything from Order.all from Order file) we want ALL of the online_orders

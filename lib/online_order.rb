@@ -10,41 +10,73 @@ require_relative 'customer'
 
 class OnlineOrder < Grocery::Order
 
-def initialize(id, products, customer, status)
-  super(id, products)
-  @customer = customer
-  @status = status
-end #init
+  @@all_online_orders = Array.new
 
-def total
-  @total = super + 10.00
-  return  @total
-end #total method
+  attr_reader :customer_id, :status
+
+  def initialize(id, products, customer_id, status)
+    super(id, products)
+    @customer_id = customer_id.to_i
+    @status = status
+  end #init
+
+  def total
+    @total = super + 10.00
+    return  @total
+  end #total method
+
+  def self.all_online
+    products = {}
+
+    CSV.open('../support/online_orders.csv', 'r').each do |line|
+      id = line[0].to_i #assign ids
+      customer_id = line[2].to_i
+      status = line[3].to_sym
+
+      x = line[1].split(';') #split out products by dividing by semi colons
+      #puts "x is #{x} and it is class #{x.class}"
+
+      x.each do |item|
+        y = item.split(":") #split prices from products
+        #puts "y is #{y} and it is #{y.class}\n\n"
+        x.length.times do
+          products[y[0]] = y[1] #assign prices to products in the products hash
+          #puts "In the middle of the length times do "
+        end # length.times do
+      end #of x.each do
+      @@all_online_orders << OnlineOrder.new(id, products, customer_id, status)
+      products = {}
+    end #
+    return @@all_online_orders
+  end #all method
+end #class
+
+
+puts OnlineOrder.all_online.inspect
+
+
 
 # def self.all
 #   products = {}
 #   CSV.open('../support/orders.csv', 'r').each do |line|
-#     id = line[0].to_i
-#     x = line[1].split(';')
+#     id = line[0].to_i #assigns first # in CSV to be the order ID
+#     x = line[1].split(';') #splits the orders by semicolons
 #     x.each do |item|
-#       y = item.split(":")
+#       y = item.split(":") #seperates product name and price
 #       x.length.times do
-#         products[y[0]] = y[1].to_f
+#         products[y[0]] = y[1].to_f #adds product name and price to products hash
 #       end
 #     end #of x.each do
-#     @@all_orders << Grocery::Order.new(id, products)
-#     products = {}
+#     @@all_online_orders << Grocery::Order.new(id, products) #initalizes a new order using the id and products hash for the current line and adds it to all orders array
+#     products = {} #clears the products array for the next order.
 #   end #of CSV line by line
-#   return @@all_orders
+#   return @@all_online_orders
 # end
-
-end #class
-
-x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :pending)
-puts x.id
-puts x.products
-puts x.inspect
-puts x.total
+# x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :pending)
+# puts x.customer_id
+# puts x.products
+# puts x.inspect
+# puts x.total
 #puts x.total
 # A customer object
 # A fulfillment status (stored as a Symbol)

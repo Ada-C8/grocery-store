@@ -1,18 +1,15 @@
 require 'csv'
-
-
+#NO! order.rb doesn't need require_relative AT. ALL.
 module Grocery
 
   class Order
+
     attr_reader :id, :products
 
     def initialize(id, products)
       @id = id
       @products = products
     end
-
-    require_relative 'customer.rb'
-  #  require_relative 'online_order.rb'
 
     #CSV must be in an array
     #in order to test using rake, only one period (instead of two) is needed
@@ -69,4 +66,6 @@ module Grocery
       return true
     end
   end
+
+
 end

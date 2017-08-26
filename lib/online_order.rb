@@ -4,6 +4,8 @@ require 'csv'
 class OnlineOrder < Grocery::Order
   attr_reader :customer, :status, :products, :id
 
+  @@all_online_orders = []
+
   def initialize(id, products, customer, status)
     super(id, products)
     @customer = customer
@@ -30,36 +32,56 @@ class OnlineOrder < Grocery::Order
     @@all_online_orders = []
     CSV.open("support/online_orders.csv", 'r').each do |line|
       online_products = {}
-      order_id = line[0
+      customer = Grocery::Customer.find(line[-2].to_i) # SHOULD RETURN AN INSTANCE OF A GROCERY::CUSTOMER AT EACH LINE
+      # RUN LOOP STARTING AT INDEX 1 FOR ARRAY TO SPLIT THE CSV IN THE APPROPRIATE FIELDS
       line[1].split(";").each do |item_and_price|
         split = item_and_price.split(":")
-        items[split[0]] = split[1].to_f.round(2)
+        online_products[split[0]] = split[1].to_f.round(2)
       end
-      Grocery::OnlineOrder(line[0].to_i, online_products, customer, status )
+      # LINE -2 IS THE CUSTOMER ID, LINE -1 IS THE ORDER STATUS
+      online_order = OnlineOrder.new(line[0].to_i, online_products, customer, line[-1].to_sym)
+      @@all_online_orders << online_order
     end
-
-
-      order = Grocery::Order.new(line[0].to_i, items)
-      @@all_orders << order
-
-
+    return @@all_online_orders
   end
 
-    # returns a collection of OnlineOrder instances, representing all of the OnlineOrders described in the CSV. See below for the CSV file specifications
-    # Question Ask yourself, what is different about this all method versus the Order.all method? What is the same?
-    # order_id
+  def self.find(order_id)
+    found_order = nil # RETURNS AN INSTANCE OF ONLINE ORDER THAT MATCHES THE ORDER_ID
+    CSV.open("support/online_orders.csv", 'r').each do |line|
+      customer = Grocery::Customer.find(line[-2].to_i)
+      if line[0].to_i == order_id
+        online_products = {}
+        line[1].split(";").each do |item_and_price|
+          split = item_and_price.split(":")
+          online_products[split[0]] = split[1].to_f.round(2)
+        end
+        # LINE -2 IS THE CUSTOMER ID, LINE -1 IS THE ORDER STATUS
+        online_order = OnlineOrder.new(line[0].to_i, online_products, customer, line[-1].to_sym)
+        found_order = online_order
+        break
+      end
+    end
+    return found_order # RETURNS AN INSTANCE OF ONLINE ORDER
+  end # DEF
 
-    #
-    # current_customer = G::Customer.find(customer_id)
-    # current_order_status = status_id
-    # OnlineOrder.new(current_customer, current_order_status
 
-  def self.find(id)
-    # returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
-  end
   def self.find_by_customer(customer_id)
     #returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
-  end
-
-
+    # order = [ order order order] --> each order is the same number customer id
+    orders_by_cust_id = []
+    CSV.open("support/online_orders.csv", 'r').each do |line|
+      customer = Grocery::Customer.find(line[-2].to_i)
+      if line[-2].to_i == customer_id
+        online_products = {}
+        line[1].split(";").each do |item_and_price|
+          split = item_and_price.split(":")
+          online_products[split[0]] = split[1].to_f.round(2)
+        end
+        # LINE -2 IS THE CUSTOMER ID, LINE -1 IS THE ORDER STATUS
+        online_order = OnlineOrder.new(line[0].to_i, online_products, customer, line[-1].to_sym)
+        orders_by_cust_id << online_order
+      end
+    end
+    return orders_by_cust_id
+  end # DEF
 end # CLASS

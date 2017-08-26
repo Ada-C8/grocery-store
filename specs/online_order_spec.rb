@@ -131,39 +131,35 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
-      email = "leonard.rogahn@hagenes.org"
-      address = "71596 Eden Route,Connellymouth,LA,98872-9105"
-      customer = Grocery::Customer.new(1, email, address)
-      status = :paid
-      products = { "banana" => 1.99, "cracker" => 3.00 }
-      online_order = OnlineOrder.new(20, products, customer, status)
-
+      OnlineOrder.all.must_be_kind_of Array
     end
 
     it "Everything in the array is an Order" do
+      OnlineOrder.all.each do |order|
+        order.must_be_instance_of OnlineOrder
+      end
     end
 
     it "The number of total online orders is correct" do
+      OnlineOrder.all.count.must_equal 100
     end
 
     it "The customer is present" do
+      OnlineOrder.all.each do |order|
+        order.customer.must_be_instance_of Grocery::Customer
+      end
     end
 
     it "The status is present" do
+      OnlineOrder.all.each do |order|
+        order.status.must_be_kind_of Symbol
+      end
     end
-      # Useful checks might include:
-      #   - OnlineOrder.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The customer is present
-      #   - The status is present
-      # Feel free to split this into multiple tests if needed
-
   end # DESCRIBE
 
-  xdescribe "OnlineOrder.find_by_customer" do
+  describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+      OnlineOrder.find_by_customer(25).must_be_kind_of Array
     end
   end
 end

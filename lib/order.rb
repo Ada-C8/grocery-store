@@ -4,7 +4,7 @@ require 'pry'
 module Grocery
   class Order
     attr_reader :id, :products
-
+    # if we didn't use before do initialze our variable, it may throw errors because rake runs tests in a random order and it methods were called before .all was called there would be no intances of the class to run on. 
     @@all_orders = []
 
     def initialize(id, products)

@@ -17,22 +17,26 @@ module Grocery
         email_address = line[1]
         delivery_address =  line[2] + ", " + line[3] + ", " + line[4] + "" + line[5]
 
-      customers_info << Grocery::Customer.new(id, email_address, delivery_address)
+        customers_info << Grocery::Customer.new(id, email_address, delivery_address)
       end
       return customers_info
+    end
+
+    def self.find(id)
+      # returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
+      found_customer = nil
+      customers = self.all
+      customers.each do |customer|
+        if customer.id == id
+          return found_customer = customer
+        end
+      end
+      raise ArgumentError.new("Customer does not exist")
     end
   end
 end
 
-    # returns a collection of Customer instances, representing all of the Customer described in the CSV. See below for the CSV file specifications
 
-#
-#   # def self.find(id)
-#
-#   # end
-#
-#   end
-# end
 
 
 

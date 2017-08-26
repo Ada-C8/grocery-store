@@ -64,10 +64,8 @@ describe "OnlineOrder" do
 
     it "Does not permit action for processing, shipped or completed statuses" do
       @new_online_orders.each do |order|
-        #unless order.status == :pending
-          proc{order.add_product(dogtreats: 5.00)}.must_raise ArgumentError
-        #end
-      end
+          proc{order.add_product("dogtreats", 5.00)}.must_raise ArgumentError
+        end
     end
 
     it "Permits action for pending and paid satuses" do
@@ -75,24 +73,30 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "OnlineOrder.all" do
+  describe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
       # Useful checks might include:
       #   - OnlineOrder.all returns an array
-      Grocery::OnlineOrder.all.must_be_kind_of Array
+      all_online_orders = Grocery::OnlineOrder.all
+      all_online_orders.must_be_kind_of Array
       #   - Everything in the array is an Order
-      Grocery::OnlineOrder.all[1].must_be_instance_of Grocery::Order
-      #   - The number of orders is correct
-
-      #   - The customer is present
-      #   - The status is present
-      # Feel free to split this into multiple tests if needed
+      Grocery::OnlineOrder.all[1].must_be_instance_of Grocery::OnlineOrder
+      all_online_orders.each do |order|
+        order.must_be_instance_of Grocery::OnlineOrder
+        order.must_be_kind_of Grocery::Order
+        order.must_respond_to :customer_id
+        order.must_respond_to :status
+      end
+      #The number of orders is correct
+      all_online_orders.count.must_equal 100
     end
   end
 
-  xdescribe "OnlineOrder.find_by_customer" do
+describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+      Grocery::OnlineOrder.find_by_customer(1).must_be_kind_of Array
+      all_online_orders = Grocery::OnlineOrder.all
+      Grocery::OnlineOrder.find_by_customer(1).must_equal all_online_orders[0].customer_id
     end
   end
 end

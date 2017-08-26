@@ -14,13 +14,13 @@ module Grocery
     #imports orders in from CSV
     def self.all
       orders_array = []
-      CSV.read('orders.csv').each do |row|
+      CSV.read('./support/orders.csv').each do |row|
         products_hash = {}
         products_colon = row[1].split(";")
         products_colon.each do |e|
           k = e.split(":").first
           v = e.split(":").last
-          products_hash.merge!({k => v})
+          products_hash.merge!({k => v.to_i})
         end
         orders_array << Order.new(row[0], products_hash)
       end

@@ -20,7 +20,7 @@ module Grocery
   def self.all
     customers = []
     build_address = ""
-    CSV.read('customers.csv').each do |row|
+    CSV.read('./support/customers.csv').each do |row|
       #THIS DIDN'T WORK (IS JOIN NO LONGER IN RUBY'S CURRENT VERSION?)
       #build_address = [row[2],row[3],row[4],row[5]].join(", ")
       build_address = row[2] + ", " + row[3] + ", " + row[4] + ", " + row[5]

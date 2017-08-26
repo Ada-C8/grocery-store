@@ -29,7 +29,6 @@ module Grocery
     def add_product(product_name, product_price)
     # The add_product method should be updated to permit a new product to be added ONLY if the status is either pending or paid (no other statuses permitted)
     acceptable_status = [:pending, :paid]
-
       if acceptable_status.includes?(@order_status)
         if @products.keys.include?(product_name)
           return false
@@ -44,7 +43,7 @@ module Grocery
 
     def self.all
       orders_array = []
-      CSV.read('online_orders.csv').each do |row|
+      CSV.read('./support/online_orders.csv').each do |row|
         products_hash = {}
         products_colon = row[1].split(";")
         products_colon.each do |e|
@@ -53,11 +52,8 @@ module Grocery
           products_hash.merge!({k => v})
         end
         orders_array << Grocery::OnlineOrder.new(row[0], products_hash, row[2], row[3])
-        #ap orders_array
       end
       return orders_array
-      #puts "This is the orders_array:"
-      #ap orders_array
     end
 
     def self.find(order_id)
@@ -66,11 +62,7 @@ module Grocery
       ordered_stuff = []
       #if id > 1 && id <@orders_array.length
       all_online_orders = Grocery::OnlineOrder.all
-      #puts "ALL ONLINE ORDERS:"
-      #ap all_online_orders
       all_online_orders.each do |order|
-        #ap order[0].id
-        #ap order_id
         if order.id == order_id
           ordered_stuff << order
           return ordered_stuff
@@ -88,22 +80,12 @@ module Grocery
       orders_by_customer_x = []
       all_online_orders = Grocery::OnlineOrder.all
       length_array = all_online_orders.length
-      #puts "LENGTH OF ARRAY: #{length_array}"
-      #puts "TEST:"
-      #ap all_online_orders[5]
-      #puts "END OF TEST"
-      #ap all_online_orders
       all_online_orders.each do |order|
-        #all_online_orders.length.times do |index|
-          #ap order[index]
           if order.customer.id == customer_id
             orders_by_customer_x << order
-            #ap orders_by_customer_x
           end #end if
-        #end #end do index
       end #end do order
       return orders_by_customer_x
-      #ap orders_by_customer_x
       if orders_by_customer_x.empty?
         raise ArgumentError.new("You did not enter a valid customer ID or that customer does not have any online orders.")
       end
@@ -112,6 +94,8 @@ module Grocery
   end #end of class OnlineOrder
 end #end of module
 
+Grocery::OnlineOrder.all
+
 #grocery = Grocery::OnlineOrder.all
 #puts "TESTING FIND (BY ORDER ID):"
 #ap Grocery::OnlineOrder.find("10")
@@ -119,5 +103,3 @@ end #end of module
 #puts "TESTING FIND BY CUSTOMER METHOD:"
 # Customer 6 has 3 online orders
 #ap Grocery::OnlineOrder.find_by_customer("6")
-
-#ap Grocery::OnlineOrder.all

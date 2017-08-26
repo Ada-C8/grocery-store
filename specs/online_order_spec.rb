@@ -78,14 +78,14 @@ describe "OnlineOrder" do
     end # array
 
     it "The number of orders is correct" do
-      Grocery::OnlineOrder.all.must_equal 100
+      Grocery::OnlineOrder.all.length.must_equal 100
     end # num of orders
 
     it "order has customer id" do
       Grocery::OnlineOrder.all[0].customer_id.must_equal 25
     end #customer id
 
-    it ".all reads the status" do
+    it ".all holds an order status" do
       Grocery::OnlineOrder.all[0].status.must_equal :complete
     end #status
 

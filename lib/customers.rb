@@ -2,17 +2,20 @@ require 'csv'
 
 
 class Customer
-  attr_reader :id, :email, :address
+  attr_reader :id, :email, :address_1, :city, :state, :zip_code
 
-  def initialize(id, email, address)
+  def initialize(id, email, address_1, city, state, zip_code)
     @id = id
     @email = email
-    @address = address
+    @address_1 = address_1
+    @city = city
+    @state = state
+    @zip_code = zip_code
   end
 
-  def new_customer
-    return @id, @email, @address
-  end
+  # def new_customer
+  #   return @id, @email, @address_1, @city, @state, @zip_code
+  # end
 
   def self.all
     all = []
@@ -20,16 +23,18 @@ class Customer
     CSV.open("../support/customers.csv", "r", converters: :numeric).each do |row|
       id = row[0]
       email = row[1]
-      address = row[2..-1].join(", ")
-      customers_info = [id, email, address]
+      address_1 = row[2]#row[2..-1].join(", ")
+      city = row[3]
+      state = row[4]
+      zip_code = row[5]
+      customers_info = [id, email, address_1, city, state, zip_code]
       customers << customers_info
     end
     all << customers
-    # return all
 
     all_instances = []
-    all[0].each do |id, email, address|
-      customer_instance = Customer.new(id, email, address)
+    all[0].each do |id, email, address_1, city, state, zip_code|
+      customer_instance = Customer.new(id, email, address_1, city, state, zip_code)
       all_instances << customer_instance
     end
 

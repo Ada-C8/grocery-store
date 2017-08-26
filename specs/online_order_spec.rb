@@ -161,5 +161,11 @@ describe "OnlineOrder" do
     it "Returns an array of online orders for a specific customer ID" do
       OnlineOrder.find_by_customer(25).must_be_kind_of Array
     end
+
+    it "The online orders are present" do
+      OnlineOrder.find_by_customer(25).each do |order|
+        order.must_be_instance_of OnlineOrder
+      end
+    end
   end
 end

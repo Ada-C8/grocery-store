@@ -82,6 +82,7 @@ class OnlineOrder < Grocery::Order
         orders_by_cust_id << online_order
       end
     end
+    
     return orders_by_cust_id
   end # DEF
 end # CLASS

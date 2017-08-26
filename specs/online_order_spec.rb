@@ -71,9 +71,16 @@ describe "OnlineOrder" do
       shipped_online_order = Grocery::OnlineOrder.all[4]
 
       [complete_online_order, processing_online_order,shipped_online_order].each do |online_order|
+        before_count = online_order.products.count
 
-        proc { online_order.add_product("silly string", 4) }.must_raise ArgumentError
+        online_order.add_product("silly string", 4)
+        after_count = online_order.products.count
+
+        after_count.must_equal before_count
+        # proc { online_order.add_product("silly string", 4) }.must_raise ArgumentError
       end
+
+      # proc { complete_online_order.add_product("Lobster", 4) }.must_raise ArgumentError
 
     end
 
@@ -92,11 +99,11 @@ describe "OnlineOrder" do
         online_order.products.keys.must_include "silly string"
         online_order.products["silly string"].must_equal 4
       end
-      
+
     end
   end
 
-  xdescribe "OnlineOrder.all" do
+  describe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
       # TODO: Your test code here!
       # Useful checks might include:
@@ -112,6 +119,14 @@ describe "OnlineOrder" do
       Grocery::OnlineOrder.all.each do |online_ord|
         online_ord.must_be_kind_of Grocery::OnlineOrder
       end
+
+      Grocery::OnlineOrder.all.count.must_equal CSV.read("support/online_orders.csv", "r").count
+
+      online_order = Grocery::OnlineOrder.all[0]
+
+      online_order.customer.must_be_instance_of Grocery::Customer
+      
+      [:pending, :processing, :shipped, :complete, :paid].must_include online_order.status
     end
 
 

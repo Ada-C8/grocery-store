@@ -88,40 +88,25 @@ describe "Customer" do
   end
 
   describe "Customer.find" do
-    it "Can find the first customer from the CSV" do
-      first_customer = Grocery::Customer.find(1)
-      csv = CSV.read("support/customers.csv", 'r')
-      csv_id_first = csv[0][0]
-      first_customer.customer_id.must_equal csv_id_first
+    it "Can find any customer from the CSV" do
+      35.times do |x|
+        first_customer = Grocery::Customer.find(x+1)
+        csv = CSV.read("support/customers.csv", 'r')
+        csv_id_first = csv[x][0]
+        first_customer.customer_id.must_equal csv_id_first
 
-      csv = CSV.read("support/customers.csv", 'r')
-      csv_email_first = csv[0][1]
-      first_customer.email.must_equal csv_email_first
+        csv = CSV.read("support/customers.csv", 'r')
+        csv_email_first = csv[x][1]
+        first_customer.email.must_equal csv_email_first
 
-      csv = CSV.read("support/customers.csv", 'r')
-      csv_address_first = csv[0][2..5]
-      first_customer.address.must_equal csv_address_first
-    end
-
-    it "Can find the last customer from the CSV" do
-      last_customer = Grocery::Customer.find(35)
-      csv = CSV.read("support/customers.csv", 'r')
-      csv_id_last = csv[34][0]
-      last_customer.customer_id.must_equal csv_id_last
-
-      csv = CSV.read("support/customers.csv", 'r')
-      csv_email_last = csv[34][1]
-      last_customer.email.must_equal csv_email_last
-
-      csv = CSV.read("support/customers.csv", 'r')
-      csv_address_last = csv[34][2..5]
-      last_customer.address.must_equal csv_address_last
+        csv = CSV.read("support/customers.csv", 'r')
+        csv_address_first = csv[x][2..5]
+        first_customer.address.must_equal csv_address_first
+      end
     end
 
     it "Raises an error for a customer that doesn't exist" do
       proc {Grocery::Customer.find(1000)}.must_raise ArgumentError
-
-
 
     end
   end

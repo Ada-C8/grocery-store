@@ -5,24 +5,15 @@ require 'minitest/pride'
 require 'pry'
 require_relative '../lib/online_order'
 require_relative '../lib/customer'
-# TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/online_order'
-# You may also need to require other classes here
 
-# Because an OnlineOrder is a kind of Order, and we've
-# already tested a bunch of functionality on Order,
-# we effectively get all that testing for free! Here we'll
-# only test things that are different.
 describe "OnlineOrder" do
   before do
     @online_order_one = Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25,"complete")
-
     @online_order_two = Grocery::OnlineOrder.new(2,{}, 26,"pending")
-
     @customer_first = Grocery::Customer.new(25, "leonard.rogahn@hagenes.org", {address1: "71596 Eden Route" , city: "Connellymouth" , state: "LA", zip_code: "98872-9105" })
-
     @online_orders = Grocery::OnlineOrder.all
   end
+
   describe "#initialize" do
     it "Is a kind of Order" do
       @online_order_one.must_be_kind_of Grocery::Order
@@ -38,7 +29,12 @@ describe "OnlineOrder" do
       @online_order_one.must_respond_to :customer_id
       @online_order_one.must_respond_to :products
     end
-  end
+    it "Default status for and order is pending" do
+      order_with_no_status = Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25)
+
+      order_with_no_status.status.must_equal :pending
+    end
+  end # End of describe "#initialize"
 
   describe "#total" do
     it "Adds a shipping fee" do
@@ -48,7 +44,7 @@ describe "OnlineOrder" do
     it "Doesn't add a shipping fee if there are no products" do
       @online_order_two.total.must_equal 0
     end
-  end
+  end #end of describe "total"
 
   describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
@@ -60,23 +56,17 @@ describe "OnlineOrder" do
     end
 
     it "Permits action for pending and paid satuses" do
-      #double check this stuff
-      # original = @online_order_one.products.length
-
+      #@online_order_two status = pending, has no product so products. length = 0, when we add a product length should equal 1
       @online_order_two.add_product("Macadamia Nut",79.19)
       after = @online_order_two.products.length
       after.must_equal 1
-
-      tests = Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25)
-
-      tests.status
 
       after = Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25,"paid")
 
       after.add_product("Macadamia Nut",79.19)
       after.products.length.must_equal 4
     end
-  end
+  end # end of describe "#add_product"
 
 
   describe "OnlineOrder.all" do
@@ -95,7 +85,7 @@ describe "OnlineOrder" do
       @online_orders.length.must_equal 100
     end
 
-    #The wording on this prompt is vauge. I'm not sure this test is targeted at extracting the approptiate information
+    #The wording on this prompt and the next is vauge. I'm not sure this test is targeted at extracting/working with the approptiate information
     it "The customer is present - Raises and error if the customer ID doesn't exist" do
       @online_orders.each do |order|
         order.customer_id.wont_be_empty
@@ -109,9 +99,21 @@ describe "OnlineOrder" do
     end
   end
 
+  xdescribe "OnlineOrder.find(ID)" do
+    it "Can find the first order from the CSV" do
+      Grocery::OnlineOrder.find(1).must_be_same_as Grocery::OnlineOrder.all.first
+    end
+    it "Can find the last order from the CSV" do
+      Grocery::OnlineOrder.find(100).must_be_same_as Grocery::OnlineOrder.all.last
+    end
+    it "Raises an error for an order that doesn't exist" do
+      proc{Grocery::OnlineOrder.find(107)}.must_raise ArgumentError
+    end
+  end #end of "OnlineOrder.find(id)"
+
   xdescribe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!
     end
-  end #end of describe "OnlineOrder.find_by_customer"
-end #end of describe "OnlineOrder"
+  end #end of "OnlineOrder.find_by_customer"
+end #end of "OnlineOrder"

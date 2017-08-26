@@ -15,7 +15,7 @@ require_relative '../lib/customer'
 describe "OnlineOrder" do
   before do
     @online_order_one = Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25,"complete")
-    @online_order_two = Grocery::OnlineOrder.new(2,{}, 26,"complete")
+    @online_order_two = Grocery::OnlineOrder.new(2,{}, 26,"pending")
     @customer_first = Grocery::Customer.new(25, "leonard.rogahn@hagenes.org", {address1: "71596 Eden Route" , city: "Connellymouth" , state: "LA", zip_code: "98872-9105" })
   end
   describe "#initialize" do
@@ -42,13 +42,28 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "#add_product" do
+  describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
+      proc{Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25,"processing").add_product("Macadamia Nut",79.19)}.must_raise ArgumentError
+
+      proc{Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25,"shipped").add_product("Macadamia Nut",79.19)}.must_raise ArgumentError
+
+      proc{Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25,"complete").add_product("Macadamia Nut",79.19)}.must_raise ArgumentError
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      #double check this stuff
+      # original = @online_order_one.products.length
+
+      @online_order_two.add_product("Macadamia Nut",79.19)
+      after = @online_order_two.products.length
+      after.must_equal 1
+
+
+      after = Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25,"paid")
+
+      after.add_product("Macadamia Nut",79.19)
+      after.products.length.must_equal 4
     end
   end
 

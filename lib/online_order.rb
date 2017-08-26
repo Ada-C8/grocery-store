@@ -29,11 +29,13 @@ module Grocery
       end
     end
 
-    def add_product
-      super
+    def add_product(product, price)
+      case @status
+      when :paid, :pending
+        super(product, price)
+      when :complete, :processing, :shipped
+        raise ArgumentError.new("Error - Cannot add new products at this point in your order.")
+      end
     end
-
-
   end
-
 end

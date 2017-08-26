@@ -11,6 +11,18 @@ module Grocery
     products
   end
 
+  def find(id_num)
+    items = self.all
+    ids = []
+    items.each do |item|
+      ids << item.id
+      return item if item.id == id_num
+    end
+    if !(ids.include?(id_num))
+      raise ArgumentError.new("Invalid #{self} ID Number")
+    end
+  end
+
   class Order
     extend Grocery
     attr_reader :id, :products
@@ -26,18 +38,6 @@ module Grocery
         orders << Order.new(row["id"].to_i, product_parse(row))
       end
       orders
-    end
-
-    def self.find(id_num)
-      orders = Order.all
-      ids = []
-      orders.each do |order|
-        ids << order.id
-        return order if order.id == id_num
-      end
-      if !(ids.include?(id_num))
-        raise ArgumentError.new("Invalid Order Number")
-      end
     end
 
     def total

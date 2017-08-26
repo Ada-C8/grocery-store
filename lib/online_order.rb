@@ -21,18 +21,6 @@ module Grocery
       orders
     end
 
-    def self.find(id_num)
-      orders = OnlineOrder.all
-      ids = []
-      orders.each do |order|
-        ids << order.id
-        return order if order.id == id_num
-      end
-      if !(ids.include?(id_num))
-        return "Invalid Order Number"
-      end
-    end
-
     def self.find_by_customer(customer_id)
       orders = OnlineOrder.all
       customer_orders = []

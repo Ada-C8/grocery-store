@@ -94,7 +94,7 @@ describe "OnlineOrder" do
     end
 
     it "Raises an error for an order that doesn't exist" do
-      Grocery::OnlineOrder.find(105).must_equal "Invalid Order Number"
+      proc { Grocery::Order.find(105) }.must_raise ArgumentError
     end
 
     it "Returns an Order object" do

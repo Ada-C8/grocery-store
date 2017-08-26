@@ -2,6 +2,7 @@ require_relative './online_order'
 
 module Grocery
   class Customer
+    extend Grocery
     attr_reader :id, :email, :address, :city, :state, :zip
 
     def initialize(id, email, address, city, state, zip_code)
@@ -19,18 +20,6 @@ module Grocery
         customers << Customer.new(row["customer_id"], row["email"], row["address_1"], row["city"], row["state"], row["zip_code"])
       end
       customers
-    end
-
-    def self.find(id_num)
-      customers = Customer.all
-      ids = []
-      customers.each do |customer|
-        ids << customer.id
-        return customer if customer.id == id_num
-      end
-      if !(ids.include?(id_num))
-        raise ArgumentError.new("Invalid Customer ID")
-      end
     end
   end
 end

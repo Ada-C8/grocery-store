@@ -17,6 +17,7 @@ module Grocery
       CSV.read(csv_file).each do |customer_info|
         id = customer_info[0].to_i
         email = customer_info[1]
+
         delivery_address = {
         address: customer_info[2],
         city: customer_info[3],
@@ -32,8 +33,7 @@ module Grocery
     end
 
     def self.find(id, csv_file)
-      customers = self.all(csv_file)
-      customers.each do |customer|
+      self.all(csv_file).each do |customer|
         if customer.id == id
           return customer
         end
@@ -42,7 +42,7 @@ module Grocery
     end
 
   end
-end 
+end
 #
 # customers = Grocery::Customer.all('./support/customers.csv')
 #

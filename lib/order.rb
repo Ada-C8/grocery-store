@@ -3,15 +3,16 @@ require 'awesome_print'
 
 module Grocery
   class Order
-    @@orders = []
+    # @@orders = []  #A possible class variable - array storing all the orders.
     attr_reader :id, :products
 
     def initialize(id, products)
       @id = id
       @products = products
-      @@orders << self
+      # @@orders << self
     end
 
+    #Collects data from CSV file and returns an array of Orders
     def self.all(csv_file)
       csv_orders = Array.new
       CSV.read(csv_file).each do |purchase_array|
@@ -27,9 +28,9 @@ module Grocery
       return csv_orders
     end
 
+    # Returns an order from a csv file based on its id
     def self.find_id(csv_file, id)
-      csv_orders = self.all(csv_file)
-      csv_orders.each do |order|
+      self.all(csv_file).each do |order|
         if order.id == id
           return order
         end
@@ -37,10 +38,11 @@ module Grocery
       raise ArgumentError.new "This order doesn't exist"
     end
 
-    def self.show_all_orders
-      return @@orders
-    end
+    # def self.show_all_orders
+    #   return @@orders
+    # end
 
+    #Calculates the total (including sales tax) of an instance of an Order.
     def total
       sum = 0
       products.each do |product, price|
@@ -50,6 +52,7 @@ module Grocery
       return total
     end
 
+    #Adds a product to an instance of an Order
     def add_product(product_name, product_price)
       if @products.keys.include?(product_name)
         return false
@@ -59,6 +62,7 @@ module Grocery
       end
     end
 
+    #Removes a product from an instance of an Order
     def remove_product(product_name)
       if @products.has_key?(product_name)
         @products.delete(product_name)

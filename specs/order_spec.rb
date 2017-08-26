@@ -148,7 +148,7 @@ describe "Order Wave 2" do
   end
 
   describe "Order.find" do
-    #why doesn't this work???
+    #why doesn't this work??? aaahh because you cannot create a new one here!
     # before do
     #   @orders = Grocery::Order.find(id)
     # end

@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require 'minitest/pride'
 require 'pry'
 require_relative '../lib/online_order'
 require_relative '../lib/customer'

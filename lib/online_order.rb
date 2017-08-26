@@ -10,9 +10,10 @@ require_relative 'customer'
 
 class OnlineOrder < Grocery::Order
 
-def initalize
+def initialize(id, products, customer, status)
+  super(id, products)
   @customer = customer
-  @status = :pending
+  @status = status
 end #init
 
 def total
@@ -20,12 +21,31 @@ def total
   return  @total
 end #total method
 
+# def self.all
+#   products = {}
+#   CSV.open('../support/orders.csv', 'r').each do |line|
+#     id = line[0].to_i
+#     x = line[1].split(';')
+#     x.each do |item|
+#       y = item.split(":")
+#       x.length.times do
+#         products[y[0]] = y[1].to_f
+#       end
+#     end #of x.each do
+#     @@all_orders << Grocery::Order.new(id, products)
+#     products = {}
+#   end #of CSV line by line
+#   return @@all_orders
+# end
+
 end #class
 
-x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00})
+x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :pending)
 puts x.id
 puts x.products
+puts x.inspect
 puts x.total
+#puts x.total
 # A customer object
 # A fulfillment status (stored as a Symbol)
 # pending, paid, processing, shipped or complete

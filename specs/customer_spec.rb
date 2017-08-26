@@ -38,10 +38,10 @@ describe "Customer" do
       #   - The ID, email address of the first and last
       #       customer match what's in the CSV file
       # Feel free to split this into multiple tests if needed
-      Grocery::Customer.all.must_be_kind_of Array
+      Grocery::Customer.all.must_be_instance_of Array
 
       Grocery::Customer.all.each do |customer|
-        customer.must_be_kind_of Grocery::Customer
+        customer.must_be_instance_of Grocery::Customer
       end
 
     end
@@ -54,22 +54,40 @@ describe "Customer" do
        Grocery::Customer.all.count.must_equal CSV.read("support/customers.csv", "r").count
     end
 
+    it "Creates a customer object with ID and email address that matches the information of the first customer in the csv" do
+       first_customer = Grocery::Customer.all[0]
+       csv_first_customer = CSV.read("support/customers.csv", "r")[0]
+
+       first_customer.id.must_equal csv_first_customer[0].to_i
+       first_customer.email.must_equal csv_first_customer[1]
+    end
+
+    it "Creates a customer object with ID and email address that matches the information of the last customer in the csv" do
+       last_customer = Grocery::Customer.all[-1]
+       csv_last_customer = CSV.read("support/customers.csv", "r")[-1]
+
+       last_customer.id.must_equal csv_last_customer[0].to_i
+       last_customer.email.must_equal csv_last_customer[1]
+    end
 
   end
 
   describe "Customer.find" do
     it "Can find the first customer from the CSV" do
-      Grocery::Customer.find(1).must_be_instance_of Grocery::Customer
-      customer1_email = CSV.read("support/customers.csv", "r")[0][1]
+      customer1 = CSV.read("support/customers.csv", "r")[0]
 
-      Grocery::Customer.find(1).email.must_equal customer1_email
+      Grocery::Customer.find(1).must_be_instance_of Grocery::Customer
+
+      Grocery::Customer.find(1).id.must_equal customer1[0].to_i
+      Grocery::Customer.find(1).email.must_equal customer1[1]
     end
 
     it "Can find the last customer from the CSV" do
+      lastcustomer = CSV.read("support/customers.csv", "r")[-1]
       Grocery::Customer.find(35).must_be_instance_of Grocery::Customer
-      lastcustomer_email = CSV.read("support/customers.csv", "r")[-1][1]
 
-      Grocery::Customer.find(35).email.must_equal lastcustomer_email
+      Grocery::Customer.find(35).id.must_equal lastcustomer[0].to_i
+      Grocery::Customer.find(35).email.must_equal lastcustomer[1]
     end
 
     it "Raises an error for a customer that doesn't exist" do

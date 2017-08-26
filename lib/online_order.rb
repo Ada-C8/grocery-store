@@ -88,12 +88,12 @@ module Grocery
       orders_by_customer_x = []
       all_online_orders = Grocery::OnlineOrder.all
       length_array = all_online_orders.length
-      puts "LENGTH OF ARRAY: #{length_array}"
-      puts "TEST:"
-      ap all_online_orders.customer.id
+      #puts "LENGTH OF ARRAY: #{length_array}"
+      #puts "TEST:"
+      #ap all_online_orders[5]
+      #puts "END OF TEST"
       #ap all_online_orders
       all_online_orders.each do |order|
-        #ap order
         #all_online_orders.length.times do |index|
           #ap order[index]
           if order.customer.id == customer_id
@@ -112,9 +112,9 @@ module Grocery
   end #end of class OnlineOrder
 end #end of module
 
-grocery = Grocery::OnlineOrder.all
-puts "TESTING FIND (BY ORDER ID):"
-ap Grocery::OnlineOrder.find("10")
+#grocery = Grocery::OnlineOrder.all
+#puts "TESTING FIND (BY ORDER ID):"
+#ap Grocery::OnlineOrder.find("10")
 
 #puts "TESTING FIND BY CUSTOMER METHOD:"
 # Customer 6 has 3 online orders

@@ -11,8 +11,11 @@ describe "Customer" do
       # TODO: Your test code here!
       id = 5
       email = "jhkhkjh@gmail.com"
-      address = "11134 Acorn loop, Tahoma, WI 92342"
-      customer = Customer.new(id, email, address)
+      address_1 = "11134 Acorn loop"
+      city = "Tahoma"
+      state = "WI"
+      zip_code = "92342"
+      customer = Customer.new(id, email, address_1, city, state, zip_code)
 
       customer.must_respond_to :id
       customer.id.must_equal id
@@ -22,9 +25,11 @@ describe "Customer" do
       customer.email.must_equal email
       customer.email.must_be_instance_of String
 
-      customer.must_respond_to :address
-      customer.address.must_equal address
-      customer.address.must_be_instance_of String
+      customer.must_respond_to :city
+      customer.city.must_equal city
+      customer.city.must_be_instance_of String
+
+      # figure out a loop to test all instance variables
     end
   end
 
@@ -45,7 +50,7 @@ describe "Customer" do
       Customer.all[0].id.must_equal 1
       Customer.all[0].email.must_equal "leonard.rogahn@hagenes.org"
       Customer.all[34].id.must_equal 35
-      Customer.all[34].address.must_equal "7513 Kaylee Summit, Uptonhaven, DE, 64529-2614"
+      Customer.all[34].address_1.must_equal "7513 Kaylee Summit"
     end
   end
 
@@ -54,7 +59,7 @@ describe "Customer" do
       # TODO: Your test code here!
       Customer.find(1).id.must_equal 1
       Customer.find(1).email.must_equal "leonard.rogahn@hagenes.org"
-      Customer.find(1).address.must_equal "71596 Eden Route, Connellymouth, LA, 98872-9105"
+      Customer.find(1).city.must_equal "Connellymouth"
 
     end
 
@@ -62,7 +67,7 @@ describe "Customer" do
       # TODO: Your test code here!
       Customer.find(35).id.must_equal 35
       Customer.find(35).email.must_equal "rogers_koelpin@oconnell.org"
-      Customer.find(35).address.must_equal "7513 Kaylee Summit, Uptonhaven, DE, 64529-2614"
+      Customer.find(35).zip_code.must_equal "64529-2614"
     end
 
     it "Raises an error for a customer that doesn't exist" do

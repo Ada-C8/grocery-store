@@ -15,14 +15,16 @@ describe "Customer" do
       email = "pikachu@poke.mon"
       address = "123 Niantic, Redmond, WA 98052"
       customer = Grocery::Customer.new(id, email, address)
-      puts customer
-      array = []
-      array << customer
-      array.each do |check|
-        puts check.id
-        puts check.email
-        puts check.address
-      end
+
+      # THIS WORKS
+      # puts customer
+      # array = []
+      # array << customer
+      # array.each do |check|
+      #   puts check.id
+      #   puts check.email
+      #   puts check.address
+      # end
 
       customer.must_respond_to :id
       customer.id.must_equal id
@@ -50,31 +52,62 @@ describe "Customer" do
       #       customer match what's in the CSV file
       # Feel free to split this into multiple tests if needed
       all_customers = Grocery::Customer.all
-      all_customers.each do |check|
-        print "#{check.id} "
-      end
+
+      # THIS WORKS
+      # all_customers.each do |check|
+      #   print "#{check.id} "
+      # end
+
       all_customers.must_be_instance_of Array
     end
   end
 
-  xdescribe "Customer.find" do
+  describe "Customer.find" do
     it "Can find the first customer from the CSV" do
       # TODO: Your test code here!
       first_customer = Grocery::Customer.find(1)
 
-      first_customer.each do |check|
-      end
-      
+      # # THIS WORKS
+      # puts "first customer: #{first_customer}"
+      # array = []
+      # array << first_customer
+      # array.each do |check|
+      #   puts "#{check.id}, #{check.email}, #{check.address}"
+      # end
+
       #assert
-      #first_customer.must_be_instance_of Grocery::Customer
+      first_customer.must_be_instance_of Grocery::Customer
     end
 
     it "Can find the last customer from the CSV" do
       # TODO: Your test code here!
+
+      last = Grocery::Customer.all.count
+      last_customer = Grocery::Customer.find(last)
+
+      # # THIS WORKS
+      # puts last
+      # puts "last customer: #{last_customer}"
+      # array = []
+      # array << last_customer
+      # array.each do |check|
+      #   puts "#{check.id}, #{check.email}, #{check.address}"
+      # end
+
+      #assert
+      last_customer.must_be_instance_of Grocery::Customer
     end
 
     it "Raises an error for a customer that doesn't exist" do
       # TODO: Your test code here!
+
+      # # THIS WORKS
+      # puts Grocery::Customer.find(0)
+
+      proc {Grocery::Customer.find(-20)}.must_raise ArgumentError
+      proc {Grocery::Customer.find(0)}.must_raise ArgumentError
+      proc {Grocery::Customer.find(36)}.must_raise ArgumentError
+      proc {Grocery::Customer.find(1000)}.must_raise ArgumentError
     end
   end
 end

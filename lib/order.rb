@@ -1,6 +1,8 @@
 require 'csv'
 
+
 module Grocery
+
   class Order
     attr_reader :id, :products
 
@@ -9,11 +11,15 @@ module Grocery
       @products = products
     end
 
+    require_relative 'customer.rb'
+  #  require_relative 'online_order.rb'
+
     #CSV must be in an array
     #in order to test using rake, only one period (instead of two) is needed
+
     def self.all
       array = []
-      CSV.open('./support/orders.csv', 'r').each do |line|    ##
+      CSV.open('../support/orders.csv', 'r').each do |line|    ##
         id = line.shift.to_i
         products = {} ##from produce_hash to products?
         produce = line.shift.split(";")

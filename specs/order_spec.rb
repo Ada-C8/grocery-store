@@ -98,7 +98,6 @@ describe "Order Wave 2" do
 
       #assert
       all_orders.must_be_instance_of Array
-
     end
   end
 

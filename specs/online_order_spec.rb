@@ -46,11 +46,12 @@ xdescribe "OnlineOrder" do
     end
 
     it "Permits action for pending and paid satuses" do
+
       # TODO: Your test code here!
     end
   end
 
-  describe "OnlineOrder.all" do
+  xdescribe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
       # TODO: Your test code here!
       # Useful checks might include:
@@ -62,7 +63,7 @@ xdescribe "OnlineOrder" do
       # Feel free to split this into multiple tests if needed
     end
   end
-  
+
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!

@@ -8,13 +8,12 @@ require_relative 'customer'
 module Grocery
   class OnlineOrder < Order
   # The OnlineOrder class will inherit behavior from the Order class and include additional data to track the customer and order status.
-    attr_reader :id, :products, :customer_id, :order_status
+    attr_reader :id, :products, :customer, :order_status
 
     def initialize(id, products, customer_id, order_status = :pending)
       @id = id
       @products = products
-      @customer_id = Grocery::Customer.find(customer_id)
-      #or Grocery::OnlineOrder.find_by_customer(customer_id) or #
+      @customer = Grocery::Customer.find(customer_id)
       @order_status = order_status
     end
 
@@ -53,12 +52,12 @@ module Grocery
           v = e.split(":").last
           products_hash.merge!({k => v})
         end
-        orders_array << [Grocery::Order.new(row[0], products_hash), row[2], row[3]]
+        orders_array << Grocery::OnlineOrder.new(row[0], products_hash, row[2], row[3])
         #ap orders_array
       end
       return orders_array
-      puts "This is the orders_array:"
-      ap orders_array
+      #puts "This is the orders_array:"
+      #ap orders_array
     end
 
     def self.find(order_id)
@@ -72,7 +71,7 @@ module Grocery
       all_online_orders.each do |order|
         #ap order[0].id
         #ap order_id
-        if order[0].id == order_id
+        if order.id == order_id
           ordered_stuff << order
           return ordered_stuff
         end
@@ -88,29 +87,37 @@ module Grocery
       #it will return an array of objects, not just a products array
       orders_by_customer_x = []
       all_online_orders = Grocery::OnlineOrder.all
-      puts all_online_orders
+      length_array = all_online_orders.length
+      puts "LENGTH OF ARRAY: #{length_array}"
+      puts "TEST:"
+      ap all_online_orders.customer.id
+      #ap all_online_orders
       all_online_orders.each do |order|
-          if order == customer_id
+        #ap order
+        #all_online_orders.length.times do |index|
+          #ap order[index]
+          if order.customer.id == customer_id
             orders_by_customer_x << order
-          end
-          #ap orders_by_customer_x
-          return orders_by_customer_x
-        end
-        if orders_by_customer_x.empty?
-          raise ArgumentError.new("You did not enter a valid customer ID or that customer does not have any online orders.")
-        end
-
+            #ap orders_by_customer_x
+          end #end if
+        #end #end do index
+      end #end do order
+      return orders_by_customer_x
+      #ap orders_by_customer_x
+      if orders_by_customer_x.empty?
+        raise ArgumentError.new("You did not enter a valid customer ID or that customer does not have any online orders.")
+      end
     end
 
   end #end of class OnlineOrder
 end #end of module
 
-#grocery = Grocery::OnlineOrder.all
-#puts "TESTING FIND (BY ORDER ID):"
-#ap Grocery::OnlineOrder.find("1")
+grocery = Grocery::OnlineOrder.all
+puts "TESTING FIND (BY ORDER ID):"
+ap Grocery::OnlineOrder.find("10")
 
-puts "TESTING FIND BY CUSTOMER METHOD:"
+#puts "TESTING FIND BY CUSTOMER METHOD:"
 # Customer 6 has 3 online orders
-ap Grocery::OnlineOrder.find_by_customer("6")
+#ap Grocery::OnlineOrder.find_by_customer("6")
 
 #ap Grocery::OnlineOrder.all

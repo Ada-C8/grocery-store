@@ -51,9 +51,9 @@ module Grocery
       return false
     end
 
-    def self.find(id)
-      super
-    end
+    # def self.find(id)
+    #   super
+    # end
 
     def self.find_by_customer(customer_id)
       customers_orders = []

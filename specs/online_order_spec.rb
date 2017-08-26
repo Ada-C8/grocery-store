@@ -150,4 +150,30 @@ describe "OnlineOrder" do
 
   end
 
+  describe "OnlineOrder.find(id)" do
+    it "Can be called " do
+      all_online_orders = Grocery::OnlineOrder.all
+
+      all_online_orders.must_respond_to :find
+    end
+
+    it "Can find the right order" do
+      online_order_42 = Grocery::OnlineOrder.find(42)
+
+      online_order_42.must_be_instance_of Grocery::OnlineOrder
+
+      online_order_42.id.must_equal 42
+      ["Tea Oil", "Tapioca", "Kidney Beans"].each do |product|
+        online_order_42.products.keys.must_include product
+      end
+      online_order_42.status.must_equal :shipped
+
+    end
+
+    it "Raises an error for an online order that does not exist" do
+      proc { Grocery::OnlineOrder.find(800) }.must_raise ArgumentError
+    end
+
+  end
+
 end

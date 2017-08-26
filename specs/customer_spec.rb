@@ -5,6 +5,7 @@ require 'minitest/skip_dsl'
 # TODO: uncomment the next line once you start wave 3
  require_relative '../lib/customer'
 
+  #passed before, marked as xdescribe because it didn't change the line outcome
 describe "Customer" do
   describe "#initialize" do
     it "Takes an ID, email and address info" do
@@ -37,7 +38,8 @@ describe "Customer" do
     end
   end
 
-  xdescribe "Customer.all" do
+
+  describe "Customer.all" do
     it "Returns an array of all customers" do
       # TODO: Your test code here!
       # Useful checks might include:
@@ -47,12 +49,24 @@ describe "Customer" do
       #   - The ID, email address of the first and last
       #       customer match what's in the CSV file
       # Feel free to split this into multiple tests if needed
+      all_customers = Grocery::Customer.all
+      all_customers.each do |check|
+        print "#{check.id} "
+      end
+      all_customers.must_be_instance_of Array
     end
   end
 
   xdescribe "Customer.find" do
     it "Can find the first customer from the CSV" do
       # TODO: Your test code here!
+      first_customer = Grocery::Customer.find(1)
+
+      first_customer.each do |check|
+      end
+      
+      #assert
+      #first_customer.must_be_instance_of Grocery::Customer
     end
 
     it "Can find the last customer from the CSV" do

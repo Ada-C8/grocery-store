@@ -28,8 +28,8 @@ module Grocery
 
     def add_product(product_name, product_price)
     # The add_product method should be updated to permit a new product to be added ONLY if the status is either pending or paid (no other statuses permitted)
-    acceptable_status = [:pending, :paid]
-      if acceptable_status.includes?(@order_status)
+    #acceptable_status = [:pending, :paid]
+      if @order_status = :pending || @order_status = :paid
         if @products.keys.include?(product_name)
           return false
         else
@@ -79,7 +79,6 @@ module Grocery
       #it will return an array of objects, not just a products array
       orders_by_customer_x = []
       all_online_orders = Grocery::OnlineOrder.all
-      length_array = all_online_orders.length
       all_online_orders.each do |order|
           if order.customer.id == customer_id
             orders_by_customer_x << order

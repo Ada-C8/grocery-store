@@ -55,7 +55,7 @@ module Grocery
       if @products.keys.include?(product_name)
         return false
       else
-        @products[product_name] = product_price
+        @products[product_name] = product_price.to_f
         return true
       end
     end

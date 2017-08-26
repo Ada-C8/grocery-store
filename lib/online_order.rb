@@ -5,7 +5,7 @@ class OnlineOrder < Grocery::Order
   attr_reader :order, :customer, :status, :id, :products
   # TODO: make the defualt status: "pending"
 
-  def initialize(order, customer, status)
+  def initialize(order, customer, status = "pending")
     @order = order
     super(id, products)
     @customer = customer

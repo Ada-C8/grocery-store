@@ -7,22 +7,19 @@ require_relative '../lib/online_order'
 require_relative '../lib/order'
 require_relative '../lib/customer'
 
-
-# You may also need to require other classes here
-
-# Because an OnlineOrder is a kind of Order, and we've
-# already tested a bunch of functionality on Order,
-# we effectively get all that testing for free! Here we'll
-# only test things that are different.
-
 describe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
       # Check that an OnlineOrder is in fact a kind of Order
+      order = "order"
+      customer = "customer"
       status = "paid"
       online_order = OnlineOrder.new(order, customer, status)
       online_order.must_be_kind_of Grocery::Order
-      online_order.must_be_instance_of Grocery::OnlineOrder
+      online_order.must_be_instance_of OnlineOrder
+      online_order.must_respond_to :customer
+      online_order.must_respond_to :status
+      online_order.must_respond_to :order
     end
 
     it "Status is stored as a symbol" do
@@ -33,6 +30,15 @@ describe "OnlineOrder" do
       online_order = OnlineOrder.new(order, customer, status)
       online_order.status.must_be_kind_of Symbol
     end
+
+    it "Defualt status is pending" do
+      # check that defuakt status is :pending
+      order = "order"
+      customer = "customer"
+      online_order = OnlineOrder.new(order, customer)
+      online_order.status.must_equal :pending
+    end
+
 
     it "Can access Customer object" do
       # TODO: Your test code here!

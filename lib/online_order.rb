@@ -1,4 +1,4 @@
-require_relative "order.rb"
+# require_relative "order.rb"
 require_relative "customer.rb"
 
 class OnlineOrder < Grocery::Order
@@ -14,7 +14,7 @@ class OnlineOrder < Grocery::Order
 
 
   def total
-    return super + 10
+    super + 10
   end
 
   def add_product(product_name, product_price)
@@ -50,7 +50,6 @@ class OnlineOrder < Grocery::Order
 
   def self.find_by_customer(customer_id)
     customer_orders = []
-    # (1..100).each do
     OnlineOrder.all.each do |online_order|
       if customer_id == online_order.customer.id
         customer_orders.push(online_order)
@@ -59,6 +58,9 @@ class OnlineOrder < Grocery::Order
     return customer_orders
   end
 end
+
+# puts OnlineOrder.find(1).order.total
+
 # puts OnlineOrder.find_by_customer(25).length
 
 # puts OnlineOrder.all

@@ -1,6 +1,5 @@
 require "money"
 require "csv"
-# require_relative "support/orders.csv"
 Money.use_i18n = false
 
 module Grocery
@@ -13,7 +12,7 @@ module Grocery
     end
 
     def total
-      # TODO: implement total
+      # returns order total with tax
       sum = products.values.inject(0, :+)
       total = (sum + (sum * 0.075)).round(2)
       return total
@@ -57,30 +56,6 @@ module Grocery
       end
       return orders
     end
-
-  #   orders = Grocery::Order.all("support/orders.csv")
-  #  puts orders[0].products
-    # def self.all
-    #   orders = []
-    #   data = []
-    #   file = CSV.open("support/orders.csv", "r")
-    #   file.each do |line|
-    #   # CSV.open("support/orders.csv", "r").each do |line|
-    #     # @orders[line[0]] =
-    #     string = line[1]
-    #     product_data = string.split(/:|;/)
-    #     product_data.each_with_index do |datum, i|
-    #       if i % 2 == 0
-    #         data << datum.to_s
-    #       elsif i % 2 == 1
-    #         data << datum.to_f
-    #       end
-    #     end
-    #     order = Grocery::Order.new(line[0].to_i, Hash[*data])
-    #     orders.push(order)
-    #   end
-    #   return orders
-    # end
 
     def self.find(id)
       orders = self.all
@@ -210,3 +185,28 @@ end
 #     end
 #   end
 # end
+
+
+  #   orders = Grocery::Order.all("support/orders.csv")
+  #  puts orders[0].products
+    # def self.all
+    #   orders = []
+    #   data = []
+    #   file = CSV.open("support/orders.csv", "r")
+    #   file.each do |line|
+    #   # CSV.open("support/orders.csv", "r").each do |line|
+    #     # @orders[line[0]] =
+    #     string = line[1]
+    #     product_data = string.split(/:|;/)
+    #     product_data.each_with_index do |datum, i|
+    #       if i % 2 == 0
+    #         data << datum.to_s
+    #       elsif i % 2 == 1
+    #         data << datum.to_f
+    #       end
+    #     end
+    #     order = Grocery::Order.new(line[0].to_i, Hash[*data])
+    #     orders.push(order)
+    #   end
+    #   return orders
+    # end

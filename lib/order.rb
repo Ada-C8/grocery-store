@@ -43,15 +43,17 @@ module Grocery
 
     def total
       # TODO: implement total
+
       pretax_total = 0
 
-      @products.each do |product, price|
-        pretax_total += price
+      if @products.count > 0
+        @products.each do |product, price|
+          pretax_total += price
+        end
       end
 
-      @total = pretax_total + (pretax_total * TAX).round(2)
+      @total = (pretax_total + (pretax_total * TAX)).round(2)
 
-      return @total
 
     end
 
@@ -63,6 +65,7 @@ module Grocery
         return true
       end
 
+      # puts "You already have that product."
       return false
     end
 
@@ -85,6 +88,8 @@ module Grocery
         all_order_info << row #array where first is id (in string format) and second index is jumbostring with all product info
       end
 
+      # binding.pry
+
       ###loop below will replace the second index with a hash of product info
       all_order_info.each do |order_info|
         product_info = order_info[1].gsub(":", ",").gsub(";", ",").split(",")
@@ -101,7 +106,7 @@ module Grocery
         order_info[1] = order_products
       end
 
-      return all_order_info # an array of arrays objects. Each array object has the comma separted value for each order, and the second object of this subarray is a hash of all product information
+      return all_order_info # an array of arrays. each array object is a row of the csv file
 
     end
 

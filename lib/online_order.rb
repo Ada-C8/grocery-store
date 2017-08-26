@@ -1,7 +1,7 @@
 
 require 'pry'
 #note: look up mix-in ??? look up include module
-require_relative '../lib/order'
+# require_relative '../lib/order'
 
 
 module Grocery
@@ -21,10 +21,11 @@ module Grocery
     def self.all
 
       all_online_orders = []
-      all_online_orders_by_row = self.order_info_by_row("support/orders.csv")
+      all_online_orders_by_row = self.order_info_by_row("support/online_orders.csv")
 
       all_online_orders_by_row.each do |online_order|
         order = OnlineOrder.new(online_order[0].to_i,online_order[1], Grocery::Customer.find(online_order[2].to_i),online_order[3].to_sym)
+
         all_online_orders << order
       end
 
@@ -33,21 +34,21 @@ module Grocery
     end #end self.all
 
     def total
-      @total = (super + 10).round(2) # shipping fee?
-    end
 
-# binding.pry
+      if @products.count >0
+        @total = super + 10
+      else
+        @total = super
+      end
+      # raise ArgumentError.new("This order has no products.")
+    end
 
     def add_product(product_name, product_price)
       if @status == :pending || @status == :paid
-        unless @products.keys.include?(product_name)
-          @products[product_name] = product_price
-          return true
-        end
-        raise ArgumentError.new("You already have that product.")
+        return super
       end
 
-      raise ArgumentError.new("You can't add products to a paid or pending order")
+      return false
     end
 
     def self.find(id)
@@ -55,8 +56,6 @@ module Grocery
     end
 
     def self.find_by_customer(customer_id)
-      #returns a list of Online Order instances of all online orders that match the customer's id
-      #check if customer id and id for find are strings or integers, make sure they match type
       customers_orders = []
       self.all.each {|online_order| customers_orders << online_order if online_order.customer.id == customer_id}
 
@@ -65,7 +64,7 @@ module Grocery
       return customers_orders
     end
 
-    def self.order_info_by_row(csv_file="support/online_orders.csv")
+    def self.order_info_by_row(csv_file)
       super(csv_file="support/online_orders.csv")
     end
 
@@ -75,7 +74,7 @@ module Grocery
 
 end #end Grocery module
 
-binding.pry
+# binding.pry
 
 
 

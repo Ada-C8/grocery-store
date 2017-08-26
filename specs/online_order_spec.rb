@@ -42,14 +42,14 @@ describe "OnlineOrder" do
   describe "#total" do
     it "Adds a shipping fee" do
       # TODO: Your test code here!
+      first_order = Grocery::OnlineOrder.all[0]
+      first_order_products = Grocery::OnlineOrder.all[0].products
 
-      products = { "banana" => 1.99, "cracker" => 3.00 }
-      order = Grocery::OnlineOrder.new(1337, products, 1, :pending)
+      sum = first_order_products.values.inject(0,:+)
+      expected_total = (sum + (sum * 0.075)).round(2) + 10
 
-      sum = products.values.inject(0, :+)
-      expected_total = (sum + (sum * 0.075).round(2)) + 10
 
-      order.total.must_equal expected_total
+      first_order.total.must_equal expected_total
     end
 
     it "Doesn't add a shipping fee if there are no products" do
@@ -143,6 +143,8 @@ describe "OnlineOrder" do
       customer35_orders.each {|online_order| online_order.must_be_instance_of Grocery::OnlineOrder }
 
       customer35_orders.each {|online_order| [4,47,56,58].must_include online_order.id }
+
+      proc { Grocery::OnlineOrder.find_by_customer(1042) }.must_raise ArgumentError
 
     end
 

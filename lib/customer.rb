@@ -12,17 +12,15 @@ module Grocery
       @id = id
       @email = email_address
       @address = delivery_address
-    end #end initialize
+    end
 
     def self.all
       all_customers = []
 
       CSV.open("support/customers.csv", "r").each do |row|
-        #1st, create a hash of the products of each order
-        #2nd, create a new Order object, with the id and newly created products hash
         id = row[0].to_i
         email = row[1]
-        address = row[2..-1].join(", ")
+        address = row[2..-1].join(", ") #currently, just join everything into a string. Can later keep everything separate if need be
 
         customer= Customer.new(id,email,address)
         all_customers << customer
@@ -30,19 +28,17 @@ module Grocery
       end
 
       return all_customers
-
-
-    end #end self.all
+    end
 
 
     def self.find(id)
       self.all.each {|customer| return customer if customer.id == id}
       raise ArgumentError.new "Sorry, we don't have a customer matching that ID number."
 
-    end #end self.fin
+    end
 
   end #end Customer class
 
 
 
-end #end Grocery module?
+end

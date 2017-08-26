@@ -1,16 +1,10 @@
 require 'csv'
 
-# orders = []
-# CSV.open("../support/orders.csv", "r").each do |row|
-#     orders << row
-# end
-#
-# p orders[3][1..-1]
-
 module Grocery
 
   class Order
     attr_reader :id, :products
+    attr_accessor :customer, :status
     @@csv = "../support/orders.csv"
 
     def initialize(id, products)
@@ -19,45 +13,27 @@ module Grocery
     end
 
     def self.all
-      all = []
-      orders = {}
+      all_instances = []
       CSV.open(@@csv, "r", converters: :numeric).each do |row|
-        id = row[0] #id
-        products = row[1].split(";") # will be hash ["a:b", "c:d", "e:f"]
-        # customer = row[2]
-        # status = row[3]
+        id = row[0]
+        products = row[1].split(";")
         order = {}
-        # customer_id = {}
-        # status_order = {}
-        # customer_id["customer"] = customer
-        # # p customer_id
-        # status_order["status"] = status
-        # # p status_order
         products.each do |item|
-          item = item.split(":") # [a, b]
+          item = item.split(":")
           order[item[0]] = item[1]
-          # order = {a:b, c:d, etc}
-          # orders[id] = order
         end
         if @@csv == "../support/online_orders.csv"
-          customer = row[2]
-          status = row[3]
-          orders[id] = order, customer, status
+          new = Order.new(id, order)
+          new.customer = row[2]
+          new.status = row[3]
+          all_instances << new
         else
-          orders[id] = order
+          new = Order.new(id, order)
+          all_instances << new
         end
-        # all << row
-      end
-      all << orders
-
-      all_instances = []
-      all[0].each do |key, value|
-        order_instance = Order.new(key,value)
-        all_instances << order_instance
       end
 
       return all_instances
-      return all
     end
 
     def self.find(id)
@@ -74,8 +50,10 @@ module Grocery
         total = 0
         return total
       else
-        sum = products.values.inject(0, :+)
-        total = sum + (sum * 0.075).round(2)
+        puts "I want to be fixed"
+        # sum = products.(values).inject(0, :+)
+        # total = sum + (sum * 0.075).round(2)
+        total = "MaGiCaL"
         return total
       end
     end
@@ -101,5 +79,7 @@ module Grocery
   end
 end
 
-p "Order"
-p Grocery::Order.find(35)
+# p Grocery::Order.all[3].total
+p "I'm an Order"
+p Grocery::Order.find(30)
+puts "\n"

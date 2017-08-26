@@ -125,17 +125,27 @@ describe "OnlineOrder" do
       online_order = Grocery::OnlineOrder.all[0]
 
       online_order.customer.must_be_instance_of Grocery::Customer
-      
+
       [:pending, :processing, :shipped, :complete, :paid].must_include online_order.status
     end
 
 
   end
 
-  xdescribe "OnlineOrder.find_by_customer" do
+  describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+      customer35_orders = Grocery::OnlineOrder.find_by_customer(35)
+
+      customer35_orders.must_be_instance_of Array
+
+      customer35_orders.count.must_equal 4
+
+      customer35_orders.each {|online_order| online_order.must_be_instance_of Grocery::OnlineOrder }
+
+      customer35_orders.each {|online_order| [4,47,56,58].must_include online_order.id }
+
     end
+
   end
 
 end

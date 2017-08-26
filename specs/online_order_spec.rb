@@ -30,8 +30,13 @@ describe "OnlineOrder" do
     it "Can access Customer object" do
       # TODO: Your test code here!
       online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", "Paid")
-      # online_order.must_respond_to :customer_id
-      online_order.customer_id.must_equal "1"
+      online_order.customer.customer_id.must_equal "1"
+
+
+      #code below is with .customer_id
+      # online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", "Paid")
+      # # online_order.must_respond_to :customer_id
+      # online_order.customer_id.must_equal "1"
     end
 
     it "Can access the online order status" do
@@ -115,7 +120,9 @@ describe "OnlineOrder" do
     end #it "will have the right number of orders in the array" do
 
     it "will have the customer present" do
-      Grocery::OnlineOrder.all[0].must_respond_to :customer_id
+      Grocery::OnlineOrder.all[0].must_respond_to :customer
+#Code below uses .customer_id
+      # Grocery::OnlineOrder.all[0].must_respond_to :customer_id
     end #it "will have the customer present" do
 
     it "will have the status present" do
@@ -190,6 +197,7 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
+#Didn't think I needed to change this code to account for using @customer instead of @customer_id because I don't know how to access a praticular instance of Customer without using its customer_id
       Grocery::OnlineOrder.all
       Grocery::OnlineOrder.find_by_customer(29).must_be_kind_of Array
     end #"Returns an array of online orders for a specific customer ID"
@@ -200,7 +208,7 @@ describe "OnlineOrder" do
       customer_id_1 = []
       all_orders.each do |instance|
         # puts "In loop, instance.customer_id is #{instance.customer_id}"
-        if instance.customer_id == "1"
+        if instance.customer.customer_id == "1"
           customer_id_1 << instance
         end #if
       end #.each
@@ -208,10 +216,19 @@ describe "OnlineOrder" do
       test = Grocery::OnlineOrder.find_by_customer("1")
       test.length.must_equal customer_id_1.length
 
-  #How test was:
-      # Grocery::OnlineOrder.all
-      # test = Grocery::OnlineOrder.find_by_customer("29")
-      # test.length.must_equal 2
+#How test was before I used @customer instead of @customer_id
+      # all_orders = Grocery::OnlineOrder.all
+      # customer_id_1 = []
+      # all_orders.each do |instance|
+      #   # puts "In loop, instance.customer_id is #{instance.customer_id}"
+      #   if instance.customer_id == "1"
+      #     customer_id_1 << instance
+      #   end #if
+      # end #.each
+      # # puts "orders for customer 1: #{customer_id_1}"
+      # test = Grocery::OnlineOrder.find_by_customer("1")
+      # test.length.must_equal customer_id_1.length
+
     end #it "Can access all the orders for a customer"
 
     it "raises an error if the customer_id does not exsis" do
@@ -219,12 +236,24 @@ describe "OnlineOrder" do
       all_orders = Grocery::OnlineOrder.all
       max_id = 0
       all_orders.each do |order|
-        if order.customer_id.to_i > max_id
-        max_id = order.customer_id.to_i
+        if order.customer.customer_id.to_i > max_id
+        max_id = order.customer.customer_id.to_i
         end
       end
       max_plus_1 = max_id + 1
       proc {Grocery::OnlineOrder.find_by_customer(max_plus_1.to_s)}.must_raise ArgumentError
+
+
+#How code was before I used @customer instead of @customer_id
+      # all_orders = Grocery::OnlineOrder.all
+      # max_id = 0
+      # all_orders.each do |order|
+      #   if order.customer_id.to_i > max_id
+      #   max_id = order.customer_id.to_i
+      #   end
+      # end
+      # max_plus_1 = max_id + 1
+      # proc {Grocery::OnlineOrder.find_by_customer(max_plus_1.to_s)}.must_raise ArgumentError
 
   #How the test origionaly was:
       # Grocery::OnlineOrder.all

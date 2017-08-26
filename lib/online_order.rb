@@ -2,14 +2,16 @@ require_relative 'Order'
 require 'csv'
 
 module Grocery
-  attr_reader :customer_id, :status
+  attr_reader :customer_id, :status, :customer
 
 
   class OnlineOrder < Order
     def initialize(id, products, customer_id, status)
       super(id, products)
-      @customer_id = customer_id
+      #took out customer_id since I am using @customer now 
+      # @customer_id = customer_id
       @status = status
+      @customer = Grocery::Customer.find(customer_id)
       # @customer = Grocery::Customer.find(customer_id)
     end #initialize
 
@@ -22,6 +24,10 @@ module Grocery
     def status
       return @status
     end #status
+
+    def customer
+      return @customer
+    end
 
     def total
       if super == 0
@@ -77,21 +83,37 @@ module Grocery
 
 
     def self.find_by_customer(customer_id_find)
-    # self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
+      # self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
 
-    all_online_orders = self.all
-    customer_orders = []
+      #Code below was changed to use the @customer instead of @customer_id
+      all_online_orders = self.all
+      customer_orders = []
+      if all_online_orders.any?{|instance| instance.customer.customer_id == customer_id_find.to_s}
+        all_online_orders.each do |order|
+          if order.customer.customer_id == customer_id_find
+            customer_orders << order
+          end #if
+        end #.each
+      else
+        raise ArgumentError.new("Error: There are no orders for the customer with ID #{customer_id_find}!")
+      end #if/else
+      return customer_orders
 
-    if all_online_orders.any?{|instance| instance.customer_id == customer_id_find.to_s}
-      all_online_orders.each do |order|
-        if order.customer_id == customer_id_find
-          customer_orders << order
-        end #if
-      end #.each
-    else
-        raise ArgumentError.new("Error: order #{customer_id_find} does not exsist!")
-    end #if/else
-    return customer_orders
+
+      #Code below is from before I initiated instances of the customer and was using customer_id instead
+      # all_online_orders = self.all
+      # customer_orders = []
+      #
+      # if all_online_orders.any?{|instance| instance.customer_id == customer_id_find.to_s}
+      #   all_online_orders.each do |order|
+      #     if order.customer_id == customer_id_find
+      #       customer_orders << order
+      #     end #if
+      #   end #.each
+      # else
+      #     raise ArgumentError.new("Error: order #{customer_id_find} does not exsist!")
+      # end #if/else
+      # return customer_orders
     end #self.find_by_customer
 
   end #OnlineOrder

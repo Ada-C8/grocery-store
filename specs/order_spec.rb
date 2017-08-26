@@ -16,7 +16,7 @@ describe "Order Wave 1" do
       order.id.must_be_kind_of Integer
 
       order.must_respond_to :products
-      order.products.length.must_equal 0
+      order.products.length.must_equal 0 #because the products hash is empty
     end
   end
 
@@ -33,7 +33,6 @@ describe "Order Wave 1" do
 
     it "Returns a total of zero if there are no products" do
       order = Grocery::Order.new(1337, {})
-
       order.total.must_equal 0
     end
   end

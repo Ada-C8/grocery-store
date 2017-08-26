@@ -8,8 +8,6 @@
 #To get the order total you should sum all the hash values and multiply it by the tax
 #Should I have a list of object ID's and what they link to?
 
-
-
 #Changed self.all method to create a hash for the product, so I think this broke some of my tests, because I wasn't treating @products as a hash in those tests
 require 'csv'
 
@@ -19,20 +17,20 @@ module Grocery
     #Need to allow 0 product to be entered
     #if I make this a class variable then the 'it "will contain the right numnber of orders"' test doesn't pass (it shows too many orders). Hoever, I am really not sure what kind variable to make all_orders so that I can both access the variable in the self.find method, and it won't be modified when I don't want it to be. Right now I am getting around this by resetting all_orders to and empty array every time self.all is run.
 
-
     def initialize(id, products)
       @id = id
       @products = products
     end #initialize
 
 #total method will sum up the price for each product in the order and then add a 7.5% tax
+#Having inject(0) sets the default return to 0 if there are no product prices to inject
     def total
       sum = @products.values.inject(0) { |a, b| a + b }
       total = (sum + (sum * 0.075)).round(2)
       return total
     end #total
 
-#The add_product method will check if the
+#The add_product method will check if the product name is already listed as a key in the products has stored in @products. If it is then the method will return false and not add that product. If it isn't then the product and its price will be added as a key value pair to the @products hash.
     def add_product(product_name, product_price)
       if @products.has_key?(product_name)
         return false
@@ -41,6 +39,7 @@ module Grocery
       end #if/else
     end #add_product
 
+#Works in a similar way to the add_product method, but instead it confirms that the product name is a key in the @products hash. If it is then the key/value pair for that product is deleted from @products. If if doesn't exsist in @products then
     def remove_product(product_name)
       if @products.key?(product_name) == false
         return false
@@ -51,8 +50,9 @@ module Grocery
     end #remove_product
 
     def self.all
-      #method that will return an array of all the orders
-      #the numnber of orders in the array is correct,
+      #method that will return an array of all the orders in the csv file
+      #We need to interarate through the array data from the csv file a bit in oder to populate the @products hash with key value pairs of data from the csv file. To do this we split the data at ; to separate in to seprate product names and their price separated by a :, and then we split at : so be able to set the product name and proce as a key/value pair in @products
+      #Storing all of the orders in the local variabel all_orders (an array) and then I will call self.all to access this array since self.all returns the all_orders array
       all_orders = []
       CSV.open("support/orders.csv", 'r').each do |line|
         id = line[0]
@@ -78,8 +78,9 @@ module Grocery
     end
 
     def self.find(id_to_test)
-      #self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
-      # I chose not to do this because in a different situation where we loaded the orders in a differnt way it wouldn't work
+#self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
+
+    # I chose not to do this because in a different situation where we loaded the orders in a differnt way it wouldn't work:
       # x = self.all
       # if id_to_test.to_i > x.length
       #   raise ArgumentError.new("Error: order #{id_to_test} does not exsist!")
@@ -90,9 +91,9 @@ module Grocery
       #     end
       #   end
       # end
-#TODO: change this so that instead of saying all_orders.any? write a class method that will return all_orders (in Order class) and call class_method_name.any? instead
-#TODO: then in your subclass (OnlineOrder) you can override the class method discribed above to return @@all_online_orders instead
-#TODO: before doing the two above TODOs change all_orders and @@all_online_orders to instance variables.
+
+#the code below accesses the all_orders array by calling the return_csv_array class method
+#Then it checks to see if the order id exists in all_orders. If it does then the instance of Order with that id is returned. If it doesn't exsis then an error message is raised.
       if  return_csv_array.any?{|instance| instance.id == id_to_test.to_s}
             return_csv_array.each do |order|
               if order.id == id_to_test.to_s
@@ -107,22 +108,3 @@ module Grocery
 
   end #Order class
 end # Grocery module
-
-#  Grocery::Order.all
-# test = Grocery::Order.find("2")
-#
-# puts test
- #=> true
-
-
-
-
-
-
-
-# test_order = Grocery::Order.new(123, {"apple" =>  3, "pear" => 2})
-# list_before = test_order.products
-# puts list_before
-# test_order.remove_product("apple")
-# list_after = test_order.products
-# puts list_after

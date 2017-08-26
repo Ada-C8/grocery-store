@@ -94,11 +94,11 @@ describe "OnlineOrder" do
     end
 
     it "Raises an error for an order that doesn't exist" do
-      proc { Grocery::Order.find(105) }.must_raise ArgumentError
+      proc { Grocery::OnlineOrder.find(105) }.must_raise ArgumentError
     end
 
     it "Returns an Order object" do
-      Grocery::OnlineOrder.find(rand(1..50)).must_be_instance_of Grocery::OnlineOrder
+      Grocery::OnlineOrder.find(rand(1..100)).must_be_instance_of Grocery::OnlineOrder
     end
   end
 

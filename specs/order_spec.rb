@@ -6,7 +6,7 @@ require_relative '../lib/order'
 # require_relative '/support/orders.csv'
 
 
-describe "Order Wave 1" do
+xdescribe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
       id = 1337
@@ -125,7 +125,7 @@ end
 
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-describe "Order Wave 2" do
+xdescribe "Order Wave 2" do
   describe "Order.all" do
     #   - Order.all returns an array
     it "Returns an array of all orders" do
@@ -146,35 +146,35 @@ describe "Order Wave 2" do
     #of measureing the length of the csv file
     it "The number of orders is correct" do
       new_orders = Grocery::Order.all
-      csv = CSV.open("support/orders.csv", 'r')
-      new_orders.length.must_equal csv.to_a.length
+      csv = CSV.read("support/orders.csv", 'r')
+      new_orders.length.must_equal csv.length
     end
 
     it "The first ids must match the first line of the csv" do
       new_orders = Grocery::Order.all
-      csv = CSV.open("support/orders.csv", 'r')
-      csv.to_a[0][0].must_equal new_orders[0].id
+      csv = CSV.read("support/orders.csv", 'r')
+      csv[0][0].must_equal new_orders[0].id
     end
 
     it "The last id must match the last csv line" do
       new_orders = Grocery::Order.all
-      csv = CSV.open("support/orders.csv", 'r')
-      csv.to_a[-1][0].must_equal new_orders[-1].id
+      csv = CSV.read("support/orders.csv", 'r')
+      csv[-1][0].must_equal new_orders[-1].id
     end
 
 #I am not sure this is a great way to check the product
     it "The first product must match the first csv line" do
       new_orders = Grocery::Order.all
-      csv = CSV.open("support/orders.csv", 'r')
-      csv_product = csv.to_a[0][1].delete(":").delete(";")
+      csv = CSV.read("support/orders.csv", 'r')
+      csv_product = csv[0][1].delete(":").delete(";")
       order_product = new_orders[0].products.flatten.join("")
       order_product.must_equal csv_product
     end
 
     it "The last product  must match the last csv line" do
       new_orders = Grocery::Order.all
-      csv = CSV.open("support/orders.csv", 'r')
-      csv_product = csv.to_a[-1][1].delete(":").delete(";")
+      csv = CSV.read("support/orders.csv", 'r')
+      csv_product = csv[-1][1].delete(":").delete(";")
       order_product = new_orders[-1].products.flatten.join("")
       order_product.must_equal csv_product
     end
@@ -185,14 +185,14 @@ describe "Order Wave 2" do
   describe "Order.find" do
     it "Can find the first order from the CSV" do
       my_order = Grocery::Order.find(1)
-      csv = CSV.open("support/orders.csv", 'r')
-      csv.to_a[0][0].must_equal my_order.id
+      csv = CSV.read("support/orders.csv", 'r')
+      csv[0][0].must_equal my_order.id
     end
 
     it "Can find the last order from the CSV" do
       my_order = Grocery::Order.find(100)
-      csv = CSV.open("support/orders.csv", 'r')
-      csv.to_a[99][0].must_equal my_order.id
+      csv = CSV.read("support/orders.csv", 'r')
+      csv[99][0].must_equal my_order.id
     end
 
     it "Raises an error for an order that doesn't exist" do

@@ -14,10 +14,13 @@ require 'pry'
 describe "OnlineOrder" do
   before do
     @test_order = Grocery::OnlineOrder.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21}, 25, "complete")
+
     @test_order2 = Grocery::OnlineOrder.new(2, {}, 26, "processing")
 
 
     @customer_first = Grocery::Customer.new(25, "leonard.rogahn@hagenes.org", {address: "71596 Eden Route", city: "Connellymouth", state: "LA", zipcode: "98872-9105"})
+
+    @all_cust = Grocery::OnlineOrder.all
   end
 
   describe "#initialize" do
@@ -74,26 +77,31 @@ describe "OnlineOrder" do
       # before do
       #   @orders = Grocery::Order.all
       # end
-      Grocery::OnlineOrder.all.must_be_kind_of Array
+      @all_cust.must_be_kind_of Array
     end # array
 
     it "The number of orders is correct" do
-      Grocery::OnlineOrder.all.length.must_equal 100
+      @all_cust.length.must_equal 100
     end # num of orders
 
     it "order has customer id" do
-      Grocery::OnlineOrder.all[0].customer_id.must_equal 25
+      @all_cust[0].customer_id.must_equal 25
+      @all_cust.last.id.must_equal 100
     end #customer id
 
     it ".all holds an order status" do
-      Grocery::OnlineOrder.all[0].status.must_equal :complete
+      @all_cust[0].status.must_equal :complete
+
     end #status
 
   end # .all method
 
-  xdescribe "OnlineOrder.find_by_customer" do
+  describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+      Grocery::OnlineOrder.find_by_customer(2).must_be_instance_of Array
+      Grocery::OnlineOrder.find_by_customer(2).sample.must_be_instance_of Grocery::OnlineOrder
+      Grocery::OnlineOrder.find_by_customer(2).sample.customer_id.must_equal 2
+
     end
   end
 end

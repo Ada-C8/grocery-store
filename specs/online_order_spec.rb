@@ -157,6 +157,24 @@ describe "OnlineOrder" do
     end
   end # DESCRIBE
 
+  describe "OnlineOrder.find" do
+    it "Online order is an Online Order" do
+      OnlineOrder.find(1).must_be_instance_of OnlineOrder
+    end
+
+    it "Online order ID must match requested order number" do
+      OnlineOrder.find(1).id.must_equal 1
+    end
+
+    it "The customer is present" do
+      OnlineOrder.find(1).customer.must_be_instance_of Grocery::Customer
+    end
+
+    it "The status is present" do
+      OnlineOrder.find(1).status.must_be_kind_of Symbol
+    end
+  end # DESCRIBE
+
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       OnlineOrder.find_by_customer(25).must_be_kind_of Array

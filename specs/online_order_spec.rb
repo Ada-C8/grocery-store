@@ -31,7 +31,7 @@ describe "OnlineOrder" do
       status = :pending
       online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
 
-      online_order.must_respond_to :customer
+      online_order.must_respond_to :customer_id
     end
 
     it "Can access the online order status" do
@@ -115,13 +115,10 @@ describe "OnlineOrder" do
       all_online_orders.length.must_equal csv_length
     end
 
-    it "You can access the Customer class and it's methods" do
+    it "The customer is present" do
       all_online_orders =Grocery::OnlineOrder.all
       all_online_orders.each do |one_online_order|
-        one_online_order.must_respond_to :customer
-        one_online_order.customer.must_respond_to :customer_id
-        one_online_order.customer.must_respond_to :email
-        one_online_order.customer.must_respond_to :address
+        one_online_order.must_respond_to :customer_id
       end
     end
 
@@ -133,9 +130,36 @@ describe "OnlineOrder" do
     end
   end
 
+  describe "OnlineOrder.find" do
+    it "Returns an Online Order" do
+      found_order = Grocery::OnlineOrder.find(2)
+      found_order.must_be_kind_of Grocery::Order
+    end
+
+    it "Can find the any order from the CSV" do
+      100.times do |x|
+        first_order = Grocery::OnlineOrder.find(x+1)
+        csv = CSV.read("support/online_orders.csv", 'r')
+        csv_id_first = csv[x][0]
+        first_order.id.must_equal csv_id_first.to_i
+
+        csv = CSV.read("support/online_orders.csv", 'r')
+        csv_status_first = csv[x][-1]
+        first_order.status.must_equal csv_status_first
+
+        csv = CSV.read("support/online_orders.csv", 'r')
+        csv_customer_id_first = csv[x][-2]
+        first_order.customer_id.must_equal csv_customer_id_first.to_i
+      end
+    end
+
+    it "Raises an error for a customer that doesn't exist" do
+      proc {Grocery::OnlineOrder.find(1000)}.must_raise ArgumentError
+    end
+  end
+  #
   describe "OnlineOrder.find_by_customer" do
     #it "Returns an array of online orders for a specific customer ID" do
-    # TODO: Your test code here!
     it "Returns an array" do
       online_orders = Grocery::OnlineOrder.find_by_customer(14)
       online_orders.must_be_kind_of Array
@@ -149,29 +173,36 @@ describe "OnlineOrder" do
 
     end
 
-    it "Can find the all the orders from a single customer" do
-      online_orders = Grocery::OnlineOrder.find_by_customer(14)
+    it "Can find all the orders from any online customer" do
+      online_customers = Array(1...35)
+      online_customers = online_customers - [16] - [22]
 
-      find_orders =[]
-      online_orders.each do |order|
-         find_orders << order.products
-      end
-      find_orders = find_orders.join
-      find_orders = find_orders.delete("{").delete("}").delete("\"").delete("=>")
-      find_orders
-
-      csv = CSV.open("support/online_orders.csv", 'r')
-      csv_orders = []
-      csv.each do |line|
-        if line[-2].to_i == 14
-          csv_orders << line[1...-2]
+      online_customers.each do |customer_id|
+        #1. Find the value when I use Grocery::OnlineOrder.find
+        online_orders = Grocery::OnlineOrder.find_by_customer(customer_id)
+        find_orders =[]
+        online_orders.each do |order|
+          find_orders << order.products
         end
-      end
-      puts ""
-      csv_orders = csv_orders.join.delete(":")
-      csv_orders = csv_orders.gsub(/([;])/, ", ")
 
-          find_orders.must_equal csv_orders
+        #2. Find the value when I read it from the csv file
+        csv = CSV.open("support/online_orders.csv", 'r')
+        csv_orders = []
+        csv.each do |line|
+          if line[-2].to_i == customer_id
+            csv_orders << line[1...-2]
+          end
+        end
+
+        #3. Get the format of the two values to match.
+        find_orders = find_orders.join
+        find_orders = find_orders.delete("{").delete("}").delete("\"").delete("=>")
+        csv_orders = csv_orders.join.delete(":")
+        csv_orders = csv_orders.gsub(/([;])/, ", ")
+
+        #4. Compare the values
+        find_orders.must_equal csv_orders
+      end
     end
 
     it "Raises an error if the customer did not place and online order" do

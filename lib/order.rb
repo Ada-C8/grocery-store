@@ -1,9 +1,6 @@
 require 'csv'
 require 'pry'
 
-# require_relative customer.rb
-# require_relative online_order.rb
-
 module Grocery
 
   class Order
@@ -17,7 +14,6 @@ module Grocery
     end
 
     def self.all
-      #returns an array of Order instances
       all_orders = []
 
       all_orders_by_row = self.order_info_by_row("support/orders.csv")
@@ -32,17 +28,11 @@ module Grocery
     end
 
     def self.find(id)
-      #returns an instance of Order where the value of the id field in the CSV
-      #matches the passed parameter
-
       self.all.each {|order| return order if order.id == id}
       raise ArgumentError.new "Sorry, we don't have an order matching that ID number."
-
-
     end
 
     def total
-      # TODO: implement total
 
       pretax_total = 0
 
@@ -53,19 +43,15 @@ module Grocery
       end
 
       @total = (pretax_total + (pretax_total * TAX)).round(2)
-
-
     end
 
     def add_product(product_name, product_price)
-      # TODO: implement add_product
-      # I will check for case once I know how the product names are stored in the CSV
+
       unless @products.keys.include?(product_name)
         @products[product_name] = product_price
         return true
       end
 
-      # puts "You already have that product."
       return false
     end
 
@@ -85,17 +71,13 @@ module Grocery
       all_order_info = []
 
       CSV.open(csv_file, "r").each do |row|
-        all_order_info << row #array where first is id (in string format) and second index is jumbostring with all product info
+        all_order_info << row
       end
-
-      # binding.pry
 
       ###loop below will replace the second index with a hash of product info
       all_order_info.each do |order_info|
         product_info = order_info[1].gsub(":", ",").gsub(";", ",").split(",")
-
         order_products = {}
-
         idx = 0
 
         while idx < product_info.length
@@ -106,120 +88,11 @@ module Grocery
         order_info[1] = order_products
       end
 
-      return all_order_info # an array of arrays. each array object is a row of the csv file
+      return all_order_info
 
     end
-
-
 
   end #end of Order class
 
 
 end # end module
-
-
-
-
-############GRAVEYARD FOR PREVIOUS APPROACHES BELOW,  RIP & THANK YOU ######
-
-# def self.all(csv_file = "support/orders.csv")
-# def self.all
-  #returns an array of Order instances
-  # all_orders = []
-  # csv_file = "support/orders.csv"
-  # if self == Grocery::Order
-  #   csv_file = "support/orders.csv"
-  # elsif self == Grocery::OnlineOrder
-  #   csv_file = "support/online_orders.csv"
-  # end
-
-  # CSV.open(csv_file, "r").each do |row|
-  # CSV.open(self.read_csv, "r").each do |row|
-    #1st, create a hash of the products of each order
-    #2nd, create a new Order object, with the id and newly created products hash
-    #
-    # id = row[0].to_i
-    #
-    # product_info = row[1].gsub(":", ",").gsub(";", ",").split(",")
-    #
-    # order_products = {}
-    #
-    # idx = 0
-    #
-    # while idx < product_info.length
-    #   order_products[product_info[idx]] = product_info[idx + 1].to_f
-    #   idx += 2
-    # end
-
-    # order = Order.new(id, order_products)
-    # all_orders << order
-
-  # end
-
-  # return all_orders
-
-# end
-
-# def read_csv #can be called by any class in this module, called via Grocery::Class.read_csv or Class.read_csv
-#   if self == Grocery::Order
-#     csv_file = "support/orders.csv"
-#   elsif self == Grocery::OnlineOrder
-#     csv_file = "support/online_orders.csv"
-#   end
-# end
-
-##### old way to do self.all below
-# def self.all
-#   #returns an array of Order instances
-#   all_orders = []
-#
-#   CSV.open("support/orders.csv", "r").each do |row|
-#     #1st, create a hash of the products of each order
-#     #2nd, create a new Order object, with the id and newly created products hash
-#
-#     #replace semicolons and colons with comma
-#     all_commas = row.gsub(":;", ",")
-#
-#     #split all order info into an array by comma
-#     order_info_array = all_commas.split(",")
-#
-#     id = order_info_array[0]
-#
-#     order_products = {}
-#     idx = 0
-#
-#     while idx < order_info_array.length
-#       order_products[order_info_array[idx]] = order_info_array[idx + 1].to_f
-#     end
-# #
-# #     #  OLD METHOD ###initial split by semicolon
-# #     #  #start at index 2 because of the commma at the beginning
-# #     #  products_semi_split = row[2..-1].split(";")
-# #     #
-# #     #  #second split, by colon
-# #     #  products_colon_split = []
-# #     #  products_semi_split.each do |product_split|
-# #     #    products_colon_split << product_split.split(":")
-# #     #  end
-# #     #
-# #     #
-# #     #  products_flattened = products_colon_split.flatten!
-# #     #
-# #     #  order_products = {}
-# #     #
-# #     #  idx = 0
-# #     #  while idx < products_flattened.length
-# #     #    order_products[products_flattened[idx]] = products_flattened[idx+1].to_f
-# #     #    idx += 2
-# #     #  end
-#
-#     order = Order.new(id, order_products)
-#
-#     all_orders << order
-#   end
-#
-#   return all_orders
-#
-# end
-#
-# binding.pry

@@ -62,7 +62,6 @@ Make sure to write tests for any optionals you implement!
 - Add a `remove_product` method to the `Order` class which will take in one parameter, a product name, and remove the product from the collection
     - It should return `true` if the item was successfully remove and `false` if it was not
 
-<!-- 
 ## Wave 2
 
 ### Learning Goals
@@ -83,10 +82,10 @@ You enter Wave 2 with all tests from Wave 1 passing. In Wave 2, you will fill in
   - `self.find(id)` - returns an instance of `Order` where the value of the id field in the CSV matches the passed parameter.
 
 
-#### Error Handling
+### Error Handling
 - What should your program do if `Order.find` is called with an ID that doesn't exist?
 
-#### CSV Data File
+CSV Data File
 
 The data, in order in the CSV, consists of:  
 

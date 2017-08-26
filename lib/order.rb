@@ -18,9 +18,7 @@ module Grocery
       ids << item.id
       return item if item.id == id_num
     end
-    if !(ids.include?(id_num))
-      raise ArgumentError.new("Invalid #{self} ID Number")
-    end
+    raise ArgumentError.new("Invalid #{self} ID Number") if !(ids.include?(id_num))
   end
 
   class Order

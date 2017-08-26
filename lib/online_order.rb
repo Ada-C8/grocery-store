@@ -25,22 +25,14 @@ module Grocery
       orders = OnlineOrder.all
       customer_orders = []
       orders.each do |order|
-        if order.customer.id == customer_id
-          customer_orders << order
-        end
+        customer_orders << order if order.customer.id == customer_id
       end
-      if customer_orders.empty?
-        return "Customer does not exist."
-      end
+      return "Customer does not exist." if customer_orders.empty?
       customer_orders
     end
 
     def total
       return @products == nil ? 0 : super + 10
-    end
-
-    def print
-      puts 'Hi'
     end
 
     def add_product(product_name, product_price)
@@ -52,14 +44,3 @@ module Grocery
     end
   end
 end
-
-
-# begin
-#   if @status == :pending || @status == :paid
-#     super
-#   else
-#    raise ArgumentError.new("This order cannot be modified.")
-#   end
-# rescue => e
-#   puts e.message
-# end

@@ -50,6 +50,8 @@ describe "OnlineOrder" do
       proc{Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25,"shipped").add_product("Macadamia Nut",79.19)}.must_raise ArgumentError
 
       proc{Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25,"complete").add_product("Macadamia Nut",79.19)}.must_raise ArgumentError
+
+
     end
 
     it "Permits action for pending and paid satuses" do
@@ -60,6 +62,10 @@ describe "OnlineOrder" do
       after = @online_order_two.products.length
       after.must_equal 1
 
+      tests = Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25)
+
+      tests.status
+      binding.pry
 
       after = Grocery::OnlineOrder.new(1,{"Lobster" =>17.18, "Annatto seed" => 58.38, "Camomile" =>83.21}, 25,"paid")
 

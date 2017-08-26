@@ -52,7 +52,7 @@ module Grocery
       if @@all_orders.length > 0
         return @@all_orders
       end
-      CSV.open("../support/orders.csv", 'r').each do |line|
+      CSV.open("support/orders.csv", 'r').each do |line|
         id = line[0].to_i
         # playing with .sub!
         # line[1] = line[1].gsub! ';', ','

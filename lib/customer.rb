@@ -18,7 +18,7 @@ module Grocery
       if @@customers.length > 0
         return @@customers
       end
-      CSV.open("../support/customers.csv", 'r').each do |line|
+      CSV.open("support/customers.csv", 'r').each do |line|
         customer_id = line[0].to_i
         email = line[1]
         address = {address: line[2], city: line[3], state: line[4], zipcode: line[5]}

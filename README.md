@@ -82,10 +82,10 @@ You enter Wave 2 with all tests from Wave 1 passing. In Wave 2, you will fill in
   - `self.find(id)` - returns an instance of `Order` where the value of the id field in the CSV matches the passed parameter.
 
 
-#### Error Handling
+### Error Handling
 - What should your program do if `Order.find` is called with an ID that doesn't exist?
 
-#### CSV Data File
+CSV Data File
 
 The data, in order in the CSV, consists of:  
 

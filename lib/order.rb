@@ -9,43 +9,36 @@ module Grocery
     attr_reader :id, :products
     attr_accessor :all_orders
 
-    @@imported = false
 
     # Class methods
     def self.all
 
-      if @@imported == false
-        @@all_orders = Array.new
+      all_orders = Array.new
 
-        CSV.read('support/orders.csv').each do |row_order|
-          data_id = row_order[0]
-          row_items = row_order[1].split(";") #array format to hash
-          data_products = Hash.new
+      CSV.read('support/orders.csv').each do |row_order|
+        data_id = row_order[0]
+        row_items = row_order[1].split(";") #array format to hash
+        data_products = Hash.new
 
-          row_items.each do |pair|
-            key = pair.to_s.partition(":").first.to_s
-            value = pair.to_s.partition(":").last
-            data_products.store( key, value)
-          end
-
-          @@all_orders << Order.new(data_id, data_products)
+        row_items.each do |pair|
+          key = pair.to_s.partition(":").first.to_s
+          value = pair.to_s.partition(":").last
+          data_products.store( key, value)
         end
-        @@imported == true
+
+        all_orders << Order.new(data_id, data_products)
       end
 
-      return @@all_orders
+      return all_orders
     end
 
     def self.find(line)
-      if @@all_orders[line] == nil
+      all_orders = self.all
+      if all_orders[line] == nil
         raise ArgumentError.new ("Order does not exist")
       else
-        return @@all_orders[line]
+        return all_orders[line]
       end
-    end
-
-    def self.clear #for testing
-      @@all_orders = Array.new
     end
 
     def initialize(id, products)

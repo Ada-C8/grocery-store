@@ -20,7 +20,7 @@ module Grocery
         products_colon.each do |e|
           k = e.split(":").first
           v = e.split(":").last
-          products_hash.merge!({k => v.to_i})
+          products_hash.merge!({k => v.to_f})
         end
         orders_array << Order.new(row[0], products_hash)
       end
@@ -45,6 +45,7 @@ module Grocery
     end
 
     def total
+      #Can I add in some code here to convert product value inputs (not brought in from the Csv) into floats, so that it can do math? Maybe a loop here to go through each value and convert it.
       sum = @products.values.inject(0, :+)
       total = sum + (sum * 0.075).round(2)
       return total

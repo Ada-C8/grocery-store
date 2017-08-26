@@ -49,7 +49,7 @@ module Grocery
         products_colon.each do |e|
           k = e.split(":").first
           v = e.split(":").last
-          products_hash.merge!({k => v})
+          products_hash.merge!({k => v.to_i})
         end
         orders_array << Grocery::OnlineOrder.new(row[0], products_hash, row[2], row[3])
       end

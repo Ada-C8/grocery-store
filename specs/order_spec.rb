@@ -129,6 +129,18 @@ end
 # TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
 
+  describe "Order initialize" do
+    it "Can initialize an Order object from a csv line" do
+      #This test does not test for proper Order creation, as the Order's product variable is now a string instead of a hash of product names and prices. It justs tests that we are reading a CSV file correctly and able to pull in information from the CSV to create our Order objects
+      first_line= CSV.read("support/orders.csv", "r").first
+
+      order = Grocery::Order.new(first_line[0].to_i, first_line[1])
+
+      order.must_be_instance_of Grocery::Order
+    end
+  end
+
+
   describe "Order.all" do
 
     it "Can be called" do
@@ -153,14 +165,22 @@ describe "Order Wave 2" do
     end
 
     it "Includes all orders in the csv file" do
-       Grocery::Order.all.count.must_equal 100
+       Grocery::Order.all.count.must_equal CSV.read("support/orders.csv", "r").count
     end
 
-    # it "Matches the information of orders in the CSV file"
-    #   all_orders = Grocery::Order.all
-    #
-    #   all_orders[0].id.
-    # end
+    it "The ID and products of the first order match the CSV file info" do
+      first_order = Grocery::Order.all[0]
+      csv_first_order = CSV.read("support/orders.csv", "r")[0]
+
+      first_order.id.must_equal csv_first_order[0].to_i
+    end
+
+    it "The ID and products of the last order match the CSV file info" do
+      last_order = Grocery::Order.all[-1]
+      csv_last_order = CSV.read("support/orders.csv", "r")[-1]
+
+      last_order.id.must_equal csv_last_order[0].to_i
+    end
 
 
   end

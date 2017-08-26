@@ -15,9 +15,7 @@ module Grocery
 
     # in this method I am creating a new instance of the customer (in the loop) and pushing those new instances of new customer to the @customers array.
 
-    # loop is going through each row in the csv (customer_attributes)
-
-    #
+    # loop is going through each row in the csv (customer_attributes) and passing the id, email, and address as the instance variables.
 
     def self.all
       @customers = []

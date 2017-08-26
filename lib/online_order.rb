@@ -33,7 +33,8 @@ module Grocery
       end #if/else
     end #add_product
 
-    #TODO is it OK that I just totally rewrote the self.all method? Should I have used super?
+    #TODO is it OK that I just totally rewrote the self.all method? Should I have used super? I didn't know how to do this cause they changes I would have needed to make to the file would be within the functionality of super....
+    #Similar to self.all in Order, but we also have the customer_id and the status in the csv file.
     def self.all
       #Need to give this it's own class variabel so we don't mess with the regular orders
       all_online_orders = []
@@ -62,10 +63,9 @@ module Grocery
       return self.all
     end
 
+
     def self.find(id)
       # self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
-      #TODO: is there a way to change the variable name called in the super method from @all_orders to all_online_orders?
-      #TODO: or do I need to raname all_online_orders to @@all_orders in OnlineOrder and recall it before super to redefine it within the self.find method?
       super(id)
     end #self.find
 
@@ -73,7 +73,7 @@ module Grocery
     def self.find_by_customer(customer_id_find)
       # self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
 
-      #Code below was changed to use the @customer instead of @customer_id
+      #Code below was changed to use the @customer instead of @customer_id. @customer_id is accessed though instances of the customer 
       all_online_orders = self.all
       customer_orders = []
       if all_online_orders.any?{|instance| instance.customer.customer_id == customer_id_find.to_s}

@@ -25,15 +25,19 @@ module Grocery
         # hash[:address] = @address
         cust_array << Grocery::Customer.new(id, email, address)
       end
-      #returns object memory address
       return cust_array
     end
 
     def self.find(id)
-      #returns instance of customer found
-      #by customer cust_id
-      #shouldn't need to change if CSV has
-      #already been changed
+      all_ids = []
+      all_orders = Grocery::Customer.all
+      all_orders.each do |arr|
+        all_ids << arr.id
+        if all_ids.include? id
+          return Customer.new(arr.id, arr.email, arr.address)
+        end
+      end
+      raise ArgumentError.new("Invalid parameters for customer number")
     end
 
   end

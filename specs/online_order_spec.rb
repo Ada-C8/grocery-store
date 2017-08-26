@@ -13,18 +13,18 @@ require 'pry'
 
 describe "OnlineOrder" do
   before do
-      @test_order = Grocery::OnlineOrder.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21}, 25, "complete")
-      @test_order2 = Grocery::OnlineOrder.new(2, {}, 26, "pending")
+    @test_order = Grocery::OnlineOrder.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21}, 25, "complete")
+    @test_order2 = Grocery::OnlineOrder.new(2, {}, 26, "processing")
 
 
-      @customer_first = Grocery::Customer.new(25, "leonard.rogahn@hagenes.org", {address: "71596 Eden Route", city: "Connellymouth", state: "LA", zipcode: "98872-9105"})
-    end
+    @customer_first = Grocery::Customer.new(25, "leonard.rogahn@hagenes.org", {address: "71596 Eden Route", city: "Connellymouth", state: "LA", zipcode: "98872-9105"})
+  end
 
   describe "#initialize" do
     it "Is a kind of Order" do
       # Check that an OnlineOrder is in fact a kind of Order
       # Instatiate your OnlineOrder here
-     @test_order.must_be_kind_of Grocery::Order
+      @test_order.must_be_kind_of Grocery::Order
     end
 
     it "Can access Customer object" do
@@ -46,13 +46,26 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "#add_product" do
-    it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
+  describe "#add_product" do
+    it "Does not permit action for completed statuses" do
+      proc{@test_order.add_product("Macadamia Nut", 79.19)}.must_raise ArgumentError
     end
 
-    it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+    it "Does not permit action for shipped statuses" do
+      proc{Grocery::OnlineOrder.new(5, {"Lobster" => 17.18}, 26, "shipped").add_product("Macadamia Nut", 79.19)}.must_raise ArgumentError
+    end
+
+    it "Does not permit action for processing statuses" do
+      proc{Grocery::OnlineOrder.new(5, {"Lobster" => 17.18}, 26, "processing").add_product("Macadamia Nut", 79.19)}.must_raise ArgumentError
+    end
+
+    it "Permits action for pending status" do
+      Grocery::OnlineOrder.new(5, {"Lobster" => 17.18}, 26, "pending").add_product("Macadamia Nut", 79.19).must_equal true
+      # try product length equals 2?
+    end
+
+    it "Permits action for paid status" do
+      Grocery::OnlineOrder.new(5, {"Lobster" => 17.18}, 26, "paid").add_product("Macadamia Nut", 79.19).must_equal true
     end
   end
 

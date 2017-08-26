@@ -108,4 +108,23 @@ describe "OnlineOrder" do
       Grocery::OnlineOrder.find_by_customer(14)[0].must_be_instance_of Grocery::OnlineOrder
     end
   end
+
+  describe "OnlineOrder.remove_product" do
+    it "Does not permit action for processing, shipped or completed statuses" do
+      online_order = Grocery::OnlineOrder.new(1337, 3, :shipped, {"banana" => 1.0, "apple" => 1.25, "whole milk" => 3.59})
+      proc { online_order.remove_product("whole milk") }.must_raise ArgumentError
+      online_order.products.has_key?("whole milk").must_equal true
+    end
+
+    it "Raise ArgumentError for processing, shipped, or completed statuses" do
+      online_order = Grocery::OnlineOrder.new(1337, 3, :procesing, {"banana" => 1.0, "apple" => 1.25, "whole milk" => 3.59})
+      proc { online_order.remove_product("whole milk") }.must_raise ArgumentError
+    end
+
+    it "Permits action for pending and paid satuses" do
+      online_order = Grocery::OnlineOrder.new(1337, 3, :paid, {"banana" => 1.0, "apple" => 1.25, "whole milk" => 3.59})
+      online_order.remove_product("whole milk")
+      online_order.products.has_key?("whole milk").must_equal false
+    end
+  end
 end

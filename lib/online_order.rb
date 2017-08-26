@@ -42,5 +42,13 @@ module Grocery
        raise ArgumentError.new("This order cannot be modified.")
       end
     end
+
+    def remove_product(product_name)
+      if @status == :pending || @status == :paid
+        super
+      else
+       raise ArgumentError.new("This order cannot be modified.")
+      end
+    end
   end
 end

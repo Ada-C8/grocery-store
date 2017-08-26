@@ -11,7 +11,7 @@ module Grocery
     attr_reader :id, :products  # A new order should be created with:an ID, read-only
 
     def initialize(id, products)#products is a hash with item => price
-      @id = id.to_i
+      @id = id
       @products = products   # a collection of products and their cost zero products is permitted
       #you can assume that there is only one of each product
       @total = 0
@@ -34,30 +34,47 @@ module Grocery
       return @@all_orders
     end
 
-    def self.find(id)
+    def self.looksy(id)
       # self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
-      products = {}
-      found = []
-      CSV.open('../support/orders.csv', 'r').each do |line|
-        if id.to_i == line[0].to_i #begin if statement
-          found = line[1].split(';')
-          break
-        end # if statement
-      end #of CSV line by line
-      if found == []
-        z = "there's nothing to see here"
-        return z
-        #raise ArgumentError.new("Order Not Found")
+      orders = Grocery::Order.all_orders
+      item_num = []
+
+      orders.each do |item|
+        item_num << item.id
+      end
+
+      if item_num.include?(id)
+        return orders[id - 1].products
       else
-        found.each do |item| #begin split by :
-          colon_split = item.split(":")
-          found.length.times do #begin adding products to the hash
-            products[colon_split[0]] = colon_split[1].to_f
-          end #end adding products to hash
-        end #end split by :
-        return Grocery::Order.new(id, products)
-      end #second if statement
+        return "Item Not Found"
+      end
+            #return Grocery::Order.all_orders[id].products
     end# method def
+
+
+
+
+      # CSV.open('../support/orders.csv', 'r').each do |line|
+      #   if id.to_i == line[0].to_i #begin if statement
+      #     found = line[1].split(';')
+      #     break
+      #   end # if statement
+      # end #of CSV line by line
+      #
+      # if found == []
+      #   z = "there's nothing to see here"
+      #   return z
+      #   #raise ArgumentError.new("Order Not Found")
+      # else
+      #   found.each do |item| #begin split by :
+      #     colon_split = item.split(":")
+      #     found.length.times do #begin adding products to the hash
+      #       products[colon_split[0]] = colon_split[1].to_f
+      #     end #end adding products to hash
+      #   end #end split by :
+      #   return Grocery::Order.new(id, products)
+      # end #second if statement
+
 
     def self.all_orders
       return @@all_orders
@@ -98,12 +115,40 @@ module Grocery
   end #class end
 end #module
 
-# order = Grocery::Order.all
-# order.each do |item|
-#   puts item.show_order
-# end
-# puts order.length
 
+
+order = Grocery::Order.all
+
+puts Grocery::Order.looksy(1000)
+#puts order[15].products
+#puts order.find(10)
+# puts order.class
+# puts order.length
+# puts order[10].id
+# puts order[10].products
+# item_num = []
+#
+# order.each do |item|
+#   item_num << item.id
+# end
+#
+# if item_num.include?(150)
+#   puts order[0].products
+# else
+#   puts "Item Not Found"
+# end
+
+
+
+
+
+
+
+# puts order.length
+#
 # x = Grocery::Order.new(12, {"apples"=>5.00, "pears"=>15.00})
 # puts x.inspect
+# puts x.total
+# puts x.id
+# puts x.products
 # puts x.total

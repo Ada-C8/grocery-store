@@ -16,10 +16,9 @@ module Grocery
     end #initialize
 
     def self.all
-      #returns a collection of Customer instances, representing all of the Customer described in the CSV. See below for the CSV file specifications
+      #returns a collection of Customer instances, representing all of the Customer described in the CSV. 
 
       all_customers = []
-
       CSV.open("support/customers.csv", 'r').each do |line|
         customer_id = line[0]
         email = line[1]

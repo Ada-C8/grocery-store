@@ -32,13 +32,14 @@ module Grocery
       end
     end
 
+
     def self.all
       csv_array_of_all_online_orders = []
       CSV.open("support/online_orders.csv", 'r').each do |line|
         product = Hash.new
-        id = line[0]
+        id = line[0].to_i
         status = line[-1]
-        customer_id = line[-2]
+        customer_id = line[-2].to_i
         all_items_and_prices = line[1...-2]
         item_and_price = all_items_and_prices.to_s.split(";")
         item_and_price.each do |item_and_price|
@@ -61,17 +62,21 @@ module Grocery
       return all_online_orders
     end
 
-
-
+    def self.find_by_customer(customer_id)
+      one_customer_online_order = []
+      all_online_orders = Grocery::OnlineOrder.all
+      all_online_orders.each do |one_online_order|
+        if one_online_order.customer.customer_id == customer_id.to_s
+          one_customer_online_order << one_online_order
+        end
+      end
+      if one_customer_online_order.length > 0
+        return one_customer_online_order
+      else
+        raise ArgumentError.new("Customer number #{customer_id} did not place an online_order.")
+      end
+    end
   end #end of class
 end #end of module
 
 #
-# id = 13
-# products = { "banana" => 1.99, "cracker" => 3.00 }
-# customer_id = 1
-# status = :pending
-# new_online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
-#
-# puts new_online_order.customer.email
-# #puts new_online_order.total

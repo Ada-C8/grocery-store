@@ -117,8 +117,15 @@ describe "OnlineOrder" do
   end
 
   describe "OnlineOrder.find_by_customer" do
+    before do
+      Grocery::OnlineOrder.all
+    end
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+      Grocery::OnlineOrder.find_by_customer(25)[0].must_be_kind_of Grocery::OnlineOrder
+
+      Grocery::OnlineOrder.find_by_customer(25).length.must_equal 6
+
+      Grocery::OnlineOrder.find_by_customer(25)[0].id.must_equal 1.to_s
     end
   end
 end

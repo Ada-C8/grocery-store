@@ -6,8 +6,6 @@ module Grocery
   class OnlineOrder < Order
     attr_reader :c_id, :status
 
-    @@online_imported = false
-
     def initialize(id, products, customer_id, status)
       super(id, products)
       @c_id = customer_id
@@ -16,28 +14,38 @@ module Grocery
 
     #CLASS METHODS
     def self.all
+      all_online_orders = Array.new
 
-      if @@online_imported == false
-        @@all_online_orders = Array.new
-
-        CSV.read('support/online_orders.csv').each do |row_order|
-          data_id = row_order[0]
-          row_items = row_order[1].split(";")
-           #array format to hash
-          data_products = Hash.new
-          row_items.each do |pair|
-            key = pair.to_s.partition(":").first.to_s
-            value = pair.to_s.partition(":").last
-            data_products.store( key, value)
-          end
-
-          @@all_online_orders << OnlineOrder.new(data_id, data_products, row_order[2],row_order[3])
+      CSV.read('support/online_orders.csv').each do |row_order|
+        data_id = row_order[0]
+        row_items = row_order[1].split(";")
+        #array format to hash
+        data_products = Hash.new
+        row_items.each do |pair|
+          key = pair.to_s.partition(":").first.to_s
+          value = pair.to_s.partition(":").last
+          data_products.store( key, value)
         end
-        @@online_imported == true
+
+        all_online_orders << OnlineOrder.new(data_id, data_products, row_order[2],row_order[3])
       end
 
-      return @@all_online_orders
+      return all_online_orders
     end
+
+    def self.find_by_customer(customer_id)
+      all_online_orders = self.all
+      customer_orders = Array.new
+      all_online_orders.each do |order|
+        if order.c_id == customer_id.to_s
+          puts order.c_id
+          customer_orders << order
+        end
+      end
+      puts customer_orders
+      return customer_orders
+    end
+
     # INSTANCE METHODS
     def total
       shipping = 10

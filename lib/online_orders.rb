@@ -6,19 +6,15 @@ module Grocery
   class OnlineOrder < Order
     @@csv = "../support/online_orders.csv"
 
-    # def initialize
-    #   @csv = "../support/online_orders.csv"
-    # end
+    def initialize
+      @customer = "fail"
+      @status = "fail"
+    end
 
     def self.all
       super
     end
 
-    # Maria - split .all method into 3 parts, all has the csv
-    # My proccess could be broken into self.all with csv and the
-    # instance creator
-    # put an if statement in the all method to run extra code
-    # depending on csv provided
   end
 end
 
@@ -27,5 +23,5 @@ end
 # online_order = Grocery::Order.new(id,products)
 # puts online_order.class
 
-p "OnlineOrder"
+p "I'm an OnlineOrder"
 p Grocery::OnlineOrder.find(3)

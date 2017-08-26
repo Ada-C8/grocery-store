@@ -7,6 +7,7 @@ require 'csv'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
+#TODO
 
 # TODO: uncomment the next line once you start wave 3
 # require_relative '../lib/online_order'
@@ -194,16 +195,16 @@ describe "OnlineOrder" do
     end #"Returns an array of online orders for a specific customer ID"
 
     it "Can access all the orders for a customer" do
-  
+
       all_orders = Grocery::OnlineOrder.all
       customer_id_1 = []
       all_orders.each do |instance|
-        puts "In loop, instance.customer_id is #{instance.customer_id}"
+        # puts "In loop, instance.customer_id is #{instance.customer_id}"
         if instance.customer_id == "1"
           customer_id_1 << instance
         end #if
       end #.each
-      puts "orders for customer 1: #{customer_id_1}"
+      # puts "orders for customer 1: #{customer_id_1}"
       test = Grocery::OnlineOrder.find_by_customer("1")
       test.length.must_equal customer_id_1.length
 

@@ -17,21 +17,22 @@ module Grocery
   class Order
     attr_reader :id, :products
     #Need to allow 0 product to be entered
-    #if I make this a class variable then the 'it "will contain the right numnber of orders"' test doesn't pass (it shows too many orders). Hoever, I am really not sure what kind variable to make @@all_orders so that I can both access the variable in the self.find method, and it won't be modified when I don't want it to be. Right now I am getting around this by resetting @@all_orders to and empty array every time self.all is run.
+    #if I make this a class variable then the 'it "will contain the right numnber of orders"' test doesn't pass (it shows too many orders). Hoever, I am really not sure what kind variable to make all_orders so that I can both access the variable in the self.find method, and it won't be modified when I don't want it to be. Right now I am getting around this by resetting all_orders to and empty array every time self.all is run.
 
-    @all_orders = []
 
     def initialize(id, products)
       @id = id
       @products = products
     end #initialize
 
+#total method will sum up the price for each product in the order and then add a 7.5% tax
     def total
       sum = @products.values.inject(0) { |a, b| a + b }
       total = (sum + (sum * 0.075)).round(2)
       return total
     end #total
 
+#The add_product method will check if the
     def add_product(product_name, product_price)
       if @products.has_key?(product_name)
         return false
@@ -52,7 +53,7 @@ module Grocery
     def self.all
       #method that will return an array of all the orders
       #the numnber of orders in the array is correct,
-      @all_orders = []
+      all_orders = []
       CSV.open("support/orders.csv", 'r').each do |line|
         id = line[0]
         order_products = {}
@@ -64,15 +65,16 @@ module Grocery
         end #.each
 
         products = order_products
-        @all_orders << Grocery::Order.new(id, products)
+
+        all_orders << Grocery::Order.new(id, products)
       end #open
 
-      return @all_orders
+      return all_orders
     end #all
 
 #Add this method so that the same self.find method in Order and OnlineOrder can access differnt arrays! I will override this method in the OnlineOrder class to return @all_online_orders
     def self.return_csv_array
-      return @all_orders
+      return self.all
     end
 
     def self.find(id_to_test)
@@ -82,15 +84,15 @@ module Grocery
       # if id_to_test.to_i > x.length
       #   raise ArgumentError.new("Error: order #{id_to_test} does not exsist!")
       # else
-      #   @@all_orders.each do |order|
+      #   all_orders.each do |order|
       #     if order.id == id_to_test
       #       return order
       #     end
       #   end
       # end
-#TODO: change this so that instead of saying @@all_orders.any? write a class method that will return @@all_orders (in Order class) and call class_method_name.any? instead
+#TODO: change this so that instead of saying all_orders.any? write a class method that will return all_orders (in Order class) and call class_method_name.any? instead
 #TODO: then in your subclass (OnlineOrder) you can override the class method discribed above to return @@all_online_orders instead
-#TODO: before doing the two above TODOs change @@all_orders and @@all_online_orders to instance variables.
+#TODO: before doing the two above TODOs change all_orders and @@all_online_orders to instance variables.
       if  return_csv_array.any?{|instance| instance.id == id_to_test.to_s}
             return_csv_array.each do |order|
               if order.id == id_to_test.to_s

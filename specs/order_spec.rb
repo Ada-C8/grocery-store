@@ -269,7 +269,7 @@ describe "Order Wave 2" do
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: need to modify the add_product method to add the instance onto the @@all_orders array and then check @@all_orders.length + 1 here instead of yay_orders.length + 1
+      # TODO: need to modify the add_product method to add the instance onto the all_orders array and then check all_orders.length + 1 here instead of yay_orders.length + 1
       yay_orders = CSV.read("support/orders.csv", 'r')
 
       Grocery::Order.all

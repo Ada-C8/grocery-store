@@ -50,10 +50,8 @@ module Grocery
         total = 0
         return total
       else
-        puts "I want to be fixed"
-        # sum = products.(values).inject(0, :+)
-        # total = sum + (sum * 0.075).round(2)
-        total = "MaGiCaL"
+        sum = products.values.map(&:to_f).inject(0, :+).round(2)
+        total = sum + (sum * 0.075).round(2)
         return total
       end
     end
@@ -79,7 +77,7 @@ module Grocery
   end
 end
 
-# p Grocery::Order.all[3].total
-p "I'm an Order"
-p Grocery::Order.find(30)
-puts "\n"
+# p Grocery::Order.all[67].total
+# p "I'm an Order"
+# p Grocery::Order.find(30)
+# puts "\n"

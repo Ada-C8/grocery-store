@@ -6,7 +6,7 @@ require_relative '../lib/order'
 require 'csv'
 
 
-xdescribe "Order Wave 1" do
+describe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
       id = 1337
@@ -124,10 +124,10 @@ xdescribe "Order Wave 1" do
 
 end
 
-xdescribe "Order Wave 2" do
-  before do
-    Grocery::Order.clear
-  end
+describe "Order Wave 2" do
+  # before do
+  #   Grocery::Order.clear
+  # end
   describe "Order.all" do
     it "Returns an array of all orders" do
       Grocery::Order.all.must_be_kind_of Array
@@ -173,9 +173,6 @@ xdescribe "Order Wave 2" do
   end
 
   describe "Order.find" do
-    before do
-      Grocery::Order.all
-    end
 
     it "Can find the first order from the CSV" do
       Grocery::Order.find(0).must_be_kind_of Grocery::Order

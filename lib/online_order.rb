@@ -38,11 +38,9 @@ module Grocery
       customer_orders = Array.new
       all_online_orders.each do |order|
         if order.c_id == customer_id.to_s
-          puts order.c_id
           customer_orders << order
         end
       end
-      puts customer_orders
       return customer_orders
     end
 

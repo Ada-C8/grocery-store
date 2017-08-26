@@ -58,9 +58,6 @@ describe "Customer" do
   end
 
   describe "Customer.find" do
-    before do
-      Grocery::Customer.all
-    end
 
     it "Can find the first customer from the CSV" do
       Grocery::Customer.find(0).must_be_kind_of Grocery::Customer

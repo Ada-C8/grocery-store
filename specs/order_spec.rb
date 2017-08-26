@@ -105,13 +105,6 @@ describe "Order Wave 1" do
       order.products.keys.include?("salad").must_equal false
     end #false if not remove
 
-    # it "Tells you item is not in the order" do
-    #   products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
-    #   order = Grocery::Order.new(1337, products)
-    #   bacon = "bacon not found."
-    #   order.remove_product("bacon").must_equal bacon
-    #   #order.products.keys.include?("salad").must_equal false
-    # end #not in order
   end #remove_product tests
 end #for Wave One
 
@@ -137,6 +130,24 @@ describe "Order Wave 2" do
     end #everything is an order
 
     it "The ID and products of the first and last orders match whats in the CSV file" do
+
+      order = Grocery::Order.all
+      order[0].id.must_equal 1
+      order[99].id.must_equal 100
+
+      order[0].products.include?("Slivered Almonds").must_equal true
+      order[0].products.include?("Wholewheat flour").must_equal true
+      order[0].products.include?("Grape Seed Oil").must_equal true
+
+      order[99].products.include?("Allspice").must_equal true
+      order[99].products.include?("Bran").must_equal true
+      order[99].products.include?("UnbleachedFlour").must_equal true
+
+    #  1,Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9
+      # 0,Spring Onions:32.07;Vinegar:10.51;Nectarines:12.58;Mung Beans:27.41
+      # 100,Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59
+
+
     end #ID/products match
   end #order all
 
@@ -156,19 +167,10 @@ describe "Order Wave 2" do
       x.products.include?("UnbleachedFlour").must_equal true
     end #can find the last order
 
-    # it "Raises an error for an order that doesn't exist" do
-    #   x = Grocery::Order.find(110)
-    #   x.must_equal false
-    # end #raises an error
+    it "Raises an error for an order that doesn't exist" do
+      proc {Grocery::Order.find(110)}.must_raise ArgumentError
+            # proc {Card.new(0, :diamonds)}.must_raise ArgumentError
+
+    end #raises an error
   end #end Order.find
 end #Order Wave Two
-
-
-#  Your test code here!
-# Useful checks might include:
-#   - Order.all returns an array
-#   - The ID and products of the first and last
-#       orders match what's in the CSV file
-# Feel free to split this into multiple tests if needed
-#   - Everything in the array is an Order
-#   - The number of orders is correct

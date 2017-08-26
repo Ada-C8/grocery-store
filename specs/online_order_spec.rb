@@ -41,21 +41,21 @@ describe "OnlineOrder" do
 
     it "Can access the online order status" do
       # TODO: Your test code here!
-      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", "Paid")
-      online_order.status.must_equal "Paid"
+      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", :paid)
+      online_order.status.must_equal :paid
     end
   end
 
   describe "#total" do
     it "Adds a shipping fee" do
       # TODO: Your test code here!
-      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", "Paid")
+      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", :paid)
       online_order.total.must_equal ((5 + (5 * 0.075)).round(2) + 10)
     end
 
     it "Doesn't add a shipping fee if there are no products" do
       # TODO: Your test code here!
-      online_order = Grocery::OnlineOrder.new("3", {}, "1", "Paid")
+      online_order = Grocery::OnlineOrder.new("3", {}, "1", :paid)
       online_order.total.must_equal 0
     end
   end
@@ -63,28 +63,28 @@ describe "OnlineOrder" do
   describe "#add_product" do
     it "Does not permit action for processing statuses" do
       # TODO: Your test code here!
-      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", "processing")
+      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", :processing)
       proc {online_order.add_product}.must_raise ArgumentError
       # proc {Grocery::Order.find(yay_orders.length + 1)}.must_raise ArgumentError
     end #processing
 
     it "Does not permit action for shipped statuses" do
-      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", "shipped")
+      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", :shipped)
       proc {online_order.add_product}.must_raise ArgumentError
     end #shipped
 
     it "Does not permit action for completed statuses" do
-      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", "completed")
+      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", :completed)
       proc {online_order.add_product}.must_raise ArgumentError
     end #completed
 
     it "Permits action for pending satuses" do
-      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", "pending")
+      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", :pending)
       online_order.add_product("kiwi", 5).must_equal true
     end
 
     it "Permits action for pending satuses" do
-      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", "paid")
+      online_order = Grocery::OnlineOrder.new("3", {apple: 2, pear: 3}, "1", :paid)
       online_order.add_product("kiwi", 5).must_equal true
     end
 
@@ -164,7 +164,7 @@ describe "OnlineOrder" do
         end
         products = order_products
         customer_id = line[2]
-        status = line[3]
+        status = line[3].to_sym
         all_orders << Grocery::OnlineOrder.new(id, products, customer_id, status)
       end
 

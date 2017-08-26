@@ -1,34 +1,22 @@
 require_relative 'Order'
 require 'csv'
 
+#The fact that I am redefining the methods OnlineOrder inherits from Order is why I am getting all the warning messages when I run rake
+
 module Grocery
-  attr_reader :customer_id, :status, :customer
-
-
   class OnlineOrder < Order
-    def initialize(id, products, customer_id, status)
+      attr_reader :customer_id, :status, :customer
+
+#TODO: is this the right way to set a default argument parameter?
+    def initialize(id, products, customer_id, status = :pending)
       super(id, products)
-      #took out customer_id since I am using @customer now 
+      #took out customer_id since I am using @customer now
       # @customer_id = customer_id
       @status = status
-      @customer = Grocery::Customer.find(customer_id)
-      # @customer = Grocery::Customer.find(customer_id)
+      @customer = Grocery::Customer.find(customer_id) #so that we use an instance of the Customer class instead of just the customer_id in the csv file to access data about each customer
     end #initialize
 
-    #I had to make this method cause the attr_reader didn't work. Why is that??
-    def customer_id
-      return @customer_id
-    end #customer_id
-
-    #I had to make this method cause the attr didn't work (same at for customer_id). Why??
-    def status
-      return @status
-    end #status
-
-    def customer
-      return @customer
-    end
-
+#Modifying the total method so that a shipping cost will only be added if super returns a value grater than 0 (meaning that there are products in the order)
     def total
       if super == 0
         return 0
@@ -38,7 +26,7 @@ module Grocery
     end #total
 
     def add_product(products, price)
-      if @status == "processing" || @status == "shipped" || @status == "completed"
+      if @status == :processing || @status == :shipped || @status == :completed
         raise ArgumentError.new("Error: you cannot add to you order because it is allready #{@status}")
       else
         super
@@ -62,7 +50,7 @@ module Grocery
 
         products = order_products
         customer_id = line[2]
-        status = line[3]
+        status = line[3].to_sym
 
         all_online_orders << Grocery::OnlineOrder.new(id, products, customer_id, status)
       end #.open

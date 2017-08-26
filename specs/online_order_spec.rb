@@ -1,6 +1,8 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require 'online_order.rb'
+require 'customer.rb'
 
 # TODO: uncomment the next line once you start wave 3
 # require_relative '../lib/online_order'
@@ -11,22 +13,53 @@ require 'minitest/skip_dsl'
 # we effectively get all that testing for free! Here we'll
 # only test things that are different.
 
-xdescribe "OnlineOrder" do
+describe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
+
+      id = 12
+      products = "we"
+      customer_id = 9
+      status = "pending"
+
+      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+      online_order.must_be_kind_of Grocery::Order
+
+      # online_order.id.must_equal id
+      # online_order.id.must_be_kind_of Integer
+      # online_order.must_respond_to :products
+      # online_order.products.length.must_equal 0
       # Check that an OnlineOrder is in fact a kind of Order
 
       # Instatiate your OnlineOrder here
-      # online_order =
-      # online_order.must_be_kind_of Grocery::Order
+      # online_order.must_be_kind_of Grocery::OnlineOrder
     end
 
     it "Can access Customer object" do
+      id = 12
+      products = "we"
+      customer_id = 9
+      status = "pending"
+
+      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+      Grocery::Customer.all
+      new_id = Grocery::Customer.find(customer_id).id.to_i
+      customer_id.to_i.must_equal new_id
+
+
       # TODO: Your test code here!
     end
 
     it "Can access the online order status" do
-      # TODO: Your test code here!
+      id = 12
+      products = "we"
+      customer_id = 9
+      statuses = [:pending, :paid, :processing, :complete]
+      statuses.each do |status|
+        online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+        online_order.status.must_equal status
+      end
+
     end
   end
 
@@ -62,7 +95,7 @@ xdescribe "OnlineOrder" do
       # Feel free to split this into multiple tests if needed
     end
   end
-  
+
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!

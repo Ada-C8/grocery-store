@@ -14,8 +14,6 @@ module Grocery
     end
 
     #no super because super takes the out put for orders and gives back @@all_orders, in this case we dont care about that we want all the online orders
-
-    #1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete
     def self.all
       if @@all_online_orders.length > 0
         return @@all_online_orders
@@ -37,6 +35,10 @@ module Grocery
 
     def self.find
       super
+    end
+
+    def self.find_by_customer
+
     end
 
     def total

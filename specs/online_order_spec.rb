@@ -99,7 +99,7 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "OnlineOrder.find(ID)" do
+  describe "OnlineOrder.find(ID)" do
     it "Can find the first order from the CSV" do
       Grocery::OnlineOrder.find(1).must_be_same_as Grocery::OnlineOrder.all.first
     end
@@ -111,9 +111,18 @@ describe "OnlineOrder" do
     end
   end #end of "OnlineOrder.find(id)"
 
-  xdescribe "OnlineOrder.find_by_customer" do
+  describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+      Grocery::OnlineOrder.all
+      Grocery::OnlineOrder.find_by_customer(29).must_be_kind_of Array
+    end
+    it "Can access all the orders for a customer" do
+      Grocery::OnlineOrder.all
+      customer_orders_array = Grocery::OnlineOrder.find_by_customer(5)
+      customer_orders_array.length.must_equal 1
+    end
+    it "Raises an error for an customer id that doesn't exist" do
+      proc{Grocery::OnlineOrder.find_by_customer(1009)}.must_raise ArgumentError
     end
   end #end of "OnlineOrder.find_by_customer"
 end #end of "OnlineOrder"

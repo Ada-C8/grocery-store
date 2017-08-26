@@ -2,11 +2,14 @@
 #
 # A customer object
 # A fulfillment status (stored as a Symbol)
-# pending, paid, processing, shipped or complete
+#
+#pending, paid, processing, shipped or complete
+#
 # If no status is provided, it should set to pending as the default
 # The OnlineOrder should include the following updated functionality:
 #
 # The total method should be the same, except it will add a $10 shipping fee
+
 # The add_product method should be updated to permit a new product to be added ONLY if the status is either pending or paid (no other statuses permitted)
 # Otherwise, it should raise an ArgumentError (Google this!)
 # The OnlineOrder should also have the following class methods:
@@ -22,13 +25,26 @@ require 'pry'
 
 module Grocery
 class OnlineOrder < Order
-  attr_reader :customer_id, :status,
-  #
-  def initialize(customer_id, status)
+  attr_reader :customer_id
+  attr_accessor :status
+  def initialize(id, products, customer_id, status = :pending)
     super(id, products)
     @customer_id = customer_id
-    status = "pending"
     @status = status.to_sym
+  end
+
+  def total
+    super + 10 #adds $10 shipping fee
+  end
+
+  def add_product(product_name, product_price)
+    # 
+    # super(product_name, product_price)
+    # unless Grocery::OnlineOrder.status == :pending
+    #   raise ArgumentError.new("Due to order status, additional products can no longer be added to the order.")
+    # end
+
+
   end
 
 end

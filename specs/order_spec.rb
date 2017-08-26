@@ -131,12 +131,15 @@ describe "Order Wave 2" do
 
   describe "Order initialize" do
     it "Can initialize an Order object from a csv line" do
-      #This test does not test for proper Order creation, as the Order's product variable is now a string instead of a hash of product names and prices. It justs tests that we are reading a CSV file correctly and able to pull in information from the CSV to create our Order objects
-      first_line= CSV.read("support/orders.csv", "r").first
 
-      order = Grocery::Order.new(first_line[0].to_i, first_line[1])
+      csv_first_line= CSV.read("support/orders.csv", "r").first
 
-      order.must_be_instance_of Grocery::Order
+      order = Grocery::Order.new(csv_first_line[0].to_i, csv_first_line[1])
+
+      order.must_be_instance_of Grocery::Order #product string has not been turned into hash at this point
+
+      order.must_respond_to :id
+      order.must_respond_to :products
     end
   end
 

@@ -1,5 +1,5 @@
 require 'csv'
-#require_relative 'order.rb'
+require_relative 'order'
 module Grocery
 
   class Customer < Order
@@ -12,6 +12,7 @@ module Grocery
     end
 
   end
+
 end
 
 

@@ -1,6 +1,3 @@
-# Create a Grocery module which will contain an Order class and any future grocery store logic.
-# Create an Order class which should have the following functionality:
-# Update the Order class to be able to handle all of the fields from the CSV file used as input
 
 require 'csv'
 
@@ -51,9 +48,8 @@ module Grocery
       if item_num.include?(id)
         return orders[id - 1]
       else
-        raise ArgumentError
+        raise ArgumentError, "ID Number Not Found"
       end
-
     end# method def
 
     def total # A total method which will calculate the total cost of the order by:
@@ -90,3 +86,6 @@ module Grocery
     end #show order method end
   end #class end
 end #module
+
+#puts Grocery::Order.find(111).inspect
+# puts Grocery::Order.find(100)

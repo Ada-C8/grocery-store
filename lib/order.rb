@@ -19,7 +19,7 @@ module Grocery
       csv_array_of_all_orders = []
       #1: Open the csv file and extract order id and all info on products
       CSV.open("support/orders.csv", 'r').each do |line|
-        order_id = line[0]
+        order_id = line[0].to_i
         order_contents = line[1]
         order_contents = order_contents.split(";")
         #2. Parse out the item and price of products.
@@ -53,7 +53,7 @@ module Grocery
     def self.find(order_id)
       collection_of_orders = Order.all
       collection_of_orders.each do |order|
-        if order.id == order_id.to_s
+        if order.id == order_id
           return order
         end
       end
@@ -64,8 +64,8 @@ module Grocery
     #2. adding a 7.5% tax 3. rounding to two decimal places
     def total
       total = 0
-      products.each do |name, price|
-        total += price + (price * 0.075)
+      products.each do |item, cost|
+        total += cost + (cost * 0.075)
       end
       return total.round(2)
     end
@@ -95,4 +95,3 @@ module Grocery
 
   end #end  class Order
 end #end module Grocery
-#

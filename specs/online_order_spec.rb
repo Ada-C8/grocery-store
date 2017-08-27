@@ -57,7 +57,6 @@ describe "OnlineOrder" do
   end #add_product
 
   describe "OnlineOrder.all" do
-    #   - OnlineOrder.all returns an array
     it "OnlineOrder.all returns an array" do
       order = OnlineOrder.all
       order.must_be_kind_of Array
@@ -78,12 +77,18 @@ describe "OnlineOrder" do
     it "The customer is present" do
       order = OnlineOrder.all
       order.each do |item|
-        item.customer_info.wont_be_empty
+        item.customer_info.wont_be_nil
+        #must_be_kind_of Grocery::Customer
       end #each do
     end #customer present
 
 
     it "The status is present" do
+      order = OnlineOrder.all
+      order.each do |item|
+        item.status.wont_be_nil
+        #must_be_kind_of Grocery::Customer
+      end #each do
     end #status present
 end #online order all method
 

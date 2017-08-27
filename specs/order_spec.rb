@@ -79,10 +79,24 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
+      all_orders = Grocery::Order.all
+      all_orders.must_be_instance_of Array
+      all_orders[0].id.must_equal 1
+      all_orders[0].products["Slivered Almonds"].must_equal "22.88"
+      all_orders[0].products["Wholewheat flour"].must_equal "1.93"
+      all_orders[0].products["Grape Seed Oil"].must_equal "74.9"
+      all_orders.each do |orders|
+        orders.must_be_instance_of Grocery::Order
+      end
+        all_orders.length.must_equal 100
+
+
+
+      end
       # Useful checks might include:
       #   - Order.all returns an array
       #   - Everything in the array is an Order
@@ -96,14 +110,21 @@ xdescribe "Order Wave 2" do
   describe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+    #one_order = Grocery::Order.find(1)
+    Grocery::Order.find(1).must_be_instance_of Grocery::Order
     end
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
+      Grocery::Order.find(100).must_be_instance_of Grocery::Order
     end
 
     it "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
+
+      proc {Grocery::Order.find(0)}.must_raise ArgumentError
+      proc {Grocery::Order.find(101)}.must_raise ArgumentError
+
     end
   end
-end
+#end

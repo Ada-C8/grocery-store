@@ -30,7 +30,7 @@ describe "OnlineOrder" do
     it "Can access the online order status" do
       # TODO: Your test code here!
 
-  
+
     end
   end
   #
@@ -56,34 +56,34 @@ describe "OnlineOrder" do
   # end
 
   describe "OnlineOrder.all" do
-    it "Returns an array of all online orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - OnlineOrder.all returns an array +
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct +
-      #   - The customer is present
-      #   - The status is present
-      # Feel free to split this into multiple tests if needed
-
-# FINISH THESE TESTS
-      Grocery::Onlineorder.all.must_be_kind_of Array
-      Grocery::Onlineorder.all.length.must_equal 100
-
-
-    end
+#     it "Returns an array of all online orders" do
+#       # TODO: Your test code here!
+#       # Useful checks might include:
+#       #   - OnlineOrder.all returns an array +
+#       #   - Everything in the array is an Order
+#       #   - The number of orders is correct +
+#       #   - The customer is present
+#       #   - The status is present
+#       # Feel free to split this into multiple tests if needed
+#
+# # FINISH THESE TESTS
+#       Grocery::Onlineorder.all.must_be_kind_of Array
+#       Grocery::Onlineorder.all.length.must_equal 100
+#
+#
+#     end
+#   end
+#
+#   describe "OnlineOrder.find_by_customer" do
+#     it "Returns an array of online orders for a specific customer ID" do
+#       # TODO: Your test cod here!
+#
+#       Grocery::Onlineorder.all
+#       Grocery::Onlineorder.find(1).id.must_equal 1
+#       Grocery::Onlineorder.find(1).status.must_equal :complete
+#       Grocery::Onlineorder.find(1).customer_id.must_equal 25
+#
+#
+#     end
   end
-
-  describe "OnlineOrder.find_by_customer" do
-    it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test cod here!
-
-      Grocery::Onlineorder.all
-      Grocery::Onlineorder.find(1).id.must_equal 1
-      Grocery::Onlineorder.find(1).status.must_equal :complete
-      Grocery::Onlineorder.find(1).customer_id.must_equal 25
-
-
-    end
-  end
-end
+# end

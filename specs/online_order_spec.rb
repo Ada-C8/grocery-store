@@ -21,7 +21,7 @@ describe "OnlineOrder" do
 
     it "Can access Customer object" do
       online_order = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :pending)
-      online_order.customer_id.must_be_kind_of Grocery::Customer
+      online_order.customer_info.must_be_kind_of Grocery::Customer
     end
 
     it "Can access the online order status" do
@@ -33,13 +33,16 @@ describe "OnlineOrder" do
 
   describe "#total" do
     it "Adds a shipping fee" do
-      # TODO: Your test code here!
-    end
+      x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :pending)
+      x.total.must_equal 20.75
+
+    end #add shipping fee
 
     it "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
-    end
-  end
+        x = OnlineOrder.new(19, {}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :pending)
+        x.total.must_equal 0
+    end #no fee if no products
+  end #test total
 
   describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do

@@ -23,7 +23,7 @@ class OnlineOrder < Grocery::Order
     return  @total
   end #total method
 
-  def self.all_online
+  def self.all_online_orders
     products = {}
     @@all_online_orders = []
 
@@ -61,11 +61,11 @@ end #class
 
 
 
-j = OnlineOrder.all_online
-
-j.each do |order|
-  puts "Customer id is #{order.customer_id.inspect}"
-end
+j = OnlineOrder.all_online_orders
+puts j.inspect
+# j.each do |order|
+#   puts "Customer id is #{order.customer_id.inspect}"
+# end
 
 # end
 # x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :christmas)

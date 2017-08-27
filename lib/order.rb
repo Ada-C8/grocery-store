@@ -8,18 +8,15 @@
 #To get the order total you should sum all the hash values and multiply it by the tax
 #Should I have a list of object ID's and what they link to?
 
-#Changed self.all method to create a hash for the product, so I think this broke some of my tests, because I wasn't treating @products as a hash in those tests
+
 require 'csv'
 
 module Grocery
   class Order
     attr_reader :id, :products
-    #Need to allow 0 product to be entered
-    #if I make this a class variable then the 'it "will contain the right numnber of orders"' test doesn't pass (it shows too many orders). Hoever, I am really not sure what kind variable to make all_orders so that I can both access the variable in the self.find method, and it won't be modified when I don't want it to be. Right now I am getting around this by resetting all_orders to and empty array every time self.all is run.
-
     def initialize(id, products)
       @id = id
-      @products = products
+      @products = products #hash of product names and their prices
     end #initialize
 
 #total method will sum up the price for each product in the order and then add a 7.5% tax

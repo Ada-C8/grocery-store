@@ -1,8 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
-
-# TODO: uncomment the next line once you start wave 3
 require_relative '../lib/customer'
 
 describe "Customer" do
@@ -21,22 +19,21 @@ describe "Customer" do
       @test_all_method = Grocery::Customer.all
     end
 
-    #Customer.all returns an array
+    #customer.all returns an array
     it "Returns an array of all customers" do
       @test_all_method.must_be_kind_of Array
     end
 
-    # Everything in the array is a Customer
+    #everything in the array is a Customer
     it "Everthing in the array is a Customer" do
       @test_all_method[0].must_be_kind_of Grocery::Customer
       @test_all_method[20].must_be_kind_of Grocery::Customer
     end
 
-    # the number of orders is correct
-    it "The number of orders is correct" do
+    #the number of orders is correct => Is this a typo? Number of "orders" or number of "customers"?
+    it "The number of orders is correct" do #I will do this according to "The number of customers is correct"
       @test_all_method.length.must_equal 35
       @test_all_method.length.must_equal (@test_all_method[-1].id)
-      # TYPO? NUMBER OF ORDERS? OR NUMBER OF CUSTOMERS?
     end
 
     # The ID, email address of the first and last customer match what's in the CSV file

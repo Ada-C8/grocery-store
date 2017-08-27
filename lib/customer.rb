@@ -1,11 +1,6 @@
-# Create a Customer class within the Grocery module.
-# Each new Customer should include the following attributes:
-# ID
-# email address
-# delivery address information
-
 require 'csv'
 
+#Customer class within Grocery module
 module Grocery
   class Customer
     attr_reader :id, :email, :address
@@ -16,9 +11,8 @@ module Grocery
       @address = address
     end#initialize
 
-    # self.all - returns a collection of Customer instances, representing all of the Customer described in the CSV. See below for the CSV file specifications
+    #self.all returns a collection of Customer instances, representing all of the customers described in the CSV
     def self.all
-
       id = nil
       email = nil
       address = nil
@@ -27,17 +21,17 @@ module Grocery
       CSV.open('support/customers.csv', 'r').each do |line|
         id = line[0].to_i
         email = line[1]
-        address = line[2] + " " + line[3] + " " + line[4] + " " + line[5]
+        # address = line[2] + " " + line[3] + " " + line[4] + " " + line[5]
+        address = line[2..5].join(", ")
 
       customer = Customer.new(id, email, address)
       all_customers << customer
       end
 
       return all_customers
-
     end#self.all
 
-    # self.find(id) - returns an instance of Customer where the value of the id field in the CSV matches the passed parameter.
+    # self.find(id) returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
     def self.find(id)
       customers_arr = Customer.all
 
@@ -54,5 +48,6 @@ module Grocery
     end
   end#Customer
 end
-# hello = Grocery::Customer.all
+
+# hello = Grocery::Customer.all[0].address
 # puts hello

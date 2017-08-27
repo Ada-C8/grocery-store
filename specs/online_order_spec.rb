@@ -2,14 +2,8 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
-# Todo: uncomment the next line once you start wave 3
 require_relative '../lib/online_order'
-# You may also need to require other classes here
 require_relative '../lib/order'
-# Because an OnlineOrder is a kind of Order, and we've
-# already tested a bunch of functionality on Order,
-# we effectively get all that testing for free! Here we'll
-# only test things that are different.
 
 describe "OnlineOrder" do
 
@@ -84,9 +78,10 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      online_order_4 = OnlineOrder.find(1)
+      online_order_4 = OnlineOrder.find_by_customer(1)
 
       online_order_4.must_be_kind_of Array
+      online_order_4[0].must_be_kind_of OnlineOrder
     end
   end
 end

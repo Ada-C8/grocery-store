@@ -18,8 +18,7 @@ describe "Order Wave 1" do
       order.must_respond_to :products
       order.products.length.must_equal 0
     end
-      #raise argument error if id or order is a negative number
-
+      #raise argument error if id is less than 1 or products is not a hash
       it "Raises an ArgumentError for invalid parameters" do
         proc {Grocery::Order.new(-1, {})}.must_raise ArgumentError
         proc {Grocery::Order.new(123, -2)}.must_raise ArgumentError
@@ -110,7 +109,6 @@ describe "Order Wave 1" do
   end
 end
 
-# To do: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
 
   before do
@@ -129,29 +127,32 @@ describe "Order Wave 2" do
     end
 
     it "The number of orders is correct" do
-      # @orders.length.must_equal 100
+      #@orders.length.must_equal 100
       @orders.length.must_equal @orders[-1].id
     end
 
     it "The ID and products of the first and last orders match what's in the CSV file" do
 
-      # @orders[0].id.must_equal 1
-      first_line = ["1","Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
-      id = first_line[0].to_i
-      products_arr = first_line[1].split(';')
-      products = Hash[products_arr.map { |i| i.split(":") }]
-      products = Hash[products.keys.zip(products.values.map(&:to_f))]
-
-      # Grocery::Order.new(id, products)
+      # first_line = ["1","Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9"]
+      # id = first_line[0].to_i
+      # products_arr = first_line[1].split(';')
+      # products = Hash[products_arr.map { |i| i.split(":") }]
+      # products = Hash[products.map {|product, price| [product, price.to_f] }]
+      first_line = [1, {"Slivered Almonds"=>22.88,"Wholewheat flour"=>1.93,"Grape Seed Oil"=>74.9}]
+      id = first_line[0]
+      products = first_line[1]
 
       @orders[0].id.must_equal id
       @orders[0].products.must_equal products
 
-      last_line = ["100","Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59"]
-      id = last_line[0].to_i
-      products_arr = last_line[1].split(';')
-      products = Hash[products_arr.map { |i| i.split(":") }]
-      products = Hash[products.keys.zip(products.values.map(&:to_f))]
+      # last_line = ["100","Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59"]
+      # id = last_line[0].to_i
+      # products_arr = last_line[1].split(';')
+      # products = Hash[products_arr.map { |i| i.split(":") }]
+      # products = Hash[products.map {|product, price| [product, price.to_f] }]
+      last_line = [100, {"Allspice"=>64.74,"Bran"=>14.72,"UnbleachedFlour"=>80.59}]
+      id = last_line[0]
+      products = last_line[1]
 
       @orders[-1].id.must_equal id
       @orders[-1].products.must_equal products
@@ -163,11 +164,13 @@ describe "Order Wave 2" do
     it "Can find the first order from the CSV" do
       @orders_2 = Grocery::Order.find(1)
       @orders_2.id.must_equal 1
+      # @orders_2.must_equal @orders[0] => why doesn't this work?
     end
 
     it "Can find the last order from the CSV" do
       @orders_2 = Grocery::Order.find(100)
       @orders_2.id.must_equal 100
+      # @orders_2.must_equal @orders[-1] => why doesn't this work?
 
     end
 

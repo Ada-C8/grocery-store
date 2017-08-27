@@ -64,7 +64,7 @@ xdescribe "Customer.all" do
     customers.length.must_equal 35
   end
 
-  it "Confirms the first customer info matches CSV file info" do
+  it "Confirms the first customer id & email matches CSV file info" do
     customers = Grocery::Customer.all
 
     first_customer_id = 1
@@ -84,16 +84,20 @@ xdescribe "Customer.all" do
 
 end
 
-xdescribe "Customer.find" do
-  xit "Can find the first customer from the CSV" do
-    # TODO: Your test code here!
+describe "Customer.find" do
+  it "Can find the first customer from the CSV" do
+    first_customer_id = 1
+    Grocery::Customer.find(1).customer_id.must_equal(first_customer_id)
   end
 
-  xit "Can find the last customer from the CSV" do
-    # TODO: Your test code here!
+  it "Can find the last customer from the CSV" do
+    last_customer_id = 35
+    Grocery::Customer.find(35).customer_id.must_equal(last_customer_id)
+  end
+  
+  it "Raises an error for a customer that doesn't exist" do
+    nonexistent_customer_id = 36
+    proc {Grocery::Customer.find(36)}.must_raise ArgumentError
   end
 
-  xit "Raises an error for a customer that doesn't exist" do
-    # TODO: Your test code here!
-  end
 end

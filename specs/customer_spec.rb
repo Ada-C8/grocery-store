@@ -74,13 +74,27 @@ describe "Customer" do
         csv_email.must_equal customer_email
       end
 
-      #   it "checks delivery_address of the first customer matches what's in the CSV file" do
-      #   customers = Grocery::Customer.all
-      #   csv = CSV.read("./support/customers.csv")
-      #   # customer_delivery_address =
-      #   csv_delivery_address = csv.to_a[-1]
-      #   print csv_delivery_address
-      # end
+        it "checks delivery_address of the first customer matches what's in the CSV file" do
+        customers = Grocery::Customer.all
+        csv = CSV.read("./support/customers.csv")
+        csv_cust = csv.to_a[0]
+        csv_delivery_address = csv_cust[2] + ", " + csv_cust[3] + ", " + csv_cust[4] + " " + csv_cust[5]
+        print csv_delivery_address
+        customer_delivery_address = customers[0].delivery_address
+        print customer_delivery_address
+        customer_delivery_address.must_equal csv_delivery_address
+      end
+
+      it "checks delivery_address of the first customer matches what's in the CSV file" do
+      customers = Grocery::Customer.all
+      csv = CSV.read("./support/customers.csv")
+      csv_cust = csv.to_a[-1]
+      csv_delivery_address = csv_cust[2] + ", " + csv_cust[3] + ", " + csv_cust[4] + " " + csv_cust[5]
+      print csv_delivery_address
+      customer_delivery_address = customers[-1].delivery_address
+      print customer_delivery_address
+      customer_delivery_address.must_equal csv_delivery_address
+    end
 
       it "checks everything in the array is a customer" do
         customers = Grocery::Customer.all

@@ -19,14 +19,14 @@ module Grocery
       @@line_count = 0
       CSV.open("support/orders.csv", 'r').each do |line|
         @@line_count += 1
-        @id = line[0]
+        id = line[0]
         product_hash ={}
         product_array = line[1].split(';')
         product_array.each do |info|
           smaller_array = info.split(':')
           product_hash[smaller_array[0]] = smaller_array[1]
         end
-        @@order_objects << Order.new(@id.to_i, product_hash)
+        @@order_objects << Order.new(id.to_i, product_hash)
       end
       return @@order_objects
     end

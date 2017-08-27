@@ -27,16 +27,39 @@ describe "Customer" do
     end
   end
 
-  xdescribe "Customer.all" do
+  describe "Customer.all" do
     it "Returns an array of all customers" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Customer.all returns an array
-      #   - Everything in the array is a Customer
-      #   - The number of orders is correct
+      customers = Grocery::Customer.all
+
+      #Customer.all returns an array
+      customers.must_be_instance_of Array
+
+      customers.each do |line|
+        line.must_be_instance_of Grocery::Customer
+      end
+
+
+      #The number of orders is correct
+      customers.length.must_equal 35
+
+      customers.first.id.must_equal 1
+      customers.last.id.must_equal 35
+
+
       #   - The ID, email address of the first and last
       #       customer match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      customers.first.email.must_equal "leonard.rogahn@hagenes.org"
+      customers.last.email.must_equal "rogers_koelpin@oconnell.org"
+
+      customers.first.delivery_address.must_equal ["71596 Eden Route","Connellymouth","LA","98872-9105"]
+      customers.first.delivery_address.must_be_instance_of Array
+
+      customers.last.delivery_address.must_equal ["7513 Kaylee Summit","Uptonhaven","DE","64529-2614"]
+      customers.last.delivery_address.must_be_instance_of Array
+
+
+      #   - Everything in the array is a Customer
+
     end
   end
 

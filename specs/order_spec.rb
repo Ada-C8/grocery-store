@@ -80,7 +80,8 @@ end
 
 describe "Order Wave 2" do
   describe "Order.all" do
-    it "Returns an array of all orders" do  #order.all returns an array
+
+    it "Returns an array of all orders" do
       orders = Grocery::Order.all
       orders.must_be_kind_of Array
     end
@@ -94,12 +95,12 @@ describe "Order Wave 2" do
       order_product.must_equal csv_product
     end
 
-    it "checks the number of orders is correct" do #check # of orders
+    it "checks the number of orders is correct" do
       orders = Grocery::Order.all
       orders.length.must_equal 100
     end
 
-    it "checks ID of the first order matches what is in the CSV file" do
+    it "checks ID of the first order matches what's in the CSV file" do
       orders = Grocery::Order.all
       csv = CSV.read("./support/orders.csv")
       csv_product = csv.to_a[0][0].to_i
@@ -109,14 +110,8 @@ describe "Order Wave 2" do
 
     it "checks ID of the last order matches what is in the csv file" do
       orders = Grocery::Order.all
-      # test = orders[-1].id
-      # puts "#{test} please work, I'm tired"
-      # puts "#{test.class}"
-      # csv = CSV.read("./support/orders.csv")
+      csv = CSV.read("./support/orders.csv")
       csv_product = csv.to_a[-1][0].to_i
-      # puts "#{csv_product}"
-      # puts "#{csv_product.class} boo!"
-      # puts "#{orders} hey!"
       csv_product.must_equal orders[-1].id
     end
 

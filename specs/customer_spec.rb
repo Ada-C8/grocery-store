@@ -1,41 +1,74 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require_relative '../lib/customer'
 
-# TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/customer'
-
-xdescribe "Customer" do
+describe "Customer" do
   describe "#initialize" do
     it "Takes an ID, email and address info" do
-      # TODO: Your test code here!
+      test_customer = Grocery::Customer.new(1, "email@address.com", "address")
+      test_customer.id.must_be_kind_of Integer
+      test_customer.email.must_be_kind_of String
+      test_customer.address.must_be_kind_of String
     end
   end
 
   describe "Customer.all" do
+
+    before do
+      @test_all_method = Grocery::Customer.all
+    end
+
+    #customer.all returns an array
     it "Returns an array of all customers" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Customer.all returns an array
-      #   - Everything in the array is a Customer
-      #   - The number of orders is correct
-      #   - The ID, email address of the first and last
-      #       customer match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      @test_all_method.must_be_kind_of Array
+    end
+
+    #everything in the array is a Customer
+    it "Everthing in the array is a Customer" do
+      @test_all_method[0].must_be_kind_of Grocery::Customer
+      @test_all_method[20].must_be_kind_of Grocery::Customer
+    end
+
+    #the number of orders is correct => Is this a typo? Number of "orders" or number of "customers"?
+    it "The number of orders is correct" do #I will do this according to "The number of customers is correct"
+      @test_all_method.length.must_equal 35
+      @test_all_method.length.must_equal (@test_all_method[-1].id)
+    end
+
+    # The ID, email address of the first and last customer match what's in the CSV file
+    it "The ID and email address of the first and last customer match what's in the CSV file" do
+      @test_all_method[0].id.must_equal 1
+      @test_all_method[34].id.must_equal 35
+      @test_all_method[0].email.must_equal "leonard.rogahn@hagenes.org"
+      @test_all_method[34].email.must_equal "rogers_koelpin@oconnell.org"
     end
   end
 
   describe "Customer.find" do
+
+    before do
+      @test_all_method = Grocery::Customer.all
+    end
+
     it "Can find the first customer from the CSV" do
-      # TODO: Your test code here!
+      @test_find_method = Grocery::Customer.find(1)
+
+      @test_find_method.must_be_kind_of Grocery::Customer
+      # @test_find_method.must_equal (@test_all_method[0]) #NOT WORKING
     end
 
     it "Can find the last customer from the CSV" do
-      # TODO: Your test code here!
+      @test_find_method = Grocery::Customer.find(35)
+
+      @test_find_method.must_be_kind_of Grocery::Customer
+      # @test_find_method.must_equal (@test_all_method[34]) #NOT WORKING
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Customer.find(36)}.must_raise ArgumentError
+      proc {Grocery::Customer.find(-1)}.must_raise ArgumentError
+      proc {Grocery::Customer.find(0)}.must_raise ArgumentError
     end
   end
 end

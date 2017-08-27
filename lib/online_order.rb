@@ -16,7 +16,7 @@ module Grocery
       @status = status
     end
 
-    # line 29 is plopping the customer class in place of the customer ID. So now when customer.id is called i can call all of the attributes in the customer class such as id, email and address. 
+    # line 29 is plopping the customer class in place of the customer ID. So now when customer.id is called i can call all of the attributes in the customer class such as id, email and address.
     def self.all
       @orders = []
       CSV.open('/Users/Marisa/documents/ada developers academy/projects/grocery-store/support/online_orders.csv', 'r').each do |online_attributes|

@@ -27,7 +27,7 @@ module Grocery
         )
         @customers << customer
       end
-      # ap @customers
+      ap @customers
       return @customers
     end #self.all method end
 

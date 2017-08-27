@@ -3,12 +3,14 @@ require_relative 'order'
 
 module Grocery
   class OnlineOrder < Order
+    attr_reader :status, :customer
 
-    # def initialize
-    #   super
-    #   @status = :status
-    #   @customer = Customer.new
-    # end
+    def initialize (status, customer)
+      super
+      @status = :status
+      @customer = customer
+    end
+
     #
     # def total
     #

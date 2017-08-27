@@ -18,7 +18,7 @@
 # self.all - returns a collection of OnlineOrder instances, representing all of the OnlineOrders described in the CSV. See below for the CSV file specifications
 # Question Ask yourself, what is different about this all method versus the Order.all method? What is the same?
 
-# TODO: self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
+#self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
 
 # self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
 
@@ -40,7 +40,6 @@ module Grocery
     def self.all
       @online_orders = []
       CSV.open("support/online_orders.csv", 'r').each do |line|
-        #line.split(",")
 
         id = line[0].to_i
         customer_id = line[2].to_i
@@ -57,6 +56,21 @@ module Grocery
       return @online_orders
     end
 
+    def self.find(val)
+      all_online_orders = Grocery::OnlineOrder.all
+      found_order = nil
+
+      all_online_orders.each do |order|
+        if order.id == val
+          found_order = order
+        end
+        if found_order == nil
+          raise ArgumentError.new("Invalid order id #{val}")
+        end
+      end
+      return found_order
+    end
+
     def self.find_by_customer(val)
       all_online_orders = Grocery::OnlineOrder.all
 
@@ -70,12 +84,11 @@ module Grocery
         end
       end
       if customer_order == nil
-        raise ArgumentError.new("Invalid order #{val}")
+        raise ArgumentError.new("Invalid customer id #{val}")
       else
         return customer_orders
       end
     end
-
 
     def total
       if @products ==  nil || @products == 0

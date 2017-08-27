@@ -5,12 +5,12 @@ module Grocery
     attr_reader :id, :email, :delivery_address, :all_info, :customer_information
 
     def initialize(id, email, delivery_address)
-      @id = id
+      @id = id.to_i
       @email = email
       @delivery_address = delivery_address
       ### Is it necessary to add this customer information component here? Do I need
       ### to store this in an array? Can it be called as a whole without doing that?
-      @customer_information = [@id, @email, @delivery_information]
+      @customer_information = [@id, @email, @delivery_address]
       @all_info = "The new customer has an id of #{@id}, email: #{@email}, and their address is #{@delivery_address}."
     end
 
@@ -33,16 +33,16 @@ module Grocery
       #disappear and even though they are passed through the customer class initiation
       #they have to be called as instance variables??
       CSV.open("support/customers.csv", "r").each do |line|
-        @id = line[0].to_i
+        id = line[0].to_i
         # puts "This is the id #{@id}"
-        @email = line[1]
+        email = line[1]
         # puts "This is the email #{@email}"
-        @delivery_address = line[2..5]
+        delivery_address = line[2..5]
         # puts "this is the delivery address : #{@delivery_address}"
-        new_customer = Customer.new(@id, @email, @delivery_address)
+        new_customer = Customer.new(id, email, delivery_address)
         all_customers << new_customer
       end
-      puts "length is : #{all_customers.length}"
+      # puts "length is : #{all_customers.length}"
 
       return all_customers
       # I tried to make it return here, but it wasn't working the way I expected
@@ -63,6 +63,8 @@ module Grocery
 
       new_customer = nil
       customer_id_array = []
+### think about how to include the self.all method to DRY code and not run through the CSV twice
+
 
       CSV.open("support/customers.csv", "r").each do |line|
         id = line[0].to_i
@@ -72,35 +74,32 @@ module Grocery
       if customer_id_array.include?(customer_num)
         CSV.open("support/customers.csv", "r").each do |line|
           if line[0].to_i == customer_num
-            @id = line[0].to_i
+            id = line[0].to_i
             # puts "This is the id #{@id}"
-            @email = line[1]
+            email = line[1]
             # puts "This is the email #{@email}"
-            @delivery_address = line[2..5]
+            delivery_address = line[2..5]
             # puts "this is the delivery address : #{@delivery_address}"
-            new_customer = Customer.new(@id, @email, @delivery_address)
-            puts new_customer
-            puts "Customer information"
-            return new_customer.print_info
+            return new_customer = Customer.new(id, email, delivery_address)
+            # puts "Customer information"
+            # return new_customer.print_info
           end
         end
       else
-        return "It appears this customer id does not exist in our system."
+        return raise ArgumentError.new("It appears this customer id does not exist in our system.")
       end
     end #self.find end
-
-
   end #class end
-
 end #module end
 
-
-# puts frenchie = Grocery::Customer.all
-
-###### I am surprised this worked!!####
+#
+# frenchie = Grocery::Customer.all
+#
+# ##### I am surprised this worked!!####
 # frenchie.each do |line|
-#   print line.print_info
+#   puts line.all_info
+#
 # end
-
-hi =  Grocery::Customer.find(50)
-puts hi
+#
+# hi =  Grocery::Customer.find(50)
+# puts hi

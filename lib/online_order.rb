@@ -1,14 +1,13 @@
 require 'csv'
 require_relative 'order'
-require_relative 'customer'
+#require_relative 'customer'
 
 module Grocery
   class OnlineOrder < Order
     attr_reader :status, :customer_id, :products, :id
 
     def initialize(id, products, customer_id, status = :pending)
-      @id = id
-      @products = products
+      super(id, products)
       @customer_id = customer_id
       @status = status
       # maybe put in status options there
@@ -107,6 +106,3 @@ module Grocery
 
   end #end of class
 end #end of module
-
-# first_order = Grocery::OnlineOrder.find(1)
-# puts first_order.id.class

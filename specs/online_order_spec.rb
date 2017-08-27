@@ -47,10 +47,9 @@ describe "OnlineOrder" do
       @online_order.total.must_equal (sum_incl_tax + 10).round(2)
     end
 
+###TODO
     it "Doesn't add a shipping fee if there are no products" do
-      if @online_order.products == nil || @online_order.products == 0
-        @online_order.total.must_equal 0
-      end
+
     end
   end
 
@@ -69,7 +68,16 @@ describe "OnlineOrder" do
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      @new_online_orders[0].status = :paid
+      @new_online_orders[1].status = :pending
+      @new_online_orders[2].status = :paid
+
+      @new_online_orders.each do |order|
+        length_before = order.products.length
+        order.add_product("steak", 10.00)
+        length_after = order.products.length
+        length_after.must_equal (length_before + 1)
+      end
     end
   end
 
@@ -95,8 +103,13 @@ describe "OnlineOrder" do
 describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       Grocery::OnlineOrder.find_by_customer(1).must_be_kind_of Array
-      all_online_orders = Grocery::OnlineOrder.all
-      Grocery::OnlineOrder.find_by_customer(1).must_equal all_online_orders[0].customer_id
+      #all_online_orders = Grocery::OnlineOrder.all
+
+      customer_orders = Grocery::OnlineOrder.find_by_customer(1)
+        customer_orders.each do |order|
+          order.customer_id.must_equal 1
+      end
+      #.must_equal
     end
   end
 end

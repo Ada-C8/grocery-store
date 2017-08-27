@@ -98,10 +98,18 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      Grocery::OnlineOrder.find_by_customer(2).must_be_instance_of Array
+      Grocery::OnlineOrder.find(12).id.must_equal 12
+      Grocery::OnlineOrder.find_by_customer(2).must_be_kind_of Array
       Grocery::OnlineOrder.find_by_customer(2).sample.must_be_instance_of Grocery::OnlineOrder
       Grocery::OnlineOrder.find_by_customer(2).sample.customer_id.must_equal 2
 
+    end
+
+    it "The online orders are present" do
+      Grocery::OnlineOrder.find_by_customer(1).each do |order|
+        order.must_be_instance_of Grocery::OnlineOrder
+
+      end
     end
   end
 end

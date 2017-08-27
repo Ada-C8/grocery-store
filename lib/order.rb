@@ -41,7 +41,7 @@ module Grocery
         end
       end
 
-      @total = (pretax_total + (pretax_total * TAX)).round(2)
+      return (pretax_total + (pretax_total * TAX)).round(2)
     end
 
     def add_product(product_name, product_price)

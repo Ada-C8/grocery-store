@@ -29,9 +29,9 @@ module Grocery
 
     def total
       if @products.count >0
-        @total = super + 10
+        return super + 10
       else
-        @total = super
+        return super
       end
     end
 
@@ -40,7 +40,7 @@ module Grocery
         return super
       end
 
-      return false
+      raise ArgumentError.new("Error: Can't add products to orders that are processing, shipped, or complete")
     end
 
     #self.find inherited from Grocery::Order

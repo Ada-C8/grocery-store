@@ -15,6 +15,9 @@ describe "Order Wave 1" do
 
       order.must_respond_to :products
       order.products.length.must_equal 0
+
+      proc { Grocery::Order.new }.must_raise ArgumentError
+
     end
   end
 
@@ -75,7 +78,7 @@ describe "Order Wave 1" do
       result = order.add_product("salad", 4.25)
       result.must_equal true
     end
-    
+
   end
 
   describe "#remove_product" do

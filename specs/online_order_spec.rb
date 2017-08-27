@@ -12,6 +12,12 @@ describe "OnlineOrder" do
       online_order.must_be_kind_of Grocery::Order
     end
 
+    it "Takes an id, products, customer object, and status" do
+      proc { Grocery::OnlineOrder.new }.must_raise ArgumentError
+
+      proc{Grocery::OnlineOrder.new(1, "rhubarb") }.must_raise ArgumentError
+    end
+
     it "Can access Customer object" do
       online_order = Grocery::OnlineOrder.all[0]
 
@@ -46,23 +52,18 @@ describe "OnlineOrder" do
   end
 
   describe "#add_product" do
-    it "Does not permit action for processing, shipped or completed statuses" do
+    it "Raises an error when trying to add products to processing, shipped or completed statuses" do
       complete_online_order = Grocery::OnlineOrder.all[0]
       processing_online_order = Grocery::OnlineOrder.all[2]
       shipped_online_order = Grocery::OnlineOrder.all[4]
 
       [complete_online_order, processing_online_order,shipped_online_order].each do |online_order|
-        before_count = online_order.products.count
-
-        online_order.add_product("silly string", 4)
-        after_count = online_order.products.count
-
-        after_count.must_equal before_count
+        proc {online_order.add_product("ramen",1) }.must_raise ArgumentError
       end
 
     end
 
-    it "Permits action for pending and paid satuses" do
+    it "Permits adding products for pending and paid orders" do
       paid_online_order =  Grocery::OnlineOrder.all[1]
       pending_online_order = Grocery::OnlineOrder.all[5]
 
@@ -77,7 +78,6 @@ describe "OnlineOrder" do
         online_order.products.keys.must_include "silly string"
         online_order.products["silly string"].must_equal 4
       end
-
     end
   end
 
@@ -95,7 +95,7 @@ describe "OnlineOrder" do
       online_order = Grocery::OnlineOrder.all[0]
 
       online_order.customer.must_be_instance_of Grocery::Customer
-      
+
       [:pending, :processing, :shipped, :complete, :paid].must_include online_order.status
     end
 

@@ -1,11 +1,8 @@
-#require_relative '../support/orders'
+# require_relative '../support/orders'
 require 'CSV'
 module Grocery
   class Order
     attr_reader :id, :products
-
-
-
     def initialize(id, products)
       @id = id
       @products = products
@@ -14,7 +11,6 @@ module Grocery
 
 
     def self.all
-      #returns all the orders in the csv file
       @@order_objects = []
       @@line_count = 0
       CSV.open("support/orders.csv", 'r').each do |line|
@@ -52,7 +48,6 @@ module Grocery
 
 
     def total
-      #: implement total
       @total = 0
       @products.each do |product, price|
         @total += price + price*(0.075)
@@ -61,7 +56,6 @@ module Grocery
     end
 
     def add_product(product_name, product_price)
-      #  implement add_product
       @products.each do |product, price|
         if product == product_name
           return false
@@ -82,6 +76,3 @@ module Grocery
     end
   end
 end
-
-# Grocery::Order.all
-# puts Grocery::Order.find(200)

@@ -36,6 +36,9 @@ describe "Customer" do
       all_customers[0].id.must_equal 1
       all_customers[0].email.must_equal "leonard.rogahn@hagenes.org"
       all_customers[0].address.must_equal "71596 Eden Route Connellymouth LA 98872-9105"
+      all_customers[34].id.must_equal 35
+      all_customers[34].email.must_equal "rogers_koelpin@oconnell.org"
+      all_customers[34].address.must_equal "7513 Kaylee Summit Uptonhaven DE 64529-2614"
       all_customers.each do |customers|
         customers.must_be_instance_of Grocery::Customer
       end

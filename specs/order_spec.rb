@@ -79,7 +79,6 @@ describe "Order Wave 1" do
   end
 end
 
-# change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   before do
     @orders = Grocery::Order.all
@@ -101,11 +100,11 @@ describe "Order Wave 2" do
 
     #   - The number of orders is correct
     it "number of orders is correct" do
-      # binding.pry
       @orders.length.must_equal 100
 
     end
 
+#TODO:
     #   - The ID and products of the first and last
     #       orders match what's in the CSV file
     # Feel free to split this into multiple tests if needed

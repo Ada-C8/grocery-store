@@ -112,16 +112,21 @@ describe "OnlineOrder.find_by_customer" do
 
     end
   end
-describe "OnlineOrder.find" do
-  it "Can find the first order from the CSV" do
 
+#TODO: Not finished
+describe "OnlineOrder.find" do
+  before do
+    @all_online_orders = Grocery::OnlineOrder.all
+  end
+  it "Can find the first order from the CSV" do
+    Grocery::OnlineOrder.find(1).id.must_equal @all_online_orders[0].id
   end
   it "Can find the last order from the CSV" do
-
+    Grocery::OnlineOrder.find(100).id.must_equal 100
   end
 
   it "Raises an ArgumentError if order does not exist" do
-      
+    proc{Grocery::OnlineOrder.find(1000)}.must_raise ArgumentError
   end
 
 end

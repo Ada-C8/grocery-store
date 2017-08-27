@@ -22,10 +22,15 @@ describe "OnlineOrder" do
 
     it "Can access Customer object" do
       # TODO: Your test code here!
-      
+      customer = 35
+      online_order = Grocery::OnlineOrder.new(12, "b", customer, "g")
+      online_order.must_respond_to :customer
+      online_order.customer.must_equal customer
+      online_order.customer.must_be_kind_of Integer
+
     end
 
-    xit "Can access the online order status" do
+    it "Can access the online order status" do
       # TODO: Your test code here!
     end
   end

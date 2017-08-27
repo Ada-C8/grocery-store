@@ -89,6 +89,9 @@ describe "Order Wave 2" do
       all_orders[0].products["Slivered Almonds"].must_equal "22.88"
       all_orders[0].products["Wholewheat flour"].must_equal "1.93"
       all_orders[0].products["Grape Seed Oil"].must_equal "74.9"
+      all_orders[99].products["Allspice"].must_equal "64.74"
+      all_orders[99].products["Bran"].must_equal "14.72"
+      all_orders[99].products["UnbleachedFlour"].must_equal "80.59"
       all_orders.each do |orders|
         orders.must_be_instance_of Grocery::Order
       end

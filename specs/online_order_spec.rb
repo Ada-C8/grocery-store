@@ -109,7 +109,20 @@ describe "OnlineOrder.find_by_customer" do
         customer_orders.each do |order|
           order.customer_id.must_equal 1
       end
-      #.must_equal
+
     end
   end
+describe "OnlineOrder.find" do
+  it "Can find the first order from the CSV" do
+
+  end
+  it "Can find the last order from the CSV" do
+
+  end
+
+  it "Raises an ArgumentError if order does not exist" do
+      
+  end
+
+end
 end

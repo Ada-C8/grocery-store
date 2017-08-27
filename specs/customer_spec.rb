@@ -3,8 +3,6 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/customer'
 
-# TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/customer'
 
 describe "Customer" do
   describe "#initialize" do
@@ -32,29 +30,16 @@ describe "Customer" do
 
   describe "Customer.all" do
     it "Returns an array of all customers" do
-      # T: Your test code here!
-      # Useful checks might include:
-      #   - Customer.all returns an array
-      #   - Everything in the array is a Customer
-      #   - The number of orders is correct
-      #   - The ID, email address of the first and last
-      #       customer match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
 
-      #makes sure the thing that is storing customers is an array
-      #puts Grocery::Customer.customers
       customer = Grocery::Customer.all
       customer.must_be_kind_of Array
 
-      #makes sure the array is storing customer objects
       customer.each do |cust|
         cust.must_be_instance_of Grocery::Customer
       end
 
-      #makes sure the number of orders is correct
       Grocery::Customer.line_count.must_equal Grocery::Customer.customers.length
 
-      #makes sure the id and email address match CSV
       read_csv = CSV.read("support/customers.csv")
       customers = Grocery::Customer.customers
       id = customers[18].id

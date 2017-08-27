@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require 'online_order.rb'
-require 'customer.rb'
+require_relative '../lib/customer.rb'
 
 describe "OnlineOrder" do
   describe "#initialize" do
@@ -96,23 +96,40 @@ describe "OnlineOrder" do
       online_order.each do |order|
         order.must_be_kind_of Grocery::Order
       end
-      Grocery::OnlineOrder.line_count.must_equal online_order.length
+      Grocery::OnlineOrder.online_line_count.must_equal online_order.length
       online_order.each do |order|
         order.customer_id.must_be_kind_of Grocery::Customer
       end
     end
   end
 
+  describe "OnlineOrder.find" do
+    it "Can find the first order from the CSV" do
+      Grocery::OnlineOrder.all
+      id = Grocery::OnlineOrder.find(1).id.to_i
+      id.must_equal 1
+    end
+
+    it "Can find the last order from the CSV" do
+      Grocery::OnlineOrder.all
+      id = Grocery::OnlineOrder.find(20).id.to_i
+      id.must_equal 20
+    end
+
+    it "Raises an error for an order that doesn't exist" do
+       proc{Grocery::OnlineOrder.find(200)}.must_raise ArgumentError
+    end
+  end
+
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      id = 10
       Grocery::OnlineOrder.all
-      online_order = Grocery::OnlineOrder.find_by_customer(id)
+      online_order = Grocery::OnlineOrder.find_by_customer(12)
       online_order.must_be_kind_of Array
       online_order.each do |order|
-        order.must_be_kind_of Grocery::Order
+        order.must_be_kind_of Grocery::OnlineOrder
         order.customer_id.must_be_kind_of Grocery::Customer
-        order.customer_id.id.must_equal id
+        order.customer_id.id.to_i.must_equal 12
       end
     end
   end

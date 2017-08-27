@@ -45,14 +45,16 @@ describe "OnlineOrder" do
 
   describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
+      x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :processing)
+      proc {x.add_product("sandwich", 4.25)}.must_raise ArgumentError
     end #all other statuses
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :pending)
+      x.add_product("sandwich", 4.25)
+      x.products.include?("sandwich").must_equal true
     end #pending and paid
   end #add_product
-
 
   describe "OnlineOrder.all" do
     #   - OnlineOrder.all returns an array
@@ -64,7 +66,7 @@ describe "OnlineOrder" do
     it "Everything in the array is an Order " do
       order = OnlineOrder.all
       order.each do |item|
-        item.must_be_instance_of Grocery::Order
+        item.must_be_instance_of OnlineOrder
       end #each do
     end #everything is an order
 
@@ -75,8 +77,9 @@ describe "OnlineOrder" do
 
     it "The customer is present" do
       order = OnlineOrder.all
-      order = each do |item|
-        item.customer_info.must
+      order.each do |item|
+        item.customer_info.wont_be_empty
+      end #each do
     end #customer present
 
 

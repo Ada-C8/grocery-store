@@ -102,16 +102,25 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      orders = Grocery::Order.find(1).must_be_kind_of Grocery::Order
-      orders = Grocery::Order.find(1).products.must_equal("Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9)
+      order = Grocery::Order.find(1)
+
+      order.must_be_instance_of Grocery::Order
+      order.id.must_equal 1
+      order.products.must_equal("Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9)
     end
 
     it "Can find the last order from the CSV" do
-      # orders = Grocery::Order.all.find(-1)
+      order = Grocery::Order.find(100)
+
+      order.must_be_instance_of Grocery::Order
+      order.id.must_equal 100
+      order.products.must_equal("Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59)
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {
+        Grocery::Order.find(102)
+      }.must_raise ArgumentError
     end
   end
 end

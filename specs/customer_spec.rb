@@ -74,7 +74,7 @@ describe "Customer" do
         csv_email.must_equal customer_email
       end
 
-      #   it "checks delivery_address of the last customer matches wht's in the CSV file" do
+      #   it "checks delivery_address of the first customer matches what's in the CSV file" do
       #   customers = Grocery::Customer.all
       #   csv = CSV.read("./support/customers.csv")
       #   # customer_delivery_address =
@@ -97,16 +97,16 @@ describe "Customer" do
         # puts customer.id.class
         csv = CSV.read("./support/customers.csv")
         csv_id = csv.to_a[0][0]
-        puts "#{csv_id}"
+        # puts "#{csv_id}"
         customer.id.must_equal csv_id.to_i
       end
 
       it "Can find the last customer from the CSV" do
         customer = Grocery::Customer.find(35)
-        puts "#{customer.id} work it"
+        # puts "#{customer.id} hey!"
         csv = CSV.read("./support/customers.csv")
         csv_id = csv.to_a[-1][0]
-        puts "#{csv_id} I'm not my code"
+        # puts "#{csv_id} I'm not my code"
         customer.id.must_equal csv_id.to_i
       end
 

@@ -3,7 +3,7 @@
 # A customer object
 # A fulfillment status (stored as a Symbol)
 #
-#pending, paid, processing, shipped or complete
+#TODO: pending, paid, processing, shipped or complete
 #
 # If no status is provided, it should set to pending as the default
 # The OnlineOrder should include the following updated functionality:
@@ -17,7 +17,9 @@
 #
 # self.all - returns a collection of OnlineOrder instances, representing all of the OnlineOrders described in the CSV. See below for the CSV file specifications
 # Question Ask yourself, what is different about this all method versus the Order.all method? What is the same?
-# self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
+
+# TODO: self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
+
 # self.find_by_customer(customer_id) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
 
 require_relative 'order'
@@ -32,6 +34,7 @@ module Grocery
       super(id, products)
       @customer_id = customer_id
       @status = status.to_sym
+      @products = products
     end
 
     def self.all
@@ -75,15 +78,27 @@ module Grocery
 
 
     def total
-      super + 10 #adds $10 shipping fee
+      if @products ==  nil || @products == 0
+        return 0
+      else
+        super + 10 #adds $10 shipping fee
+      end
     end
 
-    #This doesn't work yet. Once have self.all method, try updating and try again
+    # def status
+    #   unless Grocery::OnlineOrder.status == :pending
+    # end
+
     def add_product(product_name, product_price)
-      unless Grocery::OnlineOrder.status == :pending
-        raise ArgumentError.new("Due to order status, additional products can no longer be added to the order.")
+      unless @status == :pending || @status == :paid
+        raise ArgumentError.new("Due to order status of #{@status}, additional products can no longer be added to the order.")
       end
-      super(product_name, product_price)
+      if @products.include?(product_name)
+        return false
+      else
+        @products[product_name] = product_price
+        return true
+      end
 
     end
 

@@ -57,60 +57,61 @@ module Grocery
     end
 
     def self.find(val)
-      all_online_orders = Grocery::OnlineOrder.all
+      all_online_orders = OnlineOrder.all
       found_order = nil
 
       all_online_orders.each do |order|
         if order.id == val
           found_order = order
         end
-        if found_order == nil
-          raise ArgumentError.new("Invalid order id #{val}")
+      end
+      if found_order == nil
+        raise ArgumentError.new("Invalid order id #{val}")
+      else
+        return found_order
+      end
+    end
+
+      def self.find_by_customer(val)
+        all_online_orders = Grocery::OnlineOrder.all
+
+        customer_order = nil
+        customer_orders = []
+
+        all_online_orders.each do |order|
+          if order.customer_id == val
+            customer_order = order
+            customer_orders << customer_order
+          end
+        end
+        if customer_order == nil
+          raise ArgumentError.new("Invalid customer id #{val}")
+        else
+          return customer_orders
         end
       end
-      return found_order
-    end
 
-    def self.find_by_customer(val)
-      all_online_orders = Grocery::OnlineOrder.all
-
-      customer_order = nil
-      customer_orders = []
-
-      all_online_orders.each do |order|
-        if order.customer_id == val
-          customer_order = order
-          customer_orders << customer_order
+      def total
+        if @products ==  nil || @products == 0
+          return 0
+        else
+          super + 10 #adds $10 shipping fee
         end
       end
-      if customer_order == nil
-        raise ArgumentError.new("Invalid customer id #{val}")
-      else
-        return customer_orders
-      end
-    end
 
-    def total
-      if @products ==  nil || @products == 0
-        return 0
-      else
-        super + 10 #adds $10 shipping fee
-      end
-    end
+      def add_product(product_name, product_price)
+        unless @status == :pending || @status == :paid
+          raise ArgumentError.new("Due to order status of #{@status}, additional products can no longer be added to the order.")
+        end
+        if @products.include?(product_name)
+          return false
+        else
+          @products[product_name] = product_price
+          return true
+        end
 
-    def add_product(product_name, product_price)
-      unless @status == :pending || @status == :paid
-        raise ArgumentError.new("Due to order status of #{@status}, additional products can no longer be added to the order.")
-      end
-      if @products.include?(product_name)
-        return false
-      else
-        @products[product_name] = product_price
-        return true
       end
 
     end
 
   end
-
-end

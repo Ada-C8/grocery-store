@@ -2,7 +2,6 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
-# TODO: uncomment the next line once you start wave 3
 require_relative '../lib/customer'
 
 # adding for color
@@ -62,9 +61,6 @@ describe "Customer" do
   end
 
   describe "Customer.find" do
-    before do
-
-    end
 
     it "Can find the first customer from the CSV" do
       expected_id = 1

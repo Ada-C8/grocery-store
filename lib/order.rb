@@ -60,13 +60,6 @@ module Grocery
 
         order = Order.new(id, products)
         all_orders << order
-        # product_list.each do |product|
-        #   # split into array of form ["name", price]
-        #   product_info = product.split(":")
-        #   product_name = product_info[0]
-        #   product_price = product_info[1].to_f
-        #   products[product_name] = product_price
-        # end
       end
 
       return all_orders

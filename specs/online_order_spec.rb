@@ -53,7 +53,6 @@ describe "OnlineOrder" do
       array << online_order3
         array.each do |check|
           print check.status == :shipped
-
         end
     end
   end
@@ -78,7 +77,7 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "OnlineOrder.all" do
+  describe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
       # TODO: Your test code here!
       # Useful checks might include:
@@ -88,6 +87,11 @@ describe "OnlineOrder" do
       #   - The customer is present
       #   - The status is present
       # Feel free to split this into multiple tests if needed
+      all_online_orders = Grocery::OnlineOrder.all
+      puts all_online_orders
+
+      all_online_orders.must_be_instance_of Array
+
     end
   end
 

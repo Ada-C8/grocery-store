@@ -138,18 +138,18 @@ describe "Order Wave 2" do
     #   - The ID and products of the first and last
     #       orders match what's in the CSV file
     # Feel free to split this into multiple tests if needed
-    it "Returns an array of all orders" do
-      orders = Grocery::Order.all
+    before do
+      @orders = Grocery::Order.all
+    end
 
-      orders.class.must_equal Array
+    it "Returns an array of all orders" do
+      @orders.class.must_equal Array
     end
 
     it "Everything in the returned array is an Order" do
-      orders = Grocery::Order.all
 
       all_records_are_orders = true
-      orders.each do |order|
-        # puts order.class to confirm class name
+      @orders.each do |order|
         if order.class != Grocery::Order
           all_records_are_orders = false
         end
@@ -159,27 +159,23 @@ describe "Order Wave 2" do
     end
 
     it "Returns the correct number of orders" do
-      orders = Grocery::Order.all
-
-      orders.length.must_equal 100
+      @orders.length.must_equal 100
     end
 
     it "Confirms the first order matches CSV file info" do
-      orders = Grocery::Order.all
 
       first_order_record_id = 1
       first_order_products = {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}
 
-      orders[0].id.must_equal(first_order_record_id) && orders[0].products.must_equal(first_order_products)
+      @orders[0].id.must_equal(first_order_record_id) && @orders[0].products.must_equal(first_order_products)
     end
 
     it "Confirms the last order matches CSV file info" do
-      orders = Grocery::Order.all
 
       last_order_record_id = 100
       last_order_products = {"Allspice"=>64.74, "Bran"=>14.72, "UnbleachedFlour"=>80.59}
 
-      orders[-1].id.must_equal(last_order_record_id) && orders[-1].products.must_equal(last_order_products)
+      @orders[-1].id.must_equal(last_order_record_id) && @orders[-1].products.must_equal(last_order_products)
     end
   end
 

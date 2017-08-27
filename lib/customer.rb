@@ -28,7 +28,6 @@ module Grocery
         line.delete_at(4)
         line.delete_at(3)
         @@all_customers << Customer.new(line[0], line[1], line[2])
-        #puts "#{line}"
       end #csv each
       return @@all_customers
     end #self.all method
@@ -49,14 +48,14 @@ module Grocery
       if item_num.include?(id)
         return customers[id - 1]
       else
-        raise ArgumentError
+        raise ArgumentError, "ID not found."
       end
-      #return Grocery::Order.all_orders[id].products
     end# method def
   end #customer class
 end #module
 
-#puts Grocery::Customer.find(350)
+puts Grocery::Customer.find(10).inspect
+puts Grocery::Customer.find(350)
 
 
 #def self.find(id)

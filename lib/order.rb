@@ -42,8 +42,7 @@ module Grocery
       orders = []
       CSV.open("support/orders.csv", "r").each do |line|
         data = []
-        string = line[1]
-        product_data = string.split(/:|;/)
+        product_data = line[1].split(/:|;/)
         product_data.each_with_index do |datum, i|
           if i % 2 == 0
             data << datum.to_s

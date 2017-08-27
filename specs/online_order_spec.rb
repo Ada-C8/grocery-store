@@ -10,71 +10,81 @@ describe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
       # Check that an OnlineOrder is in fact a kind of Order
-      order = "order"
+      id = 1
+      products = "products"
       customer = "customer"
       status = "paid"
-      online_order = OnlineOrder.new(order, customer, status)
+      online_order = OnlineOrder.new(id, products, customer, status)
       online_order.must_be_kind_of Grocery::Order
       online_order.must_be_instance_of OnlineOrder
       online_order.must_respond_to :customer
       online_order.must_respond_to :status
-      online_order.must_respond_to :order
+      online_order.must_respond_to :id
+      online_order.must_respond_to :products
     end
 
     it "Status is stored as a symbol" do
       # check that status is symbol
       status = "paid"
-      order = "order"
+      products = "products"
+      id = 1
       customer = "customer"
-      online_order = OnlineOrder.new(order, customer, status)
+      online_order = OnlineOrder.new(id, products, customer, status)
       online_order.status.must_be_kind_of Symbol
     end
 
     it "Defualt status is pending" do
       # check that defualt status is :pending
-      order = "order"
+      products = "products"
+      id = 1
       customer = "customer"
-      online_order = OnlineOrder.new(order, customer)
+      online_order = OnlineOrder.new(id, products, customer)
       online_order.status.must_equal :pending
     end
 
     it "Can access Customer object" do
-      # check that you customer is a customer object
+      # check that your customer is a customer object
       OnlineOrder.all[99].customer.must_be_instance_of Grocery::Customer
     end
   end
 
   describe "#total" do
     it "Adds a shipping fee" do
-      # TODO: Your test code here!
-      # checks order total
-      customer = "customer"
-      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
-      order = Grocery::Order.new(1337, products)
-      total_orders = OnlineOrder.new(order, customer)
-      total_orders.total.must_equal 180.68
-
-      # total_orders.order.total.must_equal 180.68
+      # first online order with shipping should equal 180.68
+    OnlineOrder.all[0].total.must_equal 180.68
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
+      # order with no products has a $0 total (no shipping fee)
+      id = 1337
+      customer = "customer"
+      status = "processing"
+      products = {}
+      online_order = OnlineOrder.new(id, products, customer, status)
+      online_order.total.must_equal 0
     end
   end
 
   describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
-      # TODO: Your test code here!
-      #
-      # products = { "banana" => 1.99, "cracker" => 3.00 }
-      # order = Grocery::Order.new(1337, products)
-      #
-      # order.add_product("sandwich", 4.25)
-      # order.products.include?("sandwich").must_equal true
+      # a processing status raises an argument error
+      id = 1337
+      customer = "customer"
+      status = "processing"
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = OnlineOrder.new(id, products, customer, status)
+      proc {online_order.add_product("banana", 1.99)}.must_raise ArgumentError
     end
 
     it "Permits action for pending and paid satuses" do
       # TODO: Your test code here!
+      customer = "customer"
+      id = 1337
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      # order = Grocery::Order.new(1337, products)
+
+      online_order = OnlineOrder.new(id, products, customer)
+      online_order.add_product("strawberry", 1.99).must_equal true
     end
   end
 

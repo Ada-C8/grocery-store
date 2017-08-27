@@ -77,61 +77,61 @@ describe "Order Wave 1" do
     end
   end
 
-    describe "#remove_product" do
-      it "Decreases the number of products" do
-        products = { "banana" => 1.99, "cracker" => 3.00 }
-        before_count = products.count
-        order = Grocery::Order.new(1337, products)
+  describe "#remove_product" do
+    it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Grocery::Order.new(1337, products)
 
-        order.remove_product("banana")
-        expected_count = before_count - 1
-        order.food_and_price.count.must_equal expected_count
-      end
-
-      it "Is deleted from the collection of products" do
-        products = { "banana" => 1.99, "cracker" => 3.00 }
-        order = Grocery::Order.new(1337, products)
-
-        order.remove_product("cracker")
-        order.food_and_price.include?("cracker").must_equal false
-      end
-
-      it "Returns true if the product is present" do
-        products = { "banana" => 1.99, "cracker" => 3.00 }
-
-        order = Grocery::Order.new(1337, products)
-        num_of_items = order.food_and_price.keys.length
-
-        result = order.remove_product("banana")
-        after_num_of_items = order.food_and_price.keys.length
-
-        result.must_equal true
-        (num_of_items - 1).must_equal after_num_of_items
-      end
-
-      it "Returns false if the product is new" do
-        products = { "banana" => 1.99, "cracker" => 3.00 }
-        order = Grocery::Order.new(1337, products)
-
-        result = order.remove_product("salad")
-        result.must_equal false
-      end
-
-
+      order.remove_product("banana")
+      expected_count = before_count - 1
+      order.food_and_price.count.must_equal expected_count
     end
 
+    it "Is deleted from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("cracker")
+      order.food_and_price.include?("cracker").must_equal false
+    end
+
+    it "Returns true if the product is present" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Grocery::Order.new(1337, products)
+      num_of_items = order.food_and_price.keys.length
+
+      result = order.remove_product("banana")
+      after_num_of_items = order.food_and_price.keys.length
+
+      result.must_equal true
+      (num_of_items - 1).must_equal after_num_of_items
+    end
+
+    it "Returns false if the product is new" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+
+      result = order.remove_product("salad")
+      result.must_equal false
+    end
+
+
   end
+
+end
 
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-    all_the_orders = Grocery::Order.all("./support/orders.csv")
-    all_the_orders.must_be_instance_of Array
-    all_the_orders.length.must_equal 100
-    all_the_orders[0].id.must_equal 1
-    all_the_orders[98].id.must_equal 99
-    all_the_orders[1].food_and_price.must_equal({"Albacore Tuna"=>36.92, "Capers"=>97.99, "Sultanas"=>2.82, "Koshihikari rice"=>7.55 })
-    all_the_orders[99].food_and_price.must_equal({"Allspice"=>64.74, "Bran"=>14.72, "UnbleachedFlour"=>80.59})
+      all_the_orders = Grocery::Order.all("./support/orders.csv")
+      all_the_orders.must_be_instance_of Array
+      all_the_orders.length.must_equal 100
+      all_the_orders[0].id.must_equal 1
+      all_the_orders[98].id.must_equal 99
+      all_the_orders[1].food_and_price.must_equal({"Albacore Tuna"=>36.92, "Capers"=>97.99, "Sultanas"=>2.82, "Koshihikari rice"=>7.55 })
+      all_the_orders[99].food_and_price.must_equal({"Allspice"=>64.74, "Bran"=>14.72, "UnbleachedFlour"=>80.59})
     end
   end
 

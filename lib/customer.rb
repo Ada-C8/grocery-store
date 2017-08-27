@@ -27,7 +27,6 @@ module Grocery
         @city = row[3]
         @state = row[4]
         @zip = row[5]
-        # @each_customer = { id: @id, email: @email, address_1: @address_1, city: @city, zip: @zip}
         @all_customers << Grocery::Customer.new(@id, @email, @address_1, @city, @state, @zip)
       end
       return @all_customers

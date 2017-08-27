@@ -23,7 +23,15 @@ module Grocery
      return customers
    end
 
-
+   def self.find(id)
+     all_customers = Grocery::Customer.all
+     all_customers.each do |element|
+         if element.id == id
+           return Customer.new(element.id, element.email, element.address)
+         end
+     end
+     raise ArgumentError.new("Id does not exist.")
+   end
 
 
 

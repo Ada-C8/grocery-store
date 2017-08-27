@@ -60,12 +60,23 @@ class OnlineOrder < Grocery::Order
       else
         raise ArgumentError
       end
-    #returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter. -Question Ask yourself, what is different about this find method versus the Order.find method?
   end
 
-  def self.find_by_customer
+  def self.find_by_customer(cust_id)
+    orders = OnlineOrder.all
+    customer_orders = []
+
+    orders.each do |item|
+      if item.customer_info.customer_id == cust_id
+        customer_orders << item
+      end #if statement
+    end #each do
+    return customer_orders
+  end #end find by customer
+  # if item_num.include(customer_info.customer_id)
+
     #returns an array of online orders for specific customer ID  - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
-  end
+
 
   def add_product(product_name, product_price)
     if @status == :paid || @status == :pending
@@ -76,32 +87,27 @@ class OnlineOrder < Grocery::Order
   end #add_product
 end #class
 
-puts OnlineOrder.find(1).inspect
-puts OnlineOrder.find(100).inspect
-puts OnlineOrder.find(1900).inspect
+
+
+puts OnlineOrder.find_by_customer(1).inspect
+# puts OnlineOrder.find(1).customer_info.customer_id
+# puts OnlineOrder.find(100).customer_info.customer_id
+# puts OnlineOrder.find(1900).inspect
 #
 # j = OnlineOrder.all
-
 # j.each do |order|
-#   puts "Order Id: #{order.id}. \nProducts: #{order.products}. \nCustomer Info: ID:  #{order.customer_info.customer_id}, email: #{order.customer_info.email}, Address: #{order.customer_info.delivery_address}."
-#   puts "Order Status #{order.status}"
+#   puts "#{order.customer_info.customer_id}"
+#
+#   # puts "Order Status #{order.status}"
+#   # puts "Customer is #{j.customer_info} and it is class #{j.customer_info.class}"
 # end
-
+  # puts "Order Id: #{order.id}. \nProducts: #{order.products}. \nCustomer Info: ID:  #{order.customer_info.customer_id}, email: #{order.customer_info.email}, Address: #{order.customer_info.delivery_address}."
 
 # x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :paid)
 # puts x.add_product("chicken", 10.00)
 # puts x.products
-# puts "Customer is #{x.customer_info} and it is class #{x.customer_info.class}"
+#
 # puts "status is #{x.status} and it class #{x.status.class}"
-
-# # puts "#{x }"
-# # puts "id is #{x.id}"
-# # puts "Products are #{x.products}"
-# # puts "Customer id is #{x.customer_info.customer_id} and it is class #{x.customer_info.class}"
-# puts x.inspect
-# puts "class is #{x.class}"
-
-# puts "Total is #{x.total} and it is class #{x.total.class}"
 
 
 # A customer object

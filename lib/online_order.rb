@@ -1,21 +1,25 @@
 require 'csv'
 require_relative 'order'
+require_relative 'customer'
 
 module Grocery
   class OnlineOrder < Order
     attr_reader :status, :customer
 
-    def initialize (status, customer)
+    def initialize(status, customer)
       super
-      @status = :status
-      @customer = customer
+      @status = :pending
+      @customer = customer  #Customer.new
     end
 
-    #
+
     # def total
     #
     # end
-    #
+
+    # def add_product
+    #end
+
     # def self.all
     # end
     #

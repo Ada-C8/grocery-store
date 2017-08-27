@@ -5,15 +5,16 @@ require_relative 'customer'
 class OnlineOrder < Grocery::Order
 
   @@all_online_orders = Array.new
+  @@status_array = [:pending, :paid, :processing, :complete]
 
-  attr_reader :customer_id, :status
+  attr_reader :customer_info, :status
 
-  def initialize(id, products, customer_id, status)
+  def initialize(id, products, customer_info, status)
     super(id, products)
-    @customer_id = customer_id
-    @status_array = [:pending, :paid, :processing, :complete]
-    if @status_array.include?(status.downcase)
-      @status = status
+    @customer_info = customer_info
+
+    if @@status_array.include?(status.to_sym)
+      @status = status.to_sym
     else @status = :pending
     end
   end #init
@@ -40,21 +41,19 @@ class OnlineOrder < Grocery::Order
       end #of x.each do
       #@@all_online_orders << OnlineOrder.new(id, products, customer_id, status)
       @@all_online_orders << OnlineOrder.new(id, products, Grocery::Customer.find(customer_id), status)
-
-      #(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121")
       products = {}
     end #
     return @@all_online_orders
   end #all method
 
-  def add_product(product_name, product_price, status)
-    status = status.downcase.to_sym
-    if status == :paid || status == :pending
-      puts "That worked "
-    else
-      raise ArgumentError
-    end #if statment
-  end #add_product
+  # def add_product(mobile_id, product_name, product_price)
+  #
+  #   if status == :paid || status == :pending
+  #     puts "That worked "
+  #   else
+  #     raise ArgumentError
+  #   end #if statment
+  # end #add_product
 #   The add_product method should be updated to permit a new product to be added ONLY if the status is either pending or paid (no other statuses permitted)
 # Otherwise, it should raise an ArgumentError (Google this!)
 end #class
@@ -62,14 +61,17 @@ end #class
 
 
 j = OnlineOrder.all_online_orders
-puts j.inspect
-# j.each do |order|
-#   puts "Customer id is #{order.customer_id.inspect}"
-# end
 
-# end
-# x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :christmas)
-# puts "#{x }"
+j.each do |order|
+  puts "Id is #{order.id}. Products are #{order.products}. Customer E-mail is #{order.customer_info.customer_id}"
+  puts "Status is #{order.status}"
+end
+
+#
+# }Number is #{order.customer_id}. Email is #{order.email} and Deliery address is #{order.delivery_address}
+# # end
+# # x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :christmas)
+# # puts "#{x }"
 # puts "id is #{x.id}"
 # puts "Products are #{x.products}"
 # puts "Customer id is #{x.customer_id} and it is class #{x.customer_id.class}"

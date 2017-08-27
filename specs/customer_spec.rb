@@ -55,17 +55,21 @@ describe "Customer" do
     end
   end
 
-  xdescribe "Customer.find" do
+  describe "Customer.find" do
     it "Can find the first customer from the CSV" do
       # TODO: Your test code here!
+      Grocery::Customer.find(1).must_be_instance_of Grocery::Customer
     end
 
     it "Can find the last customer from the CSV" do
       # TODO: Your test code here!
+      Grocery::Customer.find(35).must_be_instance_of Grocery::Customer
     end
 
     it "Raises an error for a customer that doesn't exist" do
       # TODO: Your test code here!
+      proc {Grocery::Customer.find(0)}.must_raise ArgumentError
+      proc {Grocery::Customer.find(36)}.must_raise ArgumentError
     end
   end
 end

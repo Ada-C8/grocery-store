@@ -2,7 +2,6 @@
 require 'CSV'
 module Grocery
   class Customer
-    #Customer attributes: ID, email, address
     attr_reader :id, :email, :address, :city, :state, :zip
 
     def initialize(id, email, address, city, state, zip)
@@ -17,7 +16,6 @@ module Grocery
     def self.all
       @@customers = []
       @@line_count = 0
-      # returns a collection of Customer instnces, representing all Customers in CSV
       CSV.open("support/customers.csv", 'r').each do |line|
         id = line[0]
         email = line[1]

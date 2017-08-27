@@ -9,27 +9,17 @@ describe "Customer" do
   describe "#initialize" do
     it "Takes an ID, email and address info" do
       # TODO: Your test code here!
-      id = 5
-      email = "jhkhkjh@gmail.com"
-      address_1 = "11134 Acorn loop"
-      city = "Tahoma"
-      state = "WI"
-      zip_code = "92342"
-      customer = Customer.new(id, email, address_1, city, state, zip_code)
+      customer = Grocery::Customer.new(4, "email@email.com", "full address")
+
+      customer.id.must_equal 4
+      customer.email.must_equal "email@email.com"
+      customer.address.must_equal "full address"
 
       customer.must_respond_to :id
-      customer.id.must_equal id
       customer.id.must_be_kind_of Integer
-
       customer.must_respond_to :email
-      customer.email.must_equal email
-      customer.email.must_be_instance_of String
-
-      customer.must_respond_to :city
-      customer.city.must_equal city
-      customer.city.must_be_instance_of String
-
-      # figure out a loop to test all instance variables
+      customer.must_respond_to :address
+      customer.address.must_be_instance_of String
     end
   end
 
@@ -43,37 +33,35 @@ describe "Customer" do
       #   - The ID, email address of the first and last
       #       customer match what's in the CSV file
       # Feel free to split this into multiple tests if needed
-      Customer.all.must_be_instance_of Array
-      Customer.all[1].must_be_instance_of Customer
-      Customer.all.length.must_equal 35
+      Grocery::Customer.all.must_be_instance_of Array
+      Grocery::Customer.all[1].must_be_instance_of Grocery::Customer
+      Grocery::Customer.all.length.must_equal 35
 
-      Customer.all[0].id.must_equal 1
-      Customer.all[0].email.must_equal "leonard.rogahn@hagenes.org"
-      Customer.all[34].id.must_equal 35
-      Customer.all[34].address_1.must_equal "7513 Kaylee Summit"
+      Grocery::Customer.all[0].id.must_equal 1
+      Grocery::Customer.all[0].email.must_equal "leonard.rogahn@hagenes.org"
+      Grocery::Customer.all[34].id.must_equal 35
+      Grocery::Customer.all[34].address.must_equal "7513 Kaylee Summit, Uptonhaven, DE, 64529-2614"
     end
   end
 
   describe "Customer.find" do
     it "Can find the first customer from the CSV" do
       # TODO: Your test code here!
-      Customer.find(1).id.must_equal 1
-      Customer.find(1).email.must_equal "leonard.rogahn@hagenes.org"
-      Customer.find(1).city.must_equal "Connellymouth"
+      Grocery::Customer.find(1).id.must_equal 1
+      Grocery::Customer.find(1).email.must_equal "leonard.rogahn@hagenes.org"
 
     end
 
     it "Can find the last customer from the CSV" do
       # TODO: Your test code here!
-      Customer.find(35).id.must_equal 35
-      Customer.find(35).email.must_equal "rogers_koelpin@oconnell.org"
-      Customer.find(35).zip_code.must_equal "64529-2614"
+      Grocery::Customer.find(35).id.must_equal 35
+      Grocery::Customer.find(8).address.must_equal "93968 Elissa Greens, East Garnet, WY, 96410-6413"
     end
 
     it "Raises an error for a customer that doesn't exist" do
       # TODO: Your test code here!
-      Customer.find(0).must_be_instance_of String
-      Customer.find(36).must_be_instance_of String
+      proc {Grocery::Customer.find(0)}.must_raise ArgumentError
+      proc {Grocery::Customer.find(36)}.must_raise ArgumentError
     end
   end
 end

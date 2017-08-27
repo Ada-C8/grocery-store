@@ -24,7 +24,7 @@ describe "Order Wave 1" do
       order = Grocery::Order.new(1337, products)
 
       sum = products.values.inject(0, :+)
-      expected_total = sum + (sum * 0.075).round(2)
+      expected_total = (sum + (sum * 0.075)).round(2)
 
       order.total.must_equal expected_total
     end
@@ -90,8 +90,7 @@ describe "Order Wave 1" do
       products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25 }
       order = Grocery::Order.new(1337, products)
 
-      result = order.remove_product("sandwich")
-      result.must_equal true
+      order.remove_product("sandwich").must_equal true
     end
 
     it "Returns false if the product is not present" do
@@ -124,11 +123,10 @@ describe "Order Wave 2" do
       all = Grocery::Order.all
 
       all.must_be_instance_of Array
-      all.length.must_equal 100
       all[4].must_be_instance_of Grocery::Order
-      test = {"Goat Milk"=>"44.72", "Hijiki"=>"45.47", "Feta"=>"4.61", "Aubergine"=>"69.45"}
-      all[29].products.must_equal test
-      last = {"Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"}
+      all.length.must_equal 100
+      all[0].id.must_equal 1
+      last = {"Allspice"=>64.74, "Bran"=>14.72, "UnbleachedFlour"=>80.59}
       all[99].products.must_equal last
 
     end
@@ -138,21 +136,18 @@ describe "Order Wave 2" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
       Grocery::Order.find(1).must_be_instance_of Grocery::Order
-      first = {"Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"}
-      Grocery::Order.find(1).products.must_equal first
+      Grocery::Order.find(1).id.must_equal 1
     end
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
       Grocery::Order.find(100).must_be_instance_of Grocery::Order
-      last = {"Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"}
-      Grocery::Order.find(100).products.must_equal last
+      Grocery::Order.find(100).id.must_equal 100
     end
 
     it "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
-      Grocery::Order.find(0).must_be_instance_of String
-      Grocery::Order.find(101).must_be_instance_of String
+      proc {Grocery::Order.find(101)}.must_raise ArgumentError
     end
   end
 end

@@ -62,22 +62,20 @@ module Grocery
           end
         end
 
-        puts "turned product array into hash #{product_hash}"
+        # puts "turned product array into hash #{product_hash}"
 
         order = Order.new(id, product_hash)
         all_orders << order
-        puts
+        # puts
       end
+      return all_orders
 
 
     end
 
     # self.find(id) - returns an instance of Order
     # where the value of the id field in the CSV matches the passed parameter.
-
-
     def self.find(order_num)
-      # all_orders = []
       order_num_array = []
 
       CSV.open("support/orders.csv", "r").each do |line|
@@ -102,18 +100,33 @@ module Grocery
                 product_hash[product_name] = value.to_f
               end
             end
-            puts "The products for order #{id} are: #{product_hash}"
+            return "The products for order #{id} are: #{product_hash}"
           end
         end
     # when Order.find is called with an ID that doesn't exist?
       else
-          puts "Sorry, it appears we don't have an order #{order_num}."
+        ##### raise error --- look at deck method!!!
+        ### it will use proc syntax for testing
+        raise ArgumentError.new("Sorry, it appears we don't have an order #{order_num}.")
+          # puts "Sorry, it appears we don't have an order #{order_num}."
       end
     end
+
   end
 end
 
-order = Grocery::Order.find(101)
+# order = Grocery::Order.find(101)
+
+
+
+# frenchie.each do |line|
+#   print line[1]
+#   p line[0]
+# end
+#
+# order = Grocery::Order.find(1)
+
+#
 
 
 

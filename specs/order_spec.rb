@@ -153,13 +153,13 @@ describe "Order Wave 2" do
     it "The first ids must match the first line of the csv" do
       new_orders = Grocery::Order.all
       csv = CSV.read("support/orders.csv", 'r')
-      csv[0][0].must_equal new_orders[0].id
+      new_orders[0].id.must_equal csv[0][0].to_i
     end
 
     it "The last id must match the last csv line" do
       new_orders = Grocery::Order.all
       csv = CSV.read("support/orders.csv", 'r')
-      csv[-1][0].must_equal new_orders[-1].id
+      new_orders[-1].id.must_equal csv[-1][0].to_i
     end
 
     #I am not sure this is a great way to check the product
@@ -181,9 +181,9 @@ describe "Order Wave 2" do
       order_product.must_equal csv_product
     end
 
-#NOTE: THIS FAILS BECAUSE THERE ARE TWO OF THE SAME ITEM IN ORDER 10.
-#THE SECOND TIME I ADD THE ITEM TO MY PRODUCT HASH IT OVERWRITES
-#THE FIRST ITEM => PRICE PAIR
+    #NOTE: THIS FAILS BECAUSE THERE ARE TWO OF THE SAME ITEM IN ORDER 10.
+    #THE SECOND TIME I ADD THE ITEM TO MY PRODUCT HASH IT OVERWRITES
+    #THE FIRST ITEM => PRICE PAIR
     # it "All products must match the csv file" do
     #   new_orders = Grocery::Order.all
     #   100.times do |x|
@@ -200,7 +200,7 @@ describe "Order Wave 2" do
       100.times do |x|
         my_order = Grocery::Order.find(x+1)
         csv = CSV.read("support/orders.csv", 'r')
-        csv[x][0].must_equal my_order.id
+        my_order.id.must_equal csv[x][0].to_i
       end
     end
 

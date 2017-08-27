@@ -105,6 +105,8 @@ describe "Customer" do
       end
     end
 
+
+
     it "Raises an error for a customer that doesn't exist" do
       proc {Grocery::Customer.find(1000)}.must_raise ArgumentError
 

@@ -5,14 +5,13 @@ require_relative 'customer'
 class OnlineOrder < Grocery::Order
 
   @@all_online_orders = Array.new
-  @@status_array = [:pending, :paid, :processing, :complete]
+  @@status_array = [:pending, :paid, :processing, :shipped, :complete]
 
   attr_reader :customer_info, :status
 
   def initialize(id, products, customer_info, status)
     super(id, products)
     @customer_info = customer_info
-
     if @@status_array.include?(status.to_sym)
       @status = status.to_sym
     else @status = :pending
@@ -43,21 +42,19 @@ class OnlineOrder < Grocery::Order
           products[colon_split[0]] = colon_split[1] #assign prices to products in the products hash
         end # length.times do
       end #of x.each do
-      #@@all_online_orders << OnlineOrder.new(id, products, customer_id, status)
       @@all_online_orders << OnlineOrder.new(id, products, Grocery::Customer.find(customer_id), status)
       products = {}
     end #
     return @@all_online_orders
   end #all method
 
-  # def add_product(mobile_id, product_name, product_price)
-  #
-  #   if status == :paid || status == :pending
-  #     puts "That worked "
-  #   else
-  #     raise ArgumentError
-  #   end #if statment
-  # end #add_product
+  def add_product(product_name, product_price)
+    if @status == :paid || @status == :pending
+      super(product_name, product_price)
+    else
+      raise ArgumentError
+    end #if statment
+  end #add_product
 #   The add_product method should be updated to permit a new product to be added ONLY if the status is either pending or paid (no other statuses permitted)
 # Otherwise, it should raise an ArgumentError (Google this!)
 end #class
@@ -72,12 +69,16 @@ end #class
 # end
 
 
-x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :pending)
+x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :paid)
+puts x.add_product("chicken", 10.00)
+puts x.products
 # # puts "#{x }"
 # # puts "id is #{x.id}"
 # # puts "Products are #{x.products}"
 # # puts "Customer id is #{x.customer_info.customer_id} and it is class #{x.customer_info.class}"
-puts "class is #{x.class}"
+# puts x.inspect
+# puts "class is #{x.class}"
+puts "status is #{x.status} and it class #{x.status.class}"
 # puts "Total is #{x.total} and it is class #{x.total.class}"
 
 

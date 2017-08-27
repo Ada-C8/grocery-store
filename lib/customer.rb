@@ -1,7 +1,7 @@
 require 'csv'
 require 'awesome_print'
 
-require_relative 'order'
+# require_relative 'order' ?Is this needed?
 
 module Grocery
   class Customer
@@ -12,14 +12,14 @@ module Grocery
       @email = email
       @delivery_address = delivery_address
 
-      # raise ArgumentError.new("customer_id must be a float") if customer_id.class != Float
-      # raise ArgumentError.new("email must be a string") if email.class != String
-      # raise ArgumentError.new("delivery_address must be a string") if delivery_address.class != String
+      raise ArgumentError.new("customer_id must be a integer") if customer_id.class != Integer
+      raise ArgumentError.new("email must be a string") if email.class != String
+      raise ArgumentError.new("delivery_address must be a string") if delivery_address.class != String
 
     end
 
     def self.all
-      customers = CSV.read('/Users/janedrozo/Desktop/grocery-store/support/customers.csv')
+      customers = CSV.read('support/customers.csv')
 
       all_customers = []
 
@@ -52,4 +52,9 @@ module Grocery
 
 end#of_module
 
-ap Grocery::Customer.all
+#TEST
+# ap Grocery::Customer.all
+#
+# test_customer = Grocery::Customer.find(1)
+#
+# ap test_customer

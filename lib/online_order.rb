@@ -98,10 +98,6 @@ module Grocery
       end
     end
 
-    # def status
-    #   unless Grocery::OnlineOrder.status == :pending
-    # end
-
     def add_product(product_name, product_price)
       unless @status == :pending || @status == :paid
         raise ArgumentError.new("Due to order status of #{@status}, additional products can no longer be added to the order.")

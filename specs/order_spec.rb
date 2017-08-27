@@ -75,11 +75,28 @@ describe "Order Wave 1" do
       result = order.add_product("salad", 4.25)
       result.must_equal true
     end
+
+    it "Returns true if the product has been removed"  do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+
+      result = order.remove_product("banana")
+      result.must_equal true
+    end
+
+    it "Returns false if the product doesn't exist"  do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+
+      result = order.remove_product("salad")
+      result.must_equal false
+    end
+
   end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
@@ -90,20 +107,51 @@ xdescribe "Order Wave 2" do
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
+      result = Grocery::Order.all
+      result.each do |i|
+        i.must_be_kind_of Grocery::Order
+      end
     end
+
+    it " The number of orders must be correct" do
+      result = Grocery::Order.all
+      result.length.must_equal 100
+    end
+
+    it " Check 1st and last order line" do
+      all_orders = Grocery::Order.all
+
+      first_order = all_orders[0]
+      first_order.id.must_equal "1"
+      expected_1st_product = {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" =>74.9}
+      first_order.products.must_equal expected_1st_product
+
+      last_order = all_orders[99]
+      last_order.id.must_equal "100"
+      expected_last_product = {"Allspice" => 64.74, "Bran" =>14.72, "UnbleachedFlour" =>80.59}
+      last_order.products.must_equal expected_last_product
+    end
+
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      first_order = Grocery::Order.find("1")
+      first_order.id.must_equal "1"
+      expected_1st_product = {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" =>74.9}
+      first_order.products.must_equal expected_1st_product
+
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      last_order = Grocery::Order.find("100")
+      last_order.id.must_equal "100"
+      expected_last_product = {"Allspice" => 64.74, "Bran" =>14.72, "UnbleachedFlour" =>80.59}
+      last_order.products.must_equal expected_last_product
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Order.find("200")}.must_raise ArgumentError
     end
   end
 end

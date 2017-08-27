@@ -143,11 +143,6 @@ describe "Order Wave 2" do
       order[99].products.include?("Bran").must_equal true
       order[99].products.include?("UnbleachedFlour").must_equal true
 
-    #  1,Slivered Almonds:22.88;Wholewheat flour:1.93;Grape Seed Oil:74.9
-      # 0,Spring Onions:32.07;Vinegar:10.51;Nectarines:12.58;Mung Beans:27.41
-      # 100,Allspice:64.74;Bran:14.72;UnbleachedFlour:80.59
-
-
     end #ID/products match
   end #order all
 

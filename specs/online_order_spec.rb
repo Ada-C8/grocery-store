@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/online_order'
+require_relative '../lib/customer'
 
 # TODO: uncomment the next line once you start wave 3
 # require_relative '../lib/online_order'
@@ -15,30 +16,29 @@ require_relative '../lib/online_order'
 describe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
-      # id = 23
-      # products = {Lobster: 17.18, Annattoseed: 58.38,  Camomile: 83.21}
-      #
-      # order = Grocery::Order.new(id, products)
-      # Check that an OnlineOrder is in fact a kind of Order
+      # id = 12
+      # products = { "banana" => 1.99, "cracker" => 3.00 }
+      customer_id = 1
+      status = :pending
 
-      # Instatiate your OnlineOrder here
-      online_order = OnlineOrder.new(order)
-      puts online_order
-      online_order.must_be_kind_of Order
+      online_order = Grocery::OnlineOrder.new(customer_id, status)
+      online_order.must_be_kind_of Grocery::Order
+    end
+#
+    it "Can access Customer object" do
+    customers = Grocery::Customer.all
+    customer = customers[-1].id  #customer id #change naming
+    print customer
+    online_order = Grocery::OnlineOrder.new(customer, status)
+    online_order.customer.must_equal 35
+    end
+  #
+    it "Can access the online order status" do
+      online_order = Grocery::OnlineOrder.new(customer, status)
+      online_order.status.must_equal :pending
     end
   end
 end
-#
-  #   it "Can access Customer object" do
-        
-  #     # TODO: Your test code here!
-  #   end
-  #
-  #   it "Can access the online order status" do
-  #     # TODO: Your test code here!
-  #   end
-  # end
-
   # describe "#total" do
   #   it "Adds a shipping fee" do
   #     # TODO: Your test code here!

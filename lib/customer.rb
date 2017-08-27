@@ -18,6 +18,9 @@ module Grocery
     #   # self.all - returns a collection of Customer instances, representing all of the Customer described in the CSV. See below for the CSV file specifications
 
     def self.all
+
+      @@all_customers = []
+
       CSV.open('../support/customers.csv', 'r').each do |line|
         line[0] = line[0].to_i
         line[2] = line[2] + ", " + line[3] + ", " + line[4] + ", " + line[5]
@@ -34,8 +37,7 @@ module Grocery
       return @@all_customers
     end
 
-
-    def self.looksy(id)
+    def self.find(id)
       # self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
       customers = Grocery::Customer.all
       item_num = []
@@ -45,16 +47,16 @@ module Grocery
       end
 
       if item_num.include?(id)
-        return customers[id - 1].inspect
+        return customers[id - 1]
       else
-        return "Item Not Found"
+        raise ArgumentError
       end
       #return Grocery::Order.all_orders[id].products
     end# method def
   end #customer class
 end #module
 
-puts Grocery::Customer.looksy(35)
+#puts Grocery::Customer.find(350)
 
 
 #def self.find(id)

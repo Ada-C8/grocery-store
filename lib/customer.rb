@@ -1,6 +1,7 @@
 require 'csv'
 module Grocery
    class Customer
+     attr_reader :id, :email, :address
 
    def initialize(id, email, address)
      @id = id
@@ -22,7 +23,7 @@ module Grocery
      return customers
    end
 
-  
+
 
 
 
@@ -32,29 +33,4 @@ module Grocery
 
 
    end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  end
 end

@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
+# require '../support/orders'
 
 describe "Order Wave 1" do
   describe "#initialize" do
@@ -109,19 +110,39 @@ describe "Order Wave 1" do
 end
 
 describe "Order Wave 2" do
+# do a before do ... (piece of block code)  then do
+
   describe "Order.all" do
+    #not sure how to show that
     it "Returns an array of all orders" do
-      Order.all.count.must_equal 100
+      order = Grocery::Order.all
+
+      order.length.must_equal 100
+      order.must_be_instance_of Array
     end
 
     it "makes sure all in the array is an Order" do
-      Order.all.class.must_be_instance_of Order
+      order = Grocery::Order.all
+      order.each do |line|
+        line.must_be_instance_of Grocery::Order
+      end
     end
 
     it "Gives the correct number of orders" do
+      order = Grocery::Order.all
+      order.count.must_equal 100
+      #check to see what length does?
     end
 
-    it "Marches the ID and products of the first and last order with the CSV file" do
+    it "Matches the ID and products of the first and last order with the CSV file" do
+      order = Grocery::Order.all
+      
+      order.first.id.must_equal 1
+      order.first.products.must_include "Wholewheat flour"
+
+      order.last.id.must_equal 100
+      order.last.products.must_include "Allspice"
+
     end
 
   end
@@ -129,15 +150,18 @@ end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.find(1).must_include "1"
+      Grocery::Order.find(1).must_include "Slivered Almonds"
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.find(100).must_include "100"
+      Grocery::Order.find(100).must_include "Bran"
+
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Order.find(101)}.must_raise ArgumentError
+      proc {Grocery::Order.find(0)}.must_raise ArgumentError
     end
   end
-end

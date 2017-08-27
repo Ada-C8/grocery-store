@@ -6,10 +6,6 @@ require 'minitest/skip_dsl'
 require_relative '../lib/online_order'
 # You may also need to require other classes here
 
-# Because an OnlineOrder is a kind of Order, and we've
-# already tested a bunch of functionality on Order,
-# we effectively get all that testing for free! Here we'll
-# only test things that are different.
 
 describe "OnlineOrder" do
   describe "#initialize" do
@@ -49,7 +45,7 @@ describe "OnlineOrder" do
       proc {x.add_product("sandwich", 4.25)}.must_raise ArgumentError
     end #all other statuses
 
-    it "Permits action for pending and paid satuses" do
+    it "Permits action for pending and paid statuses" do
       x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :pending)
       x.add_product("sandwich", 4.25)
       x.products.include?("sandwich").must_equal true
@@ -69,10 +65,10 @@ describe "OnlineOrder" do
       end #each do
     end #everything is an order
 
-     it "The number of orders is correct" do
-       order = OnlineOrder.all
-       order.length.must_equal 100
-     end #number is correct
+    it "The number of orders is correct" do
+      order = OnlineOrder.all
+      order.length.must_equal 100
+    end #number is correct
 
     it "The customer is present" do
       order = OnlineOrder.all
@@ -87,14 +83,14 @@ describe "OnlineOrder" do
       order = OnlineOrder.all
       order.each do |item|
         item.status.wont_be_nil
-        #must_be_kind_of Grocery::Customer
       end #each do
     end #status present
-end #online order all method
+  end #online order all method
 
-describe "OnlineOrder.find_by_customer" do
-  it "Returns an array of online orders for a specific customer ID" do
-    # TODO: Your test code here!
-  end#return an array specific to customer
-end #find by customer tests
+  describe "OnlineOrder.find_by_customer" do
+    it "Returns an array of online orders for a specific customer ID" do
+      x = OnlineOrder.find_by_customer(12)
+      x.must_be_kind_of Array
+    end#return an array specific to customer
+  end #find by customer tests
 end #all tests

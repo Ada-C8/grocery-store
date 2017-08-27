@@ -1,4 +1,5 @@
 #include Grocery
+require 'csv'
 require_relative 'order'
 require_relative 'customer'
 
@@ -48,18 +49,18 @@ class OnlineOrder < Grocery::Order
   end #all method
 
   def self.find(id)
-      orders = OnlineOrder.all
-      item_num = []
+    orders = OnlineOrder.all
+    item_num = []
 
-      orders.each do |item|
-        item_num << item.id
-      end
+    orders.each do |item|
+      item_num << item.id
+    end
 
-      if item_num.include?(id)
-        return orders[id - 1]
-      else
-        raise ArgumentError
-      end
+    if item_num.include?(id)
+      return orders[id - 1]
+    else
+      raise ArgumentError, "Order Number Not Found"
+    end
   end
 
   def self.find_by_customer(cust_id)
@@ -67,15 +68,20 @@ class OnlineOrder < Grocery::Order
     customer_orders = []
 
     orders.each do |item|
-      if item.customer_info.customer_id == cust_id
+      if item.customer_info.customer_id == cust_id.to_i
         customer_orders << item
       end #if statement
     end #each do
-    return customer_orders
+
+    if customer_orders == []
+      raise ArgumentError, "Customer ID not Found"
+    else
+      return customer_orders
+    end #new if statment
   end #end find by customer
   # if item_num.include(customer_info.customer_id)
 
-    #returns an array of online orders for specific customer ID  - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
+  #returns an array of online orders for specific customer ID  - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
 
 
   def add_product(product_name, product_price)
@@ -89,7 +95,7 @@ end #class
 
 
 
-puts OnlineOrder.find_by_customer(1).inspect
+puts OnlineOrder.find_by_customer(121).inspect
 # puts OnlineOrder.find(1).customer_info.customer_id
 # puts OnlineOrder.find(100).customer_info.customer_id
 # puts OnlineOrder.find(1900).inspect
@@ -101,7 +107,7 @@ puts OnlineOrder.find_by_customer(1).inspect
 #   # puts "Order Status #{order.status}"
 #   # puts "Customer is #{j.customer_info} and it is class #{j.customer_info.class}"
 # end
-  # puts "Order Id: #{order.id}. \nProducts: #{order.products}. \nCustomer Info: ID:  #{order.customer_info.customer_id}, email: #{order.customer_info.email}, Address: #{order.customer_info.delivery_address}."
+# puts "Order Id: #{order.id}. \nProducts: #{order.products}. \nCustomer Info: ID:  #{order.customer_info.customer_id}, email: #{order.customer_info.email}, Address: #{order.customer_info.delivery_address}."
 
 # x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :paid)
 # puts x.add_product("chicken", 10.00)

@@ -24,7 +24,7 @@ describe "OnlineOrder" do
       online_order.must_be_kind_of Grocery::Order
     end
 
-    it "Can access Customer object" do
+    it "Can access Customer" do
       id = 12
       products = { "banana" => 1.99, "cracker" => 3.00 }
       customer_id = 1

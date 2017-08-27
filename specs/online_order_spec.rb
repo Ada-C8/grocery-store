@@ -49,7 +49,8 @@ describe "OnlineOrder" do
 
 ###TODO
     it "Doesn't add a shipping fee if there are no products" do
-
+      new_online_order = Grocery::OnlineOrder.new(1000, {}, 30)
+      new_online_order.total.must_equal 0
     end
   end
 

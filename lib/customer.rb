@@ -20,7 +20,7 @@ module Grocery
       CSV.open("support/customers.csv", "r").each do |row|
         id = row[0].to_i
         email = row[1]
-        address = row[2..-1].join(", ") #currently, just join everything into a string. Can later keep everything separate if need be
+        address = row[2..-1].join(", ") #currently, just join all address related elements into a string. Can later keep everything separate if need be
 
         customer= Customer.new(id,email,address)
         all_customers << customer

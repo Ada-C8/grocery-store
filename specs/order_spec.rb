@@ -75,7 +75,8 @@ describe "Order Wave 1" do
       result = order.add_product("salad", 4.25)
       result.must_equal true
     end
-  end #end add_products tests
+    
+  end
 
   describe "#remove_product" do
     it "Decreases the number of products" do
@@ -122,18 +123,15 @@ describe "Order Wave 1" do
       after_total.must_equal (1.99 + 4.25) + ((1.99 + 4.25) * 0.075).round(2)
     end
 
-  end #end remove_products tests
+  end
 
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
 
   describe "Order initialize" do
     it "Can initialize an Order object from a csv line" do
-
       csv_first_line= CSV.read("support/orders.csv", "r").first
-
       order = Grocery::Order.new(csv_first_line[0].to_i, csv_first_line[1])
 
       order.must_be_instance_of Grocery::Order #product string has not been turned into hash at this point
@@ -151,14 +149,6 @@ describe "Order Wave 2" do
     end
 
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
       Grocery::Order.all.must_be_kind_of Array
 
       Grocery::Order.all.each do |ord|
@@ -184,7 +174,6 @@ describe "Order Wave 2" do
 
       last_order.id.must_equal csv_last_order[0].to_i
     end
-
 
   end
 

@@ -17,6 +17,7 @@ module Grocery
       all_online_orders_by_row = self.order_info_by_row("support/online_orders.csv")
 
       all_online_orders_by_row.each do |online_order|
+      #value of each online_order array by index- 0:id, 1:products hash, 2:customer id, 3: status
         order = OnlineOrder.new(online_order[0].to_i,online_order[1], Grocery::Customer.find(online_order[2].to_i),online_order[3].to_sym)
 
         all_online_orders << order
@@ -41,6 +42,8 @@ module Grocery
 
       return false
     end
+
+    #self.find inherited from Grocery::Order
 
     def self.find_by_customer(customer_id)
       customers_orders = []

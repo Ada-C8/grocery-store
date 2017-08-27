@@ -1,50 +1,64 @@
 # online_order
+require 'csv'
+require 'awesome_print'
+
+require_relative 'order.rb'
+require_relative 'customer.rb'
 
 module Grocery
-  class OnlineOrder < Order
-    attr_reader :id, :products, :orders
-
-    def initialize()
-      @customer = customer
+  class Onlineorder < Order
+    attr_reader :id, :products, :customer_id, :status
+    def initialize(id, products, customer_id, status)
+      @id = id
       @products = products
       @customer_id = customer_id
       @status = status
-
+    end
 
       def self.all
-        @orders = {}
-        CSV.open('/Users/Marisa/documents/ada developers academy/projects/grocery-store/support/online_orders.csv', 'r').each do |id,items|
-          @orders[id.to_i] = items.split(";").map do |item|
-            array = item.split(":")
-            {array[0] => array[1]}
-          # puts orders
-          end
+        @online_orders = []
+        CSV.open('/Users/Marisa/documents/ada developers academy/projects/grocery-store/support/online_orders.csv', 'r').each do |online_attributes|
+          online_order = Grocery::Onlineorder.new(
+          online_attributes[0].to_i,
+          online_attributes[1],
+          online_attributes[2].to_i,
+          online_attributes[3].to_sym
+          )
+          @online_orders << online_order
         end
+        ap @online_orders
+        return @online_orders
       end #self.all method end
 
 
       def self.find(id)
-        # raised argument error if order ID number is greater than 100.
-        if id > 100
-          raise ArgumentError.new("You messed up!")
+        @online_orders.each do |online_order|
+          if (id == online_order.id)
+            return online_order
+          end
         end
-        # looks into all order IDs and returns the ones in the ones .find is called on.
-        return @orders[id]
+        raise ArgumentError.new("You messed up!")
       end #self.find method end
 
 
       def self.find_by_customer(id)
+        @online_orders.each do |online_order|
+          if (customer_id == online_order.customer_id)
+            return online_order
+          end
+        end
       end
 
 
       def total
         #inheritance - update so it adds the tax on to the total
-        super + 10
+        # super + 10
         # sum = @products.values.inject(0, :+)
         # expected_total = sum + (sum * 0.075).round(2)
-
       end #total method end
 
-    end #initialize end
+
   end #class end
 end #module end
+
+Grocery::Onlineorder.all

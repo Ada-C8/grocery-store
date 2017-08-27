@@ -13,23 +13,22 @@ module Grocery
     end #initialize end
 
 
-    # in this method I am creating a new instance of the customer (in the loop) and pushing those new instances of new customer to the @customers array.
+    # in this method I am creating a new instance of the customer for each row in the csv (in the loop) and pushing those new instances of customer to the @customers array.
 
-    # loop is going through each row in the csv (customer_attributes) and passing the id, email, and address as the instance variables.
+    # loop is going through each row in the csv (customer_attributes) and passing the id, email, and address as the instance variables (note each piece of the address that was divided by the comma in the CSV has been joined).
 
     def self.all
       @customers = []
       CSV.open('/Users/Marisa/documents/ada developers academy/projects/grocery-store/support/customers.csv', 'r').each do |customer_attributes|
-        # customer_attributes[2..5].join(",")
-        customer = Customer.new(
+        customer = Grocery::Customer.new(
         customer_attributes[0].to_i,
         customer_attributes[1],
         customer_attributes[2..5].join(",")
         )
         @customers << customer
       end
-      # ap @customers
-      return @customers
+      ap @customers
+      # return @customers
     end #self.all method end
 
 

@@ -62,23 +62,23 @@ module Grocery
       return @@all_online_orders
     end #self.all
 
-    # def self.find(id)
-    #   # use super?
-    #   # super
-    #   # if id > all.length
-    #   #   raise ArgumentError.new("Error: #{id} does not exist")
-    #   # end
-    #   if id > @@all_online_orders.length
-    #     raise ArgumentError.new("That #{id} doesn't exist")
-    #   end
-    #
-    #   all.each do |order|
-    #     if id == order.id
-    #       return order
-    #     end
-    #   end
-    #
-    # end #self.find(id)
+    def self.find(id)
+      # use super?
+      # super
+      # if id > all.length
+      #   raise ArgumentError.new("Error: #{id} does not exist")
+      # end
+      if id > @@all_online_orders.length
+        raise ArgumentError.new("That #{id} doesn't exist")
+      end
+
+      all.each do |order|
+        if id == order.id
+          return order
+        end
+      end
+
+    end #self.find(id)
 
     def self.find_by_customer(customer_id)
       if customer_id > @@all_online_orders.length
@@ -92,5 +92,7 @@ module Grocery
       end
       return customers_orders
     end
+    # puts OnlineOrder.find_by_customer(120)
+
   end # Customer class
 end # Grocery module

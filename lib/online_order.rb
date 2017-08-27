@@ -22,20 +22,34 @@ module Grocery
 
       def initialize(id, products, customer_id, status)
         super(id, products)
-        @customer_id = customer_id
+        Grocery::Customer.all
+        customer_object = Grocery::Customer.find(customer_id.to_i)
+        @customer_id = customer_object
         @status = status
       end
 
       def self.all
-        @@online_online_orders = []
+        @@online_order_objects = []
         @@line_count = 0
         CSV.open("support/online_orders.csv", 'r').each do |line|
-        #returns a collection of OnlineOrder instances,
-          #representing all of the OnlineOrders described in the CSV.
-          #what is diff about this all method vs order.all, what is the same?
+          product_hash ={}
+          product_array = line[1].split(';')
+          product_array.each do |info|
+            smaller_array = info.split(':')
+            product_hash[smaller_array[0]] = smaller_array[1]
+          end
+          id = line[0] = id
+          products = product_hash
+          customer_id = line[2]
+          status = line[3].to_sym
           @@line_count += 1
-          @@online_order_objects << OnlineOrder.new #(id, products, customerid, status)
+          @@online_order_objects << OnlineOrder.new(id, products, customer_id, status)
         end
+        return @@online_order_objects
+      end
+
+      def self.line_count
+        return @@line_count
       end
 
       def self.find(id)

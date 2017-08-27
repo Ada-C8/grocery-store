@@ -1,4 +1,4 @@
-require_relative 'spec_helper'
+# require_relative 'spec_helper'
 
 describe "Order Wave 1" do
   describe "#initialize" do

@@ -76,6 +76,3 @@ module Grocery
   end #end of class
 
 end #end of module
-
-order = Grocery::Order.find(5)
-puts order

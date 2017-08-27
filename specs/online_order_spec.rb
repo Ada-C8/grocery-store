@@ -16,14 +16,14 @@ require 'minitest/skip_dsl'
 describe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
-      online_order = Grocery::OnlineOrder.new(12, "b", 35, "g")
+      online_order = Grocery::OnlineOrder.new(1, "cat", 34, "dog")
       online_order.must_be_kind_of Grocery::Order
     end
 
     it "Can access Customer object" do
       # TODO: Your test code here!
-      customer = 35
-      online_order = Grocery::OnlineOrder.new(12, "b", customer, "g")
+      customer = 34
+      online_order = Grocery::OnlineOrder.new(1, "cat", customer, "dog")
       online_order.must_respond_to :customer
       online_order.customer.must_equal customer
       online_order.customer.must_be_kind_of Integer
@@ -32,6 +32,11 @@ describe "OnlineOrder" do
 
     it "Can access the online order status" do
       # TODO: Your test code here!
+      status = :dog
+      online_order = Grocery::OnlineOrder.new(1, "cat", 34, status)
+      online_order.must_respond_to :status
+      online_order.status.must_equal status
+      online_order.status.must_be_kind_of Symbol
     end
   end
 

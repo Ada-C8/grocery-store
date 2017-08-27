@@ -13,15 +13,17 @@ describe "Customer" do
 
       customers = Grocery::Customer.new(customer_id, email, delivery_address)
 
-      customers.must_respond_to :customer_id
-      customers.customer_id.must_equal customer_id
+      customers.must_respond_to :customer_id #referring to the attr readers in customer.rb
+      customers.customer_id.must_equal(customer_id)
       customers.customer_id.must_be_kind_of Integer
 
-      customers.must_respond_to :customer_email
-      customers.email must_be_kind_of String
+      customers.must_respond_to :email
+      customers.email.must_equal(email)
+      customers.email.must_be_kind_of String
 
-      customers.must_respond_to :customer_email
-      customers.email must_be_kind_of String
+      customers.must_respond_to :delivery_address
+      customers.delivery_address.must_equal(delivery_address)
+      customers.delivery_address.must_be_kind_of String
     end
   end
 end
@@ -94,5 +96,4 @@ xdescribe "Customer.find" do
   xit "Raises an error for a customer that doesn't exist" do
     # TODO: Your test code here!
   end
-end
 end

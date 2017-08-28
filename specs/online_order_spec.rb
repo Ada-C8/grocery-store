@@ -19,6 +19,24 @@ describe "OnlineOrder" do
       online_order = Grocery::OnlineOrder.new(8, "b", 25, "d")
       #puts "online_order: #{online_order}"
 
+      ##works checks initialize
+      # online_order2 = Grocery::OnlineOrder.new("12", "b", "35")
+      #   puts "online_order2: #{online_order2}"
+      #   array = []
+      #   array << online_order2
+      #   array.each do |check|
+      #     puts check.id.class
+      #     puts check.products.class
+      #       cust_id_array = []
+      #       cust_id_array << check.customer_id
+      #         cust_id_array.each do |check|
+      #           puts check.id.class
+      #           puts check.email
+      #           puts check.address
+      #         end
+      #     puts check.status
+      #   end
+
       # Check that an OnlineOrder is in fact a kind of Order
       online_order.must_be_kind_of Grocery::Order
     end
@@ -48,7 +66,7 @@ describe "OnlineOrder" do
     it "Can access the online order status" do
       # TODO: Your test code here!
       online_order3 = Grocery::OnlineOrder.new(8, "b", 5, "shipped")
-      puts online_order3
+      #puts online_order3
       array = []
       array << online_order3
         array.each do |check|
@@ -88,16 +106,40 @@ describe "OnlineOrder" do
       #   - The status is present
       # Feel free to split this into multiple tests if needed
       all_online_orders = Grocery::OnlineOrder.all
-      puts all_online_orders
+
+
+      # #works checks .all method
+      # puts all_online_orders
+      # a = Grocery::OnlineOrder.all
+      #
+      # a.each do |check|
+      #   puts check.id
+      #   puts check.products
+      #   array = []
+      #   puts check.customer_id
+      #   array << check.customer_id
+      #   array.each do |cust|
+      #     puts cust.id
+      #     puts cust.email
+      #     puts cust.address
+      #   end
+      #   puts check.status
+      # end
 
       all_online_orders.must_be_instance_of Array
 
     end
   end
 
-  xdescribe "OnlineOrder.find_by_customer" do
+  describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!
+      a = Grocery::OnlineOrder.find_by_customer(20)
+      # puts a
+      # a.each do |check|
+      #   puts "#{check.customer_id.id}, #{check.id}, #{check.products}, #{check.status}"
+      # end
+      a.must_be_instance_of Array
     end
   end
 end

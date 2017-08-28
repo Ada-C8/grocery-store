@@ -1,7 +1,7 @@
 require 'csv'
-module Grocery
+# require_relative 'online_order'
 
-  ### Don't forget to commit
+module Grocery
   class Order
     attr_reader :id, :products
 
@@ -46,38 +46,11 @@ module Grocery
       found_order = nil
       orders = self.all
       orders.each do |order|
-        # puts order.id == id
-        # puts order.id.class
-        # puts id.class
-
         if order.id == id
           return found_order = order
         end
-
       end
       raise ArgumentError.new("Order does not exist")
     end
-    # return found_order
   end # end of class
 end # module
-
-
-# order = Grocery::Order.find(101)
-# puts order.id
-
-
-
-
-# Grocery::Order.all.each do |order|
-# puts order.products
-# end
-
-# order = Grocery::Order.all
-# puts order[99].id
-# puts order[2].products
-
-# new_orders = Grocery::Order.all
-# csv = CSV.open("../support/orders.csv", 'r')
-# puts csv_product = csv.to_a[0][1].delete(":").delete(";")
-# puts order_product = new_orders[0].products.flatten.join
-# puts csv_product == order_product

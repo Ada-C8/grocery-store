@@ -54,7 +54,7 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "#add_product" do
+  describe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
       # TODO: Your test code here!
       online_order = Grocery::OnlineOrder.new(1, {"banana": 1.00}, 34, :processing)

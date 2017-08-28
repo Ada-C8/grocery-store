@@ -15,9 +15,16 @@ module Grocery
     def total
       if @products.length == 0
         return super
-      # elsif @status == pending || @status == paid
       else
         return super + 10
+      end
+    end
+
+    def add_product(product_name, product_price)
+      unless @status == :pending || @status == :paid
+        raise ArgumentError.new ("Unable to add products at this time.")
+      else
+        return super(product_name, product_price)
       end
     end
 

@@ -72,7 +72,11 @@ describe "OnlineOrder" do
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      order = Grocery::OnlineOrder.new(666, {"cat food" => 300}, "Finn", :pending)
+      order.products.length.must_equal 1
+
+      order.add_product("dog food", 300)
+      order.products.length.must_equal 2
     end
   end
 

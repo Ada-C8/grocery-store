@@ -22,7 +22,7 @@ module Grocery
 
     def add_product(product_name, product_price)
       unless @status == :pending || @status == :paid
-        raise ArgumentError.new ("Unable to add products at this time.")
+        raise ArgumentError.new ("Unable to add products at this time.") #ArgumentError may not have been the appropriate exception to choose here? I was still able to pass a test with no arguments but it failed using other exceptions
       else
         return super(product_name, product_price)
       end

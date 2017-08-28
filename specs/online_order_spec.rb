@@ -119,7 +119,8 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+      orders = Grocery::OnlineOrder.find_by_customer(30)
+      orders.length.must_equal 3
     end
   end
 end

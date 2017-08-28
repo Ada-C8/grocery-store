@@ -44,7 +44,7 @@ module Grocery
       return all_online_orders
     end
 
-    def self.find(id) # difference is it only looks at online_orders.csv 
+    def self.find(id) # difference is it only looks at online_orders.csv
       self.all.each do |order|
         if id == order.id
           return order
@@ -54,6 +54,13 @@ module Grocery
     end
 
     def self.find_by_customer(customer_id)
+      customer_orders = []
+      self.all.each do |order|
+        if customer_id == order.customer
+          customer_orders << order
+        end
+      end
+      return customer_orders
     end
   end # end of class
 end # end of module

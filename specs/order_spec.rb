@@ -79,31 +79,78 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
-    end
+		orders = Grocery::Order.all
+		orders.must_be_kind_of Array
+	end
+	
+	it "Confirms everything in the array is of type Order" do 
+		orders = Grocery::Order.all
+		orders.each { |i|
+			i.must_be_kind_of Grocery::Order
+		}
+	end
+	
+	it "Confirms the number of orders is correct"  do 
+		orders = Grocery::Order.all
+		rawCount = 0
+		CSV.foreach('../support/orders.csv') { |row|
+			rawCount += 1
+		}
+		
+		orderCount = 0
+		orders.each { |i|
+			orderCount += 1
+		}
+		
+		rawCount.must_equal orderCount
+	end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+		myOrders = []
+      CSV.foreach('../support/orders.csv') { |row|
+				order_prodcuts = {}
+				order_id = row[0] #this is the ID
+				row[1].split(';').each { |i| #this splits the order string into individual name/cost pairs
+					single_item = i.split(':')#separates the name from the cost
+					cost = single_item[1]
+					name = single_item[0]
+					order_prodcuts[name] = cost
+				}
+				myOrders << Grocery::Order.new(order_id, order_prodcuts)
+		}
+		order = Grocery::Order.find(1)
+		order.id.to_i.must_equal 1
+		
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      myOrders = []
+      CSV.foreach('../support/orders.csv') { |row|
+				order_prodcuts = {}
+				order_id = row[0] #this is the ID
+				row[1].split(';').each { |i| #this splits the order string into individual name/cost pairs
+					single_item = i.split(':')#separates the name from the cost
+					cost = single_item[1]
+					name = single_item[0]
+					order_prodcuts[name] = cost
+				}
+				myOrders << Grocery::Order.new(order_id, order_prodcuts)
+		}
+		
+		order = Grocery::Order.find(100)
+		
+		order.id.to_i.must_equal 100
+	  
+	  
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Order.find(1235)}.must_raise ArgumentError
     end
   end
 end

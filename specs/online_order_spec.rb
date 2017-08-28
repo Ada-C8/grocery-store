@@ -95,18 +95,31 @@ describe "OnlineOrder" do
   describe "OnlineOrder.all" do
 
     it "Returns an array of all online orders" do
+      order = Grocery::OnlineOrder.all
+
+      order.must_be_instance_of Array
     end
 
     it "Returns an array where everything is an Order" do
+      order = Grocery::OnlineOrder.all
+      order.each do |line|
+        line.must_be_instance_of Grocery::Order
+      end
     end
 
     it "Creates the correct number of orders" do
+      order = Grocery::OnlineOrder.all
+      order.count.must_equal 100
     end
 
     it "Contains the status" do
+      order = Grocery::OnlineOrder.all
+      order.first.include?(order.status).must_equal true
     end
 
     it "Contains the customer" do
+      order = Grocery::OnlineOrder.all
+      order.first.include?(order.customer_id).must_equal true
     end
   end #onlineorder.all end
 

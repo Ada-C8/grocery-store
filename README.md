@@ -53,7 +53,7 @@ Create an `Order` class which should have the following functionality:
   - adding a 7.5% tax
   - ensure the result is rounded to two decimal places
 - An `add_product` method which will take in two parameters, product name and price, and add the data to the product collection
-  - It should return `true` if the item was successfully added and `false` if it was not
+  - It should return `true` if thse item was successfully added and `false` if it was not
 
 
 ### Optional:
@@ -62,7 +62,6 @@ Make sure to write tests for any optionals you implement!
 - Add a `remove_product` method to the `Order` class which will take in one parameter, a product name, and remove the product from the collection
     - It should return `true` if the item was successfully remove and `false` if it was not
 
-<!-- 
 ## Wave 2
 
 ### Learning Goals
@@ -156,8 +155,10 @@ The OnlineOrder should include the following updated functionality:
 The OnlineOrder should also have the following **class** methods:
   - `self.all` - returns a collection of `OnlineOrder` instances, representing all of the OnlineOrders described in the CSV. See below for the CSV file specifications
     - **Question** Ask yourself, what is different about this `all` method versus the `Order.all` method? What is the same?
+
   - `self.find(id)` - returns an instance of `OnlineOrder` where the value of the id field in the CSV matches the passed parameter.
     -**Question** Ask yourself, what is different about this `find` method versus the `Order.find` method?
+
   - `self.find_by_customer(customer_id)` - returns a **list** of `OnlineOrder` instances where the value of the customer's ID matches the passed parameter.
 
 
@@ -170,4 +171,3 @@ The data for the online order CSV file consists of:
 | Products  | String  | The list of products in the following format: `name:price;nextname:nextprice`
 | Customer ID | Integer | A unique identifier corresponding to a Customer
 | Status | String | A string representing the order's current status
--->

@@ -42,3 +42,13 @@ module Grocery
 
   end
 end
+
+##test works
+# a = Grocery::Customer.find(1)
+# arr = []
+# arr << a
+# arr.each do |check|
+#   puts check.id.class
+#   puts check.email.class
+#   puts check.address.class
+# end

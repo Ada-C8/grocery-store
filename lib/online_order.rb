@@ -82,12 +82,13 @@ class OnlineOrder < Order
     end
   end
   #
-  # def add_product
-
-  #   #QUOTE "should be updated to permit...if"
-  #   #status = :pending or :paid
-  #   #otherwise, raise ArgumentError
-  # end
+  def add_product(product_name, product_price)
+    unless @status == :pending || @status == :paid
+      raise ArgumentError.new("Unable to add: status is not pending or paid")
+    else
+      super
+    end
+  end
 
 end
 end #end module

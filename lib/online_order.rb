@@ -57,5 +57,22 @@ module Grocery
       return all_orders
     end
 
+    #inherits self.find from Order class
+
+    def self.find_by_customer(customer_id)
+      #error if customer id doesn't existing
+      if Grocery::Customer.all.length < customer_id || customer_id == 0
+        raise ArgumentError.new("Customer with ID #{customer_id} does not exist.")
+      end
+      all_online_orders = self.all
+      customer_orders = []
+      all_online_orders.each do |order|
+        if order.customer.id == customer_id
+          customer_orders << order
+        end
+      end
+      return customer_orders
+    end
+
   end
 end

@@ -76,34 +76,102 @@ describe "Order Wave 1" do
       result.must_equal true
     end
   end
+
+  describe "#remove_product" do
+    it "decreases the number of products" do
+      products = {"banana" => 1.99, "cracker"  => 3.00}
+      before_count = products.count
+      order = Grocery::Order.new(1335, products)
+
+      order.remove_product("banana")
+      expected_count = before_count - 1
+      order.products.count.must_equal expected_count
+    end
+
+    it "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("banana")
+      order.products.include?("banana").must_equal false
+    end
+
+    it "Returns false if the product isn't in basket" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Grocery::Order.new(1337, products)
+      before_total = order.total
+
+      result = order.remove_product("salad")
+      after_total = order.total
+
+      result.must_equal false
+      before_total.must_equal after_total
+    end
+
+    it "Returns true is in basket" do
+    products = { "banana" => 1.99, "cracker" => 3.00 }
+    order = Grocery::Order.new(1337, products)
+
+    result = order.remove_product("banana")
+    result.must_equal true
+  end
+  end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
-    it "Returns an array of all orders" do
+    it "Returns an array" do
+      Grocery::Order.all('./support/orders.csv').must_be_instance_of Array
+    end
+
+    it "The returned array is filled with Orders" do
+      orders = Grocery::Order.all('./support/orders.csv')
+      orders.each do |order|
+        order.must_be_instance_of Grocery::Order
+      end
+    end
+
+    it "The number of orders is correct" do
+      orders = Grocery::Order.all('./support/orders.csv')
+      orders.count.must_equal 100
+    end
+
+    it "The ID and products of the first and last orders match what's in the CSV file" do
+      orders = Grocery::Order.all('./support/orders.csv')
+
+      orders[0].id.must_equal 1
+      orders[0].products["Slivered Almonds"].must_equal 22.88
+      orders[0].products.key(74.9).must_equal "Grape Seed Oil"
+
+      orders[99].id.must_equal 100
+      orders[99].products["UnbleachedFlour"].must_equal 80.59
+      orders[99].products.key(64.74).must_equal "Allspice"
+    end
       # TODO: Your test code here!
       # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
+      #   + Order.all returns an array
+      #   + Everything in the array is an Order
+      #   + The number of orders is correct
       #   - The ID and products of the first and last
       #       orders match what's in the CSV file
       # Feel free to split this into multiple tests if needed
-    end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      order = Grocery::Order.find_id('./support/orders.csv', 1)
+      order.id.must_equal 1
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      order = Grocery::Order.find_id('./support/orders.csv', 100)
+      order.id.must_equal 100
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Order.find_id('./support/orders.csv', 0)}.must_raise ArgumentError
     end
   end
 end

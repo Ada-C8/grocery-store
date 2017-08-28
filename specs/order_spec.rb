@@ -2,6 +2,9 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
+reporter_options = { color: true }
+Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(reporter_options)]
+
 
 describe "Order Wave 1" do
   describe "#initialize" do
@@ -79,31 +82,41 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      Grocery::Order.all.must_be_kind_of Array
+    end
+    it "The number of orders is correct" do
+      Grocery::Order.all.length.must_equal 100
+    end
+    it "Everything in the array is an Order" do
+      10.times do
+        Grocery::Order.all[rand(100)].must_be_instance_of Grocery::Order
+      end
+    end
+    it "The ID and products of the first and last" do
+      order_first = [1,{"Slivered Almonds" =>22.88, "Wholewheat flour" =>1.93, "Grape Seed Oil" =>74.9}]
+      order_first[0].must_equal 1
+      order_first[1].must_equal "Slivered Almonds" =>22.88, "Wholewheat flour" =>1.93, "Grape Seed Oil" =>74.9
+      order_last = [100,{"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
+      order_last[0].must_equal 100
+      order_last[1].must_equal "Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.find("1").products.must_equal "Slivered Almonds" =>"22.88", "Wholewheat flour" =>"1.93", "Grape Seed Oil" =>"74.9"
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.find("100").products.must_equal "Allspice" => "64.74", "Bran" => "14.72", "UnbleachedFlour" => "80.59"
     end
-
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Order.find("101")}.must_raise ArgumentError
     end
   end
 end
+
+

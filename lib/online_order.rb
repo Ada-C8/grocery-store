@@ -1,4 +1,4 @@
-#include Grocery
+
 require 'csv'
 require_relative 'order'
 require_relative 'customer'
@@ -79,10 +79,6 @@ class OnlineOrder < Grocery::Order
       return customer_orders
     end #new if statment
   end #end find by customer
-  # if item_num.include(customer_info.customer_id)
-
-  #returns an array of online orders for specific customer ID  - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
-
 
   def add_product(product_name, product_price)
     if @status == :paid || @status == :pending
@@ -92,31 +88,3 @@ class OnlineOrder < Grocery::Order
     end #if statment
   end #add_product
 end #class
-
-
-
-puts OnlineOrder.find_by_customer(121).inspect
-# puts OnlineOrder.find(1).customer_info.customer_id
-# puts OnlineOrder.find(100).customer_info.customer_id
-# puts OnlineOrder.find(1900).inspect
-#
-# j = OnlineOrder.all
-# j.each do |order|
-#   puts "#{order.customer_info.customer_id}"
-#
-#   # puts "Order Status #{order.status}"
-#   # puts "Customer is #{j.customer_info} and it is class #{j.customer_info.class}"
-# end
-# puts "Order Id: #{order.id}. \nProducts: #{order.products}. \nCustomer Info: ID:  #{order.customer_info.customer_id}, email: #{order.customer_info.email}, Address: #{order.customer_info.delivery_address}."
-
-# x = OnlineOrder.new(19, {cheese:5.00, bacon:5.00}, Grocery::Customer.new(12, "amy@this.com", "123 Fake St., Dayton, Ohio, 12121"), :paid)
-# puts x.add_product("chicken", 10.00)
-# puts x.products
-#
-# puts "status is #{x.status} and it class #{x.status.class}"
-
-
-# A customer object
-# A fulfillment status (stored as a Symbol)
-# pending, paid, processing, shipped or complete
-# If no status is provided, it should set to pending as the default

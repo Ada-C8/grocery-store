@@ -11,9 +11,10 @@ module Grocery
       @customer = Grocery::Customer.find(customer_id) #Customer.new
     end
 
-    # def total
-    #   super + shipping_fee
-    # end
+    def total
+      shipping_fee = 10
+      super + shipping_fee
+    end
 
     # def add_product
     #end

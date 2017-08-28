@@ -7,3 +7,8 @@ Rake::TestTask.new do |t|
 end
 
 task default: :test
+
+task :order do
+	require_relative('./lib/order.rb')
+	Grocery::Order.all
+end

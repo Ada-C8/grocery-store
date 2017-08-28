@@ -22,7 +22,7 @@ module Grocery
         #array format to hash
         data_products = Hash.new
         row_items.each do |pair|
-          key = pair.to_s.partition(":").first.to_s
+          key = pair.to_s.partition(":").first
           value = pair.to_s.partition(":").last
           data_products.store( key, value)
         end
@@ -36,11 +36,13 @@ module Grocery
     def self.find_by_customer(customer_id)
       all_online_orders = self.all
       customer_orders = Array.new
+
       all_online_orders.each do |order|
         if order.c_id == customer_id.to_s
           customer_orders << order
         end
       end
+      
       return customer_orders
     end
 

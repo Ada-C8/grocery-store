@@ -7,8 +7,6 @@ module Grocery
 
   class Order
     attr_reader :id, :products
-    attr_accessor :all_orders
-
 
     # Class methods
     def self.all
@@ -21,7 +19,7 @@ module Grocery
         data_products = Hash.new
 
         row_items.each do |pair|
-          key = pair.to_s.partition(":").first.to_s
+          key = pair.to_s.partition(":").first
           value = pair.to_s.partition(":").last
           data_products.store( key, value)
         end

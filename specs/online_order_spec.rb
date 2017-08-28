@@ -51,11 +51,21 @@ describe "OnlineOrder" do
   describe "#total" do
     it "Adds a shipping fee" do
       # TODO: Your test code here!
+
+      Grocery::Onlineorder.all
+      Grocery::Onlineorder.find(1).total.must_equal 180.68
+
+
+
     end
 
-    # it "Doesn't add a shipping fee if there are no products" do
-    #   # TODO: Your test code here!
-    # end
+    it "Doesn't add a shipping fee if there are no products" do
+      # TODO: Your test code here!
+      Grocery::Onlineorder.all
+      Grocery::Onlineorder.find(5).products = []
+      Grocery::Onlineorder.find(5).total.must_equal 0
+
+    end
   end
 
   # describe "#add_product" do

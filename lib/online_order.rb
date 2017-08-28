@@ -8,6 +8,7 @@ require_relative 'customer.rb'
 module Grocery
   class Onlineorder < Order
     attr_reader :customer, :status
+    attr_writer :products
     def initialize(id, products, customer, status)
       # @id = id
       # @products = products
@@ -31,7 +32,7 @@ module Grocery
         )
         @orders << online_order
       end
-      ap @orders
+      # ap @orders
       return @orders
     end #self.all method end
 
@@ -59,7 +60,12 @@ module Grocery
 
     def total
       # inheritance - update so it adds the tax on to the total
-      super + 10
+      if @products.empty?
+        super
+      else
+        super + 10
+      end
+
     end #total method end
 
 

@@ -24,7 +24,7 @@ module Grocery
         @orders << order
       end
       # puts @orders
-      ap @orders
+      # ap @orders
     end #self.all method end
 
 
@@ -42,10 +42,21 @@ module Grocery
 
     def total
       # TODO: implement total
-      sum = @products.values.inject(0, :+)
-      expected_total = sum + (sum * 0.075).round(2)
+
+      return 0 if @products.empty?
+
+      array_of_values = []
+      @products.each do |product|
+        array_of_values << product[:price]
+      end
+
+      sum = array_of_values.inject(&:+)
+      expected_total = (sum + (sum * 0.075)).round(2)
+
       return expected_total
+
     end #total method end
+
 
 
 

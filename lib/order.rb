@@ -5,12 +5,11 @@ module Grocery
   class Order
     @@all_orders = Array.new
 
-    attr_reader :id, :products  # A new order should be created with:an ID, read-only
+    attr_reader :id, :products
 
-    def initialize(id, products)#products is a hash with item => price
+    def initialize(id, products)
       @id = id.to_i
-      @products = products   # a collection of products and their cost zero products is permitted
-      #you can assume that there is only one of each product
+      @products = products
       @total = 0
     end #initialize
 
@@ -18,7 +17,7 @@ module Grocery
       return @@all_orders
     end
 
-    def self.all # self.all - returns a collection of Order instances, representing all of the Orders described in the CSV. See below for the CSV file specifications
+    def self.all
       @@all_orders = []
       products = {}
       CSV.open('../support/orders.csv', 'r').each do |line|
@@ -30,14 +29,13 @@ module Grocery
             products[colon_split[0]] = colon_split[1].to_f #adds product name and price to products hash
           end
         end #of x.each do
-        @@all_orders << Grocery::Order.new(id, products) #initalizes a new order using the id and products hash for the current line and adds it to all orders array
+        @@all_orders << Grocery::Order.new(id, products)
         products = {} #clears the products array for the next order.
       end #of CSV line by line
       return @@all_orders
     end
 
     def self.find(id)
-      # self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter.
       orders = Grocery::Order.all
       item_num = []
 
@@ -52,7 +50,7 @@ module Grocery
       end
     end# method def
 
-    def total # A total method which will calculate the total cost of the order by:
+    def total
       pretax = 0
       @products.each_value do |value|  # summing up the products
         pretax += value
@@ -61,7 +59,7 @@ module Grocery
       return  @total
     end #total method
 
-    def add_product(product_name, product_price)  # An add_product method which will take in two parameters, product name and price, and add the data to the product collection
+    def add_product(product_name, product_price)
       if @products.keys.include?(product_name)
         return false     # and false if it was not
       else
@@ -70,7 +68,7 @@ module Grocery
       end
     end #add_product method
 
-    def remove_product(product_name)   # Add a remove_product method to the Order class which will take in one parameter, a product name, and remove the product from the collection
+    def remove_product(product_name)
       if @products.keys.include?(product_name)
         @products.delete(product_name)
         return true # It should return true if the item was successfully remove and false if it was not
@@ -86,6 +84,3 @@ module Grocery
     end #show order method end
   end #class end
 end #module
-
-#puts Grocery::Order.find(111).inspect
-# puts Grocery::Order.find(100)

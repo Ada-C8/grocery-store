@@ -9,7 +9,7 @@ module Grocery
     @@all_online_orders = []
     def initialize(id, products, customer_id, status="pending" )
       super(id, products)
-      #  @customer = Grocery::Customer.find(customer_id) #so that we use an instance of the Customer class instead of just the customer_id in the csv file to access data about each customer
+      #  @customer = Grocery::Customer.find(customer_id) #so that we use an instance of the Customer class instead of just the customer_id in the csv file to access data about each customer. I couldn't get this to work and I think it has to do with the fact that I'm using a class variable.
       @customer_id = customer_id
       @status = status.to_sym
     end

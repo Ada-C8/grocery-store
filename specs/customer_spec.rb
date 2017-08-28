@@ -63,7 +63,9 @@ describe "Customer" do
 
     describe "Customer.find" do
       it "Can find the first customer from the CSV" do
-        # TODO: Your test code here!
+        Grocery::Customer.find(1).id.must_equal 1
+        Grocery::Customer.find(1).email.must_equal "leonard.rogahn@hagenes.org"
+        Grocery::Customer.find(1).address.must_equal "71596 Eden Route Connellymouth, LA 98872-9105"
       end
 
       it "Can find the last customer from the CSV" do

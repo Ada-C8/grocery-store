@@ -20,5 +20,14 @@ module Grocery
       return all_customers
     end
 
+    def self.find(id)
+      self.all.each do |customer|
+        if id == customer.id
+          return customer
+        end
+      end
+      raise ArgumentError.new ("Invalid Customer ID")
+    end
+
   end # end of class
 end # end of modeule

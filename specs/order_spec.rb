@@ -5,6 +5,7 @@ require_relative '../lib/order'
 require 'csv'
 
 describe "Order Wave 1" do
+
   describe "#initialize" do
     it "Takes an ID and collection of products" do
       id = 1337
@@ -75,6 +76,7 @@ describe "Order Wave 1" do
       result = order.add_product("salad", 4.25)
       result.must_equal true
     end
+
   end
 
   describe "#remove_product" do
@@ -104,10 +106,10 @@ describe "Order Wave 1" do
       result = @order.remove_product("salad")
       result.must_equal false
     end
+
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
 
   describe "Order.all" do
@@ -151,7 +153,6 @@ describe "Order Wave 2" do
   describe "Order.find" do
     it "Can find the first order from the CSV" do
       Grocery::Order.find(1).must_be_instance_of Grocery::Order
-
     end
 
     it "Can find the last order from the CSV" do
@@ -161,5 +162,6 @@ describe "Order Wave 2" do
     it "Raises an error for an order that doesn't exist" do
       proc { Grocery::Order.find(101) }.must_raise ArgumentError
     end
+
   end
 end

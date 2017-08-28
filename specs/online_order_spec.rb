@@ -86,8 +86,7 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.all an array of all online orders" do
 
-      #   - OnlineOrder.all returns an array
-
+    #   - OnlineOrder.all returns an array
     it "OnlineOrder.all returns an array" do
       Grocery::OnlineOrder.must_respond_to :all
       Grocery::OnlineOrder.all.must_be_instance_of Array

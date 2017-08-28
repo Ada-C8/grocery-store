@@ -8,6 +8,7 @@ module Grocery
       @address = address
     end
 
+    # Returns a list of all customers from a CSV file
     def self.all
       all_customers = []
       CSV.read("support/customers.csv").each do |customer|
@@ -21,11 +22,13 @@ module Grocery
       return all_customers
     end
 
+    # Takes in a customer's ID and returns the Customer object
     def self.find(id)
       self.all.each do |customer|
         return customer if customer.id == id
       end
       raise ArgumentError.new("A customer with the ID #{id} does not exist.")
     end
+    
   end
 end

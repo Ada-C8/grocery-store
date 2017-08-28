@@ -1,6 +1,5 @@
 require 'csv'
 module Grocery
-
   class Order
 
     attr_reader :id, :products
@@ -11,8 +10,8 @@ module Grocery
 
     end
 
+    # Returns all orders from a CSV
     def self.all
-      #Path.expand(__FILE__, relative file path)
       all_orders = []
       CSV.read("support/orders.csv").each do |line|
         id = line[0].to_i
@@ -31,6 +30,7 @@ module Grocery
       return all_orders
     end
 
+    # Takes in an order's ID and returns the matching Order object
     def self.find(id)
       self.all.each do |order|
         return order if order.id == id
@@ -38,6 +38,7 @@ module Grocery
       raise ArgumentError.new("An order with the ID #{id} does not exist.")
     end
 
+    # Returns the total price of the products
     def total
       total = 0
       @products.values.each do |price|
@@ -46,6 +47,7 @@ module Grocery
       total += (0.075 * total).round(2)
     end
 
+    # Adds a product into the product list
     def add_product(product_name, product_price)
       new_product = { product_name => product_price }
       can_successfully_add = false
@@ -54,6 +56,7 @@ module Grocery
       return can_successfully_add
     end
 
+    # Removes a product from the products list
     def remove_product(product_name)
       deleted_value = @products.delete(product_name)
       if deleted_value == nil

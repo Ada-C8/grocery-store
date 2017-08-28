@@ -91,30 +91,29 @@ describe "OnlineOrder" do
       #   - The status is present
       # Feel free to split this into multiple tests if needed
     end
-    it "Returns an Array when Order.all is called" do
+    it "Returns an Array when OnlineOrder.all is called" do
       Grocery::OnlineOrder.all.must_be_kind_of Array
     end
 
-    xit "Verifies the number of orders is correct" do
-      total_orders = CSV.read("support/orders.csv", 'r').length
-      Grocery::Order.all.length.must_equal total_orders
+    it "Verifies the number of orders is correct" do
+      total_orders = CSV.read("support/online_orders.csv", 'r').length
+      Grocery::OnlineOrder.all.length.must_equal total_orders
     end
 
-    xit "Verifies everything in the Array is an Order" do
-      Grocery::Order.all.each do |order|
-        order.must_be_kind_of Grocery::Order
+    it "Verifies everything in the Array is an Order" do
+      Grocery::OnlineOrder.all.each do |order|
+        order.must_be_kind_of Grocery::OnlineOrder
       end
     end
 
-    xit "Matches the ID and products of the first and last orders with what's in the CSV file" do
-      Grocery::Order.all.first.id.must_equal 1
-      expected_order = {"Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"}
-      Grocery::Order.all.first.products.must_equal expected_order
-
-
-      Grocery::Order.all.last.id.must_equal 100
-      expected_order = {"Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"}
-        Grocery::Order.all.last.products.must_equal expected_order
+    it "Matches the ID, products, customer IDs, and status of the first and last orders with what's in the CSV file" do
+      order = Grocery::OnlineOrder.all.first
+      order.id.must_equal 1
+      expected_order = {"Lobster"=>"17.18","Annatto seed"=>"58.38","Camomile"=>"83.21"}
+      order.products.must_equal expected_order
+      expected_customer = 25
+      order.customer.must_equal expected_customer
+      order.status.must_equal "complete"
     end
   end
 

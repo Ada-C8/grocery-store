@@ -37,7 +37,7 @@ module Grocery
           details = item.split(":")
           products[details[0]] = details[1]
         end
-        customer_id = line[2]
+        customer_id = line[2].to_i
         status = line[3]
         all_online_orders << self.new(id, products, customer_id, status)
       end

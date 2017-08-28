@@ -2,7 +2,6 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
-# TODO: uncomment the next line once you start wave 3
 require_relative '../lib/customer'
 
 describe "Customer" do
@@ -26,14 +25,6 @@ describe "Customer" do
   end
 
   describe "Customer.all" do
-    # TODO: Your test code here!
-    # Useful checks might include:
-    #   - Customer.all returns an array
-    #   - Everything in the array is a Customer
-    #   - The number of orders is correct
-    #   - The ID, email address of the first and last
-    #       customer match what's in the CSV file
-    # Feel free to split this into multiple tests if needed
     it "Returns an Array when Customer.all is called" do
       Grocery::Customer.all.must_be_kind_of Array
     end
@@ -75,7 +66,7 @@ describe "Customer" do
       end
 
       it "Raises an error for a customer that doesn't exist" do
-        proc{Grocery::Customer.find(107)}.must_raise ArgumentError
+        proc{Grocery::Customer.find(666)}.must_raise ArgumentError
       end
     end
   end

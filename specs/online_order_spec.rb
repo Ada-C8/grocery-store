@@ -2,8 +2,9 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
-# TODO: uncomment the next line once you start wave 3
 require_relative '../lib/online_order'
+require_relative '../lib/order'
+require_relative '../lib/customer'
 # You may also need to require other classes here
 
 # Because an OnlineOrder is a kind of Order, and we've
@@ -17,7 +18,9 @@ describe "OnlineOrder" do
       # Check that an OnlineOrder is in fact a kind of Order
       id = 1313
       products = "burning sage"
-      online_order = Grocery::OnlineOrder.new(id, products)
+      customer = Grocery::Customer.new(1001, "bad-dog@grounded.net", "123 Cat Paradise, Seattle, WA 98101")
+
+      online_order = Grocery::OnlineOrder.new(id, products, customer)
 
       online_order.must_be_kind_of Grocery::Order
     end

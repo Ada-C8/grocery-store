@@ -40,6 +40,30 @@ module Grocery
     raise ArgumentError.new("Id does not exist.")
   end
 
+  def self.find_by_customer(customer_id)
+    customer_orders = []
+    online_orders = Grocery::OnlineOrder.all
+    online_orders.each do |order_instance|
+        if order_instance.customer == customer_id
+          customer_orders << order_instance
+        end
+      end
+    if customer_orders.length == 0
+    raise ArgumentError.new("Customer ID does not exist.")
+     else
+    return customer_orders
+    end
+  end
+
+  def total
+    @total = super
+    if @total > 0
+    return (super + 10.00)
+  else
+    return 0
+    end
+  end 
+
 
 
 

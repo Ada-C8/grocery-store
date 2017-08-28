@@ -76,54 +76,6 @@ describe "Order Wave 1" do
       result.must_equal true
     end
   end
-
-  #OPTIONAL ENHANCEMENT
-  # describe "#remove_product" do
-  #   # before do
-  #   #   products = { "banana" => 1.99, "cracker" => 3.00 }
-  #   #   order = Grocery::Order.new(1337, products)
-  #   #   product_x =
-  #   # end
-  #
-  #   it "Decreases the number of products" do
-  #     products = { "banana" => 1.99, "cracker" => 3.00 }
-  #     before_count = products.count
-  #     order = Grocery::Order.new(1337, products)
-  #
-  #     order.remove_product("banana")
-  #     expected_count = before_count - 1
-  #     order.products.count.must_equal expected_count
-  #   end
-  #
-  #   # it "Is added to the collection of products" do
-  #   #   products = { "banana" => 1.99, "cracker" => 3.00 }
-  #   #   order = Grocery::Order.new(1337, products)
-  #   #
-  #   #   order.add_product("sandwich", 4.25)
-  #   #   order.products.include?("sandwich").must_equal true
-  #   # end
-  #   #
-  #   # it "Returns false if the product is already present" do
-  #   #   products = { "banana" => 1.99, "cracker" => 3.00 }
-  #   #
-  #   #   order = Grocery::Order.new(1337, products)
-  #   #   before_total = order.total
-  #   #
-  #   #   result = order.add_product("banana", 4.25)
-  #   #   after_total = order.total
-  #   #
-  #   #   result.must_equal false
-  #   #   before_total.must_equal after_total
-  #   # end
-  #   #
-  #   # it "Returns true if the product is new" do
-  #   #   products = { "banana" => 1.99, "cracker" => 3.00 }
-  #   #   order = Grocery::Order.new(1337, products)
-  #   #
-  #   #   result = order.add_product("salad", 4.25)
-  #   #   result.must_equal true
-  #   # end
-  # end
 end
 
 #TO-DO change 'xdescribe' to 'describe' to run these tests

@@ -28,7 +28,7 @@ describe "Customer" do
   end
 end
 
-xdescribe "Customer.all" do
+describe "Customer.all" do
   # Your test code here!
   # Useful checks might include:
   #   - Customer.all returns an array
@@ -42,15 +42,15 @@ xdescribe "Customer.all" do
   end
 
   it "Returns an array of all customers" do
-    @customers.class.must_be_kind_of Array
+    @customers.must_be_instance_of Array
   end
 
   it "Everything in the returned array is a Customer" do
 
     all_records_are_customers = true
-    @customers.each do |order|
-      # puts Customer.class to confirm class name
-      if customers.class != Grocery::Customer
+
+    @customers.each do |customer|
+      if customer.class != Grocery::Customer
         all_records_are_customers = false
       end
     end
@@ -66,7 +66,7 @@ xdescribe "Customer.all" do
     first_customer_id = 1
     first_customer_email = "leonard.rogahn@hagenes.org"
 
-    @customers[0].customer_id.must_equal(first_customer_id) && @customers[0].email_address.must_equal(first_customer_email)
+    @customers[0].customer_id.must_equal(first_customer_id) && @customers[0].email.must_equal(first_customer_email)
   end
 
   it "Confirms the last customer id & email matches CSV file info" do
@@ -74,7 +74,7 @@ xdescribe "Customer.all" do
     last_customer_id = 35
     last_customer_email = "rogers_koelpin@oconnell.org"
 
-    @customers[34].customer_id.must_equal(last_customer_id) && @customers[34].email_address.must_equal(last_customer_email)
+    @customers[34].customer_id.must_equal(last_customer_id) && @customers[34].email.must_equal(last_customer_email)
   end
 
 end

@@ -75,13 +75,21 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Adds a shipping fee" do
       # TODO: Your test code here!
+      order = Grocery::OnlineOrder.new(7, {Eggs:84.23,Watermelon:11.16,Cherries:10.4}, 24, :complete)
+      order_plus_shipping = order.total
+      puts "Total_3_Products: #{order_plus_shipping}"
+
     end
 
     it "Doesn't add a shipping fee if there are no products" do
       # TODO: Your test code here!
+      order = Grocery::OnlineOrder.new(7, {}, 24, :complete)
+      order_plus_shipping = order.total
+      puts "Total_0_Products: #{order_plus_shipping}"
+
     end
   end
 

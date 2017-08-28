@@ -82,6 +82,28 @@ describe "OnlineOrder" do
     end
   end
 
+  describe "OnlineOrder.find" do
+    it "Can find the first order from the CSV" do
+      # TODO: Your test code here!
+    
+    Grocery::OnlineOrder.find(1).must_be_instance_of Grocery::OnlineOrder
+    end
+
+    it "Can find the last order from the CSV" do
+      # TODO: Your test code here!
+      Grocery::OnlineOrder.find(100).must_be_instance_of Grocery::OnlineOrder
+    end
+
+    it "Raises an error for an order that doesn't exist" do
+      # TODO: Your test code here!
+
+      proc {Grocery::OnlineOrder.find(0)}.must_raise ArgumentError
+      proc {Grocery::OnlineOrder.find(101)}.must_raise ArgumentError
+
+    end
+  end
+
+
   xdescribe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!

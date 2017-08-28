@@ -4,7 +4,9 @@ require 'minitest/skip_dsl'
 
 # TODO: uncomment the next line once you start wave 3
 require_relative '../lib/online_order'
-# You may also need to require other classes here
+require_relative '../lib/order'
+require_relative '../lib/customer'
+
 
 
 describe "OnlineOrder" do
@@ -77,7 +79,6 @@ describe "OnlineOrder" do
         #must_be_kind_of Grocery::Customer
       end #each do
     end #customer present
-
 
     it "The status is present" do
       order = OnlineOrder.all

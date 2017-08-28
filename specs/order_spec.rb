@@ -20,7 +20,7 @@ describe "Order Wave 1" do
 
   describe "#total" do
     it "Returns the total from the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
       order = Grocery::Order.new(1337, products)
 
       sum = products.values.inject(0, :+)
@@ -38,7 +38,7 @@ describe "Order Wave 1" do
 
   describe "#add_product" do
     it "Increases the number of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
       before_count = products.count
       order = Grocery::Order.new(1337, products)
 
@@ -48,15 +48,15 @@ describe "Order Wave 1" do
     end
 
     it "Is added to the collection of products" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
       order = Grocery::Order.new(1337, products)
 
       order.add_product("sandwich", 4.25)
-      order.products.include?("sandwich").must_equal true
+      order.products.key?("sandwich").must_equal true
     end
 
     it "Returns false if the product is already present" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
 
       order = Grocery::Order.new(1337, products)
       before_total = order.total
@@ -69,41 +69,84 @@ describe "Order Wave 1" do
     end
 
     it "Returns true if the product is new" do
-      products = { "banana" => 1.99, "cracker" => 3.00 }
+      products = { "banana" => 1.99, "cracker" => 3.00}
       order = Grocery::Order.new(1337, products)
 
       result = order.add_product("salad", 4.25)
       result.must_equal true
     end
   end
+
+  describe "#remove_product" do
+    it "Reduces the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00}
+      before_count = products.count
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("cracker")
+
+      expected_count = before_count - 1
+      order.products.count.must_equal expected_count
+    end
+
+    it "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00}
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("cracker")
+      order.products.include?("cracker").must_equal false
+    end
+
+    it "Returns false if the product is not in the order" do
+      products = { "banana" => 1.99, "cracker" => 3.00}
+      order = Grocery::Order.new(1337, products)
+      before_total = order.total
+
+      result = order.remove_product("salad")
+      after_total = order.total
+
+      result.must_equal false
+      before_total.must_equal after_total
+    end
+
+    it "Returns true if the product was removed" do
+      products = { "banana" => 1.99, "cracker" => 3.00}
+      order = Grocery::Order.new(1337, products)
+
+      result = order.remove_product("cracker")
+      result.must_equal true
+    end
+  end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      Grocery::Order.must_respond_to :all
+      Grocery::Order.all.must_be_instance_of Array
+      Grocery::Order.all.length.must_equal 100
+      Grocery::Order.all.each do |order|
+        order.must_be_instance_of Grocery::Order
+      end
+      Grocery::Order.all[0].id.must_equal 1
+      Grocery::Order.all[-1].id.must_equal 100
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.find(1).id.must_equal 1
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.find(100).id.must_equal 100
     end
 
+    #Question: is there a benefit to specifically raising an ArgumentError? Rather than just returning a message?
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Order.find(0)}.must_raise ArgumentError
+      proc {Grocery::Order.find(101)}.must_raise ArgumentError
+      proc {Grocery::Order.find("one")}.must_raise ArgumentError
     end
   end
 end

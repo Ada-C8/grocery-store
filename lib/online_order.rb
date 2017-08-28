@@ -44,7 +44,13 @@ module Grocery
       return all_online_orders
     end
 
-    def self.find(id)
+    def self.find(id) # difference is it only looks at online_orders.csv 
+      self.all.each do |order|
+        if id == order.id
+          return order
+        end
+      end
+      raise ArgumentError.new ("Invalid Order ID")
     end
 
     def self.find_by_customer(customer_id)

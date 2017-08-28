@@ -49,10 +49,14 @@ describe "Customer" do
       end
     end
 
-    it "Matches the ID, email, and address of the first customer with what's in the CSV file" do
+    it "Matches the ID, email, and address of the first and last customers with what's in the CSV file" do
       Grocery::Customer.all.first.id.must_equal 1
       Grocery::Customer.all.first.email.must_equal "leonard.rogahn@hagenes.org"
       Grocery::Customer.all.first.address.must_equal "71596 Eden Route Connellymouth, LA 98872-9105"
+
+      Grocery::Customer.all.last.id.must_equal 35
+      Grocery::Customer.all.last.email.must_equal "rogers_koelpin@oconnell.org"
+      Grocery::Customer.all.last.address.must_equal "7513 Kaylee Summit Uptonhaven, DE 64529-2614"
 
     end
 

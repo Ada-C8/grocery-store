@@ -2,7 +2,7 @@ require 'csv'
 
 module Grocery
   class Order
-    attr_reader :id, :products
+    attr_reader :id, :products #:expected_total
 
     def initialize(id, products)
       @id = id
@@ -11,11 +11,12 @@ module Grocery
       if products.length > 0
         products.each {|product, value| @products[product] = value}
       end
-
+      # @expected_total = 0
     end
 
     def total
       sum = 0
+      expected_total = 0
       products.each_value do |value|
         sum = sum + value
       end

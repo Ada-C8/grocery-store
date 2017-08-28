@@ -44,6 +44,7 @@ module Grocery
       # TODO: implement total
       sum = @products.values.inject(0, :+)
       expected_total = sum + (sum * 0.075).round(2)
+      return expected_total
     end #total method end
 
 

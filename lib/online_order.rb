@@ -37,20 +37,20 @@ module Grocery
 
 
 
-    # def self.find(id)
-    #   @orders.each do |online_order|
-    #     if (id == online_order.id)
-    #       return online_order
-    #     end
-    #   end
-    #   raise ArgumentError.new("You messed up!")
-    # end #self.find method end
+    def self.find(id)
+      @orders.each do |online_order|
+        if (id == online_order.id)
+          return online_order
+        end
+      end
+      raise ArgumentError.new("You messed up!")
+    end #self.find method end
 
 
 
     def self.find_by_customer(id)
       @orders.each do |online_order|
-        if (customer_id == online_order.customer_id)
+        if (customer_id == online_order.customer.id)
           return online_order
         end
       end
@@ -58,10 +58,8 @@ module Grocery
 
 
     def total
-      #inheritance - update so it adds the tax on to the total
-      # super + 10
-      # sum = @products.values.inject(0, :+)
-      # expected_total = sum + (sum * 0.075).round(2)
+      # inheritance - update so it adds the tax on to the total
+      super + 10
     end #total method end
 
 

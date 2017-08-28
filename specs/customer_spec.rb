@@ -44,7 +44,7 @@ describe "Customer" do
 
     end
 
-    
+
     it "Can find the last customer from the CSV" do
       # TODO: Your test code here!
       Grocery::Customer.all

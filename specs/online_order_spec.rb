@@ -112,8 +112,16 @@ describe "OnlineOrder" do
   end
 
   describe "OnlineOrder.find_by_customer" do
+    before do
+      @online_order = Grocery::OnlineOrder.new(3, {"fish" => 12.00, "banana" => 18.00}, Grocery::Customer.new(12, "mom@mom.com", "Planettown"), :pending)
+    end
+
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!
+      @online_order.must_respond_to :find_by_customer
+      Grocery::OnlineOrder.find_by_customer.must_be_instance_of Array
+      Grocery::OnlineOrder.find_by_customer(25).length.must_equal 6
+      Grocery::OnlineOrder.find_by_customer(25)[rand(6)].must_be_instance_of 6
     end
   end
 end

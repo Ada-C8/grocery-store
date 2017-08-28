@@ -51,7 +51,8 @@ describe "OnlineOrder" do
   describe "#total" do
     it "Adds a shipping fee" do
       # first online order with shipping should equal 180.68
-    OnlineOrder.all[0].total.must_equal 180.68
+      	first_order = OnlineOrder.new(1, { "Lobster"=>17.18, "Annatto seed"=>58.38,"Camomile"=>83.21}, "customer")
+        first_order.total.must_equal 180.68
     end
 
     it "Doesn't add a shipping fee if there are no products" do
@@ -77,7 +78,7 @@ describe "OnlineOrder" do
     end
 
     it "Permits action for pending and paid satuses" do
-      # TODO: Your test code here!
+      # pending status is permitted
       customer = "customer"
       id = 1337
       products = { "banana" => 1.99, "cracker" => 3.00 }

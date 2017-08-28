@@ -8,9 +8,11 @@ describe "Order Wave 1" do
     it "Takes an ID and collection of products" do
       id = 1337
       order = Grocery::Order.new(id, {})
+
       order.must_respond_to :id
       order.id.must_equal id
       order.id.must_be_kind_of Integer
+
       order.must_respond_to :products
       order.products.length.must_equal 0
     end
@@ -80,6 +82,7 @@ describe "Order Wave 1" do
       products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
       before_count = products.count
       order = Grocery::Order.new(1337, products)
+
       order.remove_product("salad")
       expected_count = before_count - 1
       order.products.count.must_equal expected_count
@@ -116,7 +119,7 @@ describe "Order Wave 2" do
     end
 
     it "All items are Orders" do
-      # order = Grocery::Order.all.must_be_kind_of Array
+      # checks that all items returned by .all are Orders
       orders = Grocery::Order.all
       orders.each do |item|
         item.must_be_instance_of Grocery::Order
@@ -132,7 +135,9 @@ describe "Order Wave 2" do
     it "ID and product of the first order is correct" do
       # tests ID and products for first order
       first_order = [ 1, {"Slivered Almonds"=>22.88, "Wholewheat flour"=>1.93, "Grape Seed Oil"=>74.9} ]
+      # check that products for first order are correct
       Grocery::Order.all[0].products.must_equal first_order[1]
+      #check that id for first order is 1
       Grocery::Order.all[0].id.must_equal first_order[0]
     end
 

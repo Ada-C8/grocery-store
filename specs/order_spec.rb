@@ -90,7 +90,6 @@ describe "Order Wave 2" do
       orders = Grocery::Order.all
       csv = CSV.read("./support/orders.csv")
       csv_product = csv.to_a[18][1].gsub(/:|;/, " ")
-      # csv_product.must_be_same_as "cats"
       order_product = orders[18].products.flatten.join(" ")
       order_product.must_equal csv_product
     end
@@ -104,7 +103,6 @@ describe "Order Wave 2" do
       orders = Grocery::Order.all
       csv = CSV.read("./support/orders.csv")
       csv_product = csv.to_a[0][0].to_i
-      # puts "#{csv_product.class} help"
       csv_product.must_equal orders[0].id
     end
 
@@ -151,13 +149,10 @@ describe "Order Wave 2" do
       order = Grocery::Order.find(100)
       csv = CSV.read("./support/orders.csv")
       csv_order= csv.to_a[99]
-      # print "#{csv_order} Hi"
-      # print "#{order} Yo"
       order.id.must_equal csv_order[0].to_i
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # print Grocery::Order.find(101)
       proc {Grocery::Order.find(101)}.must_raise ArgumentError
       proc {Grocery::Order.find(200)}.must_raise ArgumentError
       proc {Grocery::Order.find(1000)}.must_raise ArgumentError

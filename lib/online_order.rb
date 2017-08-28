@@ -70,12 +70,12 @@ module Grocery
           end
         end #each/do end
 
-        puts "turned product array into hash #{product_hash}"
+        # puts "turned product array into hash #{product_hash}"
 
         order = OnlineOrder.new(id, product_hash, customer_id, status)
         all_orders << order
-        return all_orders
       end
+      return all_orders
     end #self.all end
 
     #instance of OO where value in id field matches CSV parameter
@@ -165,8 +165,12 @@ module Grocery
 end #module end
 
 
-puts Grocery::OnlineOrder.find_by_customer(1)
+hello = Grocery::OnlineOrder.all
 
-
+hello.each do |line|
+  puts line.id
+  puts line.customer_id
+  puts line.products
+end
 
 ### Need to work on getting the total amount to pass when trying to add shipping fee

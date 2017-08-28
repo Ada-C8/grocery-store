@@ -72,6 +72,5 @@ module Grocery
     end
   end
 
-
   end
 end

@@ -75,7 +75,7 @@ describe "Customer" do
       end
 
       it "Raises an error for a customer that doesn't exist" do
-        # TODO: Your test code here!
+        proc{Grocery::Customer.find(107)}.must_raise ArgumentError
       end
     end
   end

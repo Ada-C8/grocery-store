@@ -86,30 +86,30 @@ describe "Order Wave 2" do
       Grocery::Order.all.must_be_kind_of Hash
     end
 
-    it "Verifies the number of orders is correct" do
+    xit "Verifies the number of orders is correct" do
       total_orders = CSV.read("support/orders.csv", 'r').length
       Grocery::Order.all.length.must_equal total_orders
+      puts total_orders
+      puts Grocery::Order.all
+      puts "woof"
     end
 
     it "Verifies everything in the Hash is an Order" do
-      products = { "cat" => 2 }
-      Grocery::Order.new(1313, products)
-      Grocery::Order.new(666, products)
-
       Grocery::Order.all.each do |order|
-        order[1].must_be_kind_of Grocery::Order
+        order.must_be_kind_of Hash
       end
     end
 
-    xit "Matches the ID and products of the first and last orders with what's in the CSV file" do
+    it "Matches the ID and products of the first and last orders with what's in the CSV file" do
+
+      Grocery::Order.all[1].id.must_equal 1
+      expected_order = {"Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"}
+      Grocery::Order.all[1].products.must_equal expected_order
 
 
-      expected_products = {"Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"}
-      Grocery::Order.all_orders[1].products.must_equal expected_products
-
-      # Grocery::Order.all[100].must_equal 100 # key 100, not index 100
-      # expected_products = {"Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"}
-      # Grocery::Order.all[100].products.must_equal expected_products
+      Grocery::Order.all[100].id.must_equal 100
+      expected_order = {"Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"}
+      Grocery::Order.all[100].products.must_equal expected_order
     end
   end
 

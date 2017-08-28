@@ -5,11 +5,6 @@ module Grocery
     attr_reader :id, :products, :orders
     @@orders = []
 
-
-
-
-    
-
     def initialize(id, products)
       @id = id
       @products = products

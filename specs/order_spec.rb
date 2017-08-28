@@ -1,7 +1,11 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+#require_relative '../lib/order'
+require_relative '../lib/online_order'
 require_relative '../lib/order'
+require_relative '../lib/customer'
+
 
 describe "Order Wave 1" do
   describe "#initialize" do
@@ -125,7 +129,7 @@ describe "Order Wave 2" do
     it "Everything in the array is an order " do
       order = Grocery::Order.all
       order.each do |item|
-         item.must_be_instance_of Grocery::Order
+        item.must_be_instance_of Grocery::Order
       end #order each do
     end #everything is an order
 
@@ -164,7 +168,7 @@ describe "Order Wave 2" do
 
     it "Raises an error for an order that doesn't exist" do
       proc {Grocery::Order.find(110)}.must_raise ArgumentError
-            # proc {Card.new(0, :diamonds)}.must_raise ArgumentError
+      # proc {Card.new(0, :diamonds)}.must_raise ArgumentError
 
     end #raises an error
   end #end Order.find

@@ -26,7 +26,6 @@ module Grocery
 
         all_orders << Order.new(data_id, data_products)
       end
-
       return all_orders
     end
 

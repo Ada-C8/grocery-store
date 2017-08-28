@@ -125,9 +125,7 @@ describe "Order Wave 1" do
 end
 
 describe "Order Wave 2" do
-  # before do
-  #   Grocery::Order.clear
-  # end
+
   describe "Order.all" do
     it "Returns an array of all orders" do
       Grocery::Order.all.must_be_kind_of Array
@@ -136,54 +134,34 @@ describe "Order Wave 2" do
         Grocery::Order.all[rand(0..(Grocery::Order.all.length - 1))].must_be_kind_of Grocery::Order
       end
 
-      Grocery::Order.all.length.must_equal       CSV.read('support/orders.csv').length
+      Grocery::Order.all.length.must_equal 100
     end
 
     it "Returns the ID and products of an order as from .csv data set" do
 
       #Testing for first CSV order
-      Grocery::Order.all[0].id.must_equal CSV.read('support/orders.csv')[0][0]
-      order_1_array = CSV.read('support/orders.csv')[0][1].gsub(":",";").split(";")
-      Grocery::Order.all[0].products.each do |hash|
-        hash.each do |k,v| #
-          order_1_array.delete(k)
-          order_1_array.delete(v)
-        end
-      end
-      order_1_array.must_equal []
+      Grocery::Order.all[0].id.must_equal "1"
+
+      Grocery::Order.all[0].products.must_equal ({"Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"})
 
       #Testing for last CSV order
-      Grocery::Order.all[-1].id.must_equal CSV.read('support/orders.csv')[-1][0]
-      order_last_array = CSV.read('support/orders.csv')[-1][1].gsub(":",";").split(";")
-      Grocery::Order.all[-1].products.each do |hash|
-        hash.each do |k,v| #
-          order_last_array.delete(k)
-          order_last_array.delete(v)
-        end
-      end
-      order_last_array.must_equal []
+      Grocery::Order.all[-1].id.must_equal "100"
+
+      Grocery::Order.all[-1].products.must_equal ({"Allspice"=>"64.74", "Bran" => "14.72", "UnbleachedFlour"=>"80.59"})
     end
-
-    # Useful checks might include:
-    #   X Order.all returns an array
-    #   X Everything in the array is an Order
-    #   X The number of orders is correct
-    #   X The ID and products of the first and last
-    #       orders match what's in the CSV file
   end
-
   describe "Order.find" do
 
     it "Can find the first order from the CSV" do
       Grocery::Order.find(0).must_be_kind_of Grocery::Order
 
-      Grocery::Order.find(0).id.must_equal CSV.read('support/orders.csv')[0][0]
+      Grocery::Order.find(0).id.must_equal "1"
     end
 
     it "Can find the last order from the CSV" do
       Grocery::Order.find(-1).must_be_kind_of Grocery::Order
 
-      Grocery::Order.find(-1).id.must_equal CSV.read('support/orders.csv')[-1][0]
+      Grocery::Order.find(-1).id.must_equal "100"
     end
 
     it "Raises an error for an order that doesn't exist" do

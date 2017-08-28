@@ -99,7 +99,7 @@ describe "OnlineOrder" do
         Grocery::OnlineOrder.all[rand(0..(Grocery::OnlineOrder.all.length - 1))].must_be_kind_of Grocery::OnlineOrder
       end
 
-      Grocery::OnlineOrder.all.length.must_equal       @csv_data.length
+      Grocery::OnlineOrder.all.length.must_equal @csv_data.length
     end
 
     it "Returns Customer and Status as from csv" do

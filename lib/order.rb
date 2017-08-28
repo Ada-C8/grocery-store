@@ -39,7 +39,12 @@ module Grocery
     end
 
     def self.find(id)
-      return self.all[id]
+      self.all.each do |order|
+        if id == order.id
+          return order
+        end
+      end
+      raise ArgumentError.new ("Invalid Order ID")
     end
   end
 end

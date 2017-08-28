@@ -111,22 +111,19 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
-
-      Grocery::Order.find.first.id.must_equal Grocery::Order.all.first.id
-      Grocery::Order.find.first.products.must_equal Grocery::Order.all.first.products
+      Grocery::Order.find(1).id.must_equal Grocery::Order.all.first.id
+      Grocery::Order.find(1).products.must_equal Grocery::Order.all.first.products
 
     end
 
-    xit "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-      Grocery::Order.find(100).id.must_equal Grocery::Order.all[100].id
-      Grocery::Order.find(100).products.must_equal Grocery::Order.all[100].products
+    it "Can find the last order from the CSV" do
+      Grocery::Order.find(100).id.must_equal Grocery::Order.all.last.id
+      Grocery::Order.find(100).products.must_equal Grocery::Order.all.last.products
 
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      
 
     end
   end

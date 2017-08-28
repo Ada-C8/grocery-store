@@ -40,10 +40,6 @@ module Grocery
         all
       end
 
-      if id_input > all.length #!!!
-        raise ArgumentError.new("That customer doesn't exist")
-      end
-
       @@customers.each do |customer|
         if customer.id == id_input
           return customer

@@ -38,6 +38,7 @@ module Grocery
       return @@online_orders
     end
 
+#could i have used inheritance here?
     def self.find(id_input)
       valid_id(id_input)
       all.each do |online_order|
@@ -47,13 +48,6 @@ module Grocery
       end
     end
 
-    def self.valid_id(id)
-      if id.class != Integer
-        raise ArgumentError.new("Please enter a valid Integer ID")
-      elsif id <= 0 || id > all.length
-        raise ArgumentError.new("That ID doesn't exist.")
-      end
-    end
 
     def self.find_by_customer(customer_id)
       valid_id(customer_id)

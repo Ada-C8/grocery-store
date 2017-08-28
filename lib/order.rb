@@ -2,34 +2,21 @@ require 'csv'
 require_relative 'customer'
 
 module Grocery
+
   class Order
     attr_reader :id, :products
 
     def initialize(id, products)
       @id = id
       @products = products
-      split_order_info(@products)
+      @product_list = @products.split(";")
       get_products(@product_list)
-    end
-
-    def split_order_info(products)
-        @product_list = products.join(";").split(";")
-        return @product_list
-    end
-
-    def get_products(info_array)
-      @products = {}
-      @product_list.each do |productandprice|
-        prodprice_arr = productandprice.split(":")
-        @products[prodprice_arr[0]] = prodprice_arr[1]
-      end
-      return @products
     end
 
     def self.all
       list = []
       CSV.read("support/orders.csv").each do |row|
-        list << Order.new(row[0], row[1..-1])
+        list << Order.new(row[0], row[1])
       end
       list
     end
@@ -64,6 +51,18 @@ module Grocery
     def remove_product(product_name)
       @products.has_key?(product_name) ? @products.delete(product_name) && true : false
     end
-  end
 
-end #module Grocery
+    private
+
+    def get_products(info_array)
+      @products = {}
+      @product_list.each do |productandprice|
+        prodprice_arr = productandprice.split(":")
+        @products[prodprice_arr[0]] = prodprice_arr[1]
+      end
+      return @products
+    end
+
+  end #Order class
+
+end #Grocery module

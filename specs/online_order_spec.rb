@@ -17,10 +17,10 @@ require 'csv'
 
 describe "OnlineOrder" do
   before do
-    @myord = Grocery::OnlineOrder.new(CSV.read("support/online_orders.csv").first[0],CSV.read("support/online_orders.csv").first[1..-1])
+    @myord = Grocery::OnlineOrder.new(CSV.read("support/online_orders.csv").first[0],CSV.read("support/online_orders.csv").first[1],CSV.read("support/online_orders.csv").first[2],CSV.read("support/online_orders.csv").first[3])
 
 
-    @myord2 = Grocery::OnlineOrder.new(CSV.read("support/online_orders.csv").last[0],CSV.read("support/online_orders.csv").last[1..-1])
+    @myord2 = Grocery::OnlineOrder.new(CSV.read("support/online_orders.csv").first[0],CSV.read("support/online_orders.csv").first[1],CSV.read("support/online_orders.csv").first[2],CSV.read("support/online_orders.csv").first[3])
 
 
     @allord = Grocery::OnlineOrder.all
@@ -47,12 +47,12 @@ describe "OnlineOrder" do
 
     it "Can access Customer object" do
 
-      @myord2.customer.must_be_instance_of Grocery::Customer
+      @myord.customer_id.must_be_instance_of Grocery::Customer
 
-      @myord2.customer.must_be_instance_of Grocery::Customer
+      @myord2.customer_id.must_be_instance_of Grocery::Customer
 
-       @allord.each do |online_order|
-        online_order.customer.must_be_instance_of Grocery::Customer
+      @allord.each do |online_order|
+        online_order.customer_id.must_be_instance_of Grocery::Customer
       end
 
     end
@@ -89,7 +89,7 @@ describe "OnlineOrder" do
 
     it "Doesn't add a shipping fee if there are no products" do
       # TODO: Your test code here!
-      my_ord = Grocery::OnlineOrder.new(CSV.read("support/online_orders.csv").first[0],["", "23","pending"])
+      my_ord = Grocery::OnlineOrder.new(CSV.read("support/online_orders.csv").first[0],"", CSV.read("support/online_orders.csv").first[2],CSV.read("support/online_orders.csv").first[0])
       my_ord.total.must_be :==,0
     end
 
@@ -100,7 +100,7 @@ describe "OnlineOrder" do
       # TODO: Your test code here!
       @allord.each do |online_order|
         if online_order.status == :processing || online_order.status == :shipped || online_order.status == :completed
-          proc {online_order.add_product(CSV.read("support/online_orders.csv").first[0],CSV.read("support/online_orders.csv").first[1..-1])}.must_raise ArgumentError
+          proc {online_order.add_product(CSV.read("support/online_orders.csv").first[0],CSV.read("support/online_orders.csv").first[1],CSV.read("support/online_orders.csv").first[2],CSV.read("support/online_orders.csv").first[3])}.must_raise ArgumentError
         end
       end
 
@@ -110,7 +110,7 @@ describe "OnlineOrder" do
       # TODO: Your test code here!
       @allord.each do |online_order|
         if online_order.status == :paid
-          proc {return online_order.add_product(CSV.read("support/online_orders.csv").first[0],CSV.read("support/online_orders.csv").first[1..-1])}.must_output true
+          proc {return online_order.add_product("banana","1.99")}.must_output true
         end
       end
     end
@@ -150,7 +150,7 @@ describe "OnlineOrder" do
       # TODO: Your test code here!
       Grocery::OnlineOrder.find_by_customer("1").must_be_kind_of Array
       @allord.each do |online_orders|
-        Grocery::OnlineOrder.find_by_customer(online_orders.customer.id).must_be_kind_of Array
+        Grocery::OnlineOrder.find_by_customer(online_orders.customer_id.id).must_be_kind_of Array
       end
     end
   end

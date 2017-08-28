@@ -59,12 +59,12 @@ describe "Customer" do
     describe "Customer.find" do
       it "Can find the first customer from the CSV" do
         # TODO: Your test code here!
-        Grocery::Customer.find(1) must_equal Grocery::Customer.all[0]
+      ((Grocery::Customer.find(1)).customer_id).must_equal (Grocery::Customer.all[0]).customer_id
       end
 
       it "Can find the last customer from the CSV" do
         # TODO: Your test code here!
-        Grocery::Customer.find(35) must_equal Grocery::Customer.all[-1]
+        ((Grocery::Customer.find(35)).customer_id).must_equal (Grocery::Customer.all[-1]).customer_id
       end
 
       it "Raises an error for a customer that doesn't exist" do

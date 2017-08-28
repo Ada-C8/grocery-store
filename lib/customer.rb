@@ -30,11 +30,16 @@ module Grocery
       all_customers
     end
 
-    def self.find(id)
+    def self.find(number)
+      # ound_it = (Grocery::Order.all).detect{|grocery_order| grocery_order.id == number}
+      # raise ArgumentError.new("Order Not Found") if found_it == nil
+      # found_it
+      customer_array = Grocery::Customer.all
+      found_it = customer_array.detect{|customer| customer.customer_id == number}
+      raise ArgumentError.new("Order Not Found") if found_it == nil
+      found_it
     end
+
 
   end
 end
-# #
-# blue = CSV.open("support/customers.csv", 'r')
-# binding.pry

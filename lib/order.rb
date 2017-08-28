@@ -3,6 +3,7 @@ require 'pry'
 module Grocery
 
   class Order
+    CSVFILE = "support/orders.csv"
     attr_reader :id, :products
 
     def initialize(id, products)
@@ -35,25 +36,43 @@ module Grocery
       @products.keys
     end
 
+    def self.cost_item_hash(info_array)
+      hashy_hash = {}
+      while info_array != []
+        item = info_array.delete_at(0)
+        cost = info_array.delete_at(0)
+        hashy_hash[item] = cost
+      end
+      hashy_hash
+    end #end
+
+    #reads csv file for order
+    def self.get_csv_info
+      CSV.open(CSVFILE, 'r')
+    end
+
     def self.all
       all_orders = []
-      CSV.open("support/orders.csv", 'r').each do |ugly_string_line|
+      (self.get_csv_info).each do |ugly_string_line|
         #sort the ugly string out
         #{id_number => {item => price}}
 
         info_array = (ugly_string_line[1]).split(/;|:/)
 
         id_num = (ugly_string_line[0]).to_i
-        hashy_hash = {}
+        hashy_hash = self.cost_item_hash(info_array)
 
-        while info_array != []
-          item = info_array.delete_at(0)
-          cost = info_array.delete_at(0)
-          hashy_hash[item] = cost
-        end
-        all_orders << self.new(id_num, hashy_hash)
+
+        fulfillment_status = ugly_string_line[3]
+        customer_id = ugly_string_line[2]
+        all_orders << self.all_online_order_add_arguments(id_num, hashy_hash, customer_id, fulfillment_status)
+
       end
       all_orders
+    end
+
+    def self.all_online_order_add_arguments(id_num, hashy_hash, customer_id, fulfillment_status)
+        self.new(id_num, hashy_hash)
     end
 
     def self.find(number)
@@ -64,5 +83,3 @@ module Grocery
   end
 
 end
-
-#  binding.pry

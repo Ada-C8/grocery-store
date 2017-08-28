@@ -20,7 +20,12 @@ module Grocery
       end
     end
 
-    def add_product
+    def add_product(product_name, product_price)
+      if (@status == :processing) || (@status == :shipped) || (@status == :completed)
+        raise ArgumentError.new("Products cannot be added")
+      else
+        super
+      end
     end
 
     # def self.all

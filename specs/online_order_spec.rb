@@ -76,18 +76,51 @@ describe "OnlineOrder" do
       online_order.total.must_equal expected_total
     end
   end
-end
 
-  #
-  # describe "#add_product" do
-  #   it "Does not permit action for processing, shipped or completed statuses" do
-  #     # TODO: Your test code here!
-  #   end
-  #
-  #   it "Permits action for pending and paid satuses" do
-  #     # TODO: Your test code here!
-  #   end
-  # end
+  describe "#add_product" do
+    it "Does not permit action for processing status" do
+      status = :completed
+      customer_id = 23
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = Grocery::OnlineOrder.new(1337, products, customer_id, status)
+      proc {online_order.add_product}.must_raise ArgumentError
+      # TODO: Your test code here!
+    end
+
+    it "Does not permit action for shipped status" do
+      status = :shipped
+      customer_id = 23
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = Grocery::OnlineOrder.new(1337, products, customer_id, status)
+      proc {online_order.add_product}.must_raise ArgumentError
+    end
+
+    it "Does not permit action for processing, shipped or completed statuses" do
+      status = :processing
+      customer_id = 23
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      online_order = Grocery::OnlineOrder.new(1337, products, customer_id, status)
+      proc {online_order.add_product}.must_raise ArgumentError
+    end
+
+    it "Permits action for pending status" do
+        status = :pending
+        customer_id = 23
+        products = { "banana" => 1.99, "cracker" => 3.00 }
+        online_order = Grocery::OnlineOrder.new(1337, products, customer_id, status)
+        online_order.add_product("sandwich", 4.25).must_equal true
+      end
+
+      it "Permits action for paid status" do
+        status = :paid
+        customer_id = 23
+        products = { "banana" => 1.99, "cracker" => 3.00 }
+        online_order = Grocery::OnlineOrder.new(1337, products, customer_id, status)
+        online_order.add_product("sandwich", 4.25).must_equal true
+
+      end
+    end
+  end
   #
   # describe "OnlineOrder.all" do
   #   it "Returns an array of all online orders" do

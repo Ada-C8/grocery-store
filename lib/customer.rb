@@ -21,7 +21,7 @@ module Grocery
     end
 
     def self.all
-      customers = CSV.read('/Users/janedrozo/Desktop/grocery-store/support/customers.csv')
+      customers = CSV.read('./support/customers.csv')
 
       all_customers = []
 

@@ -3,7 +3,7 @@ module Grocery
     attr_reader :id, :email, :address
 
     def initialize(id, email, address)
-      @id = id
+      @id = id.to_i
       @email = email
       @address = address
     end

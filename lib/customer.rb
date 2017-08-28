@@ -33,12 +33,5 @@ module Grocery
      raise ArgumentError.new("Id does not exist.")
    end
 
-
-
-
-
-
-
-
    end
 end

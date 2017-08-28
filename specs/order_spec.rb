@@ -1,7 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
-require_relative '../lib/order'
+# require_relative 'spec_helper'
 
 describe "Order Wave 1" do
   describe "#initialize" do
@@ -78,32 +75,52 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      Grocery::Order.all.must_be_kind_of Array
+    end
+
+    it "Everything in the array is an Order" do
+      Grocery::Order.all.each do |order|
+        order.must_be_kind_of Grocery::Order
+      end
+    end
+
+    it "the number of orders is correct" do
+      Grocery::Order.all.length.must_equal 100
+    end
+
+    it "the ID and products match the first order in the CSV file" do
+      Grocery::Order.all.first.id.must_equal 1
+      Grocery::Order.all.first.products.must_equal("Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9)
+
+      Grocery::Order.all.last.id.must_equal 100
+      Grocery::Order.all.last.products.must_equal("Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59)
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      order = Grocery::Order.find(1)
+
+      order.must_be_instance_of Grocery::Order
+      order.id.must_equal 1
+      order.products.must_equal("Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9)
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      order = Grocery::Order.find(100)
+
+      order.must_be_instance_of Grocery::Order
+      order.id.must_equal 100
+      order.products.must_equal("Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59)
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {
+        Grocery::Order.find(102)
+      }.must_raise ArgumentError
     end
   end
 end

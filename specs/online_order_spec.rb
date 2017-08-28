@@ -10,8 +10,6 @@ require_relative '../lib/order'
 describe "OnlineOrder" do
   before do
     @online_order = Grocery::OnlineOrder.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21}, 25, :complete)
-
-
   end
   describe "#initialize" do
     it "Is a kind of Order" do
@@ -49,8 +47,7 @@ describe "OnlineOrder" do
 
   describe "#add_product" do
     it "Does not permit action for processing, shipped or complete statuses" do
-      ##NEED TO ADD AN ARGUMENTERROR HERE!!
-      @online_order.add_product("Kale", 2.99).must_equal false
+      proc {@online_order.add_product("Kale", 2.99)}.must_raise ArgumentError
       @online_order.products.length.must_equal 3
     end
 
@@ -58,6 +55,12 @@ describe "OnlineOrder" do
       pending = Grocery::OnlineOrder.new(1, {"Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21}, 25, :paid)
       pending.add_product("Kale", 2.99).must_equal true
       pending.products.length.must_equal 4
+    end
+  end
+
+  describe "OnlineOrder.find" do
+    it "checks the find method" do
+      Grocery::OnlineOrder.find(1).products.must_equal @online_order.products
     end
   end
 
@@ -92,7 +95,7 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find_by_customer" do
     before do
-    @customers_orders = Grocery::OnlineOrder.find(15)
+    @customers_orders = Grocery::OnlineOrder.find_by_customer(15)
     end
     it "Returns an array." do
       @customers_orders.must_be_kind_of Array

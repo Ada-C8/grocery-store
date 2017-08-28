@@ -8,13 +8,18 @@ module Grocery
     attr_reader :customer_id, :email, :delivery_address
 
     def initialize(customer_id, email, delivery_address)
+
+      if customer_id <= 0 || customer_id == nil
+        raise ArgumentError.new("A customer must have an id that's not 0 or nil") #ArgumentError means this argument is wrong
+      end
+
+      raise ArgumentError.new("customer_id must be an integer") if customer_id.class != Integer
+      raise ArgumentError.new("email must be a string") if email.class != String
+      raise ArgumentError.new("delivery_address must be a string") if delivery_address.class != String
+
       @customer_id = customer_id
       @email = email
       @delivery_address = delivery_address
-
-      raise ArgumentError.new("customer_id must be a integer") if customer_id.class != Integer
-      raise ArgumentError.new("email must be a string") if email.class != String
-      raise ArgumentError.new("delivery_address must be a string") if delivery_address.class != String
 
     end
 
@@ -46,6 +51,7 @@ module Grocery
           return customer_row_info
         end
       end
+
       raise ArgumentError.new("CUSTOMER ##{customer_id} NOT FOUND!")
     end
   end#of_Customer_class

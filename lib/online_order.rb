@@ -30,7 +30,7 @@ module Grocery
 
     def self.all
       all_orders = []
-      CSV.open("/Users/galeharrington/ada/week3/grocery-store/support/online_orders.csv", 'r').each do |line|
+      CSV.open("./support/online_orders.csv", 'r').each do |line|
         products_hash = {}
         id = line.slice!(0).to_i
         status = line.slice!(-1).to_sym

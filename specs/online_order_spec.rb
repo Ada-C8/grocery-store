@@ -46,7 +46,14 @@ describe "OnlineOrder" do
 
   describe "#total" do
     it "Adds a shipping fee" do
-      # TODO: Your test code here!
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Grocery::OnlineOrder.new(1337, products, "Finn")
+
+      sum = products.values.inject(0, :+)
+      expected_total = sum + (sum * 0.075).round(2) + 10
+
+      order.total.must_equal expected_total
+
     end
 
     it "Doesn't add a shipping fee if there are no products" do

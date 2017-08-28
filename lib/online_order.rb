@@ -11,5 +11,18 @@ module Grocery
       @customer = customer
       @status = status
     end
+
+    def total
+      return super + 10
+    end
+
+    def self.all
+    end
+
+    def self.find(id)
+    end
+
+    def self.find_by_customer(customer_id)
+    end
   end # end of class
 end # end of module

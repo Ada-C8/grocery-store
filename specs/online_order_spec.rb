@@ -40,13 +40,17 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "#total" do
+  describe "#total" do
     it "Adds a shipping fee" do
       # TODO: Your test code here!
+      online_order = Grocery::OnlineOrder.new(1, {"banana": 1.00}, 34, "dog")
+      online_order.total.must_equal 11.08
     end
 
     it "Doesn't add a shipping fee if there are no products" do
       # TODO: Your test code here!
+      online_order = Grocery::OnlineOrder.new(1, {}, 34, "dog")
+      online_order.total.must_equal 0
     end
   end
 
@@ -85,7 +89,7 @@ describe "OnlineOrder" do
   describe "OnlineOrder.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
-    
+
     Grocery::OnlineOrder.find(1).must_be_instance_of Grocery::OnlineOrder
     end
 
@@ -104,9 +108,10 @@ describe "OnlineOrder" do
   end
 
 
-  xdescribe "OnlineOrder.find_by_customer" do
+  describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!
+      Grocery::OnlineOrder.find_by_customer(1).must_be_instance_of Array
     end
   end
 end

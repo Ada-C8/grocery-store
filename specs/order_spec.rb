@@ -123,8 +123,7 @@ describe "Order Wave 2" do
     end
 
     it "Raises an error for an order that doesn't exist" do
-      
-
+      proc{Grocery::Order.find(107)}.must_raise ArgumentError
     end
   end
 end

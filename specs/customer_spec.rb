@@ -49,16 +49,11 @@ describe "Customer" do
       end
     end
 
-    xit "Matches the ID and products of the first and last orders with what's in the CSV file" do
+    it "Matches the ID, email, and address of the first customer with what's in the CSV file" do
+      Grocery::Customer.all.first.id.must_equal 1
+      Grocery::Customer.all.first.email.must_equal "leonard.rogahn@hagenes.org"
+      Grocery::Customer.all.first.address.must_equal "71596 Eden Route Connellymouth, LA 98872-9105"
 
-      Grocery::Order.all[1].id.must_equal 1
-      expected_order = {"Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"}
-      Grocery::Order.all[1].products.must_equal expected_order
-
-
-      Grocery::Order.all[100].id.must_equal 100
-      expected_order = {"Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"}
-      Grocery::Order.all[100].products.must_equal expected_order
     end
 
 

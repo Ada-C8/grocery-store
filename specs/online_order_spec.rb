@@ -91,7 +91,7 @@ describe "OnlineOrder" do
       id = 1337
       products = { "banana" => 1.99, "cracker" => 3.00 }
       customer_id = 5
-      status = :completed
+      status = :complete
       online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
 
       proc {
@@ -126,7 +126,7 @@ describe "OnlineOrder" do
     end
 
     it "Everything in the array is an Order" do
-      Grocery::OnlineOrder.all.each do |order|
+      Grocery::OnlineOrder.all.each do |online_order|
         online_order.must_be_kind_of Grocery::OnlineOrder
       end
     end
@@ -136,19 +136,21 @@ describe "OnlineOrder" do
     end
 
     it "the ID and products match the first order in the CSV file" do
-      Grocery::Order.all.first.id.must_equal 1
-      Grocery::Order.all.first.products.must_equal("Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21)
+      Grocery::OnlineOrder.all.first.id.must_equal 1
+      Grocery::OnlineOrder.all.first.products.must_equal("Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21)
+      Grocery::OnlineOrder.all.first.customer_id.must_equal 25
+      Grocery::OnlineOrder.all.first.status.must_equal :complete
 
-      Grocery::Order.all.last.id.must_equal 100
-      Grocery::Order.all.last.products.must_equal("Amaranth" => 83.81, "Smoked Trout" => 70.6, "Cheddar" => 5.63)
+
+      Grocery::OnlineOrder.all.last.id.must_equal 100
+      Grocery::OnlineOrder.all.last.products.must_equal("Amaranth" => 83.81, "Smoked Trout" => 70.6, "Cheddar" => 5.63)
+      Grocery::OnlineOrder.all.last.customer_id.must_equal 20
+      Grocery::OnlineOrder.all.last.status.must_equal :pending
     end
 
-  #   it "Returns an array of all online orders" do
-  #     # TODO: Your test code here!
-  #     # Useful checks might include:
-  #     #   - OnlineOrder.all returns an array
-  #     #   - Everything in the array is an Order
-  #     #   - The number of orders is correct
+
+
+
   #     #   - The customer is present
   #     #   - The status is present
   #     # Feel free to split this into multiple tests if needed
@@ -159,4 +161,4 @@ describe "OnlineOrder" do
   #   it "Returns an array of online orders for a specific customer ID" do
   #     # TODO: Your test code here!
   #   end
-# end
+end

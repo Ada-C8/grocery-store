@@ -5,9 +5,10 @@ require 'pry'
 
 module Grocery
   class Order
-    attr_reader :id, :products
+    attr_reader :id
+    attr_accessor :products
 
-    def initialize(id, products)
+    def initialize(id, products = 0)
       @id = id
       @products = products
     end

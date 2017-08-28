@@ -7,7 +7,7 @@ module Grocery
       @id = id
       @products = products
     end
-
+#creates several instances of Order class, cleans csv data
     def self.all
       orders = []
       CSV.read('./support/orders.csv').each do |row|
@@ -25,7 +25,7 @@ module Grocery
 
     end
 
-
+#can return an instance of Order based on ID
     def self.find(id)
       all_orders = Grocery::Order.all
       all_orders.each do |element|
@@ -35,13 +35,13 @@ module Grocery
       end
       raise ArgumentError.new("Id does not exist.")
     end
-
+#adds product values, adds tax, rounds, returns total
     def total
       @sum = @products.values.inject(0, :+)
       @total = @sum + (@sum * 0.075).round(2)
       return @total
     end
-
+#adds a product to an Order instance
     def add_product(product_name, product_price)
       @product_name = product_name
       @product_price = product_price
@@ -59,13 +59,9 @@ module Grocery
   end
 end
 
-puts first_order = Grocery::Order.find(1)
-puts first_order.id
-puts first_order.products
-
-
-  #
-
+# puts first_order = Grocery::Order.find(1)
+# puts first_order.id
+# puts first_order.products
   # all_orders = Grocery::Order.all
   # puts first_order = Grocery::Order.find(1)
   # one_order = Grocery::Order.new(all_orders)

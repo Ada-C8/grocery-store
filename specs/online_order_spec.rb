@@ -16,16 +16,16 @@ describe "OnlineOrder" do
       online_order.must_be_kind_of Grocery::Order
     end
 
-    it "Can access Customer object" do
-      id = 1337
-      products = { "banana" => 1.99, "cracker" => 3.00 }
-      customer_id = 5
-      status = :pending
-      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
-
-      online_order.customer_id.must_be_kind_of Grocery::Customer
-
-      end
+    # it "Can access Customer object" do
+    #   id = 1337
+    #   products = { "banana" => 1.99, "cracker" => 3.00 }
+    #   customer_id = 5
+    #   status = :pending
+    #   online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+    #
+    #   online_order.customer_id.must_be_kind_of Grocery::Customer
+    #
+    #   end
 
     it "Can access the online order status" do
       id = 1337
@@ -148,17 +148,39 @@ describe "OnlineOrder" do
       Grocery::OnlineOrder.all.last.status.must_equal :pending
     end
 
+    describe "OnlineOrder.find" do
+      it "Can find the first order from the CSV" do
+        online_order = Grocery::OnlineOrder.find(1)
 
+        online_order.must_be_instance_of Grocery::OnlineOrder
+        online_order.id.must_equal 1
+        online_order.products.must_equal("Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21)
+        online_order.customer_id.must_equal 25
+        online_order.status.must_equal :complete
+      end
 
+      it "Can find the last order from the CSV" do
+        online_order = Grocery::OnlineOrder.find(100)
 
-  #     #   - The customer is present
-  #     #   - The status is present
-  #     # Feel free to split this into multiple tests if needed
-  #   end
-  # end
-  #
-  # describe "OnlineOrder.find_by_customer" do
-  #   it "Returns an array of online orders for a specific customer ID" do
-  #     # TODO: Your test code here!
-  #   end
+        online_order.must_be_instance_of Grocery::OnlineOrder
+        online_order.id.must_equal 100
+        online_order.products.must_equal("Amaranth" => 83.81, "Smoked Trout" => 70.6, "Cheddar" => 5.63)
+        online_order.customer_id.must_equal 20
+        online_order.status.must_equal :pending
+    end
+    
+      it "Raises an error for an online_order that doesn't exist" do
+        proc {
+          Grocery::OnlineOrder.find(102)
+        }.must_raise ArgumentError
+      end
+    end
+
+  describe "OnlineOrder.find_by_customer" do
+    it "Returns an array of online orders for a specific customer ID" do
+      Grocery::OnlineOrder.find_by_customer(23).each do |customer|
+        customer.customer_id.must_equal 23
+      end
+    end
+  end
 end

@@ -8,7 +8,19 @@ require 'minitest/skip_dsl'
 xdescribe "Customer" do
   describe "#initialize" do
     it "Takes an ID, email and address info" do
-      # TODO: Your test code here!
+      id = 666
+      email = "sugarcreek@puppers.com"
+      address = "1313 4 Paws Lane"
+
+      order.must_respond_to :id
+      order.id.must_equal id
+      order.id.must_be_kind_of Integer
+
+      order.must_respond_to :email
+      order.email.must_equal email
+
+      order.must_respond_to :address
+      order.addrss.must_equal address
     end
   end
 

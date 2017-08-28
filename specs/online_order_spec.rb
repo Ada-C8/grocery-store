@@ -64,12 +64,20 @@ describe "OnlineOrder" do
 
     online_order.total.must_equal expected_total_with_shipping
     end
+
+    it "Doesn't add a shipping fee if there are no products" do
+      status = :pending
+      customer_id = 23
+      products = {}
+      online_order = Grocery::OnlineOrder.new(1337, products, customer_id, status)
+      sum = products.values.inject(0, :+)
+      expected_total = (sum + (sum * 0.075).round(2))
+
+      online_order.total.must_equal expected_total
+    end
   end
 end
-  #   it "Doesn't add a shipping fee if there are no products" do
-  #     # TODO: Your test code here!
-  #   end
-  # end
+
   #
   # describe "#add_product" do
   #   it "Does not permit action for processing, shipped or completed statuses" do

@@ -13,11 +13,15 @@ module Grocery
 
     def total
       shipping_fee = 10
-      super + shipping_fee
+      if super == 0
+        return 0
+      else
+        return super + shipping_fee
+      end
     end
 
-    # def add_product
-    #end
+    def add_product
+    end
 
     # def self.all
     # end

@@ -111,7 +111,7 @@ describe "Order Wave 2" do
     it "Returns correct products from 1st order" do
       orders = Grocery::Order.all
       first_order = orders[0]
-      first_order.products.must_equal "Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"
+      first_order.products.must_equal "Slivered Almonds"=>22.88, "Wholewheat flour"=>1.93, "Grape Seed Oil"=>74.9
     end
 
 
@@ -122,18 +122,18 @@ describe "Order Wave 2" do
 
     it "Returns correct last order" do
     orders = Grocery::Order.all
-    orders[99].products.must_equal "Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"
+    orders[99].products.must_equal "Allspice"=>64.74, "Bran"=>14.72, "UnbleachedFlour"=>80.59
     end
 
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      Grocery::Order.find("1").must_equal "Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"
+      Grocery::Order.find("1").must_equal "Slivered Almonds"=>22.88, "Wholewheat flour"=>1.93, "Grape Seed Oil"=>74.9
     end
 
     it "Can find the last order from the CSV" do
-      Grocery::Order.find("100").must_equal "Allspice"=>"64.74", "Bran"=>"14.72", "UnbleachedFlour"=>"80.59"
+      Grocery::Order.find("100").must_equal "Allspice"=>64.74, "Bran"=>14.72, "UnbleachedFlour"=>80.59
     end
 
     it "Raises an error for an order that doesn't exist" do

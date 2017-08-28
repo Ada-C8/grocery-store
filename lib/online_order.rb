@@ -65,12 +65,12 @@ module Grocery
       all_online_orders.each do |order|
         if order.id == order_id
           ordered_stuff << order
-          return ordered_stuff
         end
       end
       if ordered_stuff.empty?
         raise ArgumentError.new("You did not enter a valid order number.")
       end
+      return ordered_stuff
     end
 
     def self.find_by_customer(customer_id)
@@ -93,7 +93,12 @@ module Grocery
   end #end of class OnlineOrder
 end #end of module
 
-ap Grocery::OnlineOrder.all
+Grocery::OnlineOrder.all
+
+
+# grocery = Grocery::OnlineOrder.all
+# puts "DOES THIS A ONLINE ORDER CLASS OUTPUT AN ARRAY?"
+# ap grocery.class
 
 #grocery = Grocery::OnlineOrder.all
 #puts "TESTING FIND (BY ORDER ID):"

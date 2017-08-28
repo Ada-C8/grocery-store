@@ -44,8 +44,14 @@ module Grocery
   end #end of class
 end #end of module
 
-
 Grocery::Customer.all
+
+#Tests to see if this is any array!
+#online_orders =  Grocery::Customer.all
+#puts "IS THIS AN ARRAY?"
+#puts online_orders.class
+
+#TEST
 #customer = Grocery::Customer.find("1")
 #print customer.id
 #print customer.email

@@ -68,9 +68,7 @@ describe "OnlineOrder" do
     end
   end # end of describe "#add_product"
 
-
   describe "OnlineOrder.all" do
-
     it "Everything in the array is an Order" do
       @online_orders.each do |order|
         order.must_be_kind_of Grocery::OnlineOrder
@@ -101,10 +99,10 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find(ID)" do
     it "Can find the first order from the CSV" do
-      Grocery::OnlineOrder.find(1).must_be_same_as Grocery::OnlineOrder.all.first
+      Grocery::OnlineOrder.find(1).must_be_same_as @online_orders.first
     end
     it "Can find the last order from the CSV" do
-      Grocery::OnlineOrder.find(100).must_be_same_as Grocery::OnlineOrder.all.last
+      Grocery::OnlineOrder.find(100).must_be_same_as @online_orders.last
     end
     it "Raises an error for an order that doesn't exist" do
       proc{Grocery::OnlineOrder.find(107)}.must_raise ArgumentError
@@ -113,11 +111,9 @@ describe "OnlineOrder" do
 
   describe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
-      Grocery::OnlineOrder.all
       Grocery::OnlineOrder.find_by_customer(29).must_be_kind_of Array
     end
     it "Can access all the orders for a customer" do
-      Grocery::OnlineOrder.all
       customer_orders_array = Grocery::OnlineOrder.find_by_customer(5)
       customer_orders_array.length.must_equal 1
     end

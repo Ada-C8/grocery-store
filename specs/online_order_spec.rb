@@ -90,9 +90,15 @@ describe "OnlineOrder" do
     end
   end
 
-  xdescribe "OnlineOrder.find_by_customer" do
-    it "Returns an array of online orders for a specific customer ID" do
-      # TODO: Your test code here!
+  describe "OnlineOrder.find_by_customer" do
+    before do
+    @customers_orders = Grocery::OnlineOrder.find(15)
+    end
+    it "Returns an array." do
+      @customers_orders.must_be_kind_of Array
+    end
+    it "Returns the right number of orders" do
+      @customers_orders.length.must_equal 3
     end
   end
 end

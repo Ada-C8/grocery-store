@@ -1,3 +1,4 @@
+require 'csv'
 
 module Grocery
   class Customer
@@ -40,7 +41,6 @@ module Grocery
 
         raise ArgumentError.new "Customer does not exist"
     end
-
 
   end #end of class
 

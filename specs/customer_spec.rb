@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 
-# TODO: uncomment the next line once you start wave 3
-# require_relative '../lib/customer'
+require_relative '../lib/customer'
+
 describe "Customer" do
   describe "#initialize" do
     it "Takes an ID, email and address info" do
@@ -103,4 +103,4 @@ describe "Customer" do
       }.must_raise ArgumentError
     end
   end
-end 
+end

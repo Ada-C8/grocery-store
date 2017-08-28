@@ -1,8 +1,6 @@
 require 'csv'
 require 'awesome_print'
 
-# require_relative 'order' ?Is this needed?
-
 module Grocery
   class Customer
     attr_reader :customer_id, :email, :delivery_address
@@ -20,7 +18,6 @@ module Grocery
       @customer_id = customer_id
       @email = email
       @delivery_address = delivery_address
-
     end
 
     def self.all
@@ -54,6 +51,7 @@ module Grocery
       #if we go through the loop without finding a match, then we raise an error
       raise ArgumentError.new("CUSTOMER ##{customer_id} NOT FOUND!")
     end
+
   end#of_Customer_class
 
 end#of_module

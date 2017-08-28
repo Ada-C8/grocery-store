@@ -1,8 +1,9 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require 'minitest/pride'
 require_relative '../lib/online_order'
-require_relative '../lib/customer'
+require_relative '../lib/order'
 
 # TODO: uncomment the next line once you start wave 3
 # require_relative '../lib/online_order'
@@ -12,36 +13,52 @@ require_relative '../lib/customer'
 # already tested a bunch of functionality on Order,
 # we effectively get all that testing for free! Here we'll
 # only test things that are different.
-
+#
 describe "OnlineOrder" do
   describe "#initialize" do
     it "Is a kind of Order" do
-      # id = 12
-      # products = { "banana" => 1.99, "cracker" => 3.00 }
+      id = 12
+      products = { "banana" => 1.99, "cracker" => 3.00 }
       customer_id = 1
-      status = :pending
+      status = "pending"
 
-      online_order = Grocery::OnlineOrder.new(customer_id, status)
+      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
       online_order.must_be_kind_of Grocery::Order
     end
-#
+
     it "Can access Customer object" do
+      id = 12
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      customer_id = 24
+      status = "pending"
+
     customers = Grocery::Customer.all
-    customer = customers[-1].id  #customer id #change naming
-    print customer
-    online_order = Grocery::OnlineOrder.new(customer, status)
-    online_order.customer.must_equal 35
+    customer = customers[23].id  #customer id #change naming
+    puts customer.class
+    online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+    online_order.customer_id.must_equal customer
     end
-  #
-    it "Can access the online order status" do
-      online_order = Grocery::OnlineOrder.new(customer, status)
-      online_order.status.must_equal :pending
-    end
+
+    # it "Can access the online order status" do
+    #   customer = 1
+    #   status = :pending
+    #
+    #   online_order = Grocery::OnlineOrder.new(customer, status)
+    #   online_order.must_respond_to :pending
+    # end
   end
 end
+
   # describe "#total" do
   #   it "Adds a shipping fee" do
-  #     # TODO: Your test code here!
+  #     it "Returns the total from the collection of products" do
+  #   products = { "banana" => 1.99, "cracker" => 3.00 }
+  #   order = Grocery::Order.new(1337, products)
+  #
+  #   sum = products.values.inject(0, :+)
+  #   expected_total = sum + (sum * 0.075).round(2)
+  #
+  #   order.total.must_equal expected_total
   #   end
   #
   #   it "Doesn't add a shipping fee if there are no products" do

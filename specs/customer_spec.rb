@@ -3,6 +3,9 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 # TODO: uncomment the next line once you start wave 3
+#require_relative '../lib/customer'
+require_relative '../lib/online_order'
+require_relative '../lib/order'
 require_relative '../lib/customer'
 
 describe "Customer" do
@@ -34,7 +37,7 @@ describe "Customer.all" do
   it "Everything in the array is an customer " do
     customer = Grocery::Customer.all
     customer.each do |item|
-       item.must_be_instance_of Grocery::Customer
+      item.must_be_instance_of Grocery::Customer
     end #customer each do
   end #everything is an customer
 
@@ -42,13 +45,9 @@ describe "Customer.all" do
     customer = Grocery::Customer.all
     customer.length.must_equal 35
   end # number is correct
-  #
-#   # it "The ID and products of the first and last orders match whats in the CSV file" do
-#   # end #ID/products match
+
 end #customer all
 
-#     #   - The ID, email address of the first and last
-#     #       customer match what's in the CSV file
 
 describe "Grocery::Customer.find" do
   describe "Grocery::Customer.find" do

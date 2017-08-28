@@ -23,7 +23,7 @@ module Grocery
         prodprice_arr = productandprice.split(":")
         @products[prodprice_arr[0]] = prodprice_arr[1]
       end
-      return@products
+      return @products
     end
 
     def self.all
@@ -36,9 +36,7 @@ module Grocery
 
     def self.find(id)
       all.each do |order|
-        if order.id == id
-          return order
-        end
+        return order if order.id == id
       end
       raise ArgumentError.new("Order doesn't exist.")
     end
@@ -52,7 +50,6 @@ module Grocery
         total += total * (7.50/100)
       end
       return total.round(2)
-
     end
 
     def add_product(product_name, product_price)

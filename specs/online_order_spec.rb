@@ -74,12 +74,8 @@ describe "OnlineOrder" do
   end
 
   describe "#total" do
+
     it "Adds a shipping fee" do
-
-    end
-
-    it "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
       sum = 0
       @myord.products.each do |name, price|
         sum += price.to_f
@@ -88,7 +84,15 @@ describe "OnlineOrder" do
       sum_tax_ship = sum_tax + 10
       sum_tax_ship = sum_tax_ship.round(2)
       @myord.total.must_be :==,sum_tax_ship
+
     end
+
+    it "Doesn't add a shipping fee if there are no products" do
+      # TODO: Your test code here!
+      my_ord = Grocery::OnlineOrder.new(CSV.read("support/online_orders.csv").first[0],["", "23","pending"])
+      my_ord.total.must_be :==,0
+    end
+
   end
 
   describe "#add_product" do

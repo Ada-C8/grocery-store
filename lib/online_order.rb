@@ -84,16 +84,16 @@ module Grocery
             orders_by_customer_x << order
           end #end if
       end #end do order
-      return orders_by_customer_x
       if orders_by_customer_x.empty?
         raise ArgumentError.new("You did not enter a valid customer ID or that customer does not have any online orders.")
       end
+      return orders_by_customer_x
     end
 
   end #end of class OnlineOrder
 end #end of module
 
-Grocery::OnlineOrder.all
+ap Grocery::OnlineOrder.all
 
 #grocery = Grocery::OnlineOrder.all
 #puts "TESTING FIND (BY ORDER ID):"

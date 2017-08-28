@@ -40,6 +40,17 @@ module Grocery
       end
     end
 
+    def self.product_split(arr_line)
+      products_hash = {}
+      products_arr = arr_line[1].split';'
+      products_arr.each do |item_colon_price|
+        product_price = item_colon_price.split':'
+        products_hash[product_price[0]] = product_price[1].to_f
+
+      end
+      return products_hash
+    end
+
     def self.all
       orders = []
       # if @@orders.length > 0
@@ -47,20 +58,8 @@ module Grocery
       # end
       CSV.open("support/orders.csv", 'r').each do |line|
         id = line[0].to_i
-        # line[1] = line[1].split(';')
-        # line[1] = line[1].gsub!':' '=>'
-        # products = line[1].to_h
-        # products = line[1]
-        products_hash = {}
-        products_arr = line[1].split';'
-        products_arr.each do |item_colon_price|
-          product_price = item_colon_price.split':'
-          products_hash[product_price[0]] = product_price[1].to_f
-
-        end
-
-        orders << self.new(id, products_hash)
-
+        products = product_split(line)
+        orders << self.new(id, products)
       end
       return orders
     end
@@ -74,7 +73,7 @@ module Grocery
         end
       end
       if counter == 0
-        raise ArgumentError.new("Invalid Customer ID")
+        raise ArgumentError.new("Invalid Order ID")
       end
     end
   end

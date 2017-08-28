@@ -29,6 +29,19 @@ module Grocery
     end
 
     def self.all
+      all_online_orders = []
+      CSV.open("support/online_orders.csv", 'r').each do |line|
+        id = line[0].to_i
+        products = {}
+        line[1].split(";").each do |item|
+          details = item.split(":")
+          products[details[0]] = details[1]
+        end
+        customer_id = line[2]
+        status = line[3]
+        all_online_orders << self.new(id, products, customer_id, status)
+      end
+      return all_online_orders
     end
 
     def self.find(id)

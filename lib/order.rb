@@ -31,7 +31,7 @@ module Grocery
           details = item.split(":")
           products[details[0]] = details[1]
         end
-        all_orders << self.new(id, products) # creates new Order Hash after separating each order/product
+        all_orders << self.new(id, products)
       end
       return all_orders
     end

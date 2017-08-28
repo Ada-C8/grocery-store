@@ -16,28 +16,38 @@ module Grocery
       @status = status
     end
 
+    # Uses the CSV to create an instance of an order
+    def self.create_order(purchase_array)
+      order_id = purchase_array[0].to_i
+      customer_id = purchase_array[2].to_i
+      status  = purchase_array[3].to_sym
+      products = {}
+      purchase_array[1].split(";").each do |product|
+        product_with_price = product.split(":")
+        products[product_with_price[0]] = product_with_price[1].to_f
+      end
+
+      order = Grocery::OnlineOrder.new(order_id, products, customer_id, status)
+      return order
+    end
+
+
     # Input: CSV file of online_orders. Output: An array of Order instances
     def self.all(csv_file)
       online_orders = Array.new
       CSV.read(csv_file).each do |purchase_array|
-        order_id = purchase_array[0].to_i
-        customer_id = purchase_array[2].to_i
-        status  = purchase_array[3].to_sym
-        products = {}
-        purchase_array[1].split(";").each do |product|
-          product_with_price = product.split(":")
-          products[product_with_price[0]] = product_with_price[1].to_f
-        end
-        online_orders << Grocery::OnlineOrder.new(order_id, products,customer_id, status)
+        order = self.create_order(purchase_array)
+        online_orders << order
       end
       return online_orders
     end
 
-    # Returns an instance of Order based on id
-    def self.find_id(id, csv_file)
-      self.all(csv_file).each do |order|
-        if order.id == id
-          return order
+    # Returns an order based on the id
+    def self.find_id(id, csv_file )
+      CSV.read(csv_file).each do |purchase_array|
+        if purchase_array[0].to_i == id.to_i
+          order = self.create_order(purchase_array)
+        return order
         end
       end
       raise ArgumentError.new "This order doesn't exist"
@@ -82,7 +92,7 @@ module Grocery
       if @status == :pending || @status == :paid
         super(product, price)
       else
-        raise ArgumentError.new "I'm sorry, you may no longer add to this order."
+        raise ArgumentError.new "current status not available to add_product"
       end
     end
 
@@ -95,8 +105,8 @@ end
 
 
 
-
-# order = Grocery::OnlineOrder.find_id(0, './support/online_orders.csv')
+#
+# order = Grocery::OnlineOrder.find_id(5, './support/online_orders.csv')
 #
 # ap order
 

@@ -69,7 +69,9 @@ describe "Customer" do
       end
 
       it "Can find the last customer from the CSV" do
-        # TODO: Your test code here!
+        Grocery::Customer.find(35).id.must_equal 35
+        Grocery::Customer.find(35).email.must_equal "rogers_koelpin@oconnell.org"
+        Grocery::Customer.find(35).address.must_equal "7513 Kaylee Summit Uptonhaven, DE 64529-2614"
       end
 
       it "Raises an error for a customer that doesn't exist" do

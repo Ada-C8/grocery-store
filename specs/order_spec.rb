@@ -153,7 +153,7 @@ describe "Order Wave 2" do
 
     it "Can find the first order from the CSV" do
       myorders = []
-      CSV.read("support/orders.csv").each do |row|
+      CSV.read("./support/orders.csv").each do |row|
         myorders << Grocery::Order.new(row[0], row[1])
       end
       Grocery::Order.find("1").must_be_instance_of Grocery::Order
@@ -162,7 +162,7 @@ describe "Order Wave 2" do
 
     it "Can find the last order from the CSV" do
       myorders = []
-      CSV.read("support/orders.csv").each do |row|
+      CSV.read("./support/orders.csv").each do |row|
         myorders << Grocery::Order.new(row[0], row[1])
       end
       Grocery::Order.find("100").must_be_instance_of Grocery::Order

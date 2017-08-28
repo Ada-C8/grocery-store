@@ -35,7 +35,12 @@ describe "OnlineOrder" do
     end
 
     it "Can access the online order status" do
-      # TODO: Your test code here!
+      id = 1313
+      products = "burning sage"
+      customer = Grocery::Customer.new(1001, "bad-dog@grounded.net", "123 Cat Paradise, Seattle, WA 98101")
+
+      online_order = Grocery::OnlineOrder.new(id, products, customer)
+      online_order.status.must_equal :pending
     end
   end
 

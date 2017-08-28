@@ -30,14 +30,19 @@ module Grocery
       return @@orders
     end
 
+    def self.valid_id(id)
+      if id.class != Integer
+        raise ArgumentError.new("Please enter a valid Integer ID")
+      elsif id <= 0 || id > all.length
+        raise ArgumentError.new("That ID doesn't exist.")
+      end
+    end
+
     def self.find(id_input)
       if @@orders.empty?
         all
       end
-
-      if id_input > all.length
-        raise ArgumentError.new("That id doesn't exist")
-      end
+      valid_id(id_input)
 
       @@orders.each do |order|
         if order.id == id_input

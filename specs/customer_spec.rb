@@ -22,11 +22,9 @@ describe "Customer" do
       # Useful checks might include:
       Grocery::Customer.all.must_be_instance_of Array
       Grocery::Customer.all.sample.must_be_instance_of Grocery::Customer
-      #   - The number of orders is correct
       Grocery::Customer.all.length.must_be :==, 35
       Grocery::Customer.all.first.id.must_equal 1
       Grocery::Customer.all.first.email.must_match "leonard.rogahn@hagenes.org"
-
       Grocery::Customer.all.last.id.must_equal 35
       Grocery::Customer.all.last.email.must_match "rogers_koelpin@oconnell.org"
     end
@@ -47,6 +45,12 @@ describe "Customer" do
 
     it "Raises an error for a customer that doesn't exist" do
       proc {Grocery::Customer.find(36)}.must_raise ArgumentError
+
+      proc {Grocery::Customer.find("A")}.must_raise ArgumentError
+
+      proc {Grocery::Customer.find(-2)}.must_raise ArgumentError
+
+      proc {Grocery::Customer.find(400)}.must_raise ArgumentError
     end
   end
 end

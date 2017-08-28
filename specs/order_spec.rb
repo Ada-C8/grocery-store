@@ -31,7 +31,6 @@ describe "Order Wave 1" do
 
     it "Returns a total of zero if there are no products" do
       order = Grocery::Order.new(1337, {})
-
       order.total.must_equal 0
     end
   end
@@ -114,40 +113,32 @@ describe "Order Wave 1" do
     end
   end
 
-  # TODO: change 'xdescribe' to 'describe' to run these tests
   describe "Order Wave 2" do
     describe "Order.all" do
       it "Returns an array of all orders" do
         Grocery::Order.all.must_be_instance_of Array
         Grocery::Order.all.sample.must_be_instance_of Grocery::Order
-        Grocery::Order.all.length.must_be :==, 100
-        Grocery::Order.all.first.id.to_i.must_be :==, 1
-        Grocery::Order.all.last.id.to_i.must_be :==, 100
+        Grocery::Order.all.length.must_equal 100
+        Grocery::Order.all.first.id.to_i.must_equal 1
+        Grocery::Order.all.last.id.to_i.must_equal 100
       end
     end
 
     describe "Order.find" do
       it "Can find the first order from the CSV" do
-        # TODO: Your test code here
-        puts Grocery::Order.find(1)
-
         Grocery::Order.find(1).must_be_instance_of Grocery::Order
-
         Grocery::Order.find(1).must_be_same_as Grocery::Order.all.first
-
-        # Grocery::Order.all.first.must_be_same_as Grocery::Order.find(1)
-
       end
 
       it "Can find the last order from the CSV" do
-        # TODO: Your test code here
         Grocery::Order.find(100).must_be_instance_of Grocery::Order
-
         Grocery::Order.find(100).must_be_same_as Grocery::Order.all.last
       end
 
       it "Raises an error for an order that doesn't exist" do
         proc {Grocery::Order.find(101)}.must_raise ArgumentError
+        proc {Grocery::Order.find("A")}.must_raise ArgumentError
+        proc {Grocery::Order.find(-2)}.must_raise ArgumentError
       end
     end
   end

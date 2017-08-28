@@ -8,7 +8,7 @@ module Grocery
     attr_reader :customer, :status, :customer_id, :products_list
     @@online_orders = []
 
-    def initialize(id, collection, customer, status)
+    def initialize(id, collection, customer, status=:pending)
       @id = id
       @products = collection
       @customer = Grocery::Customer.find(customer)
@@ -20,7 +20,6 @@ module Grocery
       if @@online_orders.any?
         return @@online_orders
       end
-
 
       CSV.open('./support/online_orders.csv', 'r',
       headers: true).each do |line|
@@ -40,18 +39,24 @@ module Grocery
     end
 
     def self.find(id_input)
-      if id_input > @@online_orders.length
-        raise ArgumentError.new("That id doesn't exist")
-      end
-
+      valid_id(id_input)
       all.each do |online_order|
-        if id_input == online_order.id
+        if id_input.to_i == online_order.id
           return online_order
         end
       end
     end
 
+    def self.valid_id(id)
+      if id.class != Integer
+        raise ArgumentError.new("Please enter a valid Integer ID")
+      elsif id <= 0 || id > all.length
+        raise ArgumentError.new("That ID doesn't exist.")
+      end
+    end
+
     def self.find_by_customer(customer_id)
+      valid_id(customer_id)
       customers_orders = []
       all.each do |order|
         if order.customer_id == customer_id
@@ -66,14 +71,11 @@ module Grocery
       @action = [:paid, :pending]
 
       if @no_action.include?(@status)
-        return "Sorry, you cannot add items at this time."
-
+        raise ArgumentError.new("You cannot add an item to a #{@status.to_s} status.")
       elsif @action.include?(@status)
         super
       end
-
     end
-
 
     def total
       if @products.length > 0
@@ -83,12 +85,10 @@ module Grocery
       end
     end
 
-
-
   end
 end
 
 #puts "#{Grocery::OnlineOrder.find_by_customer(12)}"
-online_order2 = Grocery::OnlineOrder.new(101, {"bananas" => 2.20}, 12, :pending)
+#online_order2 = Grocery::OnlineOrder.new(101, {"bananas" => 2.20}, 12, :pending)
 
-puts "#{online_order2.total}"
+#puts "#{Grocery::OnlineOrder.find_by_customer("A")}"

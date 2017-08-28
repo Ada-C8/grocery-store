@@ -72,7 +72,7 @@ describe "OnlineOrder" do
       paid_products = { "banana" => 1.99, "cracker" => 3.00 }
 
       online_order_pending = Grocery::OnlineOrder.new(1337, pending_products, 34)
-      online_order_paid = Grocery::OnlineOrder.new(1337, paid_products, 34, status=:paid)
+      online_order_paid = Grocery::OnlineOrder.new(1337, paid_products, 34, :paid)
 
       online_order_pending.add_product("sandwich", 4.25).must_equal true
 

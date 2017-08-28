@@ -15,7 +15,7 @@ module Grocery
       return Grocery::Customer.new(csv_line[0].to_i, csv_line[1], "#{csv_line[2]}, #{csv_line[3]}, #{csv_line[4]}, #{csv_line[5]}")
     end
 
-    def self.all(file = "support/customers.csv")
+    def self.all(file)
       customers = []
       CSV.open(file, "r").each do |line|
         customers << self.customer_from_line(line)
@@ -23,7 +23,7 @@ module Grocery
       return customers
     end
 
-    def self.find(id, file = "support/customers.csv")
+    def self.find(id, file)
       CSV.open(file, "r").each do |line|
         if line[0] == id.to_s
           return self.customer_from_line(line)
@@ -31,7 +31,7 @@ module Grocery
       end
       raise KeyError.new("ID not found")
     end
-    
+
 
   end #end of class Customer
 end #end of module Grocery

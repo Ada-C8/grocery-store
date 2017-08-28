@@ -29,22 +29,22 @@ describe "Customer" do
 
   describe "Customer.all" do
     it "Returns an array of all customers" do
-      Grocery::Customer.all.must_be_kind_of Array
+      Grocery::Customer.all("support/customers.csv").must_be_kind_of Array
     end
 
     it "The number of customers is correct" do
-      Grocery::Customer.all.length.must_equal 35
+      Grocery::Customer.all("support/customers.csv").length.must_equal 35
     end
 
     it "The ID, email address of the first and last customer match what's in the CSV file" do
-      Grocery::Customer.all.first.id.must_equal 1
-      Grocery::Customer.all.first.email.must_equal "leonard.rogahn@hagenes.org"
-      Grocery::Customer.all.last.id.must_equal 35
-      Grocery::Customer.all.last.email.must_equal "rogers_koelpin@oconnell.org"
+      Grocery::Customer.all("support/customers.csv").first.id.must_equal 1
+      Grocery::Customer.all("support/customers.csv").first.email.must_equal "leonard.rogahn@hagenes.org"
+      Grocery::Customer.all("support/customers.csv").last.id.must_equal 35
+      Grocery::Customer.all("support/customers.csv").last.email.must_equal "rogers_koelpin@oconnell.org"
     end
 
     it "Everything in the array is a Customer" do
-      Grocery::Customer.all.each do |customer|
+      Grocery::Customer.all("support/customers.csv").each do |customer|
         customer.must_be_kind_of Grocery::Customer
       end
     end
@@ -52,15 +52,15 @@ describe "Customer" do
 
   describe "Customer.find" do
     it "Can find the first customer from the CSV" do
-      Grocery::Customer.find(1).email.must_equal "leonard.rogahn@hagenes.org"
+      Grocery::Customer.find(1, "support/customers.csv").email.must_equal "leonard.rogahn@hagenes.org"
     end
 
     it "Can find the last customer from the CSV" do
-      Grocery::Customer.find(35).email.must_equal "rogers_koelpin@oconnell.org"
+      Grocery::Customer.find(35, "support/customers.csv").email.must_equal "rogers_koelpin@oconnell.org"
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      proc {Grocery::Customer.find(1000)}.must_raise KeyError
+      proc {Grocery::Customer.find(1000, "support/customers.csv")}.must_raise KeyError
     end
   end
 end

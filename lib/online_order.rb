@@ -3,6 +3,7 @@ require_relative 'order'
 
 module Grocery
   class OnlineOrder < Order
+    SHIPPING_COST = 10
 
     attr_reader :customer_id, :status
 
@@ -14,10 +15,9 @@ module Grocery
 
     def total
       if products.length > 0
-        return super + 10
-      else
-        return super
+        return super + SHIPPING_COST
       end
+      return 0.0
     end
 
     def add_product(product_name, product_price)
@@ -30,9 +30,9 @@ module Grocery
 
     def self.order_from_line(line)
       products = self.products_from_line(line)
-      return Grocery::OnlineOrder.new(line[0].to_i, products, line[2].to_i, status="#{line[3]}".to_sym)
+      return Grocery::OnlineOrder.new(line[0].to_i, products, line[2].to_i, "#{line[3]}".to_sym)
     end
-    
+
     def self.all(file)
       orders = []
       CSV.open(file, "r").each do |line|
@@ -54,16 +54,6 @@ module Grocery
         raise ArgumentError.new("Customer not found")
       end
     end
-
-
-
-
-
-
-
-
-
-
   end #end of class OnlineOrder
 
 end #end of module Grocery

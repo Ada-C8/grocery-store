@@ -53,11 +53,14 @@ describe "OnlineOrder" do
       expected_total = sum + (sum * 0.075).round(2) + 10
 
       order.total.must_equal expected_total
-
     end
 
     it "Doesn't add a shipping fee if there are no products" do
-      # TODO: Your test code here!
+      products = {}
+      order = Grocery::OnlineOrder.new(1337, products, "Finn")
+
+      expected_total = 0 # no products plus no shipping
+      order.total.must_equal expected_total
     end
   end
 

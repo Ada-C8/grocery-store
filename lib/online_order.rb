@@ -13,7 +13,12 @@ module Grocery
     end
 
     def total
-      return super + 10
+      if @products.length == 0
+        return super
+      # elsif @status == pending || @status == paid
+      else
+        return super + 10
+      end
     end
 
     def self.all

@@ -1,20 +1,3 @@
-# Create a Grocery module that contains an Order class and any future grocery store logic.
-
-# Create an Order class which should have the following functionality:
-
-#A new order should be created/initialized with:
-#-an ID, read-only
-#-a collection of products and their cost
-#-zero products is permitted
-#--you can assume that there is only one of each product
-
-# A total method which will calculate the total cost of the order by:
-#-summing up the products
-#-adding a 7.5% tax
-#-ensure the result is rounded to two decimal places
-#-An add_product method which will take in two parameters, product name and price, and add the data to the product collection
-#-It should return true if the item was successfully added and false if it was not
-
 require 'csv'
 require 'awesome_print'
 
@@ -55,18 +38,10 @@ module Grocery
       end
     end
 
-    # def remove_product(product_name)
-    #   #Add a remove_product method to the Order class which will take in one parameter, a product name to
-    #   #Remove the product from the collection
-    #   #It should return true if the item was successfully remove and false if it was not
-    #
-    #   @products.delete(product_name)
-    # end
-
     def self.all
       # This class method will handle all of the fields from the CSV file used as input
       # To test, choose the data from the first line of the CSV file and ensure you can create a new instance of your Order using that data
-      orders = CSV.read('./support/orders.csv', converters: :numeric)
+      orders = CSV.read('/Users/janedrozo/Desktop/grocery-store/support/orders.csv', converters: :numeric)
 
       all_orders = []
       orders.each do |row|
@@ -102,6 +77,7 @@ module Grocery
           return order_instance
         end
       end
+      #if we go through the loop without finding a match, then we raise an error
       raise ArgumentError.new("ORDER ##{id} NOT FOUND!")
     end
 
@@ -110,4 +86,4 @@ module Grocery
 end#of_module
 
 #TEST ORDER
-ap Grocery::Order.all
+# ap Grocery::Order.all

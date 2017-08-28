@@ -24,7 +24,7 @@ module Grocery
     end
 
     def self.all
-      customers = CSV.read('support/customers.csv')
+      customers = CSV.read('/Users/janedrozo/Desktop/grocery-store/support/customers.csv')
 
       all_customers = []
 
@@ -51,16 +51,14 @@ module Grocery
           return customer_row_info
         end
       end
-
+      #if we go through the loop without finding a match, then we raise an error
       raise ArgumentError.new("CUSTOMER ##{customer_id} NOT FOUND!")
     end
   end#of_Customer_class
 
 end#of_module
 
-#TEST
+#TESTING
 # ap Grocery::Customer.all
-#
 # test_customer = Grocery::Customer.find(1)
-#
 # ap test_customer

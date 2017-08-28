@@ -3,32 +3,6 @@ require 'awesome_print'
 require_relative 'order'
 require_relative 'customer'
 
-=begin
-OnlineOrder
-
-(Online order will inherit behaviour from the Order class)
-
-(OnlineOrder Attributes):
-- Customer object (instance of Customer)
-- An online order fulfillment status (stored as a Symbol):
-* :pending, :paid, :processing, :shipped or :complete
-* If no status is provided, it should set to pending as the default
-
-(OnlineOrder Updated Functionality (Methods):
-
--The total method should be the same, but adds a $10 shipping fee
--The add_product method allows a new product to be added ONLY if the online order status is either :pending or :paid (no other statuses permitted); Otherwise, it should raise an ArgumentError
-
-OnlineOrder Class Methods:
--self.all - returns a collection of OnlineOrder instances, representing all of the OnlineOrders described in the CSV.
-
--self.find(id) - returns an instance of OnlineOrder where the value of the id field in the CSV matches the passed parameter.
-
--self.find_by_customer(customer) - returns a list of OnlineOrder instances where the value of the customer's ID matches the passed parameter.
-
-=end
-
-
 module Grocery
 
   class OnlineOrder < Order
@@ -79,7 +53,7 @@ module Grocery
     end
 
     def self.all
-      online_orders = CSV.read('support/online_orders.csv', converters: :numeric)
+      online_orders = CSV.read('/Users/janedrozo/Desktop/grocery-store/support/online_orders.csv', converters: :numeric)
       #generates each row as an array w/ numbers no longer as strings:
       #[ 1, "Lobster:17.18;Annatto seed:58.38;Camomile:83.21", 25, "complete"]
 
@@ -121,24 +95,32 @@ module Grocery
           return order_instance
         end
       end
-      raise ArgumentError.new("ORDER ##{id} NOT FOUND!")
+      #if we go through the loop without finding a match, then we raise an error
+      raise ArgumentError.new("ONLINE ORDER ##{online_id} NOT FOUND!")
     end
 
-    def self.find_by_customer(customer_id)
-      online_orders = Grocery::OnlineOrder.all
+    #Returns an array of online orders for a specific customer ID
+    def self.find_by_customer(specific_customer_id)
+      all_online_orders = Grocery::OnlineOrder.all
 
-      online_orders.each do |order_instance|
-        if order_instance.online_id == online_id
-          return order_instance
+      online_orders_for_customer_id = []
+
+      all_online_orders.each do |online_order|
+        if online_order.customer.customer_id == specific_customer_id
+          online_orders_for_customer_id << online_order
         end
       end
-      raise ArgumentError.new("ORDER ##{id} NOT FOUND!")
+
+      return online_orders_for_customer_id
+
+      #if we go through the loop without finding a match, then we raise an error
+      raise ArgumentError.new("CUSTOMER ##{customer_id} NOT FOUND!")
     end
 
-
-  end
-end#of_OnlineOrder_class
+  end#of_OnlineOrder_class
 
 end#of_Grocery_module
 
-ap Grocery::OnlineOrder.all
+#TEST
+# ap Grocery::OnlineOrder.all
+# ap Grocery::OnlineOrder.find_by_customer(26)

@@ -66,7 +66,7 @@ module Grocery
     def self.all
       # This class method will handle all of the fields from the CSV file used as input
       # To test, choose the data from the first line of the CSV file and ensure you can create a new instance of your Order using that data
-      orders = CSV.read('support/orders.csv', converters: :numeric)
+      orders = CSV.read('./support/orders.csv', converters: :numeric)
 
       all_orders = []
       orders.each do |row|
@@ -97,9 +97,9 @@ module Grocery
       #self.find(id) - returns an instance of Order (an element in the all_orders array) where the value of the id field in the CSV matches the passed parameter
       orders = Grocery::Order.all
 
-      orders.each do |element|
-        if element.id == id
-          return element
+      orders.each do |order_instance|
+        if order_instance.id == id
+          return order_instance
         end
       end
       raise ArgumentError.new("ORDER ##{id} NOT FOUND!")

@@ -62,31 +62,15 @@ module Grocery
   else
     return 0
     end
-  end 
+  end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  def add_product(product_name, product_price)
+    if @status == :pending || @status == :paid
+      return super
+    else
+      raise ArgumentError.new("Cannot add product unless pending or paid.")
+    end
+  end
 
 
   end

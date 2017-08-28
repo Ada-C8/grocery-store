@@ -3,7 +3,6 @@ require 'csv'
 module Grocery
 
   class Order
-
     attr_reader :id, :products
 
     def initialize(id, products)
@@ -30,7 +29,6 @@ module Grocery
         end
         array << Order.new(id, products) ##from produce_hash to products?
       end
-      #returns object memory address
       return array
     end
 
@@ -48,9 +46,14 @@ module Grocery
 
     def total
       # TODO: implement total
-      @total = @products.values.inject(0, :+)
-      @total_plus_tax = @total + (@total * 0.075).round(2)
-      return @total_plus_tax
+      amount = 0
+      total = @products.values
+      total.each do |val|
+        amount += val.to_f
+      end
+      #total = @products.values.inject(0, :+)
+      total_plus_tax = amount + (amount * 0.075).round(2)
+      return total_plus_tax
     end
 
     def add_product(product_name, product_price)
@@ -66,6 +69,4 @@ module Grocery
       return true
     end
   end
-
-
 end

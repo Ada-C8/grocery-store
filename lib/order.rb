@@ -6,7 +6,7 @@ module Grocery
   class Order
     attr_reader :id, :products
 
-    @@orders = []
+    # @@orders = []
 
     def initialize(id, products)
       @id = id
@@ -41,10 +41,10 @@ module Grocery
     end
 
     def self.all
-      # orders = []
-      if @@orders.length > 0
-        return @@orders
-      end
+      orders = []
+      # if @@orders.length > 0
+      #   return @@orders
+      # end
       CSV.open("support/orders.csv", 'r').each do |line|
         id = line[0].to_i
         # line[1] = line[1].split(';')
@@ -59,25 +59,23 @@ module Grocery
 
         end
 
-        @@orders << self.new(id, products_hash)
+        orders << self.new(id, products_hash)
 
       end
-      return @@orders
+      return orders
     end
 
-    def self.find(id)
-      # orders = self.all
-      unless (1..@@orders.length).include?(id)
-        raise ArgumentError.new("Invalid id: #{id}")
-      end
-
-      found_order = nil
-      @@orders.each do |order|
-        if order.id == id
-          found_order = order
+    def self.find(id_input)
+      counter = 0
+      self.all.each do |order|
+        if order.id == id_input
+          counter += 1
+          return order
         end
       end
-      return found_order
+      if counter == 0
+        raise ArgumentError.new("Invalid Customer ID")
+      end
     end
   end
 end

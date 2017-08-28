@@ -96,3 +96,10 @@ module Grocery
 
   end # Customer class
 end # Grocery module
+#
+# Why is it useful to put classes inside modules? 	|   Absolutely! Organizationally it allowed me to make sense of what the grocery module had within it. As a namespace, it helps to map out the relationships and think about how to inherit/pass behaviors to other classes and DRY up the code.	|
+# |   What is accomplished with `raise ArgumentError`? 	|  With  ArgumentErrors, you are able to predict the potential and possible errors. They help me double check that my code is doing exactly what I expect it to do.  |
+#   |   Why do you think we made the `.all` & `.find` methods class methods?  Why not instance methods?	| It made sense to use class methods as opposed to instance methods because they are called on the class itself as opposed to just one particular instance of an order.  	|
+#     |   Why does it make sense to use inheritance for the online order?  | The online order already had customer information so it made sense to inherit that onto the online order and simply build from code we had already written.  |
+#     |   Did the presence of automated tests change the way you thought about the problem? How? | Yes and in a really fascinating way. I had such a better understanding of what my code was trying to execute because of the tests I wrote beforehand.  |
+#

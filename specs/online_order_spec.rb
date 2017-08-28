@@ -49,7 +49,7 @@ describe "OnlineOrder" do
 
     it "Doesn't add a shipping fee if there are no products" do
       # TODO: Your test code here!
-      online_order = Grocery::OnlineOrder.new(1, {}, 34, "dog")
+      online_order = Grocery::OnlineOrder.new(1, {}, 34, :pending)
       online_order.total.must_equal 0
     end
   end
@@ -57,10 +57,20 @@ describe "OnlineOrder" do
   xdescribe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
       # TODO: Your test code here!
+      online_order = Grocery::OnlineOrder.new(1, {"banana": 1.00}, 34, :processing)
+      proc {online_order.add_product("cat", 2.00)}.must_raise ArgumentError
+      online_order = Grocery::OnlineOrder.new(1, {"banana": 1.00}, 34, :shipped)
+      proc {online_order.add_product("cat", 2.00)}.must_raise ArgumentError
+      online_order = Grocery::OnlineOrder.new(1, {"banana": 1.00}, 34, :completed)
+      proc {online_order.add_product("cat", 2.00)}.must_raise ArgumentError
     end
 
     it "Permits action for pending and paid satuses" do
       # TODO: Your test code here!
+      online_order = Grocery::OnlineOrder.new(1, {"banana": 1.00}, 34, :pending)
+      online_order.add_product("cat", 1.00).must_equal true
+      online_order = Grocery::OnlineOrder.new(1, {"banana": 1.00}, 34, :paid)
+      online_order.add_product("cat", 1.00).must_equal true
     end
   end
 

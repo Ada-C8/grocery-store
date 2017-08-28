@@ -1,5 +1,7 @@
 module Grocery
   require 'csv'
-  class OnlineOrder
+  require_relative 'order'
+
+  class OnlineOrder < Grocery::Order
   end # end of class
 end # end of modeule

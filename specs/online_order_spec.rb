@@ -26,7 +26,12 @@ describe "OnlineOrder" do
     end
 
     it "Can access Customer object" do
-      # TODO: Your test code here!
+      id = 1313
+      products = "burning sage"
+      customer = Grocery::Customer.new(1001, "bad-dog@grounded.net", "123 Cat Paradise, Seattle, WA 98101")
+
+      online_order = Grocery::OnlineOrder.new(id, products, customer)
+      online_order.customer.email.must_equal "bad-dog@grounded.net"
     end
 
     it "Can access the online order status" do

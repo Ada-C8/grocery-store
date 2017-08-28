@@ -2,12 +2,6 @@ require_relative 'spec_helper'
 require_relative '../lib/online_order'
 require_relative '../lib/customer'
 require_relative '../lib/order'
-# You may also need to require other classes here
-
-# Because an OnlineOrder is a kind of Order, and we've
-# already tested a bunch of functionality on Order,
-# we effectively get all that testing for free! Here we'll
-# only test things that are different.
 
 describe "OnlineOrder" do
   describe "#initialize" do
@@ -23,18 +17,15 @@ describe "OnlineOrder" do
     end
 
     it "Can access Customer object" do
-      # id = 1337
-      # products = { "banana" => 1.99, "cracker" => 3.00 }
-      # customer_id = 5
-      # status = :pending
-      # online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
-      #
-      # online_order.get_customer.each do |order|
-      #   order.customer_id.must_equal 5
+      id = 1337
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      customer_id = 5
+      status = :pending
+      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+
+      online_order.customer_id.must_be_kind_of Grocery::Customer
+
       end
-      #
-      # Grocery::OnlineOrder.get_customer(5).each do |order|
-      #   order.customer_id.must_equal 5
 
     it "Can access the online order status" do
       id = 1337
@@ -63,23 +54,95 @@ describe "OnlineOrder" do
         online_order.total.must_equal expected_total
       end
     end
-  #
-  #   it "Doesn't add a shipping fee if there are no products" do
-  #     # TODO: Your test code here!
-  #   end
-  # end
-  #
-  # describe "#add_product" do
-  #   it "Does not permit action for processing, shipped or completed statuses" do
-  #     # TODO: Your test code here!
-  #   end
-  #
-  #   it "Permits action for pending and paid satuses" do
-  #     # TODO: Your test code here!
-  #   end
-  # end
-  #
-  # describe "OnlineOrder.all" do
+
+    it "Doesn't add a shipping fee if there are no products" do
+      id = 1337
+      products = { }
+      customer_id = 5
+      status = :pending
+      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+
+      online_order.total.must_equal 0
+    end
+  end
+
+  describe "#add_product" do
+    it "Does not permit action for processing, shipped or completed statuses" do
+      id = 1337
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      customer_id = 5
+      status = :processing
+      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+
+      proc {
+        online_order.add_product("salad", 4.25)
+      }.must_raise ArgumentError
+
+      id = 1337
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      customer_id = 5
+      status = :shipped
+      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+
+      proc {
+        online_order.add_product("salad", 4.25)
+      }.must_raise ArgumentError
+
+      id = 1337
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      customer_id = 5
+      status = :completed
+      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+
+      proc {
+        online_order.add_product("salad", 4.25)
+      }.must_raise ArgumentError
+    end
+
+    it "Permits action for pending and paid satuses" do
+      id = 1337
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      customer_id = 5
+      status = :pending
+      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+
+      online_order.add_product("sandwich", 4.25)
+      online_order.products.include?("sandwich").must_equal true
+
+      id = 1337
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      customer_id = 5
+      status = :paid
+      online_order = Grocery::OnlineOrder.new(id, products, customer_id, status)
+
+      online_order.add_product("sandwich", 4.25)
+      online_order.products.include?("sandwich").must_equal true
+    end
+  end
+
+  describe "OnlineOrder.all" do
+    it "Returns an array of all orders" do
+      Grocery::OnlineOrder.all.must_be_kind_of Array
+    end
+
+    it "Everything in the array is an Order" do
+      Grocery::OnlineOrder.all.each do |order|
+        online_order.must_be_kind_of Grocery::OnlineOrder
+      end
+    end
+
+    it "the number of orders is correct" do
+      Grocery::OnlineOrder.all.length.must_equal 100
+    end
+
+    it "the ID and products match the first order in the CSV file" do
+      Grocery::Order.all.first.id.must_equal 1
+      Grocery::Order.all.first.products.must_equal("Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21)
+
+      Grocery::Order.all.last.id.must_equal 100
+      Grocery::Order.all.last.products.must_equal("Amaranth" => 83.81, "Smoked Trout" => 70.6, "Cheddar" => 5.63)
+    end
+
   #   it "Returns an array of all online orders" do
   #     # TODO: Your test code here!
   #     # Useful checks might include:
@@ -96,4 +159,4 @@ describe "OnlineOrder" do
   #   it "Returns an array of online orders for a specific customer ID" do
   #     # TODO: Your test code here!
   #   end
-end
+# end

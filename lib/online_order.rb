@@ -6,16 +6,26 @@ module Grocery
 
     def initialize(id, products, customer_id, status = :pending)
       super(id, products)
-      @customer_id = customer_id
+      @customer_id = Grocery::Customer.find(customer_id)
       @status = status
     end
 
-    def get_customer(customer_id)
-      return Grocery::Customer.find(@customer_id)
+    def total
+      if @products.empty?
+        total = 0
+      else
+        total = super + 10
+      end
+      return total
     end
 
-    def total
-      super + 10
+    def add_product(product_name, product_price)
+
+      if @status != :paid && @status != :pending
+        raise ArgumentError.new "Cannot add a new product at this time."
+      else
+        return super
+      end
     end
 
   end #end of online_order

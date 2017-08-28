@@ -41,7 +41,7 @@ module Grocery
     def self.all
       # This class method will handle all of the fields from the CSV file used as input
       # To test, choose the data from the first line of the CSV file and ensure you can create a new instance of your Order using that data
-      orders = CSV.read('/Users/janedrozo/Desktop/grocery-store/support/orders.csv', converters: :numeric)
+      orders = CSV.read('./support/orders.csv', converters: :numeric)
 
       all_orders = []
       orders.each do |row|

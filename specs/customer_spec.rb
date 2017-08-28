@@ -91,8 +91,8 @@ describe "Customer.find" do
   end
 
   it "Raises an error for a customer that doesn't exist" do
-    nonexistent_customer_id = 36
-    proc {Grocery::Customer.find(36)}.must_raise ArgumentError
+    #nonexistent_customer_id = 36
+    proc { Grocery::Customer.find(36) }.must_raise ArgumentError
   end
 
 end

@@ -133,7 +133,6 @@ describe "Order Wave 2" do
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      #Your test code here!
       first_order_record_id = 1
       Grocery::Order.find(1).id.must_equal(first_order_record_id)
 

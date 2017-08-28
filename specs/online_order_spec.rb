@@ -153,8 +153,16 @@ describe "OnlineOrder" do
   end
 
   describe "OnlineOrder.find_by_customer" do
-    it "Returns an array of online orders for a specific customer ID" do
 
+    it "Returns an array of online orders for a specific customer ID" do
+      @customer35_online_orders = Grocery::OnlineOrder.find_by_customer(35)
+      @customer35_online_orders.must_be_instance_of Array
+    end
+
+    it "Returns an array of online orders for a specific customer ID" do
+      #knowing customer26 has 6 online orders in csv 
+      @customer26_online_orders = Grocery::OnlineOrder.find_by_customer(26)
+      @customer26_online_orders.length.must_equal(6)
     end
   end
 end

@@ -70,18 +70,20 @@ class OnlineOrder < Order
         customer_array << o_order
       end
     end
-    
+
     return customer_array
   end
 
-  #
-  # def total
-  #   super
-  #   #add $10 shipping
-  #
-  # end
+  def total
+    if @products.count == 0
+      return 0
+    else
+      return super + 10
+    end
+  end
   #
   # def add_product
+
   #   #QUOTE "should be updated to permit...if"
   #   #status = :pending or :paid
   #   #otherwise, raise ArgumentError

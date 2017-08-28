@@ -25,7 +25,7 @@ module Grocery
       #if the order status is processing, shipped, complete it won't do anything
       case @status
       when :processing, :shipped, :complete
-        return false
+        raise ArgumentError.new "Cannot add products to orders that are already paid for."
       when :pending, :paid
         super
         # else
@@ -57,9 +57,21 @@ module Grocery
       return @@online_orders
     end
 
-
     def self.find(id_input)
-      super
+      # orders = self.all
+      counter = 0
+      self.all.each do |order|
+        if order.id == id_input
+          counter += 1
+          return order
+        end
+      end
+      if counter == 0
+        raise ArgumentError.new("Invalid Customer ID")
+      end
+    end
+
+    def self.find_by_customer(id_input)
 
       # orders = self.all
       counter = 0
@@ -85,10 +97,6 @@ end
 
 
 
-
-
-# - The `add_product` method should be updated to permit a new product to be added **ONLY** if the status is either pending or paid (no other statuses permitted)
-#   - Otherwise, it should raise an `ArgumentError` (Google this!)
 
 
 

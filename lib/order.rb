@@ -25,7 +25,7 @@ module Grocery
     end
 
     def self.all
-      all_orders = {}
+      all_orders = []
       CSV.open("support/orders.csv", 'r').each do |line|
         id = line[0].to_i
         products = {}
@@ -33,7 +33,7 @@ module Grocery
           details = item.split(":")
           products[details[0]] = details[1]
         end
-        all_orders[id] = self.new(id, products) # creates new Order Hash after separating each order/product
+        all_orders << self.new(id, products) # creates new Order Hash after separating each order/product
       end
       return all_orders
     end

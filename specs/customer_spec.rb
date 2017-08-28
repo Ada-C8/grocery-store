@@ -39,17 +39,17 @@ describe "Customer" do
     end
 
     it "Verifies the number of customers is correct" do
-      total_orders = CSV.read("support/orders.csv", 'r').length
-      Grocery::Order.all.length.must_equal total_orders
+      total_customers = CSV.read("support/customers.csv", 'r').length
+      Grocery::Customer.all.length.must_equal total_customers
     end
 
-    it "Verifies everything in the Hash is an Order" do
-      Grocery::Order.all.each do |k,value|
-        value.must_be_kind_of Grocery::Order
+    it "Verifies everything in the Array is a Customer" do
+      Grocery::Customer.all.each do |customer|
+        customer.must_be_kind_of Grocery::Customer
       end
     end
 
-    it "Matches the ID and products of the first and last orders with what's in the CSV file" do
+    xit "Matches the ID and products of the first and last orders with what's in the CSV file" do
 
       Grocery::Order.all[1].id.must_equal 1
       expected_order = {"Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"}

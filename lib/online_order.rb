@@ -3,7 +3,7 @@ module Grocery
   class OnlineOrder < Order
     attr_reader :customer_id, :status
 
-    @@online_orders = []
+    # @@online_orders = []
 
     def initialize(id, products, customer_id, status = :pending)
       super(id, products)
@@ -34,41 +34,20 @@ module Grocery
     end
 
     def self.all
-      # orders = []
-      if @@online_orders.length > 0
-        return @@online_orders
-      end
+      online_orders = []
+      # if @@online_orders.length > 0
+      #   return @@online_orders
+      # end
       CSV.open("support/online_orders.csv", 'r').each do |line|
         id = line[0].to_i
-
-        products_hash = {}
-        products_arr = line[1].split';'
-        products_arr.each do |item_colon_price|
-          product_price = item_colon_price.split':'
-          products_hash[product_price[0]] = product_price[1].to_f
-
-        end
+        products = product_split(line)
         customer_id = line[2].to_i
         status = line[3].to_sym
 
-        @@online_orders << self.new(id, products_hash, customer_id, status)
+        online_orders << self.new(id, products, customer_id, status)
 
       end
-      return @@online_orders
-    end
-
-    def self.find(id_input)
-      # orders = self.all
-      counter = 0
-      self.all.each do |order|
-        if order.id == id_input
-          counter += 1
-          return order
-        end
-      end
-      if counter == 0
-        raise ArgumentError.new("Invalid Customer ID")
-      end
+      return online_orders
     end
 
     def self.find_by_customer(id_input)

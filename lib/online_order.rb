@@ -53,7 +53,7 @@ module Grocery
     end
 
     def self.all
-      online_orders = CSV.read('/Users/janedrozo/Desktop/grocery-store/support/online_orders.csv', converters: :numeric)
+      online_orders = CSV.read('./support/online_orders.csv', converters: :numeric)
       #generates each row as an array w/ numbers no longer as strings:
       #[ 1, "Lobster:17.18;Annatto seed:58.38;Camomile:83.21", 25, "complete"]
 

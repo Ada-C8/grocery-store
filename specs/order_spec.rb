@@ -78,32 +78,51 @@ describe "Order Wave 1" do
   end
 end
 
+
+
+
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
+
     it "Returns an array of all orders" do
       # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      # csv_order.each do |id, o|
+      #   Grocery::Order.new(id, o)
+      # end
+      everything = Grocery::Order.all
+      everything.must_be_kind_of Array
+      everything.each do |one|
+        one.must_be_kind_of Grocery::Order
+      end
+      everything.length.must_equal  100
+      everything[0].id.must_equal 1
+      firstordercsv = Grocery::Order.new(1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" =>74.9 })
+      everything[0].products.must_equal firstordercsv.products
+      everything[-1].id.must_equal 100
+      lastordercsv = Grocery::Order.new(100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59})
+      everything[-1].products.must_equal lastordercsv.products
     end
   end
 
+
+
+
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      firstordercsv = Grocery::Order.new(1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" =>74.9 })
+      Grocery::Order.find(1).must_equal firstordercsv.products
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      lasthash = {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}
+      Grocery::Order.find(100).must_equal lasthash
+
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc{Grocery::Order.find(400).must_raise ArgumentError}
     end
+
   end
 end

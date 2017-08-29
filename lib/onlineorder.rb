@@ -4,7 +4,7 @@ require_relative 'customer.rb'
 
 module Grocery
 	class OnlineOrder < Order
-		attr_reader :id, :products
+		attr_reader :id, :products, :customer, :status
 
 		def initialize(id, products, customer, status='pending')
 			super(id, products) #call the Order's constructor and passes variables as needed

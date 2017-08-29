@@ -3,6 +3,7 @@ require 'csv'
 module Grocery
 	class Customer 
 		attr_reader :id, :email, :address, :city, :state, :zip
+		
 		def initialize(id, email, address, city, state, zip)
 			@id = id
 			@email = email
@@ -22,7 +23,7 @@ module Grocery
 				city = row[3]
 				state = row[4]
 				zip = row[5]
-				current = Customer.new(id, email, address, city, state, zip)
+				current = Grocery::Customer.new(id, email, address, city, state, zip)
 				customer << current
 				
 			}
@@ -34,10 +35,9 @@ module Grocery
 			customers.each { |i|
 				if i.id.to_i == id.to_i
 					return i
-				else
-					raise ArgumentError, "There is no customer with the ID #{id}"
 				end
 			}
+			raise ArgumentError, "There is no customer with the ID #{id}"
 			
 		end
 	end

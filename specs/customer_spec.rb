@@ -61,14 +61,30 @@ describe "Customer" do
   
 
   describe "Customer.find" do
-    
 
     it "Can find the last customer from the CSV" do
-      # TODO: Your test code here!
+		customer = []
+
+		CSV.foreach('../support/customers.csv') { |row|	
+			id = row[0]
+			email = row[1]
+			address = row[2]
+			city = row[3]
+			state = row[4]
+			zip = row[5]
+			current = Grocery::Customer.new(id, email, address, city, state, zip)
+			customer << current
+		}
+		
+		raw_last = customer[-1].id.to_i
+		search_last = Grocery::Customer.find(raw_last)
+		
+		search_last.id.to_i.must_equal raw_last
+		
     end
 
     it "Raises an error for a customer that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Customer.find(1230005)}.must_raise ArgumentError
     end
   end
 

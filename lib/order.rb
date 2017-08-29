@@ -23,6 +23,8 @@
 # Add a remove_product method to the Order class which will take in one parameter, a product name, and remove the product from the collection
 # It should return true if the item was successfully remove and false if it was not
 require 'awesome_print'
+require 'csv'
+require 'pry'
 
 module Grocery
   class Order
@@ -33,19 +35,41 @@ module Grocery
       @products = products
     end
 
-    orders = []
-    items = {}
+    def self.all
+      orders_array = []
+      ind_order_array = []
 
-    require 'csv'
-    CSV.open("support/orders.csv", 'r').each do |line|
-      id = line[0]
-      product_array = line[1].split(';') # array of product:price
+      # csv = CSV.read("support/orders.csv")
+      # ap csv.length
+      CSV.open("support/orders.csv", 'r').each do |line|
+        # ap line
+        ind_order_array << line
+        # ap "ind_orders_array : #{ind_orders_array}"
+        id = line[0].to_i
+        product_array = line[1].split(';') # array of product:price
 
-      product_array.each do |element_pair|
-         item = element_pair.split(':') # array [0]item, [1]price
-         items[item[0]] = item[1]
+        items = {}
+        product_array.each do |element_pair|
+           item = element_pair.split(':') # array [0]item, [1]price
+           items[item[0]] = item[1].to_f
+        end
+
+        orders_array << Order.new(id, items)
+        # binding.pry
+        # ap orders
       end
-      orders << Order.new(id, items)
+      return orders_array
+    end
+
+    def self.find(id)
+      # if all[0].id == 1
+      all.each do |order|
+        if order.id == id
+          return order
+        end
+      end
+        # return order
+
     end
 
     def total
@@ -84,5 +108,7 @@ module Grocery
   end
 end
 
-order = Grocery::Order.new(1223, {"banana" => 1.99, "cracker" => 3.00 })
-puts order.total
+# order = Grocery::Order.new(1223, {"banana" => 1.99, "cracker" => 3.00 })
+# order = Grocery::Order.all
+# puts order.total
+ap Grocery::Order.find(3)

@@ -2,6 +2,8 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
+require 'awesome_print'
+
 
 describe "Order Wave 1" do
   describe "#initialize" do
@@ -82,20 +84,31 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      require 'csv'
+      csv = CSV.read("./support/orders.csv")
+      orders = Grocery::Order.all
+      orders.must_be_kind_of Array #  - Order.all returns an array
+      orders.each do |order|   #  - Everything in the array is an Order
+        order.must_be_kind_of Grocery::Order
+      end
+      orders.length.must_equal csv.length  #   - The number of orders is correct
+      # The ID and products of the first and last orders match what's in the CSV file
+      orders[0].id.must_equal 1
+      orders[99].id.must_equal 100
+      orders[0].products.must_equal({"Slivered Almonds"=>22.88, "Wholewheat flour"=>1.93, "Grape Seed Oil"=>74.9})
+      # orders[99].products.must_equal({"Slivered Almonds"=>"22.88", "Wholewheat flour"=>"1.93", "Grape Seed Oil"=>"74.9"})
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
+    #SET UP VARIABLES
+      # inputs - id, instance method
+    #CALL THE METTHOD BEING TESTED
+    Grocery::Order.find(1).must_be_instance_of Grocery::Order
+    #CHECK RESULT OF THAT METHOD
+    Grocery::Order.find(Grocery::Order.all[0].id).id.must_equal Grocery::Order.all[0].id
     end
 
     it "Can find the last order from the CSV" do

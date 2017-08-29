@@ -113,10 +113,12 @@ describe "Order Wave 2" do
 
     it "Can find the last order from the CSV" do
       # TODO: Your test code here!
+      Grocery::Order.find(Grocery::Order.all[-1].id).id.must_equal Grocery::Order.all[-1].id
     end
 
     it "Raises an error for an order that doesn't exist" do
       # TODO: Your test code here!
+      proc { Grocery::Order.find(107) }.must_raise ArgumentError
     end
   end
 end

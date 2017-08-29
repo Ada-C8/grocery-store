@@ -62,14 +62,12 @@ module Grocery
     end
 
     def self.find(id)
-      # if all[0].id == 1
       all.each do |order|
         if order.id == id
           return order
         end
       end
-        # return order
-
+      raise ArgumentError
     end
 
     def total
@@ -111,4 +109,4 @@ end
 # order = Grocery::Order.new(1223, {"banana" => 1.99, "cracker" => 3.00 })
 # order = Grocery::Order.all
 # puts order.total
-ap Grocery::Order.find(3)
+# ap Grocery::Order.find(107)

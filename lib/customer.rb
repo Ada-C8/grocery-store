@@ -36,6 +36,12 @@ module Grocery
 
     def self.find(id)
       # returns an instance of Customer where the value of the id field in the CSV matches the passed parameter.
+      all.each do |customer|
+        if customer.id == id
+          return customer
+        end
+      end
+      raise ArgumentError
     end
 
   end

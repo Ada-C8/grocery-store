@@ -1,6 +1,7 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
+# require 'minitest/autorun'
+# require 'minitest/reporters'
+# require 'minitest/skip_dsl'
+require_relative 'spec_helper'
 require_relative '../lib/order'
 
 # TODO: uncomment the next line once you start wave 3

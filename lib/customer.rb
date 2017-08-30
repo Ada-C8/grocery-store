@@ -30,7 +30,7 @@ module Grocery
 
         customers_array << Customer.new(id, email, address, city, state, zip)
       end
-      return
+      return customers_array
       # ap customers_array
     end
 

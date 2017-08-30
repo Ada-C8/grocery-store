@@ -8,6 +8,7 @@ module Grocery
 
     def self.all
       # returns a collection of Customer instances, representing all of the Customer described in the CSV. See below for the CSV file specifications
+
     end
 
     def self.find(id)

@@ -1,14 +1,32 @@
+require 'csv'
+require 'awesome_print'
+
 module Grocery
   class Customer
-    def initialize
+    attr_reader :id, :email, :address, :city, :state, :zip
+    def initialize(id, email, address, city, state, zip)
       @id = id
-      @email_address
-      @delivery_address_information
+      @email = email
+      @address = address
+      @city = city
+      @state = state
+      @zip = zip
     end
 
     def self.all
       # returns a collection of Customer instances, representing all of the Customer described in the CSV. See below for the CSV file specifications
-
+      # customers_array = []
+      # ind_customer_array = []
+      #
+      # CSV.open("support/customers.csv", 'r').each do |line|
+      #   ind_customer_array << line
+      #   id = line[0].to_i
+      #   email = line[1]
+      #   delivery_address_information = line[2] + ", " + line[3] + ", " + line[4] + " " + line[5]
+      #
+      #   customers_array << Customer.new(id, email, delivery_address_information)
+      # end
+      # ap customers_array
     end
 
     def self.find(id)
@@ -17,3 +35,5 @@ module Grocery
 
   end
 end
+
+# Grocery::Customer.all

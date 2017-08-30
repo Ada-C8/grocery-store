@@ -36,8 +36,10 @@ describe "Customer" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
       # TODO: Your test code here!
+      Grocery::Customer.all.must_be_kind_of Array
       # Useful checks might include:
       #   - Customer.all returns an array
+
       #   - Everything in the array is a Customer
       #   - The number of orders is correct
       #   - The ID, email address of the first and last

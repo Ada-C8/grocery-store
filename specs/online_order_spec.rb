@@ -1,11 +1,13 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
-require_relative '../lib/online_order'
-require_relative '../lib/order'
-require 'csv'
+# require 'minitest/autorun'
+# require 'minitest/reporters'
+# require 'minitest/skip_dsl'
+# require_relative '../lib/online_order'
+# require_relative '../lib/order'
+# require 'csv'
+#
+# Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+require_relative 'spec_helper'
 
 #TODO
 

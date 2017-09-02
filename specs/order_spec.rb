@@ -93,18 +93,33 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
-  describe "Order.all" do
+escribe "Order Wave 2" do
+  describe "Order.all" do # <= Method, this is what we're testing (remember this).
+    before(:each) do
+      # Setting up variable
+      # Call method being tested
+      @orders = Grocery::Order.all
+    end
+
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      @orders.must_be_kind_of Array
+      @orders.each do |order|
+        order.must_be_kind_of Grocery::Order
+      end
+    end
+
+    it "Returns the correct number of orders" do
+      @orders.count.must_equal 100
+    end
+
+    it "Returns the first order from the CSV file" do
+      order = @orders.first
+      order.id.must_equal 1
+    end
+
+    it "Returns the last order from the CSV file" do
+      order = @orders.last
+      order.id.must_equal 100
     end
   end
 

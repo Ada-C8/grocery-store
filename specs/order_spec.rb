@@ -93,7 +93,7 @@ describe "Order Wave 1" do
   end
 end
 
-escribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do # <= Method, this is what we're testing (remember this).
     before(:each) do
       # Setting up variable
@@ -123,17 +123,17 @@ escribe "Order Wave 2" do
     end
   end
 
-  describe "Order.find" do
-    it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
-    end
-  end
+  # describe "Order.find" do
+  #   it "Can find the first order from the CSV" do
+  #     # TODO: Your test code here!
+  #   end
+  #
+  #   it "Can find the last order from the CSV" do
+  #     # TODO: Your test code here!
+  #   end
+  #
+  #   it "Raises an error for an order that doesn't exist" do
+  #     # TODO: Your test code here!
+  #   end
+  # end
 end

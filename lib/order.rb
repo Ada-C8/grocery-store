@@ -30,6 +30,17 @@ module Grocery
       return orders
     end
 
+    # Class method that reads the ID of the orders.
+    def self.find(id)
+      all_orders = self.all
+      all_orders.each do |order|
+        if order.id == id
+          return order
+        end
+      end
+      raise ArgumentError.new("That is not a valid order number, please try again.")
+    end
+
     # Wave 1 starts!
     # Method to total each order with taxes.
     def total

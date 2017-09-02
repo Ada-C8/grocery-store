@@ -3,6 +3,9 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
 
+require 'simplecov' # Added this in class, not relevant, just trying things.
+SimpleCov.start
+
 describe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
@@ -18,6 +21,20 @@ describe "Order Wave 1" do
     end
   end
 
+  # #Testing for total - Mine for practice w/out taxes.
+  #
+  #   describe "#total" do
+  #     it "Adds all product prices" do
+  #       id = 1337
+  #       order = Grocery::Order.new(id, {"silvered Almonds" => 27.88, "Jelly" => 91.78})
+  #
+  #       result = order.total
+  #       result.must_equal 119.66
+  #     end
+  #   end
+
+  # Testing for total - built in.
+
   describe "#total" do
     it "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -31,10 +48,11 @@ describe "Order Wave 1" do
 
     it "Returns a total of zero if there are no products" do
       order = Grocery::Order.new(1337, {})
-
       order.total.must_equal 0
     end
   end
+
+  # Add product testing
 
   describe "#add_product" do
     it "Increases the number of products" do

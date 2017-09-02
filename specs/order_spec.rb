@@ -18,6 +18,20 @@ describe "Order Wave 1" do
     end
   end
 
+  # #Testing for total - Mine for practice w/out taxes.
+  #
+  #   describe "#total" do
+  #     it "Adds all product prices" do
+  #       id = 1337
+  #       order = Grocery::Order.new(id, {"silvered Almonds" => 27.88, "Jelly" => 91.78})
+  #
+  #       result = order.total
+  #       result.must_equal 119.66
+  #     end
+  #   end
+
+  # Testing for total - built in.
+
   describe "#total" do
     it "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -31,10 +45,11 @@ describe "Order Wave 1" do
 
     it "Returns a total of zero if there are no products" do
       order = Grocery::Order.new(1337, {})
-
       order.total.must_equal 0
     end
   end
+
+  # Add product testing
 
   describe "#add_product" do
     it "Increases the number of products" do
@@ -78,32 +93,50 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
-  describe "Order.all" do
+describe "Order Wave 2" do
+  describe "Order.all" do # <= Method, this is what we're testing (remember this).
+    before(:each) do
+      # Setting up variable
+      # Call method being tested
+      @orders = Grocery::Order.all
+    end
+
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      @orders.must_be_kind_of Array
+      @orders.each do |order|
+        order.must_be_kind_of Grocery::Order
+      end
+    end
+
+    it "Returns the correct number of orders" do
+      @orders.count.must_equal 100
+    end
+
+    it "Returns the first order from the CSV file" do
+      order = @orders.first
+      order.id.must_equal 1
+    end
+
+    it "Returns the last order from the CSV file" do
+      order = @orders.last
+      order.id.must_equal 100
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.all
+      Grocery::Order.find(1).id.must_equal 1
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.all
+      Grocery::Order.find(100).id.must_equal 100
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc { Grocery::Order.find(1000) }.must_raise ArgumentError
     end
   end
 end
+# Waves one and two testing complete, with all tests passing.  Will work on Wave three as I have time for continued practice and would like feedback if possible.

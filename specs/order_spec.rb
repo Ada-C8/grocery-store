@@ -3,9 +3,6 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
 
-require 'simplecov' # Added this in class, not relevant, just trying things.
-SimpleCov.start
-
 describe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do

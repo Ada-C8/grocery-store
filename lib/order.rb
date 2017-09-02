@@ -1,6 +1,3 @@
-require 'simplecov'
-SimpleCov.start
-
 module Grocery
   class Order
     attr_reader :id, :products
@@ -20,8 +17,14 @@ module Grocery
       return expected_total
     end
 
+    # Method to add products.
     def add_product(product_name, product_price)
-      # TODO: implement add_product
+      if @products.include?(product_name)
+        return false
+      else !@products.include?(product_name)
+        @products[product_name] = product_price
+        return true
+      end
     end
   end
 end

@@ -3,6 +3,7 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require 'minitest/pride'
 require_relative '../lib/order'
+require 'csv'
 
 describe "Order Wave 1" do
   describe "#initialize" do
@@ -84,41 +85,52 @@ end
 
 
 
+describe "Order Wave 2" do
 
-
-
-
-
-
-
-
-
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
-  describe "Order.all" do
-    it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
-    end
+  before do
+    @orders = Grocery::Order.all
   end
 
-  describe "Order.find" do
-    it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+  describe "Order.all" do
+    # Order.all should return an array
+    it "Returns an array of all orders" do
+      @orders.must_be_kind_of Array
     end
-
-    it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+    # each element is in the Order
+    it "Everything in the array is an Order" do
+      @orders.each do |order|
+        order.must_be_kind_of Grocery::Order
+      end
     end
   end
 end
+
+
+# TOdo: change 'xdescribe' to 'describe' to run these tests
+# xdescribe "Order Wave 2" do
+#   describe "Order.all" do
+#     it "Returns an array of all orders" do
+#       # TOdo: Your test code here!
+#       # Useful checks might include:
+#       #   - Order.all returns an array
+#       #   - Everything in the array is an Order
+#       #   - The number of orders is correct
+#       #   - The ID and products of the first and last
+#       #       orders match what's in the CSV file
+#       # Feel free to split this into multiple tests if needed
+#     end
+  # end
+  #
+  # describe "Order.find" do
+  #   it "Can find the first order from the CSV" do
+  #     # TODo: Your test code here!
+  #   end
+  #
+  #   it "Can find the last order from the CSV" do
+  #     # TODo: Your test code here!
+  #   end
+  #
+  #   it "Raises an error for an order that doesn't exist" do
+  #     # TODo: Your test code here!
+  #   end
+  # end

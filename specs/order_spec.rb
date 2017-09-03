@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require 'minitest/pride'
 require_relative '../lib/order'
 
 describe "Order Wave 1" do
@@ -77,6 +78,20 @@ describe "Order Wave 1" do
     end
   end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
 xdescribe "Order Wave 2" do

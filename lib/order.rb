@@ -38,6 +38,8 @@ module Grocery
         #could also have done products.merge!(product_name => product_price)
         return true
       end
+    end
+
 
 #self.all - returns a collection of Order instances - all CSV. use split.
       def self.all
@@ -57,7 +59,7 @@ module Grocery
 
         return all_orders
       end
-    end
+    
 
 
 

@@ -8,6 +8,15 @@ module Grocery
     def initialize(id, products)
       @id = id
       @products = products
+
+      #raise argument error if id/order < 1
+      if id < 1
+        raise ArgumentError.new("Invalid id: #{id}")
+      end
+      #raise argument error if not a hash
+      unless products.is_a?(Hash)
+        raise ArgumentError.new("Invalid product(s): #{products}")
+      end
     end
 
     #total method sums up products + 7.5% tax, rounded

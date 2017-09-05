@@ -1,7 +1,9 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
+require 'minitest/pride'
 require_relative '../lib/order'
+#require 'csv'
 
 describe "Order Wave 1" do
   describe "#initialize" do
@@ -78,32 +80,105 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
-  describe "Order.all" do
-    it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
-    end
+
+
+
+
+
+describe "Order Wave 2" do
+
+  before do
+    @orders = Grocery::Order.all
   end
+
+  describe "Order.all" do
+    # Order.all should return an array
+    it "Returns an array of all orders" do
+      @orders.must_be_kind_of Array
+    end
+    # each element is in the Order
+    it "Everything in the array is an Order" do
+      @orders.each do |order|
+        order.must_be_kind_of Grocery::Order
+      end
+    end
+    it "The number of orders is correct" do
+      @orders.length.must_equal 100
+      @orders.length.must_equal @orders[-1].id
+    end
+    it "first and last are same as csv" do
+      orders_first = 	[1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
+
+      @orders.first.id.must_equal orders_first[0]
+      @orders.first.products.must_equal orders_first[1]
+
+      orders_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
+
+      @orders.last.id.must_equal orders_last[0]
+      @orders.last.products.must_equal orders_last[1]
+    end
+  end #(end for order.all)
+
+
+
+
+
 
   describe "Order.find" do
-    it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+
+    before do
+      @orders_2 = Grocery::Order
     end
 
-    it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+    it "Can find the first order from the CSV" do
+      #error - maybe reading 1 as an error, so not finding any ids in array?
+      # @orders_2.find(1)
+      # @orders_2.id.must_equal 1
     end
+
+    it "can find the last order from the CSV" do
+      #error - everything I do to fix this just breaks everything else -_-
+      #  @orders_2.find(100)
+      # @orders_2.id.must_equal 100
+    end
+
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Order.find(101)}.must_raise ArgumentError
+      proc {Grocery::Order.find(-1)}.must_raise ArgumentError
+      proc {Grocery::Order.find(0)}.must_raise ArgumentError
     end
-  end
-end
+
+
+  end #(end of order.find)
+end #(end of wave 2)
+
+
+# TOdo: change 'xdescribe' to 'describe' to run these tests
+# xdescribe "Order Wave 2" do
+#   describe "Order.all" do
+#     it "Returns an array of all orders" do
+#       # TOdo: Your test code here!
+#       # Useful checks might include:
+#       #  + check Order.all returns an array
+#       #  + check Everything in the array is an Order
+#       #  + check The number of orders is correct
+#       #  + check The ID and products of the first and last
+#       #       orders match what's in the CSV file
+#       # Feel free to split this into multiple tests if needed
+#     end
+  # end
+  #
+  # describe "Order.find" do
+  #   it "Can find the first order from the CSV" do
+  #     # TODo: Your test code here!
+  #   end
+  #
+  #   it "Can find the last order from the CSV" do
+  #     # TODo: Your test code here!
+  #   end
+  #
+  #   it "Raises an error for an order that doesn't exist" do
+  #     # TODo: Your test code here!
+  #   end
+  # end

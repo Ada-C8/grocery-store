@@ -71,7 +71,9 @@ module Grocery
       id = []
       orders.each do |order|
         id << order.id
-      end
+
+      return  id
+    end
 
       unless id.include? (id)
        raise ArgumentError.new("Invalid input")

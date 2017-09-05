@@ -1,7 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
-require_relative '../lib/order'
+require_relative 'spec_helper'
 
 describe "Order Wave 1" do
   describe "#initialize" do
@@ -141,12 +138,13 @@ describe "Order Wave 2" do
   end # DESCRIBE
 
   describe "Order.find" do
-    it "Can find the first order from the CSV" do
+    it "Can find the first order from self.all orders" do
       # RETURNS AN INSTANCE OF ORDER BACK TO THE USER
       Grocery::Order.find(1).must_be_instance_of Grocery::Order
     end
 
-    it "Can find the last order from the CSV" do
+
+    it "Can find the last order from self.all orders" do
       # Grocery::Order.all
       Grocery::Order.find(100).must_be_instance_of Grocery::Order
     end

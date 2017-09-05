@@ -4,8 +4,6 @@ module Grocery
   class Order
     attr_reader :id, :products
 
-    @@all_orders = []
-
     def initialize(id, products)
       @id = id
       @products = products
@@ -40,9 +38,8 @@ module Grocery
       end
     end # DEF
 
-    ## CAN I USE A CLASS VARIABLE HERE?
     def self.all
-      @@all_orders = []
+      all_orders = []
       CSV.open("support/orders.csv", "r").each do |line|
         items = {}
         line[1].split(";").each do |item_and_price|
@@ -50,33 +47,21 @@ module Grocery
           items[split[0]] = split[1].to_f.round(2)
         end
         order = Grocery::Order.new(line[0].to_i, items)
-        @@all_orders << order
+        all_orders << order
       end
-      return @@all_orders # RETURNS ALL ORDERS AT THE TIME ORDERS.ALL
+      return all_orders # RETURNS ALL ORDERS AT THE TIME ORDERS.ALL
     end
 
     def self.find(order_num)
-      found_order = nil
-      CSV.open("support/orders.csv", "r").each do |line|
-        if line[0].to_i == order_num
-          items = {}
-          line[1].split(";").each do |item_and_price|
-            split = item_and_price.split(":")
-            items[split[0]] = split[1].to_f.round(2)
-          end
-          order = Grocery::Order.new(line[0].to_i, items)
-          found_order = order
-          break
+      order_found = nil
+      self.all.each do |order|
+        if order.id == order_num
+          order_found = order
+          return order_found
         end
       end
-      if found_order == nil
-        raise ArgumentError.new("Order not found")
-      else
-        return found_order # RETURNS AN ORDER INSTANCE OF ORDER
-      end
+      raise ArgumentError.new("Order does not exist!") if order_found == nil
     end # DEF
+
   end # CLASS
-
-
-
 end # MODULE

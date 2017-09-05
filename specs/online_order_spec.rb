@@ -1,14 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
-
-require_relative '../lib/online_order'
-require_relative '../lib/order'
-
-# Because an OnlineOrder is a kind of Order, and we've
-# already tested a bunch of functionality on Order,
-# we effectively get all that testing for free! Here we'll
-# only test things that are different.
+require_relative 'spec_helper'
 
 describe "OnlineOrder" do
   describe "#initialize" do
@@ -164,6 +154,7 @@ describe "OnlineOrder" do
 
     it "Online order ID must match requested order number" do
       OnlineOrder.find(1).id.must_equal 1
+      OnlineOrder.find(100).id.must_equal 100
     end
 
     it "The customer is present" do
@@ -172,6 +163,10 @@ describe "OnlineOrder" do
 
     it "The status is present" do
       OnlineOrder.find(1).status.must_be_kind_of Symbol
+    end
+
+    it "Raises an error for an order that doesn't exist" do
+      proc {OnlineOrder.find(150)}.must_raise ArgumentError
     end
   end # DESCRIBE
 

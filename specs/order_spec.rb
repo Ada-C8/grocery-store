@@ -102,8 +102,28 @@ describe "Order Wave 2" do
         order.must_be_kind_of Grocery::Order
       end
     end
-  end
-end
+    it "The number of orders is correct" do
+      @orders.length.must_equal 100
+      @orders.length.must_equal @orders[-1].id
+    end
+    it "first and last are same as csv" do
+      orders_first = 	[1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
+
+      @orders.first.id.must_equal orders_first[0]
+      @orders.first.products.must_equal orders_first[1]
+
+      orders_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
+
+      @orders.last.id.must_equal orders_last[0]
+      @orders.last.products.must_equal orders_last[1]
+    end
+  end #(end for order.all)
+
+
+  describe "Order.find" do
+
+  end #(end of order.find)
+end #(end of wave 2)
 
 
 # TOdo: change 'xdescribe' to 'describe' to run these tests
@@ -112,10 +132,10 @@ end
 #     it "Returns an array of all orders" do
 #       # TOdo: Your test code here!
 #       # Useful checks might include:
-#       #   - Order.all returns an array
-#       #   - Everything in the array is an Order
-#       #   - The number of orders is correct
-#       #   - The ID and products of the first and last
+#       #  + check Order.all returns an array
+#       #  + check Everything in the array is an Order
+#       #  + check The number of orders is correct
+#       #  + check The ID and products of the first and last
 #       #       orders match what's in the CSV file
 #       # Feel free to split this into multiple tests if needed
 #     end

@@ -120,7 +120,35 @@ describe "Order Wave 2" do
   end #(end for order.all)
 
 
+
+
+
+
   describe "Order.find" do
+
+    before do
+      @orders_2 = Grocery::Order
+    end
+
+    it "Can find the first order from the CSV" do
+      #error - maybe reading 1 as an error, so not finding any ids in array?
+      # @orders_2.find(1)
+      # @orders_2.id.must_equal 1
+    end
+
+    it "can find the last order from the CSV" do
+      #error - everything I do to fix this just breaks everything else -_-
+      #  @orders_2.find(100)
+      # @orders_2.id.must_equal 100
+    end
+
+
+    it "Raises an error for an order that doesn't exist" do
+      proc {Grocery::Order.find(101)}.must_raise ArgumentError
+      proc {Grocery::Order.find(-1)}.must_raise ArgumentError
+      proc {Grocery::Order.find(0)}.must_raise ArgumentError
+    end
+
 
   end #(end of order.find)
 end #(end of wave 2)

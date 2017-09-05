@@ -41,41 +41,44 @@ module Grocery
     end
 
 
-#self.all - returns a collection of Order instances - all CSV. use split.
-      def self.all
-        id = nil
-        products_arr = []
-        products = {}
-        all_orders = []
+    #self.all - returns a collection of Order instances - all CSV. use split.
+    def self.all
+      id = nil
+      products_arr = []
+      products = {}
+      all_orders = []
 
-        CSV.open('./support/orders.csv', 'r').each do |line|
-          id = line[0].to_i
-          products_arr = line[1].split(';')
-          products = Hash[products_arr.map { |i| i.split(":") }]
-          products = Hash[products.keys.zip(products.values.map(&:to_f))]
-          order = Grocery::Order.new(id, products)
-          all_orders << order
-        end
-
-        return all_orders
+      CSV.open('./support/orders.csv', 'r').each do |line|
+        id = line[0].to_i
+        products_arr = line[1].split(';')
+        products = Hash[products_arr.map { |i| i.split(":") }]
+        products = Hash[products.keys.zip(products.values.map(&:to_f))]
+        order = Grocery::Order.new(id, products)
+        all_orders << order
       end
-    
+
+      return all_orders
+    end
 
 
 
-#returns instance of Order where the id field matches the parameter.
+
+    #returns instance of Order where the id field matches the parameter.
     def self.find(id)
 
       orders = Grocery::Order.all
 
-      id_arr = []
+      id = []
       orders.each do |order|
-        id_arr << order.id
+        id << order.id
       end
 
+      unless id.include? (id)
+       raise ArgumentError.new("Invalid input")
+      end
 
-      return id_arr
-
+      return orders[id1]
+      #
     end
 
 
